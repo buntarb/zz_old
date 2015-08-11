@@ -7,7 +7,7 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "third_party"
+    "bower_components"
   ],
   "dependencies": {
 	  "google-closure-library": "https://github.com/google/closure-library.git",
