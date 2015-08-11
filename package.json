@@ -1,0 +1,16 @@
+{
+    "name": "SisenseTest",
+    "main": "server.js",
+    "dependencies": {
+        "express": "~4.0.0",
+        "morgan": "~1.0.0",
+        "body-parser": "~1.4.2",
+        "method-override": "~2.0.2",
+		"underscore":"*"
+    },
+	"scripts": {
+		"postinstall": "bower install --config.cwd=./public/",
+		"prestart": "npm install",
+		"start": "node server.js"
+	}
+}
