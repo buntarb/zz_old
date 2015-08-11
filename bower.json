@@ -1,21 +1,16 @@
 {
   "name": "public",
-  "directory":"public/bower_components",
+  "directory":"third_party",
   "version": "0.0.0",
   "homepage": "https://github.com/dharness/mean_seed",
   "license": "MIT",
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "third_party"
   ],
   "dependencies": {
-    "angular": "~1.4.0",
-	"angular-route" : "~1.4.0",
-	"angular-bootstrap": "*",
-	"angular-charts": "*",
-    "underscore": "*"
+	  "google-closure-library": "https://github.com/google/closure-library.git",
+	  "goog-patch": "https://github.com/buntarb/goog-patch.git"
   }
 }
