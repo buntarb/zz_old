@@ -1,14 +1,17 @@
 {
     "name": "zz",
     "main": "start.js",
+	"description": "zz library package",
+	"repository": "https://github.com/buntarb/zz.git",
+	"license": "MIT",
+	"version": "0.0.0",
     "dependencies": {
         "express": "~4.0.0",
         "body-parser": "~1.4.2"
     },
 	"scripts": {
-		"bower": "bower install",
 		"start": "node start.js",
 		"prestart": "npm install",
-		"postinstall": "npm bower"
+		"preinstall": "bower install"
 	}
 }

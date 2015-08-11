@@ -1,3 +1,5 @@
 .idea
 third_party
+bower_components
 node_modules
+npm-debug.log
