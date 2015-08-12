@@ -1,17 +1,19 @@
 {
-    "name": "zz",
-    "main": "setup.js",
+	"name": "zz",
 	"description": "zz library package",
 	"repository": "https://github.com/buntarb/zz.git",
 	"license": "MIT",
 	"version": "0.0.0",
-    "dependencies": {
-        "express": "~4.0.0",
-        "body-parser": "~1.4.2"
-    },
+	"dependencies": {
+		"express": "~4.0.0",
+		"body-parser": "~1.4.2",
+		"gulp-bower": "~0.0.10"
+	},
 	"scripts": {
-		"start": "node setup.js",
-		"prestart": "npm install",
-		"preinstall": "bower install"
+		"preinstall": "sh ./preinstall.sh",
+		"postinstall": "sh ./postinstall.sh"
+	},
+	"devDependencies": {
+		"gulp": "^3.9.0"
 	}
 }
