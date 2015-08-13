@@ -1,0 +1,93 @@
+@def IS_AWESOME false;
+
+/**********************************************************************************************************************
+ * AWESOME                                                                                                            *
+ **********************************************************************************************************************/
+
+@font-face {
+    font-family: 'Awesome';
+    font-weight: normal;
+    font-style: normal;
+    src: url('fonts/awesome/fontawesome-webfont.eot?v=4.3.0');
+    src: url('fonts/awesome/fontawesome-webfont.eot?#iefix&v=4.3.0') format('embedded-opentype'),
+         url('fonts/awesome/fontawesome-webfont.woff2?v=4.3.0') format('woff2'),
+         url('fonts/awesome/fontawesome-webfont.woff?v=4.3.0') format('woff'),
+         url('fonts/awesome/fontawesome-webfont.ttf?v=4.3.0') format('truetype'),
+         url('fonts/awesome/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular') format('svg');
+}
+
+/**********************************************************************************************************************
+ * IONICONS                                                                                                           *
+ **********************************************************************************************************************/
+
+@font-face {
+    font-family: "Ionicons";
+    font-weight: normal;
+    font-style: normal;
+    src: url("fonts/ionicons/ionicons.eot?v=2.0.0");
+    src: url("fonts/ionicons/ionicons.eot?v=2.0.0#iefix") format("embedded-opentype"),
+         url("fonts/ionicons/ionicons.ttf?v=2.0.0") format("truetype"),
+         url("fonts/ionicons/ionicons.woff?v=2.0.0") format("woff"),
+         url("fonts/ionicons/ionicons.svg?v=2.0.0#Ionicons") format("svg");
+}
+
+/**********************************************************************************************************************
+ * VARIABLES                                                                                                          *
+ **********************************************************************************************************************/
+
+@def ICON selectFrom(IS_AWESOME, "Awesome", "Ionicons");
+
+/* Menu */
+@def ICON_MENU selectFrom(IS_AWESOME, "", "\f394");
+@def ICON_SUBMENU selectFrom(IS_AWESOME, "", "\f397");
+@def ICON_BACK selectFrom(IS_AWESOME, "", "\f2ca");
+@def ICON_HOME selectFrom(IS_AWESOME, "", "\f38f");
+@def ICON_ABOUT selectFrom(IS_AWESOME, "", "\f3a0");
+@def ICON_FILE selectFrom(IS_AWESOME, "", "\f38a");
+@def ICON_SHARE selectFrom(IS_AWESOME, "", "\f3ac");
+@def ICON_CONTACTS selectFrom(IS_AWESOME, "", "\f2d2");
+@def ICON_REFRESH selectFrom(IS_AWESOME, "", "\f3a8");
+@def ICON_SCHOOL selectFrom(IS_AWESOME, "", "\f357");
+@def ICON_WORK selectFrom(IS_AWESOME, "", "\f26c");
+
+/* Content type */
+@def ICON_PHOTO selectFrom(IS_AWESOME, "", "\f148");
+@def ICON_VIDEO selectFrom(IS_AWESOME, "", "\f215");
+@def ICON_DOWNLOAD selectFrom(IS_AWESOME, "", "\f2dd");
+
+/* Input */
+@def ICON_CLOSE selectFrom(IS_AWESOME, "\f00d", "\f2d7");
+@def ICON_USER selectFrom(IS_AWESOME, "\f007", "\f3a0");
+@def ICON_PASS selectFrom(IS_AWESOME, "\f023", "\f392");
+@def ICON_TEXT selectFrom(IS_AWESOME, "\f040", "\f37e");
+
+/**********************************************************************************************************************
+ * CLASSES                                                                                                            *
+ **********************************************************************************************************************/
+
+i.icon {font-family: ICON;font-style:normal;text-decoration:none;-webkit-user-select:none;}
+
+/* Menu */
+i.icon.menu:before {content: ICON_MENU;}
+i.icon.submenu:before {content: ICON_SUBMENU;}
+i.icon.back:before {content: ICON_BACK;}
+i.icon.home:before {content: ICON_HOME;}
+i.icon.about:before {content: ICON_ABOUT;}
+i.icon.file:before {content: ICON_FILE;}
+i.icon.share:before {content: ICON_SHARE;}
+i.icon.contacts:before {content: ICON_CONTACTS;}
+i.icon.refresh:before {content: ICON_REFRESH;}
+i.icon.school:before {content: ICON_SCHOOL;}
+i.icon.work:before {content: ICON_WORK;}
+
+/* Content type */
+i.icon.photo:before {content: ICON_PHOTO;}
+i.icon.video:before {content: ICON_VIDEO;}
+i.icon.download:before {content: ICON_DOWNLOAD;}
+
+
+/* Input */
+i.icon.close:before {content: ICON_CLOSE;}
+i.icon.user:before {content: ICON_USER;}
+i.icon.pass:before {content: ICON_PASS;}
+i.icon.text:before {content: ICON_TEXT;}

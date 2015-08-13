@@ -1,0 +1,30 @@
+/**********************************************************************************************************************
+ * HTML ELEMENTS STYLES                                                                                               *
+ **********************************************************************************************************************/
+html {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    line-height: 18px;
+    font-size: 13px;
+    color: DARK;
+    background: WHITE;
+    font-family: arial,sans-serif;
+}
+body {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+html.default,
+html.default > body {
+
+    overflow: hidden;
+}
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}

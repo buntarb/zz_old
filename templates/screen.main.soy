@@ -1,0 +1,277 @@
+{namespace videtype._template.screen.main}
+
+/**
+ * Home screen
+ */
+{template .home}
+
+    <div class="{css content}">
+        <div class="{css wrapper}"></div>
+    </div>
+
+{/template}
+
+/**
+ * About screen
+ * @param checkCV
+ */
+{template .about}
+
+    <div class="{css content}">
+        <div class="{css wrapper} {css about}">
+            <div class="{css box}">
+                <div class="{css header}">
+                    <div class="{css cover}"></div>
+                    <div class="{css info}">
+                        <div class="{css tags}"></div>
+                    </div>
+                </div>
+                <div class="{css footer}"></div>
+                <div class="{css funnel}">
+                    <div>
+                        <a class="{css box}">
+                            <div class="{css icon-wrapper}">
+                                <i class="{css icon} {css file}"></i>
+                            </div>
+                            <div class="{css content-wrapper}">
+                                <div class="{css file-name}">
+                                    {$checkCV}
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{/template}
+
+/**
+ * Contacts
+ * @param iFormat
+ * @param phoneCaption
+ * @param phoneValue
+ * @param emailCaption
+ * @param emailValue
+ * @param urlCaption
+ * @param urlValue
+ * @param callCaption
+ * @param writeCaption
+ */
+{template .contacts}
+
+    <div class="{css content}">
+            <div class="{css wrapper} {css contacts}">
+                <div class="{css box}">
+                    <div class="{css header}">
+                        <div class="{css cover}"></div>
+                        <div class="{css info}">
+                            <div class="{css logo}"></div>
+                            <div class="{css name}"></div>
+                            <div class="{css city}"></div>
+
+                            {if $iFormat}
+
+                                <div class="{css phone}"><a href="telprompt://{$phoneValue}">{$phoneCaption}: {$phoneValue}</a></div>
+
+                            {else}
+
+                                <div class="{css phone}"><a href="tel:{$phoneValue}">{$phoneCaption}: {$phoneValue}</a></div>
+
+                            {/if}
+
+                            <div class="{css email}"><a target="_blank" href="mailto:{$emailValue}">{$emailCaption}: {$emailValue}</a></div>
+                            <div class="{css url}"><a href="{$urlValue}">{$urlCaption}: {$urlValue}</a></div>
+
+                            {if $iFormat}
+
+                                <div class="{css call}"><a href="telprompt://{$phoneValue}">{$callCaption}</a></div>
+
+                            {else}
+
+                                <div class="{css call}"><a href="tel:{$phoneValue}">{$callCaption}</a></div>
+
+                            {/if}
+
+                            <div class="{css mail}">
+                                <a target="_blank" href="mailto:{$emailValue}">
+                                    {$writeCaption}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{/template}
+
+/**
+ * Organizations screen
+ * @param organizations
+ */
+{template .organizations}
+
+    <div class="{css content}">
+        <div class="{css wrapper} {css organizations}">
+
+            // EN - https://drive.google.com/uc?export=download&confirm=no_antivirus&id=0B3cunk0vGXyWeHF6MTFiZUFzX1U
+            // RU - https://drive.google.com/uc?export=download&confirm=no_antivirus&id=0B3cunk0vGXyWZXltS0VVU1ZLdWs
+            <div class="{css box-wrapper} {css left}">
+                <a class="{css box}" target="_blank" href="https://drive.google.com/uc?export=download&confirm=no_antivirus&id=0B3cunk0vGXyWeHF6MTFiZUFzX1U">
+                    <div class="{css icon-wrapper}">
+                        <i class="{css icon} {css download}"></i>
+                    </div>
+                    <div class="{css content-wrapper}">
+                        <div class="{css file-name}">
+                            Скачать CV - Artem Lytvynov (en).pdf
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="{css box-wrapper} {css right}">
+                <a class="{css box}" target="_blank" href="https://drive.google.com/uc?export=download&confirm=no_antivirus&id=0B3cunk0vGXyWZXltS0VVU1ZLdWs">
+                    <div class="{css icon-wrapper}">
+                        <i class="{css icon} {css download}"></i>
+                    </div>
+                    <div class="{css content-wrapper}">
+                        <div class="{css file-name}">
+                            Скачать CV - Артем Литвинов (ru).pdf
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div id="go-to-posts" class="{css box}">
+                <div class="{css icon-wrapper}">
+                    <i class="{css icon} {css work}"></i>
+                </div>
+                <div class="{css content-wrapper}">
+                    <div class="{css org-title}">
+                        Продакт-менеджер, аналитик, архитектор и разработчик проекта buntarb.github.io
+                    </div>
+                    <div class="{css org-date}">
+                        2015 - н.в.
+                    </div>
+                    <div class="{css org-name}">
+                        buntarb.github.io
+                    </div>
+                </div>
+            </div>
+
+            {foreach $organization in $organizations}
+
+                <div class="{css box}">
+                    <div class="{css icon-wrapper}">
+                        <i class="{css icon} {if $organization['type'] == 'school'}{css school}{else}{css work}{/if}"></i>
+                    </div>
+                    <div class="{css content-wrapper}">
+                        <div class="{css org-title}">
+                            {$organization['title']}
+                        </div>
+                        <div class="{css org-date}">
+                            {$organization['start']}{if $organization['end'] != ''} - {$organization['end']}{/if}
+                        </div>
+                        <div class="{css org-name}">
+                            {$organization['name']}
+                        </div>
+                    </div>
+                </div>
+
+            {/foreach}
+
+        </div>
+    </div>
+
+{/template}
+
+/**
+ * Posts screen
+ * @param posts
+ * @param postedCaption
+ * @param updatedCaption
+ */
+{template .posts}
+
+    <div class="{css content}">
+        <div class="{css wrapper} {css posts}">
+
+            {foreach $post in $posts}
+
+                <div id="{$post['id']}" class="{css box-wrapper} {if index($post)%2==0}{css left}{else}{css right}{/if}">
+                    <div class="{css box}" style="background-image: url({$post['attachments'][0]['prevUrl']})">
+                        <div class="{css title}">
+                            <i class="{css icon} {if $post['attachments'][0]['type']=='video'}{css video}{elseif $post['attachments'][0]['type']=='photo'}{css photo}{/if}"></i>{$post['title']}
+                        </div>
+                        <div class="{css content}">
+                            <div class="{css date}">{$postedCaption} {$post['createdDate']}. {$updatedCaption} {$post['updatedDate']}.</div>
+                        </div>
+                    </div>
+                </div>
+
+            {/foreach}
+
+        </div>
+    </div>
+
+{/template}
+
+/**
+ * Post screen
+ * @param post
+ * @param postDateCaption
+ * @param updateDateCaption
+ * @param myContactsCaption
+ */
+{template .post}
+
+    <div class="{css content}">
+        <div class="{css wrapper} {css post}">
+            <div class="{css box}">
+                <div class="{css header}">
+
+                    {if $post['attachments'][0]['type']=='video'}
+
+                        <iframe id="yt" type="text/html" width="100%" height="365" src="{$post['attachments'][0]['contUrl']+'?autoplay=1&autohide=1&origin=http://buntarb.github.io'}" frameborder="0"></iframe>
+
+                    {elseif $post['attachments'][0]['type']=='photo'}
+
+                        <img src="{$post['attachments'][0]['contUrl']}">
+
+                    {/if}
+
+                </div>
+                <div class="{css footer}">
+                    <div class="{css date}">{$postDateCaption} {$post['createdDate']}.</div>
+                    <div class="{css date}">{$updateDateCaption} {$post['updatedDate']}.</div>
+                    <div class="{css text}"></div>
+                    <div class="{css funnel}">
+                        <div>
+                            <div id="go-to-contacts" class="{css box}">
+                                <div class="{css icon-wrapper}">
+                                    <i class="{css icon} {css contacts}"></i>
+                                </div>
+                                <div class="{css content-wrapper}">
+                                    <div class="{css file-name}">
+                                        {$myContactsCaption}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{/template}
+
+/**
+ * Refresh screen
+ */
+{template .refresh}
+
+    <div class="{css content}"></div>
+
+{/template}

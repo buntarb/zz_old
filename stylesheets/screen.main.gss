@@ -1,0 +1,673 @@
+/**********************************************************************************************************************
+ * ABOUT PAGE                                                                                                         *
+ **********************************************************************************************************************/
+
+.about > .box > .header {
+
+    @mixin size( 100%, 365px );
+    display: block;
+    position: relative;
+    float: left;
+    background: BLACK;
+    overflow: hidden;
+    border-radius: 2px 2px 0 0;
+}
+.about > .box > .header > .cover {
+
+    @mixin size( 100%, 100% );
+    display: block;
+    position: absolute;
+    border-radius: 2px 2px 0 0;
+    background: BLACK;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+.about > .box > .header > .info {
+
+    @mixin size( 100%, 25px );
+    display: block;
+    position: relative;
+    float: left;
+    box-sizing: border-box;
+    padding: 320px 15px 20px;
+}
+.about > .box > .header > .info > .tags {
+
+    @mixin caption-line( );
+    @mixin text-shadow( );
+    display: block;
+    position: relative;
+    text-align: center;
+    margin: 0 auto;
+    padding: 0;
+    font-size: 13px;
+    line-height: 25px;
+    font-weight: bold;
+    color: WHITE;
+    cursor: default;
+    -webkit-user-select: none;
+}
+.about > .box > .header > .info > .birth {
+
+    font-size: 12px;
+    font-weight: normal;
+}
+.about > .box > .footer {
+
+    display: block;
+    position: relative;
+    float: left;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 15px;
+}
+.about > .box > .funnel {
+
+    display: block;
+    position: relative;
+    float: left;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 auto;
+    padding: 15px;
+}
+.about > .box > .funnel > div {
+
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.about > .box > .funnel > div > .box {
+
+    display: block;
+    position: relative;
+    float: none;
+    width: 225px;
+    height: 45px;
+    margin: 0 auto 15px;
+    background: MENU_BLUE;
+    cursor: pointer;
+    -webkit-user-select: none;
+}
+.about > .box > .funnel > div > .box > .icon-wrapper {
+
+    @mixin size( 45px, 45px );
+    display: block;
+    position: relative;
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+.about > .box > .funnel > div > .box > .icon-wrapper > .icon {
+
+    display: block;
+    position: relative;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    line-height: 45px;
+    font-size: 24px;
+    color: WHITE;
+}
+.about > .box > .funnel > div > .box > .content-wrapper {
+
+    display: block;
+    position: relative;
+    overflow: hidden;
+    float: right;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 0 0 -45px;
+    padding: 0 5px 0 45px;
+}
+.about > .box > .funnel > div > .box > .content-wrapper > .file-name {
+
+    @mixin caption-line( );
+    display: block;
+    position: relative;
+    float: left;
+    width: 100%;
+    line-height: 45px;
+    color: WHITE;
+}
+
+/**********************************************************************************************************************
+ * CONTACTS PAGE                                                                                                      *
+ **********************************************************************************************************************/
+
+.contacts > .box > .header {
+
+    @mixin size( 100%, 500px );
+    display: block;
+    position: relative;
+    float: left;
+    background: DARK;
+    overflow: hidden;
+    border-radius: 2px;
+}
+.contacts > .box > .header > .cover {
+
+    @mixin size( 100%, 100% );
+    display: block;
+    position: absolute;
+    border-radius: 2px;
+    background: BLACK;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+.contacts > .box > .header > .info {
+
+    @mixin size( 285px, 100% );
+    @mixin caption-line( );
+    @mixin text-shadow( );
+    display: block;
+    position: relative;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    line-height: 25px;
+    font-weight: bold;
+    color: WHITE;
+}
+.contacts > .box > .header > .info > .logo {
+
+    @mixin size( 50px, 50px );
+    @mixin border-radius( 25px );
+    display: block;
+    position: relative;
+    margin: 25px auto;
+    padding: 0;
+    background: BLACK;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.contacts > .box > .header > .info > .name,
+.contacts > .box > .header > .info > .city,
+.contacts > .box > .header > .info > .phone,
+.contacts > .box > .header > .info > .email,
+.contacts > .box > .header > .info > .url {
+
+    @mixin caption-line( );
+    @mixin text-shadow( );
+    display: block;
+    position: relative;
+    text-align: center;
+    margin: 0 auto;
+    padding: 0;
+    line-height: 25px;
+    font-size: 14px;
+    font-weight: normal;
+    color: WHITE;
+}
+.contacts > .box > .header > .info > .name {
+
+    font-weight: bold;
+}
+.contacts > .box > .header > .info > .call {
+
+    display: none;
+}
+.contacts > .box > .header > .info > .call > a {
+
+    @mixin size( 200px, 50px );
+    @mixin caption-line( );
+    @mixin shadow-card( );
+    @mixin text-shadow-none( );
+    display: block;
+    position: relative;
+    line-height: 50px;
+    font-size: 18px;
+    margin: 10px auto 0;
+    padding: 0;
+    border-radius: 2px;
+    background-color: MENU_GREEN;
+}
+.contacts > .box > .header > .info > .mail {
+
+    display: block;
+}
+.contacts > .box > .header > .info > .mail > a {
+
+    @mixin size( 200px, 50px );
+    @mixin caption-line( );
+    @mixin shadow-card( );
+    @mixin text-shadow-none( );
+    display: block;
+    position: relative;
+    line-height: 50px;
+    font-size: 18px;
+    margin: 10px auto 0;
+    padding: 0;
+    border-radius: 2px;
+    background-color: MENU_GREEN;
+}
+.contacts > .box > .header > .info a {
+
+    color: WHITE;
+    text-decoration: none;
+}
+
+/**********************************************************************************************************************
+ * ORGANIZATIONS PAGE                                                                                                 *
+ **********************************************************************************************************************/
+.organizations > .box-wrapper {
+
+    display: block;
+    position: relative;
+    float: left;
+    box-sizing: border-box;
+    width: 50%;
+    margin: 0;
+    padding: 0;
+}
+.organizations > .box-wrapper.left {
+
+    padding-right: 5px;
+}
+.organizations > .box-wrapper.right {
+
+    padding-left: 5px;
+}
+.organizations > .box-wrapper > .box {
+
+    height: 50px;
+    background: MENU_BLUE;
+    cursor: pointer;
+}
+.organizations > #go-to-posts.box {
+
+    background-color: MENU_ORANGE;
+    cursor: pointer;
+}
+.organizations > .box > .icon-wrapper,
+.organizations > .box-wrapper > .box > .icon-wrapper {
+
+    @mixin size( 45px, 30px );
+    display: block;
+    position: relative;
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+.organizations > .box-wrapper > .box > .icon-wrapper {
+
+    @mixin size( 45px, 50px );
+}
+.organizations > .box > .icon-wrapper > .icon,
+.organizations > .box-wrapper > .box > .icon-wrapper > .icon {
+
+    display: block;
+    position: relative;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    line-height: 30px;
+    font-size: 24px;
+    color: MENU_GREEN;
+}
+.organizations > .box > .icon-wrapper > .icon.school {
+
+    color: MENU_ORANGE;
+}
+.organizations > .box-wrapper > .box > .icon-wrapper > .icon.download {
+
+    line-height: 50px;
+    color: WHITE;
+}
+.organizations > #go-to-posts.box > .icon-wrapper > .icon {
+
+    color: WHITE;
+}
+.organizations > .box > .content-wrapper,
+.organizations > .box-wrapper > .box > .content-wrapper {
+
+    display: block;
+    position: relative;
+    overflow: hidden;
+    float: right;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 0 0 -45px;
+    padding: 5px 5px 5px 45px;
+}
+.organizations > .box > .content-wrapper > .org-title,
+.organizations > .box > .content-wrapper > .org-date,
+.organizations > .box > .content-wrapper > .org-name {
+
+    display: block;
+    position: relative;
+    float: left;
+    width: 100%;
+    line-height: 20px;
+}
+.organizations > .box > .content-wrapper > .org-title {
+
+    font-size: 14px;
+    font-weight: bold;
+    color: BLACK;
+}
+.organizations > .box > .content-wrapper > .org-date {
+
+    font-size: 11px;
+    color: GREY;
+}
+.organizations > .box > .content-wrapper > .org-name {
+
+    font-size: 13px;
+    color: DARK;
+}
+.organizations > #go-to-posts.box > .content-wrapper > .org-title,
+.organizations > #go-to-posts.box > .content-wrapper > .org-date,
+.organizations > #go-to-posts.box > .content-wrapper > .org-name {
+
+    color: WHITE;
+}
+.organizations > .box-wrapper > .box > .content-wrapper > .file-name {
+
+    @mixin caption-line( );
+    display: block;
+    position: relative;
+    float: left;
+    width: 100%;
+    line-height: 40px;
+    color: WHITE;
+}
+
+/**********************************************************************************************************************
+ * POSTS PAGE                                                                                                         *
+ **********************************************************************************************************************/
+
+.posts > .box-wrapper {
+
+    display: block;
+    position: relative;
+    float: left;
+    box-sizing: border-box;
+    width: 50%;
+    margin: 0;
+    padding: 0;
+}
+.posts > .box-wrapper.left {
+
+    padding-right: 5px;
+}
+.posts > .box-wrapper.right {
+
+    padding-left: 5px;
+}
+.posts > .box-wrapper > .box {
+
+    height: 365px;
+    background: WHITE;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    cursor: pointer;
+}
+.posts > .box-wrapper > .box > .title {
+
+    @mixin size( 100%, 65px );
+    @mixin caption-line( );
+    @mixin text-shadow( );
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0 15px;
+    line-height: 35px;
+    font-size: 14px;
+    border-radius: 2px 2px 0 0;
+    font-weight: bold;
+    color: WHITE;
+
+
+    background: rgba( 0, 0, 0, 0.2 );
+    /* @alternate */
+    background: -webkit-linear-gradient( top, rgba( 0, 0, 0, 0.2 ), rgba( 0, 0, 0, 0 ) );
+    /* @alternate */
+    background:    -moz-linear-gradient( top, rgba( 0, 0, 0, 0.2 ), rgba( 0, 0, 0, 0 ) );
+    /* @alternate */
+    background:     -ms-linear-gradient( top, rgba( 0, 0, 0, 0.2 ), rgba( 0, 0, 0, 0 ) );
+    /* @alternate */
+    background:      -o-linear-gradient( top, rgba( 0, 0, 0, 0.2 ), rgba( 0, 0, 0, 0 ) );
+    /* @alternate */
+    background:         linear-gradient( top, rgba( 0, 0, 0, 0.2 ), rgba( 0, 0, 0, 0 ) );
+
+}
+.posts > .box-wrapper > .box > .title > i {
+
+    padding-right: 15px;
+}
+.posts > .box-wrapper > .box > .content {
+
+    @mixin size( 100%, 36px );
+    @mixin text-shadow( );
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    margin: 264px 0 0;
+    padding: 0 15px;
+    border-radius: 0 0 2px 2px;
+    color: WHITE;
+
+    background: rgba( 0, 0, 0, 0.2 );
+    /* @alternate */
+    background: -webkit-linear-gradient( top, rgba( 0, 0, 0, 0 ), rgba( 0, 0, 0, 0.2 ) );
+    /* @alternate */
+    background:    -moz-linear-gradient( top, rgba( 0, 0, 0, 0 ), rgba( 0, 0, 0, 0.2 ) );
+    /* @alternate */
+    background:     -ms-linear-gradient( top, rgba( 0, 0, 0, 0 ), rgba( 0, 0, 0, 0.2 ) );
+    /* @alternate */
+    background:      -o-linear-gradient( top, rgba( 0, 0, 0, 0 ), rgba( 0, 0, 0, 0.2 ) );
+    /* @alternate */
+    background:         linear-gradient( top, rgba( 0, 0, 0, 0 ), rgba( 0, 0, 0, 0.2 ) );
+}
+.posts > .box-wrapper > .box > .content > .date {
+
+    @mixin caption-line( );
+    height: 16px;
+    line-height: 16px;
+    padding: 20px 0 0 0;
+    font-size: 10px;
+    color: WHITE;
+}
+
+/**********************************************************************************************************************
+ * POST PAGE                                                                                                          *
+ **********************************************************************************************************************/
+
+.post > .box > .header {
+
+    display: block;
+    position: relative;
+    float: left;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    border-top: 15px solid WHITE;
+    border-bottom: 1px solid LIGHT;
+    border-radius: 2px 2px 0 0;
+    /*background: WHITE;*/
+}
+.post > .box > .header > img {
+
+    display: block;
+    width: auto;
+    margin: 0 auto 15px;
+    max-height: 365px;
+    max-width: 100%;
+}
+.post > .box > .header > iframe {
+
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    margin: 0 auto 15px;
+}
+.post > .box > .footer {
+
+    display: block;
+    position: relative;
+    float: left;
+    padding: 15px;
+}
+.post > .box > .footer > .title {
+
+    display: block;
+    position: relative;
+    float: left;
+    width: 100%;
+    margin: 0 0 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: BLACK;
+}
+.post > .box > .footer > .date {
+
+    display: block;
+    position: relative;
+    float: left;
+    width: 100%;
+    height: 14px;
+    line-height: 14px;
+    font-size: 11px;
+    color: GREY;
+}
+.post > .box > .footer > .text{
+
+    display: block;
+    position: relative;
+    float: left;
+    width: 100%;
+    margin: 10px 0 0;
+    color: DARK;
+}
+.post > .box > .footer > .funnel {
+
+    display: block;
+    position: relative;
+    float: left;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 auto;
+    padding: 30px 15px 0;
+}
+.post > .box > .footer > .funnel > div {
+
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.post > .box > .footer > .funnel > div > .box {
+
+    display: block;
+    position: relative;
+    float: none;
+    width: 155px;
+    height: 45px;
+    margin: 0 auto 15px;
+    background: MENU_GREEN;
+    cursor: pointer;
+    -webkit-user-select: none;
+}
+.post > .box > .footer > .funnel > div > .box > .icon-wrapper {
+
+    @mixin size( 45px, 45px );
+    display: block;
+    position: relative;
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+.post > .box > .footer > .funnel > div > .box > .icon-wrapper > .icon {
+
+    display: block;
+    position: relative;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    line-height: 45px;
+    font-size: 24px;
+    color: WHITE;
+}
+.post > .box > .footer > .funnel > div > .box > .content-wrapper {
+
+    display: block;
+    position: relative;
+    overflow: hidden;
+    float: right;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 0 0 -45px;
+    padding: 0 5px 0 45px;
+}
+.post > .box > .footer > .funnel > div > .box > .content-wrapper > .file-name {
+
+    @mixin caption-line( );
+    display: block;
+    position: relative;
+    float: left;
+    width: 100%;
+    line-height: 45px;
+    color: WHITE;
+}
+
+/**********************************************************************************************************************
+ * MEDIA QUERIES                                                                                                      *
+ **********************************************************************************************************************/
+
+@media screen and ( max-width: 1260px ){}
+@media screen and ( max-width: 767px ){
+
+    .about > .box > .header > .info {
+
+        /*@mixin size( 100%, 150px );*/
+    }
+    .contacts > .box > .header > .info {
+
+        @mixin size( 100%, 100% );
+    }
+    .contacts > .box > .header > .info > .call {
+
+        display: block;
+    }
+    .contacts > .box > .header > .info > .mail {
+
+        display: none;
+    }
+    .organizations > .box-wrapper {
+
+        width: 100%;
+    }
+    .organizations > .box-wrapper.left {
+
+        padding-right: 0;
+    }
+    .organizations > .box-wrapper.right {
+
+        padding-left: 0;
+    }
+    .posts > .box-wrapper {
+
+        width: 100%;
+    }
+    .posts > .box-wrapper.left {
+
+        padding-right: 0;
+    }
+    .posts > .box-wrapper.right {
+
+        padding-left: 0;
+    }
+    .posts > .box-wrapper > .box {
+
+        float: none;
+        max-width: 484px;
+        margin: 0 auto 10px;
+    }
+}

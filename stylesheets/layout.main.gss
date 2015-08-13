@@ -1,0 +1,494 @@
+@def APP_MENU_FX_DELAY 350ms;
+
+/**********************************************************************************************************************
+ * APP                                                                                                                *
+ **********************************************************************************************************************/
+
+#app-root {
+
+    position: relative;
+    overflow: hidden;
+    max-width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+#app-head {
+
+    @mixin shadow-head( );
+    position: fixed;
+    height: 30px;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 5;
+    margin: 0;
+    padding: 15px 0;
+    background: WHITE;
+}
+#app-root.loading > #app-head {
+
+    display: none;
+}
+html.scroll #app-head {
+
+    position: absolute;
+    background-color: BLACK;
+}
+html.scroll #app-head > .content {
+
+    max-width: 95%;
+}
+#app-logo {
+
+    @mixin size( 30px, 30px );
+    display: block;
+    position: relative;
+    float: left;
+    text-align: center;
+    z-index: 1;
+    line-height: 30px;
+    margin: 0;
+    font-size: 24px;
+    color: WHITE;
+    cursor: pointer;
+}
+#app-logo > i {
+
+    cursor: pointer;
+    background-color: transparent;
+}
+#app-name {
+
+    display: block;
+    position: relative;
+    float: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    box-sizing: border-box;
+    line-height: 30px;
+    width: 100%;
+    margin: 0 -30px;
+    padding: 0 45px;
+    font-size: 18px;
+    font-weight: bold;
+    color: WHITE;
+    cursor: default;
+    -webkit-user-select:none;
+}
+#app-user {
+
+    @mixin size( 30px, 30px );
+    display: block;
+    position: relative;
+    float: right;
+    margin: 0;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6ODE1MjRDRjNDN0YwMTFFNEEyNkFCN0U3MDRDQUQyRDIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6ODE1MjRDRjRDN0YwMTFFNEEyNkFCN0U3MDRDQUQyRDIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4MTUyNENGMUM3RjAxMUU0QTI2QUI3RTcwNENBRDJEMiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4MTUyNENGMkM3RjAxMUU0QTI2QUI3RTcwNENBRDJEMiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PpfHc5MAAAW7SURBVHja7FvBjuNEEO1u28lMJrs7git/wVfAB3BeISEOrMSBA0JCOxNx4oq4IA7AT8BX8BecETCTSWK73dRzV086GSdue+2sZ9Yt1dqbmW7Xe9Vd3fXikcYY8S43ORIwEjASsPvBh58bMbkQIj4nmwoRTejDiEw1G9kUZFoInQqRb8hWQqRLYf78SR7r9lpK85x+gzwQ5IEgD0RMVvf0gi0ny8jWZPREcQszfBVi8Zsx136/+MFIAD95Zq/xGREAEpJ2BGhyRQM8uZPGQd0A/hJXshkZeSDo6SI69BgPPCxl8An/POfPogrw1QQg8iUJcxplZklQLQkoMgte8WOKvLbbBYN/wfcgYXKAAOMRoD3wkoHHfE9t8UMF+AMETC1ogE94KWAGqKgZAYW2M0BGW/DxurbbOYO+8GbBdM9R4121B17yfbT788V3B8BXE4A1HzEJAJ8wAbIhAVj/LvK4Rx7A2DVtytN+xjbnGVBFgA++4Dzh5wF64uLr4jD4agIAtIx4Yq+lTdsR4CKvk2ASY16/EyZjwrMiqkh4co+MlO2ObEngX9WAP0CA2hqmvWRrvATEtp8/Zk1TDDZi52Lv3uxNf8PR3nDGJ9DixtriswDwImB3GUw7lPAc6H/J/iH7m8C/DAT/6AjoGnz1Ehho1EUP4AdPgJ9OTA/gB02A8fZ5l+27Bj9YAszeIcdl+67BD5aAYi/hCd7qugY/SAL2wbv7VQ/gB02AO9srvl/2AH6QBORettceGTc9gB8kAZlX0kZMyB0fb7sGX01AqeSwoaQ1bEXTVO766d0xa5oTM3KPkGWDs30HBHAdDzEDV1fStqkGdbY7lqsQj7SV55jhkvZVT+CrCYCG52QsX8xoK4hAC8RYGFOntd1uOfosbtTW890TkG92Zawykm8oiWV39oqx6wgw93v/USWnRwJWWwETkS+VnC5E0aUdO2AGREc0vP4JgKO+htexLB5AQKV621cbvxgZCRgJGAkYCRgJGAkYCThJe/mxuvr192Jx1KGPPjDijA5eE7KEDl8xVQVK3n/NG34Qw2GO/snJMjqUpXQoW2th/vhLvhU94MtP1NV8JnDCO0pACf48tlcQAItk869wSi2NwcMi+fYEkdefqqvnF+I6ywN+GZE/Y5sq+/+IZ0EjAowlAJHfcF9tTk/A919Y8Fhp6zSgg4s6wJ+RexNvGTQlANNf8esSAJ+o0xLw41fq6r3n4lqSDzlqqxBJAWATjjzAlwSodktAsQJV0FiZsWOfioCfv7HgE35CmgV2RMQiNjgM8EnLGQDWcHXjqRMR8Mu3FvxsaqOuKRArqogzHdDZaeGKHfbvmzZldseRJ0iCAP/+C3H9bEbLmCKnlI0+ttu7tRhci/sAfzmXYo6XzRKagdiBiATsAHH8hAnwwV/OaSvH64WRTX7YASKahkqap0nAPvhy+vMLYSmtuxSisrL25AioAn9xbpMfpr/W7XPY4Ak4BP4MOir2fm2XAe7lUyPgGHgkP6x7GHAPFbwQLd8SqwOPrK8GDPqNZkAweDXsqd9qBoSCl48k+o0IaAL+MREQtARcYQPQOOHhkIN9PuYMj2RXuNe1+ayD8z92ARjuYUXIOwb3fwFh2Fxh07QaNA/HMS0IcCUtChuc7ctou2/NGaRT1fzI43PUAJvMXlMqR3Md6LhmK+t5ZlY1JKF8b76wY7jxioaCCMQMV9Ii2jjJlaBze8LTbp8X1QQAPAogGMSQTUhJ7Gt4bispTHtBJOWxMiYjlAAnYzlQmMKIJNY6Il4eb4+seff7AH+7spXgahPguNPwNqzkFF1IYsV23BACIGA6GauMdmadR0mLqq4sbGoyviXAlJEH+P/uhFiuAhyHw5Gn4WWmG1F0re3YdQRAuoZ6C6Bw3slYEDMABCUtqrq6wsblhw2TB/A3ywDH13oLvgdZ/IH+Mn4xMhIwEvBOE/C/AAMAcHFidbVzRLIAAAAASUVORK5CYII=') no-repeat WHITE;
+    background-size: contain;
+}
+#app-body {
+
+    position: absolute;
+    width: 100%;
+    top: 60px;
+    margin: 0;
+    padding: 0;
+    bottom: 0;
+    background: LIGHTEST;
+    -webkit-overflow-scrolling: touch;
+}
+html.scroll #app-body {
+
+    overflow-y: auto;
+}
+html.scroll #app-root.loading > #app-body,
+#app-root.loading > #app-body {
+
+    display: none;
+}
+#app-root > #app-loading {
+
+    display: none;
+}
+#app-root.loading > #app-loading {
+
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+#app-root.loading > #app-loading > .container {
+
+    display: block;
+    position: absolute;
+    width: 200px;
+    height: 148px;
+    left: 50%;
+    top: 50%;
+    margin: -140px 0 0 -100px;
+}
+#app-root.loading > #app-loading > .container > .logo {
+
+    @mixin size( 50px, 50px );
+    display: block;
+    position: relative;
+    margin: 25px auto;
+    padding: 0;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6ODE1MjRDRjNDN0YwMTFFNEEyNkFCN0U3MDRDQUQyRDIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6ODE1MjRDRjRDN0YwMTFFNEEyNkFCN0U3MDRDQUQyRDIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4MTUyNENGMUM3RjAxMUU0QTI2QUI3RTcwNENBRDJEMiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4MTUyNENGMkM3RjAxMUU0QTI2QUI3RTcwNENBRDJEMiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PpfHc5MAAAW7SURBVHja7FvBjuNEEO1u28lMJrs7git/wVfAB3BeISEOrMSBA0JCOxNx4oq4IA7AT8BX8BecETCTSWK73dRzV086GSdue+2sZ9Yt1dqbmW7Xe9Vd3fXikcYY8S43ORIwEjASsPvBh58bMbkQIj4nmwoRTejDiEw1G9kUZFoInQqRb8hWQqRLYf78SR7r9lpK85x+gzwQ5IEgD0RMVvf0gi0ny8jWZPREcQszfBVi8Zsx136/+MFIAD95Zq/xGREAEpJ2BGhyRQM8uZPGQd0A/hJXshkZeSDo6SI69BgPPCxl8An/POfPogrw1QQg8iUJcxplZklQLQkoMgte8WOKvLbbBYN/wfcgYXKAAOMRoD3wkoHHfE9t8UMF+AMETC1ogE94KWAGqKgZAYW2M0BGW/DxurbbOYO+8GbBdM9R4121B17yfbT788V3B8BXE4A1HzEJAJ8wAbIhAVj/LvK4Rx7A2DVtytN+xjbnGVBFgA++4Dzh5wF64uLr4jD4agIAtIx4Yq+lTdsR4CKvk2ASY16/EyZjwrMiqkh4co+MlO2ObEngX9WAP0CA2hqmvWRrvATEtp8/Zk1TDDZi52Lv3uxNf8PR3nDGJ9DixtriswDwImB3GUw7lPAc6H/J/iH7m8C/DAT/6AjoGnz1Ehho1EUP4AdPgJ9OTA/gB02A8fZ5l+27Bj9YAszeIcdl+67BD5aAYi/hCd7qugY/SAL2wbv7VQ/gB02AO9srvl/2AH6QBORettceGTc9gB8kAZlX0kZMyB0fb7sGX01AqeSwoaQ1bEXTVO766d0xa5oTM3KPkGWDs30HBHAdDzEDV1fStqkGdbY7lqsQj7SV55jhkvZVT+CrCYCG52QsX8xoK4hAC8RYGFOntd1uOfosbtTW890TkG92Zawykm8oiWV39oqx6wgw93v/USWnRwJWWwETkS+VnC5E0aUdO2AGREc0vP4JgKO+htexLB5AQKV621cbvxgZCRgJGAkYCRgJGAkYCThJe/mxuvr192Jx1KGPPjDijA5eE7KEDl8xVQVK3n/NG34Qw2GO/snJMjqUpXQoW2th/vhLvhU94MtP1NV8JnDCO0pACf48tlcQAItk869wSi2NwcMi+fYEkdefqqvnF+I6ywN+GZE/Y5sq+/+IZ0EjAowlAJHfcF9tTk/A919Y8Fhp6zSgg4s6wJ+RexNvGTQlANNf8esSAJ+o0xLw41fq6r3n4lqSDzlqqxBJAWATjjzAlwSodktAsQJV0FiZsWOfioCfv7HgE35CmgV2RMQiNjgM8EnLGQDWcHXjqRMR8Mu3FvxsaqOuKRArqogzHdDZaeGKHfbvmzZldseRJ0iCAP/+C3H9bEbLmCKnlI0+ttu7tRhci/sAfzmXYo6XzRKagdiBiATsAHH8hAnwwV/OaSvH64WRTX7YASKahkqap0nAPvhy+vMLYSmtuxSisrL25AioAn9xbpMfpr/W7XPY4Ak4BP4MOir2fm2XAe7lUyPgGHgkP6x7GHAPFbwQLd8SqwOPrK8GDPqNZkAweDXsqd9qBoSCl48k+o0IaAL+MREQtARcYQPQOOHhkIN9PuYMj2RXuNe1+ayD8z92ARjuYUXIOwb3fwFh2Fxh07QaNA/HMS0IcCUtChuc7ctou2/NGaRT1fzI43PUAJvMXlMqR3Md6LhmK+t5ZlY1JKF8b76wY7jxioaCCMQMV9Ii2jjJlaBze8LTbp8X1QQAPAogGMSQTUhJ7Gt4bispTHtBJOWxMiYjlAAnYzlQmMKIJNY6Il4eb4+seff7AH+7spXgahPguNPwNqzkFF1IYsV23BACIGA6GauMdmadR0mLqq4sbGoyviXAlJEH+P/uhFiuAhyHw5Gn4WWmG1F0re3YdQRAuoZ6C6Bw3slYEDMABCUtqrq6wsblhw2TB/A3ywDH13oLvgdZ/IH+Mn4xMhIwEvBOE/C/AAMAcHFidbVzRLIAAAAASUVORK5CYII=') no-repeat WHITE;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+#app-root.loading > #app-loading > .container > .name,
+#app-root.loading > #app-loading > .container > .help {
+
+    display: block;
+    position: relative;
+    text-align: center;
+    margin: 0 auto;
+    padding: 0;
+    line-height: 24px;
+    font-size: 22px;
+    color: GREY;
+    cursor: default;
+    -webkit-user-select: none;
+}
+#app-root.loading > #app-loading > .container > .help {
+
+    font-size: 12px;
+    line-height: 24px;
+}
+#app-view {
+
+    max-width: 1222px;
+    margin: auto;
+    padding: 0;
+}
+#app-over {
+
+    @mixin size( 100%, 100% );
+    @mixin translate3d( 0, 0, 0 );
+    @mixin opacity( 0 );
+    @mixin transition( opacity, APP_MENU_FX_DELAY, 0, ease-out );
+    position: absolute;
+    left: -100%;
+    top: 0;
+    z-index: 6;
+    background-color: rgb(0,0,0);
+}
+#app-menu {
+
+    @mixin size( 250px, 100% );
+    @mixin translate3d( 0, 0, 0 );
+    @mixin shadow-menu( );
+    @mixin translate3dTransition( APP_MENU_FX_DELAY, 0, ease-out );
+
+    position: absolute;
+    min-height: 100%;
+    left: -300px;
+    top: 0;
+    z-index: 10;
+    background: WHITE;
+}
+#app-menu-head {
+
+    @mixin size( 250px,120px );
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: GREY;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+#app-menu-head > div.person-logo {
+
+    @mixin size( 50px, 50px );
+    @mixin border-radius( 25px );
+    display: block;
+    position: relative;
+    margin: 20px 180px 0 20px;
+    padding: 0;
+    float: left;
+    background: BLACK;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+#app-menu-head > div.person-name {
+
+    @mixin size( 210px, 25px );
+    @mixin caption-line( );
+    @mixin text-shadow( );
+    display: block;
+    position: relative;
+    float: left;
+    margin: 10px 20px 15px;
+    padding: 0;
+    font-size: 14px;
+    line-height: 25px;
+    font-weight: bold;
+    color: WHITE;
+}
+#app-menu-body {
+
+    position: absolute;
+    overflow-x: hidden;
+    overflow-y: auto;
+    top: 120px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    -webkit-overflow-scrolling: touch;
+}
+#app-menu-wrap {
+
+    position: relative;
+    width: 100%;
+}
+html.default #app-menu-wrap {
+
+    @mixin translate3d( 0, 0, 0 );
+}
+.content {
+
+    max-width: 740px;
+    margin: auto;
+    padding: 0;
+}
+.content > .wrapper {
+
+    display: block;
+    position: relative;
+    float: left;
+    width: 100%;
+    margin: 0;
+    padding: 10px 0 0;
+}
+.content > .wrapper .box {
+
+    @mixin shadow-card( );
+    display: block;
+    position: relative;
+    overflow: hidden;
+    float: left;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 0 10px;
+    padding: 0;
+    border-radius: 2px;
+    background: WHITE;
+}
+
+/**********************************************************************************************************************
+ * MENU                                                                                                               *
+ **********************************************************************************************************************/
+
+/* Menu */
+.menu {
+    width: 250px;
+    min-height: 100%;
+    margin: 0;
+    padding: 4px 0;
+    border: none;
+    background: WHITE;
+    cursor: default;
+}
+
+/* Menu separator */
+.menuseparator {
+    border-top: 1px solid LIGHT;
+    margin: 4px 0;
+    padding: 0;
+}
+
+/* Menu item */
+.menuitem {
+    @mixin transition(background-color, 350ms, 0, ease);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: DARK;
+    cursor: pointer;
+}
+.menuitem > div.menuitem-content {
+    display: inline-block;
+    float: left;
+    width: 100%;
+}
+.menuitem > div.menuitem-content > div.menu-item-content {
+    display: inline-block;
+    float: left;
+    width: 100%;
+    margin: 6px 0;
+    padding: 0;
+}
+.menuitem > div.menuitem-content > div.menu-item-content > div.icon-wrapper,
+.menuitem > div.menuitem-content > div.menu-item-content > div.text-wrapper {
+    display: inline-block;
+    float: left;
+    line-height: 30px;
+}
+.menuitem > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.icon {
+    @mixin size(30px,30px);
+    @mixin transition(color, 350ms, 0, ease);
+    display: inline-block;
+    float: left;
+    text-align: center;
+    color: GREY;
+}
+.menuitem > div.menuitem-content > div.menu-item-content > div.text-wrapper {
+    @mixin size(220px,30px);
+    @mixin transition(color, 350ms, 0, ease);
+    display: inline-block;
+    float: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 30px;
+    color: DARK;
+}
+
+/* Menu item - hover state */
+.menuitem.menuitem-highlight,
+.menuitem.menuitem-hover {
+    background-color: LIGHTER;
+}
+.menuitem.menuitem-highlight > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.icon,
+.menuitem.menuitem-hover > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.icon {
+
+    color: BLUE;
+}
+.menuitem.menuitem-highlight > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.home,
+.menuitem.menuitem-hover > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.home {
+
+    color: MENU_RED;
+}
+.menuitem.menuitem-highlight > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.about,
+.menuitem.menuitem-hover > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.about {
+
+    color: MENU_RED;
+}
+.menuitem.menuitem-highlight > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.file,
+.menuitem.menuitem-hover > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.file {
+
+    color: MENU_BLUE;
+}
+.menuitem.menuitem-highlight > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.share,
+.menuitem.menuitem-hover > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.share {
+
+    color: MENU_ORANGE;
+}
+.menuitem.menuitem-highlight > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.contacts,
+.menuitem.menuitem-hover > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.contacts {
+
+    color: MENU_GREEN;
+}
+.menuitem.menuitem-highlight > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.refresh,
+.menuitem.menuitem-hover > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.refresh {
+
+    color: MENU_GREEN;
+}
+.menuitem.menuitem-highlight > div.menuitem-content > div.menu-item-content > div.text-wrapper,
+.menuitem.menuitem-hover > div.menuitem-content > div.menu-item-content > div.text-wrapper {
+
+    color: BLACK;
+}
+
+/* Menu item - disable state */
+.menuitem.menuitem-disabled,
+.menuitem.menuitem-disabled > div.menuitem-content > div.menu-item-content > div.text-wrapper {
+    color: GREY;
+    cursor: default;
+}
+
+/**********************************************************************************************************************
+ * MEDIA QUERIES                                                                                                      *
+ **********************************************************************************************************************/
+
+@media screen and ( max-width: 1260px ){
+
+    #app-view {
+
+        padding: 0;
+    }
+    .content {
+
+        padding: 0 15px;
+    }
+}
+@media screen and ( max-width: 767px ){
+    /* APP */
+    #app-head {
+        padding: 10px 0;
+    }
+    #app-logo {
+        margin: 0;
+    }
+    #app-body {
+        top: 50px;
+    }
+    #app-head > .content {
+
+        max-width: 100%;
+    }
+    /* MENU */
+    .menuitem {
+        -webkit-transition: none;
+           -moz-transition: none;
+            -ms-transition: none;
+             -o-transition: none;
+                transition: none;
+    }
+    .menuitem > div.menuitem-content > div.menu-item-content {
+        margin: 10px 0;
+    }
+    .menuitem > div.menuitem-content > div.menu-item-content > div.text-wrapper {
+        -webkit-transition: none;
+           -moz-transition: none;
+            -ms-transition: none;
+             -o-transition: none;
+                transition: none;
+        font-weight: bold;
+    }
+    .menuitem.menuitem-highlight,
+    .menuitem.menuitem-hover {
+        background-color: LIGHT;
+    }
+    .menuitem > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.icon,
+    .menuitem > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.icon {
+        color: BLUE;
+        -webkit-transition: none;
+           -moz-transition: none;
+            -ms-transition: none;
+             -o-transition: none;
+                transition: none;
+    }
+    .menuitem > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.icon.home,
+    .menuitem > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.icon.home {
+        color: MENU_RED;
+    }
+    .menuitem > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.icon.about,
+    .menuitem > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.icon.about {
+        color: MENU_RED;
+    }
+    .menuitem > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.icon.file,
+    .menuitem > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.icon.file {
+        color: MENU_BLUE;
+    }
+    .menuitem > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.icon.share,
+    .menuitem > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.icon.share {
+        color: MENU_ORANGE;
+    }
+    .menuitem > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.icon.contacts,
+    .menuitem > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.icon.contacts {
+        color: MENU_GREEN;
+    }
+    .menuitem > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.icon.refresh,
+    .menuitem > div.menuitem-content > div.menu-item-content > div.icon-wrapper > i.icon.refresh {
+        color: MENU_GREEN;
+    }
+}

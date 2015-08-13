@@ -10,6 +10,7 @@
   ],
   "dependencies": {
 	  "google-closure-library": "https://github.com/google/closure-library.git",
-	  "google-closure-patches": "https://github.com/buntarb/google-patches.git"
+	  "google-closure-patches": "https://github.com/buntarb/google-patches.git",
+	  "google-closure-storage": "https://github.com/yathit/ydn-db.git"
   }
 }
