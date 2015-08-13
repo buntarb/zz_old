@@ -6,8 +6,7 @@
 	"version": "0.0.0",
 	"dependencies": {
 		"express": "~4.0.0",
-		"body-parser": "~1.4.2",
-		"gulp-bower": "~0.0.10"
+		"body-parser": "~1.4.2"
 	},
 	"scripts": {
 		"preinstall": "sh ./preinstall.sh",
