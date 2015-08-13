@@ -2,7 +2,7 @@ var gulp = require( 'gulp' );
 
 gulp.task( '__gcl-patch__', function( ){
 
-	gulp.src( './libs/google-patches/closure/goog/events/events.js' )
+	gulp.src( './libs/google-closure-patches/closure/goog/events/events.js' )
 
 		.pipe( gulp.dest( './libs/google-closure-library/closure/goog/events' ) );
 } );
