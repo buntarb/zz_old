@@ -18,7 +18,7 @@ goog.require('soydata');
  * @suppress {checkTypes|uselessCode}
  */
 zz._template.ui.input.default = function(opt_data, opt_ignored) {
-  return '<label class="' + goog.getCssName('input') + '"><div class="' + goog.getCssName('icon-wrapper') + '"><i class="' + goog.getCssName('icon') + ' ' + soy.$$escapeHtml(opt_data.icon) + '"></i></div><div class="' + goog.getCssName('controll-wrapper') + '"></div><div class="' + goog.getCssName('close-wrapper') + '"><i class="' + goog.getCssName('icon') + ' ' + goog.getCssName('close') + '"></i></div></label>';
+  return '<label class="' + goog.getCssName('input') + '"><div class="' + goog.getCssName('icon-wrapper') + '"><i class="' + goog.getCssName('icon') + '"></i></div><div class="' + goog.getCssName('controll-wrapper') + '"></div><div class="' + goog.getCssName('close-wrapper') + '"><i class="' + goog.getCssName('icon') + ' ' + goog.getCssName('close') + '"></i></div></label>';
 };
 if (goog.DEBUG) {
   zz._template.ui.input.default.soyTemplateName = 'zz._template.ui.input.default';

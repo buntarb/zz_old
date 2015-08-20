@@ -14,5 +14,6 @@ goog.require( 'zz._template.ui.input' );
 zz.base.test = function( ) {
 
 	console.log( zz._template.ui.input );
+	document.write( zz._template.ui.input.default( ) );
 };
 
