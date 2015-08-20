@@ -9,11 +9,10 @@ goog.provide( 'zz.base' );
  **********************************************************************************************************************/
 
 goog.require( 'zz._stylesheet.remap' );
-goog.require( 'zz._template.ui.input' );
+goog.require( 'zz._template' );
 
 zz.base.test = function( ) {
 
-	console.log( zz._template.ui.input );
-	document.write( zz._template.ui.input.default( ) );
+	document.write( zz._template.test( ) );
 };
 

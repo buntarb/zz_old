@@ -22,14 +22,5 @@ goog.setCssNameMapping({
   "user": "t",
   "pass": "u",
   "text": "v",
-  "input": "w",
-  "hover": "x",
-  "active": "y",
-  "focused": "z",
-  "disabled": "A",
-  "wrapper": "B",
-  "controll": "C",
-  "filled": "D",
-  "control": "F",
-  "native": "E"
+  "test": "w"
 });
