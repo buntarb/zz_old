@@ -2,17 +2,14 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.base' );
+goog.provide( 'zz' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'zz._stylesheet.remap' );
-goog.require( 'zz._template' );
-
-zz.base.test = function( ) {
-
-	document.write( zz._template.test( ) );
-};
-
+/**
+ * Base namespace for Imazzine Library.
+ * @const
+ */
+zz = zz || {};

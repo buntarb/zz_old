@@ -10,8 +10,11 @@
 </head>
 <body>
     <script>
-        goog.require( 'zz.base' );
-        zz.base.test( );
+        goog.require( 'zz._stylesheet.remap' );
+        goog.require( 'zz._template' );
+    </script>
+    <script>
+        document.write( zz._template.test( ) );
     </script>
 </body>
 </html>
