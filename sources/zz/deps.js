@@ -3,3 +3,4 @@ goog.addDependency("../../../../sources/zz/deps.js", [], []);
 goog.addDependency("../../../../sources/zz/base.js", ['zz'], []);
 goog.addDependency("../../../../sources/zz/_stylesheet/remap.js", ['zz._stylesheet.remap'], []);
 goog.addDependency("../../../../sources/zz/_template/test.js", ['zz._template'], ['soy', 'soydata']);
+goog.addDependency("../../../../sources/zz/model/baseitem.js", ['zz.model.BaseItem'], ['goog.array', 'goog.object', 'goog.events.EventTarget']);
