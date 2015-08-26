@@ -1,5 +1,6 @@
 .idea
-npm-debug.log
+nbproject
 node_modules
 libs
 tmp
+npm-debug.log
