@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Demo page</title>
+    <title>Demo index page</title>
+
+    <!-- Do not touch this section! -->
     <link rel="stylesheet" href="../../../stylesheets/_css/zz.css" type="text/css">
     <script src="../../../libs/google-closure-library/closure/goog/base.js"></script>
-    <script src="../../../libs/google-closure-templates/soyutils.js"></script>
+    <script>goog.require('goog.soy');</script>
+    <script src="../../../libs/google-closure-templates/soyutils_usegoog.js"></script>
     <script src="../deps.js"></script>
     <script src="../base.js"></script>
+    <!--/Do not touch this section! -->
+
+    <!-- Attach your test app script here -->
+    <script src="index.js"></script>
 </head>
 <body>
     <script>
-        goog.require( 'zz._stylesheet.remap' );
-        goog.require( 'zz._template' );
-        goog.require( 'zz.model.BaseItem' );
-    </script>
-    <script>
-        document.write( zz._template.test( ) );
+        zz.demos.App.run( );
     </script>
 </body>
 </html>
