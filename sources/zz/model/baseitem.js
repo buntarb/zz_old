@@ -58,21 +58,21 @@ goog.inherits( zz.model.BaseItem, goog.events.EventTarget );
 
 /**
  * @type {boolean}
- * @private
+ * @protected
  */
-zz.model.BaseItem.prototype.new_;
+zz.model.BaseItem.prototype._new_;
 
 /**
 * @type {Array}
-* @private
+* @protected
 */
-zz.model.BaseItem.prototype.data_;
+zz.model.BaseItem.prototype._data_;
 
 /**
 * @type {Object}
-* @private
+* @protected
 */
-zz.model.BaseItem.prototype.schema_;
+zz.model.BaseItem.prototype._schema_;
 
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
@@ -83,10 +83,10 @@ zz.model.BaseItem.prototype.schema_;
 */
 zz.model.BaseItem.prototype.parseData_ = function( ){
 
-	if( !this.new_ ){
+	if( !this._new_ ){
 
-		this.new_ = true;
-		goog.object.forEach( this.schema_, function( metaData, metaName ){
+		this._new_ = true;
+		goog.object.forEach( this._schema_, function( metaData, metaName ){
 
 			var order = metaData[0];
 			var type = metaData[1];
