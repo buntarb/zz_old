@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Definition of the model field interface.
+ * @fileoverview Definition of the model data item interface.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,20 +25,20 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.IField' );
+goog.provide( 'zz.model.IDataItem' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * Interface for a model field object.
+ * Interface for a model data item objects.
  * @interface
  */
-zz.model.IField = function( ){};
+zz.model.IDataItem = function( ){};
 
 /**
- * Disposes of the object and its resources.
- * @return {void} Nothing.
+ * This method must to return data item schema object.
+ * @return {Object} DataItem Schema object.
  */
-zz.model.IField.prototype.setupField = goog.abstractMethod;
+zz.model.IDataItem.prototype.getSchema = goog.abstractMethod;

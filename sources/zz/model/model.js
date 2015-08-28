@@ -32,13 +32,49 @@ goog.provide( 'zz.model' );
  **********************************************************************************************************************/
 
 /**
- * Returns true if the specified value is a boolean.
- * @param {*} value
- * @returns {boolean}
+ * Check is specified field exist in specified item, cal an exception if true.
+ * @param {!zz.model.BaseItem} item
+ * @param {string} field
  */
-zz.model.isBooleanType = function( value ){
+zz.model.checkIfFieldExist = function( item, field ){
 
-    return goog.isBoolean( value );
+    if( goog.isDef( item[name] ) ) throw new TypeError( 'Specified field already exist in data item.' );
+};
+
+/**
+ * Check is specified value is a boolean. Throw an exception if it not.
+ * @param {*} value
+ */
+zz.model.checkBooleanType = function( value ){
+
+    if( !goog.isBoolean( value ) ) {
+
+        throw new TypeError('Type mismatch. Boolean expected.');
+    }
+};
+
+/**
+ * Check is specified value is a number. Throw an exception if it not.
+ * @param {*} value
+ */
+zz.model.checkNumberType = function( value ){
+
+    if( !goog.isNumber( value ) ) {
+
+        throw new TypeError('Type mismatch. Number expected.');
+    }
+};
+
+/**
+ * Check is specified value is a string. Throw an exception if it not.
+ * @param {*} value
+ */
+zz.model.checkStringType = function( value ){
+
+    if( !goog.isString( value ) ) {
+
+        throw new TypeError('Type mismatch. String expected.');
+    }
 };
 
 /**
@@ -49,25 +85,25 @@ zz.model.isBooleanType = function( value ){
  */
 zz.model.setupBooleanField = function( item, name, opt_value ){
 
-    if( !zz.model.isBooleanType( opt_value ) ){
+    if( goog.isDef( opt_value) )
 
-        throw new TypeError( 'Type mismatch. Boolean expected.' );
-    }
-    if( goog.isDef( item[name] ) ){
+        zz.model.checkBooleanType( opt_value );
 
-        throw new TypeError( 'Specified field already exist in data item.' );
-    }
-    var value = null;
+    zz.model.checkIfFieldExist( item, name );
+
+    // Here we upgrade an object and create 'private' field with closure.
+    // TODO: (buntarb) check memory leaks here.
+    var value = goog.isDef( opt_value ) ? opt_value : null;
     Object.defineProperty( item, name, {
 
-        get: function( ){ return value; },
-        set: function( v ){
+        get: function( ){
 
-            if( !zz.model.isBooleanType( opt_value ) ) {
+            return value;
+        },
+        set: function( val ){
 
-                throw new TypeError('Type mismatch. Boolean expected.');
-            }
-            value =  v;
+            zz.model.checkBooleanType( val );
+            value =  val;
         },
         enumerable: true,
         configurable: false
@@ -75,51 +111,67 @@ zz.model.setupBooleanField = function( item, name, opt_value ){
 };
 
 /**
- * Returns true if the specified value is a number.
- * @param {*} value
- * @returns {boolean}
+ * Setting up data item field with number type.
+ * @param {!zz.model.BaseItem} item
+ * @param {string} name
+ * @param {*} opt_value
  */
-zz.model.isNumberType = function( value ){
+zz.model.setupNumberField = function( item, name, opt_value ){
 
-    return goog.isNumber( value );
+    if( goog.isDef( opt_value) )
+
+        zz.model.checkNumberType( opt_value );
+
+    zz.model.checkIfFieldExist( item, name );
+
+    // Here we upgrade an object and create 'private' field with closure.
+    // TODO: (buntarb) check memory leaks here.
+    var value = goog.isDef( opt_value ) ? opt_value : null;
+    Object.defineProperty( item, name, {
+
+        get: function( ){
+
+            return value;
+        },
+        set: function( val ){
+
+            zz.model.checkNumberType( val );
+            value =  val;
+        },
+        enumerable: true,
+        configurable: false
+    } );
 };
 
 /**
- * Returns true if the specified value is a string.
- * @param {*} value
- * @returns {boolean}
+ * Setting up data item field with string type.
+ * @param {!zz.model.BaseItem} item
+ * @param {string} name
+ * @param {*} opt_value
  */
-zz.model.isStringType = function( value ){
+zz.model.setupStringField = function( item, name, opt_value ){
 
-    return goog.isString( value );
-};
+    if( goog.isDef( opt_value) )
 
-/**
- * Returns true if the specified value is a date.
- * @param {*} value
- * @returns {boolean}
- */
-zz.model.isDateType = function( value ){
+        zz.model.checkStringType( opt_value );
 
-    //
-};
+    zz.model.checkIfFieldExist( item, name );
 
-/**
- * Returns true if the specified value is a time.
- * @param {*} value
- * @returns {boolean}
- */
-zz.model.isTimeType = function( value ){
+    // Here we upgrade an object and create 'private' field with closure.
+    // TODO: (buntarb) check memory leaks here.
+    var value = goog.isDef( opt_value ) ? opt_value : null;
+    Object.defineProperty( item, name, {
 
-    //
-};
+        get: function( ){
 
-/**
- * Returns true if the specified value is a datetime.
- * @param {*} value
- * @returns {boolean}
- */
-zz.model.isDatetimeType = function( value ){
+            return value;
+        },
+        set: function( val ){
 
-    //
+            zz.model.checkStringType( val );
+            value =  val;
+        },
+        enumerable: true,
+        configurable: false
+    } );
 };

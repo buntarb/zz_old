@@ -1,6 +1,8 @@
 .idea
+tmp
+lib
+bin
+libs
 nbproject
 node_modules
-libs
-tmp
 npm-debug.log

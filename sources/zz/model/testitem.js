@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.model.BaseItem class.
+ * @fileoverview Provide zz.model.TestItem class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,17 +25,15 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.BaseItem' );
+goog.provide( 'zz.model.TestItem' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'goog.object' );
-goog.require( 'goog.events.EventTarget' );
-goog.require( 'zz.model' );
-goog.require( 'zz.model.IDataItem' );
 goog.require( 'zz.model.FieldTypes' );
+goog.require( 'zz.model.IDataItem' );
+goog.require( 'zz.model.BaseItem' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -43,38 +41,15 @@ goog.require( 'zz.model.FieldTypes' );
 
 /**
  * @constructor
- * @extends {goog.events.EventTarget}
+ * @extends {zz.model.BaseItem}
  * @implements zz.model.IDataItem
- * @param {Array} data
+ * @param {?Array} data
  */
-zz.model.BaseItem = function( data ){
+zz.model.TestItem = function( data ){
 
-	goog.events.EventTarget.call( this );
-	goog.object.forEach( this.getSchema( ), function( meta, name ){
-
-		var ord = /** @type {number} */ (meta[0]);
-		var typ = /** @type {zz.model.FieldTypes} */ meta[1];
-		var req = /** @type {boolean} */ meta[2];
-
-		if( goog.isDef( data ) && req && !goog.isDefAndNotNull( data[ord] ) )
-
-			throw new TypeError( 'Missing required field' );
-
-		if( typ === zz.model.FieldTypes.BOOLEAN )
-
-			zz.model.setupBooleanField( this, name, data ? data[ord] : undefined );
-
-		if( typ === zz.model.FieldTypes.NUMBER )
-
-			zz.model.setupNumberField( this, name, data ? data[ord] : undefined );
-
-		if( typ === zz.model.FieldTypes.STRING )
-
-			zz.model.setupStringField( this, name, data ? data[ord] : undefined );
-
-	}, this );
+	zz.model.BaseItem.call( this, data );
 };
-goog.inherits( zz.model.BaseItem, goog.events.EventTarget );
+goog.inherits( zz.model.TestItem, zz.model.BaseItem );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -84,9 +59,32 @@ goog.inherits( zz.model.BaseItem, goog.events.EventTarget );
  * Prototype methods section                                                                                          *
  **********************************************************************************************************************/
 
+///**
+// * @type {boolean}
+// */
+//zz.model.TestItem.prototype.booleanField;
+//
+///**
+// * @type {number}
+// */
+//zz.model.TestItem.prototype.numberField;
+//
+///**
+// * @type {string}
+// */
+//zz.model.TestItem.prototype.stringField;
+
 /**
- * This method must to return DataItem schema object. But it doesn't return anything in zz.model.BaseItem class.
- * @return {Object} DataItem Schema object.
+ * Return zz.model.TestItem schema object.
  * @override
+ * @returns {Object}
  */
-zz.model.BaseItem.prototype.getSchema = goog.nullFunction;
+zz.model.TestItem.prototype.getSchema = function( ){
+
+	return {
+
+		booleanField: [0, zz.model.FieldTypes.BOOLEAN, false],
+		numberField: [1, zz.model.FieldTypes.NUMBER, true],
+		stringField: [2, zz.model.FieldTypes.STRING, false]
+	};
+};

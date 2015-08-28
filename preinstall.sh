@@ -1,3 +1,3 @@
-npm install -g --save-dev bower
-npm install -g --save-dev gulp
+npm install -g bower
+npm install -g gulp
 bower install

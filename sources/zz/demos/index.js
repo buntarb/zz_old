@@ -33,7 +33,7 @@ goog.provide( 'zz.demos.App' );
 
 goog.require( 'goog.dom' );
 goog.require( 'zz._template' );
-goog.require( 'zz.model.BaseItem' );
+goog.require( 'zz.model.TestItem' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -49,7 +49,9 @@ zz.demos.App.run = function( ){
 
     var doc = goog.dom.getDocument( );
     doc.write( zz._template.test( ) );
-    console.log( zz.model.BaseItem );
+
+    item = new zz.model.TestItem( [true, 56.8, 'test string'] );
+    console.log( item );
 };
 
 /**********************************************************************************************************************
