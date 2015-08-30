@@ -32,8 +32,11 @@ goog.provide( 'zz.demos.App' );
  **********************************************************************************************************************/
 
 goog.require( 'goog.dom' );
-goog.require( 'zz._template' );
+goog.require( 'goog.events' );
+
+goog.require( 'zz.template' );
 goog.require( 'zz.model.TestItem' );
+goog.require( 'zz.model.EventType' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -47,11 +50,23 @@ zz.demos.App = function( ){};
 
 zz.demos.App.run = function( ){
 
-    var doc = goog.dom.getDocument( );
-    doc.write( zz._template.test( ) );
 
-    item = new zz.model.TestItem( [true, 56.8, 'test string'] );
-    console.log( item );
+	var item = goog.global.item = new zz.model.TestItem( [true, 55, 'test string 1'] );
+
+	goog.events.listen( item, zz.model.EventType.ITEM_CREATE, function( e ){
+
+		console.log( e );
+	} );
+	goog.events.listen( item, zz.model.EventType.ITEM_DELETE, function( e ){
+
+		console.log( e );
+	} );
+	goog.events.listen( item, zz.model.EventType.ITEM_UPDATE, function( e ){
+
+		console.log(e.target );
+		console.log( e.getFieldName( ) );
+	} );
+	goog.dom.getDocument( ).write( zz.template.test( ) );
 };
 
 /**********************************************************************************************************************

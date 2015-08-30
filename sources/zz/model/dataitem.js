@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.model.BaseItem class.
+ * @fileoverview Provide zz.model.DataItem class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,17 +25,20 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.BaseItem' );
+goog.provide( 'zz.model.DataItem' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
 goog.require( 'goog.object' );
+goog.require( 'goog.async.run' );
 goog.require( 'goog.events.EventTarget' );
+
 goog.require( 'zz.model' );
 goog.require( 'zz.model.IDataItem' );
 goog.require( 'zz.model.FieldTypes' );
+goog.require( 'zz.model.ItemCreateEvent' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -47,9 +50,10 @@ goog.require( 'zz.model.FieldTypes' );
  * @implements zz.model.IDataItem
  * @param {Array} data
  */
-zz.model.BaseItem = function( data ){
+zz.model.DataItem = function( data ){
 
 	goog.events.EventTarget.call( this );
+
 	goog.object.forEach( this.getSchema( ), function( meta, name ){
 
 		var ord = /** @type {number} */ (meta[0]);
@@ -74,7 +78,7 @@ zz.model.BaseItem = function( data ){
 
 	}, this );
 };
-goog.inherits( zz.model.BaseItem, goog.events.EventTarget );
+goog.inherits( zz.model.DataItem, goog.events.EventTarget );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -85,8 +89,11 @@ goog.inherits( zz.model.BaseItem, goog.events.EventTarget );
  **********************************************************************************************************************/
 
 /**
- * This method must to return DataItem schema object. But it doesn't return anything in zz.model.BaseItem class.
+ * This method must to return DataItem schema object. But it doesn't return anything in zz.model.DataItem class.
  * @return {Object} DataItem Schema object.
  * @override
  */
-zz.model.BaseItem.prototype.getSchema = goog.nullFunction;
+zz.model.DataItem.prototype.getSchema = function( ){
+
+	throw new TypeError( 'zz.model.DataItem.getSchema method need to be implement in child class.' );
+};

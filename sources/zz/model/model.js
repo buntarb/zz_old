@@ -28,12 +28,19 @@
 goog.provide( 'zz.model' );
 
 /**********************************************************************************************************************
+ * Dependencies section                                                                                               *
+ **********************************************************************************************************************/
+
+goog.require( 'goog.async.run' );
+goog.require( 'zz.model.ItemUpdateEvent' );
+
+/**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
 /**
  * Check is specified field exist in specified item, cal an exception if true.
- * @param {!zz.model.BaseItem} item
+ * @param {!zz.model.DataItem} item
  * @param {string} field
  */
 zz.model.checkIfFieldExist = function( item, field ){
@@ -79,9 +86,9 @@ zz.model.checkStringType = function( value ){
 
 /**
  * Setting up data item field with boolean type.
- * @param {!zz.model.BaseItem} item
+ * @param {!zz.model.DataItem} item
  * @param {string} name
- * @param {*} opt_value
+ * @param {?*} opt_value
  */
 zz.model.setupBooleanField = function( item, name, opt_value ){
 
@@ -102,8 +109,13 @@ zz.model.setupBooleanField = function( item, name, opt_value ){
         },
         set: function( val ){
 
+
             zz.model.checkBooleanType( val );
-            value =  val;
+			value =  val;
+			goog.async.run( function( ){
+
+				item.dispatchEvent( new zz.model.ItemUpdateEvent( item, name ) );
+			} );
         },
         enumerable: true,
         configurable: false
@@ -112,7 +124,7 @@ zz.model.setupBooleanField = function( item, name, opt_value ){
 
 /**
  * Setting up data item field with number type.
- * @param {!zz.model.BaseItem} item
+ * @param {!zz.model.DataItem} item
  * @param {string} name
  * @param {*} opt_value
  */
@@ -131,12 +143,16 @@ zz.model.setupNumberField = function( item, name, opt_value ){
 
         get: function( ){
 
-            return value;
+			return value;
         },
         set: function( val ){
 
             zz.model.checkNumberType( val );
-            value =  val;
+			value =  val;
+			goog.async.run( function( ){
+
+				item.dispatchEvent( new zz.model.ItemUpdateEvent( item, name ) );
+			} );
         },
         enumerable: true,
         configurable: false
@@ -145,7 +161,7 @@ zz.model.setupNumberField = function( item, name, opt_value ){
 
 /**
  * Setting up data item field with string type.
- * @param {!zz.model.BaseItem} item
+ * @param {!zz.model.DataItem} item
  * @param {string} name
  * @param {*} opt_value
  */
@@ -164,12 +180,16 @@ zz.model.setupStringField = function( item, name, opt_value ){
 
         get: function( ){
 
-            return value;
+			return value;
         },
         set: function( val ){
 
             zz.model.checkStringType( val );
-            value =  val;
+			value =  val;
+			goog.async.run( function( ){
+
+				item.dispatchEvent( new zz.model.ItemUpdateEvent( item, name ) );
+			} );
         },
         enumerable: true,
         configurable: false

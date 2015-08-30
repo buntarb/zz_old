@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Model field types.
+ * @fileoverview Model events types.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,19 +25,25 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.FieldTypes' );
+goog.provide( 'zz.model.EventType' );
+
+/**********************************************************************************************************************
+ * Dependencies section                                                                                               *
+ **********************************************************************************************************************/
+
+goog.require( 'goog.events' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * Constants for model field types name.
+ * Constants for model events types.
  * @enum {string}
  */
-zz.model.FieldTypes = {
+zz.model.EventType = {
 
-    BOOLEAN: 'boolean',
-    NUMBER: 'number',
-    STRING: 'string'
+    ITEM_CREATE: goog.events.getUniqueId( 'item_create' ),
+	ITEM_UPDATE: goog.events.getUniqueId( 'item_update' ),
+	ITEM_DELETE: goog.events.getUniqueId( 'item_delete' )
 };

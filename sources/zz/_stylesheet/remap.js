@@ -1,7 +1,7 @@
 goog.provide('zz._stylesheet.remap');
 goog.setCssNameMapping({
-  "block": "b",
   "scrollable": "a",
+  "block": "b",
   "default": "c",
   "icon": "d",
   "menu": "e",

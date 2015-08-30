@@ -12,6 +12,7 @@
 	  "google-closure-library": "https://github.com/google/closure-library.git",
 	  "google-closure-patches": "https://github.com/buntarb/google-patches.git",
 	  "google-closure-storage": "https://github.com/yathit/ydn-db.git",
+	  "google-closure-compiler": "http://dl.google.com/closure-compiler/compiler-latest.zip",
 	  "google-closure-templates": "https://dl.google.com/closure-templates/closure-templates-for-javascript-latest.zip",
 	  "google-closure-stylesheets": "https://closure-stylesheets.googlecode.com/files/closure-stylesheets-20111230.jar"
   }

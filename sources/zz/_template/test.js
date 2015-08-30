@@ -2,10 +2,10 @@
 // Please don't edit this file by hand.
 
 /**
- * @fileoverview Templates in namespace zz._template.
+ * @fileoverview Templates in namespace zz.template.
  */
 
-goog.provide('zz._template');
+goog.provide('zz.template');
 
 goog.require('soy');
 goog.require('soydata');
@@ -17,9 +17,9 @@ goog.require('soydata');
  * @return {string}
  * @suppress {checkTypes|uselessCode}
  */
-zz._template.test = function(opt_data, opt_ignored) {
+zz.template.test = function(opt_data, opt_ignored) {
   return '<div class="' + goog.getCssName('test') + '">This is test DIV</div>';
 };
 if (goog.DEBUG) {
-  zz._template.test.soyTemplateName = 'zz._template.test';
+  zz.template.test.soyTemplateName = 'zz.template.test';
 }

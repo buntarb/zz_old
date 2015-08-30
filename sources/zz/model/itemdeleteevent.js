@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.model.TestItem class.
+ * @fileoverview Provide zz.model.ItemDeleteEvent class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,15 +25,14 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.TestItem' );
+goog.provide( 'zz.model.ItemDeleteEvent' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'zz.model.FieldTypes' );
-goog.require( 'zz.model.IDataItem' );
-goog.require( 'zz.model.DataItem' );
+goog.require( 'goog.events.Event' );
+goog.require( 'zz.model.EventType' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -41,15 +40,14 @@ goog.require( 'zz.model.DataItem' );
 
 /**
  * @constructor
- * @implements {zz.model.IDataItem}
- * @extends {zz.model.DataItem}
- * @param {?Array.<boolean, number, string>} data
+ * @extends {goog.events.Event}
+ * @param {!zz.model.DataItem} item
  */
-zz.model.TestItem = function( data ){
+zz.model.ItemDeleteEvent = function( item ){
 
-	zz.model.DataItem.call( this, data );
+	goog.events.Event.call( this, zz.model.EventType.ITEM_DELETE, item );
 };
-goog.inherits( zz.model.TestItem, zz.model.DataItem );
+goog.inherits( zz.model.ItemDeleteEvent, goog.events.Event );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -58,33 +56,3 @@ goog.inherits( zz.model.TestItem, zz.model.DataItem );
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
  **********************************************************************************************************************/
-
-/**
- * @type {boolean}
- */
-zz.model.TestItem.prototype.booleanField;
-
-/**
- * @type {number}
- */
-zz.model.TestItem.prototype.numberField;
-
-/**
- * @type {string}
- */
-zz.model.TestItem.prototype.stringField;
-
-/**
- * Return zz.model.TestItem schema object.
- * @override
- * @returns {Object}
- */
-zz.model.TestItem.prototype.getSchema = function( ){
-
-	return {
-
-		booleanField: [0, zz.model.FieldTypes.BOOLEAN, false],
-		numberField: [1, zz.model.FieldTypes.NUMBER, true],
-		stringField: [2, zz.model.FieldTypes.STRING, false]
-	};
-};
