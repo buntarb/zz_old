@@ -18,7 +18,7 @@ goog.require('soydata');
  * @suppress {checkTypes|uselessCode}
  */
 zz.template.test = function(opt_data, opt_ignored) {
-  return '<div class="' + goog.getCssName('test') + '">This is test DIV</div>';
+  return '<div id="test" class="' + goog.getCssName('test') + '">This is test DIV</div>';
 };
 if (goog.DEBUG) {
   zz.template.test.soyTemplateName = 'zz.template.test';

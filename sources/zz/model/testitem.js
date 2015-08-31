@@ -83,8 +83,23 @@ zz.model.TestItem.prototype.getSchema = function( ){
 
 	return {
 
-		booleanField: [0, zz.model.FieldTypes.BOOLEAN, false],
-		numberField: [1, zz.model.FieldTypes.NUMBER, true],
-		stringField: [2, zz.model.FieldTypes.STRING, false]
+		booleanField: {
+
+			order: 0,
+			type: zz.model.FieldTypes.BOOLEAN,
+			required:false
+		},
+		numberField: {
+
+			order: 1,
+			type: zz.model.FieldTypes.NUMBER,
+			required: true
+		},
+		stringField: {
+
+			order: 2,
+			type: zz.model.FieldTypes.STRING,
+			required: false
+		}
 	};
 };

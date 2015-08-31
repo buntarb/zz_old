@@ -56,9 +56,9 @@ zz.model.DataItem = function( data ){
 
 	goog.object.forEach( this.getSchema( ), function( meta, name ){
 
-		var ord = /** @type {number} */ (meta[0]);
-		var typ = /** @type {zz.model.FieldTypes} */ meta[1];
-		var req = /** @type {boolean} */ meta[2];
+		var ord = /** @type {number} */ (meta.order);
+		var typ = /** @type {zz.model.FieldTypes} */ (meta.type);
+		var req = /** @type {boolean} */ (meta.required);
 
 		if( goog.isDef( data ) && req && !goog.isDefAndNotNull( data[ord] ) )
 

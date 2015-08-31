@@ -63,8 +63,12 @@ zz.demos.App.run = function( ){
 	} );
 	goog.events.listen( item, zz.model.EventType.ITEM_UPDATE, function( e ){
 
-		console.log(e.target );
-		console.log( e.getFieldName( ) );
+		var item = /** {@type zz.model.TestItem} */ ( e.target );
+		var event = /** {@type zz.model.ItemUpdateEvent} */ (e);
+		if( event.changes.stringField ){
+
+			goog.dom.getElement( 'test' ).textContent = item.stringField;
+		}
 	} );
 	goog.dom.getDocument( ).write( zz.template.test( ) );
 };

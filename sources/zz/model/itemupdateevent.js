@@ -49,10 +49,9 @@ zz.model.ItemUpdateEvent = function( item, name ){
 	goog.events.Event.call( this, zz.model.EventType.ITEM_UPDATE, item );
 
 	/**
-	 * @type {!string}
-	 * @private
+	 * @type {boolean}
 	 */
-	this.name_ = name;
+	this.changes[name] = true;
 };
 goog.inherits( zz.model.ItemUpdateEvent, goog.events.Event );
 
@@ -65,10 +64,7 @@ goog.inherits( zz.model.ItemUpdateEvent, goog.events.Event );
  **********************************************************************************************************************/
 
 /**
- * Return DataItem Field name.
- * @returns {!string}
+ *
+ * @type {{}}
  */
-zz.model.ItemUpdateEvent.prototype.getFieldName = function( ){
-
-	return this.name_;
-};
+zz.model.ItemUpdateEvent.prototype.changes = {};

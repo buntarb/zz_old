@@ -109,13 +109,15 @@ zz.model.setupBooleanField = function( item, name, opt_value ){
         },
         set: function( val ){
 
-
             zz.model.checkBooleanType( val );
-			value =  val;
-			goog.async.run( function( ){
+            if( value !== val ){
 
-				item.dispatchEvent( new zz.model.ItemUpdateEvent( item, name ) );
-			} );
+                value =  val;
+                goog.async.run( function( ){
+
+                    item.dispatchEvent( new zz.model.ItemUpdateEvent( item, name ) );
+                } );
+            }
         },
         enumerable: true,
         configurable: false
@@ -148,11 +150,14 @@ zz.model.setupNumberField = function( item, name, opt_value ){
         set: function( val ){
 
             zz.model.checkNumberType( val );
-			value =  val;
-			goog.async.run( function( ){
+            if( value !== val ){
 
-				item.dispatchEvent( new zz.model.ItemUpdateEvent( item, name ) );
-			} );
+                value =  val;
+                goog.async.run( function( ){
+
+                    item.dispatchEvent( new zz.model.ItemUpdateEvent( item, name ) );
+                } );
+            }
         },
         enumerable: true,
         configurable: false
@@ -185,11 +190,14 @@ zz.model.setupStringField = function( item, name, opt_value ){
         set: function( val ){
 
             zz.model.checkStringType( val );
-			value =  val;
-			goog.async.run( function( ){
+            if( value !== val ){
 
-				item.dispatchEvent( new zz.model.ItemUpdateEvent( item, name ) );
-			} );
+                value =  val;
+                goog.async.run( function( ){
+
+                    item.dispatchEvent( new zz.model.ItemUpdateEvent( item, name ) );
+                } );
+            }
         },
         enumerable: true,
         configurable: false
