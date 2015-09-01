@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.IDataItem' );
+goog.provide( 'zz.model.IRow' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -35,10 +35,10 @@ goog.provide( 'zz.model.IDataItem' );
  * Interface for a model data item objects.
  * @interface
  */
-zz.model.IDataItem = function( ){};
+zz.model.IRow = function( ){ };
 
 /**
  * This method must to return data item schema object.
  * @return {Object} DataItem Schema object.
  */
-zz.model.IDataItem.prototype.getSchema = goog.abstractMethod;
+zz.model.IRow.prototype.getSchema = goog.abstractMethod;

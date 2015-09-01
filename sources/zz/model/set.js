@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.model.ItemDeleteEvent class.
+ * @fileoverview Provide zz.model.Set class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,14 +25,17 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.ItemDeleteEvent' );
+goog.provide( 'zz.model.Set' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'goog.events.Event' );
-goog.require( 'zz.model.EventType' );
+goog.require( 'goog.array' );
+goog.require( 'goog.async.run' );
+goog.require( 'goog.events.EventTarget' );
+goog.require( 'zz.model' );
+goog.require( 'zz.model.Error' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -40,14 +43,26 @@ goog.require( 'zz.model.EventType' );
 
 /**
  * @constructor
- * @extends {goog.events.Event}
- * @param {!zz.model.DataItem} item
+ * @extends {goog.events.EventTarget}
+ * @param {Function} type
+ * @param {Array} data
  */
-zz.model.ItemDeleteEvent = function( item ){
+zz.model.Set = function( type, data ){
 
-	goog.events.Event.call( this, zz.model.EventType.ITEM_DELETE, item );
+	/**
+	 * Current set row constructor.
+	 * @type {*}
+	 * @private
+	 */
+	this.type_ = type;
+	goog.events.EventTarget.call( this );
+	goog.array.forEach( data, function( row ){
+
+		this.createLast( row );
+
+	}, this );
 };
-goog.inherits( zz.model.ItemDeleteEvent, goog.events.Event );
+goog.inherits( zz.model.Set, goog.events.EventTarget );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -56,3 +71,27 @@ goog.inherits( zz.model.ItemDeleteEvent, goog.events.Event );
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
  **********************************************************************************************************************/
+
+/**
+ * Create new row at the first position.
+ * @param {Array} data
+ * @returns {*}
+ */
+zz.model.Set.prototype.createFirst = function( data ){
+
+	var row = new this.type_( data );
+	Array.prototype.unshift.call( this, row );
+	return row;
+};
+
+/**
+ * Create new row at the first position.
+ * @param {Array} data
+ * @returns {*}
+ */
+zz.model.Set.prototype.createLast = function( data ){
+
+	var row = new this.type_( data );
+	Array.prototype.push.call( this, row );
+	return row;
+};

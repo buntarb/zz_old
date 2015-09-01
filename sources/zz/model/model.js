@@ -32,7 +32,9 @@ goog.provide( 'zz.model' );
  **********************************************************************************************************************/
 
 goog.require( 'goog.async.run' );
-goog.require( 'zz.model.ItemUpdateEvent' );
+goog.require( 'zz.model.Error' );
+goog.require( 'zz.model.Set' );
+goog.require( 'zz.model.RowUpdateEvent' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -40,12 +42,12 @@ goog.require( 'zz.model.ItemUpdateEvent' );
 
 /**
  * Check is specified field exist in specified item, cal an exception if true.
- * @param {!zz.model.DataItem} item
- * @param {string} field
+ * @param {!zz.model.Row} item
+ * @param {string} name
  */
-zz.model.checkIfFieldExist = function( item, field ){
+zz.model.checkIfFieldExist = function( item, name ){
 
-    if( goog.isDef( item[name] ) ) throw new TypeError( 'Specified field already exist in data item.' );
+    if( goog.isDef( item[name] ) ) throw new TypeError( zz.model.Error.FIELD_ALREADY_EXIST );
 };
 
 /**
@@ -56,7 +58,7 @@ zz.model.checkBooleanType = function( value ){
 
     if( !goog.isBoolean( value ) ) {
 
-        throw new TypeError('Type mismatch. Boolean expected.');
+        throw new TypeError( zz.model.Error.TYPE_MISMATCH_BOOLEAN );
     }
 };
 
@@ -68,7 +70,7 @@ zz.model.checkNumberType = function( value ){
 
     if( !goog.isNumber( value ) ) {
 
-        throw new TypeError('Type mismatch. Number expected.');
+        throw new TypeError( zz.model.Error.TYPE_MISMATCH_NUMBER );
     }
 };
 
@@ -80,14 +82,14 @@ zz.model.checkStringType = function( value ){
 
     if( !goog.isString( value ) ) {
 
-        throw new TypeError('Type mismatch. String expected.');
+        throw new TypeError( zz.model.Error.TYPE_MISMATCH_STRING );
     }
 };
 
 /**
  * Setting up data item field with boolean type.
- * @param {!zz.model.DataItem} item
- * @param {string} name
+ * @param {!zz.model.Row} item
+ * @param {!string} name
  * @param {?*} opt_value
  */
 zz.model.setupBooleanField = function( item, name, opt_value ){
@@ -105,8 +107,8 @@ zz.model.setupBooleanField = function( item, name, opt_value ){
 
         get: function( ){
 
-            return value;
-        },
+			return value;
+		},
         set: function( val ){
 
             zz.model.checkBooleanType( val );
@@ -115,7 +117,7 @@ zz.model.setupBooleanField = function( item, name, opt_value ){
                 value =  val;
                 goog.async.run( function( ){
 
-                    item.dispatchEvent( new zz.model.ItemUpdateEvent( item, name ) );
+                    item.dispatchEvent( new zz.model.RowUpdateEvent( item, name ) );
                 } );
             }
         },
@@ -126,9 +128,9 @@ zz.model.setupBooleanField = function( item, name, opt_value ){
 
 /**
  * Setting up data item field with number type.
- * @param {!zz.model.DataItem} item
- * @param {string} name
- * @param {*} opt_value
+ * @param {!zz.model.Row} item
+ * @param {!string} name
+ * @param {?*} opt_value
  */
 zz.model.setupNumberField = function( item, name, opt_value ){
 
@@ -155,7 +157,7 @@ zz.model.setupNumberField = function( item, name, opt_value ){
                 value =  val;
                 goog.async.run( function( ){
 
-                    item.dispatchEvent( new zz.model.ItemUpdateEvent( item, name ) );
+                    item.dispatchEvent( new zz.model.RowUpdateEvent( item, name ) );
                 } );
             }
         },
@@ -166,8 +168,8 @@ zz.model.setupNumberField = function( item, name, opt_value ){
 
 /**
  * Setting up data item field with string type.
- * @param {!zz.model.DataItem} item
- * @param {string} name
+ * @param {!zz.model.Row} item
+ * @param {!string} name
  * @param {*} opt_value
  */
 zz.model.setupStringField = function( item, name, opt_value ){
@@ -195,11 +197,40 @@ zz.model.setupStringField = function( item, name, opt_value ){
                 value =  val;
                 goog.async.run( function( ){
 
-                    item.dispatchEvent( new zz.model.ItemUpdateEvent( item, name ) );
+                    item.dispatchEvent( new zz.model.RowUpdateEvent( item, name ) );
                 } );
             }
         },
         enumerable: true,
         configurable: false
     } );
+};
+
+/**
+ *
+ * @param {!zz.model.Row} item
+ * @param {!string} name
+ * @param {!Function} type
+ * @param {*} opt_value
+ */
+zz.model.setupSetField = function( item, name, type, opt_value ){
+
+	zz.model.checkIfFieldExist( item, name );
+
+	// Here we upgrade an object and create 'private' field with closure.
+	// TODO: (buntarb) check memory leaks here.
+	var value = new zz.model.Set( type, opt_value );
+	Object.defineProperty( item, name, {
+
+		get: function( ){
+
+			return value;
+		},
+		set: function( val ){
+
+			throw new TypeError( zz.model.Error.TYPE_MISMATCH_SET );
+		},
+		enumerable: true,
+		configurable: false
+	} );
 };

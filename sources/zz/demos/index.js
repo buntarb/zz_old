@@ -33,16 +33,17 @@ goog.provide( 'zz.demos.App' );
 
 goog.require( 'goog.dom' );
 goog.require( 'goog.events' );
-
 goog.require( 'zz.template' );
-goog.require( 'zz.model.TestItem' );
+goog.require( 'zz.model.Set' );
+goog.require( 'zz.model.Example1' );
+goog.require( 'zz.model.Example2' );
 goog.require( 'zz.model.EventType' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
-zz.demos.App = function( ){};
+zz.demos.App = function( ){ };
 
 /**********************************************************************************************************************
  * Static method section                                                                                              *
@@ -50,21 +51,40 @@ zz.demos.App = function( ){};
 
 zz.demos.App.run = function( ){
 
+	var set = goog.global.set = new zz.model.Set( zz.model.Example1, [
 
-	var item = goog.global.item = new zz.model.TestItem( [true, 55, 'test string 1'] );
-
-	goog.events.listen( item, zz.model.EventType.ITEM_CREATE, function( e ){
+		[true, 1, '#1', [
+			[false, 0, '?0'],
+			[false, 1, '?1'],
+			[false, 2, '?2'],
+			[false, 3, '?3'],
+			[false, 4, '?4']
+		]],
+		[true, 2, '#2', [
+			[false, 0, '?']
+		]],
+		[true, 3, '#3', [
+			[false, 0, '?']
+		]],
+		[true, 4, '#4', [
+			[false, 0, '?']
+		]],
+		[true, 5, '#5', [
+			[false, 0, '?']
+		]]
+	] );
+	goog.events.listen( set[0], zz.model.EventType.ROW_CREATE, function( e ){
 
 		console.log( e );
 	} );
-	goog.events.listen( item, zz.model.EventType.ITEM_DELETE, function( e ){
+	goog.events.listen( set[0], zz.model.EventType.ROW_DELETE, function( e ){
 
 		console.log( e );
 	} );
-	goog.events.listen( item, zz.model.EventType.ITEM_UPDATE, function( e ){
+	goog.events.listen( set[0], zz.model.EventType.ROW_UPDATE, function( e ){
 
-		var item = /** {@type zz.model.TestItem} */ ( e.target );
-		var event = /** {@type zz.model.ItemUpdateEvent} */ (e);
+		var item = /** {@type zz.model.Example1} */ ( e.target );
+		var event = /** {@type zz.model.RowUpdateEvent} */ ( e );
 		if( event.changes.stringField ){
 
 			goog.dom.getElement( 'test' ).textContent = item.stringField;

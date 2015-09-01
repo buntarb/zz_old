@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.model.TestItem class.
+ * @fileoverview Provide zz.model.Row class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,31 +25,66 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.TestItem' );
+goog.provide( 'zz.model.Row' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
+goog.require( 'goog.object' );
+goog.require( 'goog.async.run' );
+goog.require( 'goog.events.EventTarget' );
+
+goog.require( 'zz.model' );
+goog.require( 'zz.model.Error' );
+goog.require( 'zz.model.Set' );
+goog.require( 'zz.model.IRow' );
 goog.require( 'zz.model.FieldTypes' );
-goog.require( 'zz.model.IDataItem' );
-goog.require( 'zz.model.DataItem' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
+//noinspection JSClosureCompilerSyntax
 /**
  * @constructor
- * @implements {zz.model.IDataItem}
- * @extends {zz.model.DataItem}
- * @param {?Array.<boolean, number, string>} data
+ * @extends {goog.events.EventTarget}
+ * @implements zz.model.IRow
+ * @param {Array} data
  */
-zz.model.TestItem = function( data ){
+zz.model.Row = function( data ){
 
-	zz.model.DataItem.call( this, data );
+	goog.events.EventTarget.call( this );
+
+	goog.object.forEach( this.getSchema( ), function( meta, name ){
+
+		var ord = /** @type {number} */ (meta.order);
+		var typ = /** @type {zz.model.FieldTypes|Function} */ (meta.type);
+		var req = /** @type {boolean} */ (meta.required);
+
+		if( goog.isDef( data ) && req && !goog.isDefAndNotNull( data[ord] ) )
+
+			throw new TypeError( zz.model.Error.MISSING_REQUIRED_FIELD );
+
+		if( typ === zz.model.FieldTypes.BOOLEAN )
+
+			zz.model.setupBooleanField( this, name, data ? data[ord] : undefined );
+
+		if( typ === zz.model.FieldTypes.NUMBER )
+
+			zz.model.setupNumberField( this, name, data ? data[ord] : undefined );
+
+		if( typ === zz.model.FieldTypes.STRING )
+
+			zz.model.setupStringField( this, name, data ? data[ord] : undefined );
+
+		if( goog.isFunction( typ ) )
+
+			zz.model.setupSetField( this, name, typ, data ? data[ord] : undefined );
+
+	}, this );
 };
-goog.inherits( zz.model.TestItem, zz.model.DataItem );
+goog.inherits( zz.model.Row, goog.events.EventTarget );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -60,46 +95,11 @@ goog.inherits( zz.model.TestItem, zz.model.DataItem );
  **********************************************************************************************************************/
 
 /**
- * @type {boolean}
- */
-zz.model.TestItem.prototype.booleanField;
-
-/**
- * @type {number}
- */
-zz.model.TestItem.prototype.numberField;
-
-/**
- * @type {string}
- */
-zz.model.TestItem.prototype.stringField;
-
-/**
- * Return zz.model.TestItem schema object.
+ * Return schema object.
+ * @return {Object} Item Schema object.
  * @override
- * @returns {Object}
  */
-zz.model.TestItem.prototype.getSchema = function( ){
+zz.model.Row.prototype.getSchema = function( ){
 
-	return {
-
-		booleanField: {
-
-			order: 0,
-			type: zz.model.FieldTypes.BOOLEAN,
-			required:false
-		},
-		numberField: {
-
-			order: 1,
-			type: zz.model.FieldTypes.NUMBER,
-			required: true
-		},
-		stringField: {
-
-			order: 2,
-			type: zz.model.FieldTypes.STRING,
-			required: false
-		}
-	};
+	throw new TypeError( zz.model.Error.ROW_SCHEMA_NOT_IMPLEMENT );
 };
