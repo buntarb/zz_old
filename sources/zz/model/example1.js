@@ -26,13 +26,15 @@
  **********************************************************************************************************************/
 
 goog.provide( 'zz.model.Example1' );
+goog.provide( 'zz.model.Example1Set' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'zz.model.Row' );
-goog.require( 'zz.model.IRow' );
+goog.require( 'zz.model.Datarow' );
+goog.require( 'zz.model.Dataset' );
+goog.require( 'zz.model.IDatarow' );
 goog.require( 'zz.model.FieldTypes' );
 goog.require( 'zz.model.Example2' );
 
@@ -43,15 +45,16 @@ goog.require( 'zz.model.Example2' );
 //noinspection JSClosureCompilerSyntax
 /**
  * @constructor
- * @implements {zz.model.IRow}
- * @extends {zz.model.Row}
- * @param {?Array.<boolean, number, string>} data
+ * @implements {zz.model.IDatarow}
+ * @extends {zz.model.Datarow}
+ * @param {!zz.model.Dataset} dataset
+ * @param {?Array.<boolean, number, string>} opt_data
  */
-zz.model.Example1 = function( data ){
+zz.model.Example1 = function( dataset, opt_data ){
 
-	zz.model.Row.call( this, data );
+	zz.model.Datarow.call( this, dataset, opt_data );
 };
-goog.inherits( zz.model.Example1, zz.model.Row );
+goog.inherits( zz.model.Example1, zz.model.Datarow );
 
 /**********************************************************************************************************************
  * Model properties description section                                                                               *
@@ -60,17 +63,22 @@ goog.inherits( zz.model.Example1, zz.model.Row );
 /**
  * @type {boolean}
  */
-zz.model.Example1.prototype.booleanField;
+zz.model.Example1.prototype.booleanField1;
 
 /**
  * @type {number}
  */
-zz.model.Example1.prototype.numberField;
+zz.model.Example1.prototype.numberField1;
 
 /**
  * @type {string}
  */
-zz.model.Example1.prototype.stringField;
+zz.model.Example1.prototype.stringField1;
+
+/**
+ * @type {zz.model.Example2Set}
+ */
+zz.model.Example1.prototype.exampleField1;
 
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
@@ -85,29 +93,51 @@ zz.model.Example1.prototype.getSchema = function( ){
 
 	return {
 
-		booleanField: {
+		booleanField1: {
 
 			order: 0,
 			type: zz.model.FieldTypes.BOOLEAN,
 			required:false
 		},
-		numberField: {
+		numberField1: {
 
 			order: 1,
 			type: zz.model.FieldTypes.NUMBER,
 			required: true
 		},
-		stringField: {
+		stringField1: {
 
 			order: 2,
 			type: zz.model.FieldTypes.STRING,
 			required: false
 		},
-		exampleField: {
+		exampleField1: {
 
 			order: 3,
-			type: zz.model.Example2,
+			type: zz.model.Example2Set,
 			required: false
 		}
 	};
 };
+
+/**********************************************************************************************************************
+ * Definition section                                                                                                 *
+ **********************************************************************************************************************/
+
+/**
+ * @constructor
+ * @param {?goog.event.EventTarget} opt_parent
+ * @param {?Array.<Array>} opt_data
+ * @extends {zz.model.Dataset}
+ */
+zz.model.Example1Set = function( opt_parent, opt_data ){
+
+	/**
+	 * Current dataset row type.
+	 * @overwrite
+	 * @type {zz.model.Datarow}
+	 */
+	this.datarow = zz.model.Example1;
+	zz.model.Dataset.call( this, opt_parent, opt_data );
+};
+goog.inherits( zz.model.Example1Set, zz.model.Dataset );

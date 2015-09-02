@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.model.RowCreateEvent class.
+ * @fileoverview Provide zz.model.DatarowUpdateEvent class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.RowCreateEvent' );
+goog.provide( 'zz.model.DatarowUpdateEvent' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -41,13 +41,27 @@ goog.require( 'zz.model.EventType' );
 /**
  * @constructor
  * @extends {goog.events.Event}
- * @param {!zz.model.Row} item
+ * @param {!zz.model.Datarow} datarow
+ * @param {!string} datafield
+ * @param {*} old_value
+ * @param {*} new_value
  */
-zz.model.RowCreateEvent = function( item ){
+zz.model.DatarowUpdateEvent = function( datarow, datafield, old_value, new_value ){
 
-	goog.events.Event.call( this, zz.model.EventType.ROW_CREATE, item );
+	goog.events.Event.call( this, zz.model.EventType.DATAROW_UPDATE, datarow );
+
+	/**
+	 * Changes map.
+	 * @type {Object}
+	 */
+	this.changes = {};
+
+	/**
+	 * @type {boolean}
+	 */
+	this.changes[datafield] = [old_value, new_value];
 };
-goog.inherits( zz.model.RowCreateEvent, goog.events.Event );
+goog.inherits( zz.model.DatarowUpdateEvent, goog.events.Event );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *

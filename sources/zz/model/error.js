@@ -37,12 +37,12 @@ goog.provide( 'zz.model.Error' );
  */
 zz.model.Error = {
 
-	UNDEFINED_SET_TYPE: 'Undefined set type.',
-	ROW_SCHEMA_NOT_IMPLEMENT: 'Row schema method not implement.',
-	MISSING_REQUIRED_FIELD: 'Missing required field.',
-    FIELD_ALREADY_EXIST: 'Field already exist.',
+	DATAROW_TYPE_UNDEFINED: 'Dataset row type is undefined.',
+	DATAROW_SCHEMA_UNDEFINED: 'Dataset row schema is undefined.',
+	FIELD_EXIST: 'Field already exist.',
+	FIELD_REQUIRED: 'Missing required field.',
 	TYPE_MISMATCH_BOOLEAN: 'Type mismatch. Boolean expected.',
 	TYPE_MISMATCH_NUMBER: 'Type mismatch. Number expected.',
 	TYPE_MISMATCH_STRING: 'Type mismatch. String expected.',
-	TYPE_MISMATCH_SET: 'Type mismatch. Set expected.'
+	TYPE_MISMATCH_DATASET: 'Type mismatch. Can\'t reset field with dataset type.'
 };

@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.model.RowDeleteEvent class.
+ * @fileoverview Provide zz.model.Datarow class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,29 +25,66 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.RowDeleteEvent' );
+goog.provide( 'zz.model.Datarow' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'goog.events.Event' );
-goog.require( 'zz.model.EventType' );
+goog.require( 'goog.object' );
+goog.require( 'goog.async.run' );
+goog.require( 'goog.events.EventTarget' );
+goog.require( 'zz.model' );
+goog.require( 'zz.model.Error' );
+goog.require( 'zz.model.IDatarow' );
+goog.require( 'zz.model.FieldTypes' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
+//noinspection JSClosureCompilerSyntax
 /**
  * @constructor
- * @extends {goog.events.Event}
- * @param {!zz.model.Row} item
+ * @extends {goog.events.EventTarget}
+ * @implements zz.model.IDatarow
+ * @param {!zz.model.Dataset} dataset
+ * @param {?Array} opt_data
  */
-zz.model.RowDeleteEvent = function( item ){
+zz.model.Datarow = function( dataset, opt_data ){
 
-	goog.events.Event.call( this, zz.model.EventType.ROW_DELETE, item );
+	goog.events.EventTarget.call( this );
+	this.setParentEventTarget( dataset );
+
+	goog.object.forEach( this.getSchema( ), function( meta, name ){
+
+		var ord = /** @type {number} */ (meta.order);
+		var typ = /** @type {zz.model.FieldTypes|Function} */ (meta.type);
+		var req = /** @type {boolean} */ (meta.required);
+
+		if( goog.isDef( opt_data ) && req && !goog.isDefAndNotNull( opt_data[ord] ) )
+
+			throw new TypeError( zz.model.Error.FIELD_REQUIRED );
+
+		if( typ === zz.model.FieldTypes.BOOLEAN )
+
+			zz.model.setupBooleanField( this, name, opt_data ? opt_data[ord] : undefined );
+
+		if( typ === zz.model.FieldTypes.NUMBER )
+
+			zz.model.setupNumberField( this, name, opt_data ? opt_data[ord] : undefined );
+
+		if( typ === zz.model.FieldTypes.STRING )
+
+			zz.model.setupStringField( this, name, opt_data ? opt_data[ord] : undefined );
+
+		if( goog.isFunction( typ ) )
+
+			zz.model.setupDatasetField( this, name, typ, opt_data ? opt_data[ord] : undefined );
+
+	}, this );
 };
-goog.inherits( zz.model.RowDeleteEvent, goog.events.Event );
+goog.inherits( zz.model.Datarow, goog.events.EventTarget );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -56,3 +93,13 @@ goog.inherits( zz.model.RowDeleteEvent, goog.events.Event );
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
  **********************************************************************************************************************/
+
+/**
+ * Return schema object.
+ * @return {Object} Item Schema object.
+ * @override
+ */
+zz.model.Datarow.prototype.getSchema = function( ){
+
+	throw new TypeError( zz.model.Error.DATAROW_SCHEMA_UNDEFINED );
+};

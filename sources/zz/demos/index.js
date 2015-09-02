@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.demos.App' );
+goog.provide( 'zz.demos.app' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -34,67 +34,116 @@ goog.provide( 'zz.demos.App' );
 goog.require( 'goog.dom' );
 goog.require( 'goog.events' );
 goog.require( 'zz.template' );
-goog.require( 'zz.model.Set' );
-goog.require( 'zz.model.Example1' );
-goog.require( 'zz.model.Example2' );
+goog.require( 'zz.model.Example1Set' );
 goog.require( 'zz.model.EventType' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
-zz.demos.App = function( ){ };
+zz.demos.app = { };
 
 /**********************************************************************************************************************
  * Static method section                                                                                              *
  **********************************************************************************************************************/
 
-zz.demos.App.run = function( ){
+zz.demos.app.run = function( ){
 
-	var set = goog.global.set = new zz.model.Set( zz.model.Example1, [
+	var generate = goog.global.generate = function( ){
 
-		[true, 1, '#1', [
-			[false, 0, '?0'],
-			[false, 1, '?1'],
-			[false, 2, '?2'],
-			[false, 3, '?3'],
-			[false, 4, '?4']
-		]],
-		[true, 2, '#2', [
-			[false, 0, '?']
-		]],
-		[true, 3, '#3', [
-			[false, 0, '?']
-		]],
-		[true, 4, '#4', [
-			[false, 0, '?']
-		]],
-		[true, 5, '#5', [
-			[false, 0, '?']
-		]]
-	] );
-	goog.events.listen( set[0], zz.model.EventType.ROW_CREATE, function( e ){
+		var set = goog.global.set = [];
 
-		console.log( e );
-	} );
-	goog.events.listen( set[0], zz.model.EventType.ROW_DELETE, function( e ){
+		for( var i = 0; i < 100; i++ ){
 
-		console.log( e );
-	} );
-	goog.events.listen( set[0], zz.model.EventType.ROW_UPDATE, function( e ){
+			set[i] = new zz.model.Example1Set( undefined, [
 
-		var item = /** {@type zz.model.Example1} */ ( e.target );
-		var event = /** {@type zz.model.RowUpdateEvent} */ ( e );
-		if( event.changes.stringField ){
+				[true, 1, '#1', [
 
-			goog.dom.getElement( 'test' ).textContent = item.stringField;
+					[false, 0, '?0'],
+					[false, 1, '?1'],
+					[false, 2, '?2'],
+					[false, 3, '?3'],
+					[false, 4, '?4']
+				]],
+				[true, 2, '#2', [
+
+					[false, 0, '?'],
+					[false, 1, '?1'],
+					[false, 2, '?2'],
+					[false, 3, '?3'],
+					[false, 4, '?4']
+				]],
+				[true, 3, '#3', [
+
+					[false, 0, '?'],
+					[false, 1, '?1'],
+					[false, 2, '?2'],
+					[false, 3, '?3'],
+					[false, 4, '?4']
+				]],
+				[true, 4, '#4', [
+
+					[false, 0, '?'],
+					[false, 1, '?1'],
+					[false, 2, '?2'],
+					[false, 3, '?3'],
+					[false, 4, '?4']
+				]],
+				[true, 5, '#5', [
+
+					[false, 0, '?'],
+					[false, 1, '?1'],
+					[false, 2, '?2'],
+					[false, 3, '?3'],
+					[false, 4, '?4']
+				]]
+			] );
+
+//			var capture = false;
+//
+//			goog.events.listen( set[i], zz.model.EventType.DATAROW_UPDATE, function( evt ){
+//
+//				console.log( 'Parent dataset level' );
+//				console.log( evt );
+//
+//			}, capture );
+//
+//			goog.events.listen( set[i][0], zz.model.EventType.DATAROW_UPDATE, function( evt ){
+//
+//				console.log( 'Parent datarow level' );
+//				console.log( evt );
+//
+//			}, capture );
+//
+//			goog.events.listen( set[i][0].exampleField1, zz.model.EventType.DATAROW_UPDATE, function( evt ){
+//
+//				console.log( 'Child dataset level' );
+//				console.log( evt );
+//
+//			}, capture );
+//
+//			goog.events.listen( set[i][0].exampleField1[0], zz.model.EventType.DATAROW_UPDATE, function( evt ){
+//
+//				console.log( 'Child datarow level' );
+//				console.log( evt );
+//
+//			}, capture );
 		}
-	} );
-	goog.dom.getDocument( ).write( zz.template.test( ) );
+	};
+
+	var clear = goog.global.clear = function( ){
+
+		for( var i = 0; i < 100; i++ ){
+
+			goog.global.set[i] = null;
+		}
+		goog.global.set = null;
+		delete goog.global.set;
+	};
 };
 
 /**********************************************************************************************************************
  * Public API export section                                                                                          *
  **********************************************************************************************************************/
 
-goog.exportSymbol( 'zz.demos.App.run', zz.demos.App.run );
+goog.exportSymbol( 'zz.demos.app.run', zz.demos.app.run );

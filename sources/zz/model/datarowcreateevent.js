@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.model.RowUpdateEvent class.
+ * @fileoverview Provide zz.model.DatarowCreateEvent class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.RowUpdateEvent' );
+goog.provide( 'zz.model.DatarowCreateEvent' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -41,19 +41,13 @@ goog.require( 'zz.model.EventType' );
 /**
  * @constructor
  * @extends {goog.events.Event}
- * @param {!zz.model.Row} item
- * @param {!string} name
+ * @param {!zz.model.Datarow} item
  */
-zz.model.RowUpdateEvent = function( item, name ){
+zz.model.DatarowCreateEvent = function( item ){
 
-	goog.events.Event.call( this, zz.model.EventType.ROW_UPDATE, item );
-
-	/**
-	 * @type {boolean}
-	 */
-	this.changes[name] = true;
+	goog.events.Event.call( this, zz.model.EventType.DATAROW_CREATE, item );
 };
-goog.inherits( zz.model.RowUpdateEvent, goog.events.Event );
+goog.inherits( zz.model.DatarowCreateEvent, goog.events.Event );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -62,9 +56,3 @@ goog.inherits( zz.model.RowUpdateEvent, goog.events.Event );
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
  **********************************************************************************************************************/
-
-/**
- *
- * @type {{}}
- */
-zz.model.RowUpdateEvent.prototype.changes = {};

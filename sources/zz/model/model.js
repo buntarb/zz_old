@@ -33,8 +33,7 @@ goog.provide( 'zz.model' );
 
 goog.require( 'goog.async.run' );
 goog.require( 'zz.model.Error' );
-goog.require( 'zz.model.Set' );
-goog.require( 'zz.model.RowUpdateEvent' );
+goog.require( 'zz.model.DatarowUpdateEvent' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -42,12 +41,12 @@ goog.require( 'zz.model.RowUpdateEvent' );
 
 /**
  * Check is specified field exist in specified item, cal an exception if true.
- * @param {!zz.model.Row} item
- * @param {string} name
+ * @param {!zz.model.Datarow} datarow
+ * @param {string} datafield
  */
-zz.model.checkIfFieldExist = function( item, name ){
+zz.model.checkIfFieldExist = function( datarow, datafield ){
 
-    if( goog.isDef( item[name] ) ) throw new TypeError( zz.model.Error.FIELD_ALREADY_EXIST );
+    if( goog.isDef( datarow[datafield] ) ) throw new TypeError( zz.model.Error.FIELD_EXIST );
 };
 
 /**
@@ -88,22 +87,24 @@ zz.model.checkStringType = function( value ){
 
 /**
  * Setting up data item field with boolean type.
- * @param {!zz.model.Row} item
- * @param {!string} name
+ * @param {!zz.model.Datarow} datarow
+ * @param {!string} datafield
  * @param {?*} opt_value
  */
-zz.model.setupBooleanField = function( item, name, opt_value ){
+zz.model.setupBooleanField = function( datarow, datafield, opt_value ){
 
     if( goog.isDef( opt_value) )
 
         zz.model.checkBooleanType( opt_value );
 
-    zz.model.checkIfFieldExist( item, name );
+    zz.model.checkIfFieldExist( datarow, datafield );
 
     // Here we upgrade an object and create 'private' field with closure.
     // TODO: (buntarb) check memory leaks here.
+
     var value = goog.isDef( opt_value ) ? opt_value : null;
-    Object.defineProperty( item, name, {
+
+    Object.defineProperty( datarow, datafield, {
 
         get: function( ){
 
@@ -114,10 +115,18 @@ zz.model.setupBooleanField = function( item, name, opt_value ){
             zz.model.checkBooleanType( val );
             if( value !== val ){
 
+				var old_value = value;
+				var new_value = val;
                 value =  val;
                 goog.async.run( function( ){
 
-                    item.dispatchEvent( new zz.model.RowUpdateEvent( item, name ) );
+					datarow.dispatchEvent( new zz.model.DatarowUpdateEvent(
+
+						datarow,
+						datafield,
+						old_value,
+						new_value
+					) );
                 } );
             }
         },
@@ -128,22 +137,24 @@ zz.model.setupBooleanField = function( item, name, opt_value ){
 
 /**
  * Setting up data item field with number type.
- * @param {!zz.model.Row} item
- * @param {!string} name
+ * @param {!zz.model.Datarow} datarow
+ * @param {!string} datafield
  * @param {?*} opt_value
  */
-zz.model.setupNumberField = function( item, name, opt_value ){
+zz.model.setupNumberField = function( datarow, datafield, opt_value ){
 
     if( goog.isDef( opt_value) )
 
         zz.model.checkNumberType( opt_value );
 
-    zz.model.checkIfFieldExist( item, name );
+    zz.model.checkIfFieldExist( datarow, datafield );
 
     // Here we upgrade an object and create 'private' field with closure.
     // TODO: (buntarb) check memory leaks here.
+
     var value = goog.isDef( opt_value ) ? opt_value : null;
-    Object.defineProperty( item, name, {
+
+    Object.defineProperty( datarow, datafield, {
 
         get: function( ){
 
@@ -154,11 +165,19 @@ zz.model.setupNumberField = function( item, name, opt_value ){
             zz.model.checkNumberType( val );
             if( value !== val ){
 
-                value =  val;
-                goog.async.run( function( ){
+				var old_value = value;
+				var new_value = val;
+				value =  val;
+				goog.async.run( function( ){
 
-                    item.dispatchEvent( new zz.model.RowUpdateEvent( item, name ) );
-                } );
+					datarow.dispatchEvent( new zz.model.DatarowUpdateEvent(
+
+						datarow,
+						datafield,
+						old_value,
+						new_value
+					) );
+				} );
             }
         },
         enumerable: true,
@@ -168,22 +187,24 @@ zz.model.setupNumberField = function( item, name, opt_value ){
 
 /**
  * Setting up data item field with string type.
- * @param {!zz.model.Row} item
- * @param {!string} name
+ * @param {!zz.model.Datarow} datarow
+ * @param {!string} datafield
  * @param {*} opt_value
  */
-zz.model.setupStringField = function( item, name, opt_value ){
+zz.model.setupStringField = function( datarow, datafield, opt_value ){
 
     if( goog.isDef( opt_value) )
 
         zz.model.checkStringType( opt_value );
 
-    zz.model.checkIfFieldExist( item, name );
+    zz.model.checkIfFieldExist( datarow, datafield );
 
     // Here we upgrade an object and create 'private' field with closure.
     // TODO: (buntarb) check memory leaks here.
+
     var value = goog.isDef( opt_value ) ? opt_value : null;
-    Object.defineProperty( item, name, {
+
+    Object.defineProperty( datarow, datafield, {
 
         get: function( ){
 
@@ -194,11 +215,19 @@ zz.model.setupStringField = function( item, name, opt_value ){
             zz.model.checkStringType( val );
             if( value !== val ){
 
-                value =  val;
-                goog.async.run( function( ){
+				var old_value = value;
+				var new_value = val;
+				value =  val;
+				goog.async.run( function( ){
 
-                    item.dispatchEvent( new zz.model.RowUpdateEvent( item, name ) );
-                } );
+					datarow.dispatchEvent( new zz.model.DatarowUpdateEvent(
+
+						datarow,
+						datafield,
+						old_value,
+						new_value
+					) );
+				} );
             }
         },
         enumerable: true,
@@ -207,28 +236,29 @@ zz.model.setupStringField = function( item, name, opt_value ){
 };
 
 /**
- *
- * @param {!zz.model.Row} item
- * @param {!string} name
- * @param {!Function} type
+ * @param {!zz.model.Datarow} datarow
+ * @param {!string} datafield
+ * @param {!Function} datatype
  * @param {*} opt_value
  */
-zz.model.setupSetField = function( item, name, type, opt_value ){
+zz.model.setupDatasetField = function( datarow, datafield, datatype, opt_value ){
 
-	zz.model.checkIfFieldExist( item, name );
+	zz.model.checkIfFieldExist( datarow, datafield );
 
 	// Here we upgrade an object and create 'private' field with closure.
 	// TODO: (buntarb) check memory leaks here.
-	var value = new zz.model.Set( type, opt_value );
-	Object.defineProperty( item, name, {
+
+	var value = new datatype( datarow, opt_value );
+
+	Object.defineProperty( datarow, datafield, {
 
 		get: function( ){
 
 			return value;
 		},
-		set: function( val ){
+		set: function( ){
 
-			throw new TypeError( zz.model.Error.TYPE_MISMATCH_SET );
+			throw new TypeError( zz.model.Error.TYPE_MISMATCH_DATASET );
 		},
 		enumerable: true,
 		configurable: false

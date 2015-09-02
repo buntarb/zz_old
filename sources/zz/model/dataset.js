@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.model.Row class.
+ * @fileoverview Provide zz.model.Dataset class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,81 +25,83 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.Row' );
+goog.provide( 'zz.model.Dataset' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'goog.object' );
+goog.require( 'goog.array' );
 goog.require( 'goog.async.run' );
 goog.require( 'goog.events.EventTarget' );
-
 goog.require( 'zz.model' );
 goog.require( 'zz.model.Error' );
-goog.require( 'zz.model.Set' );
-goog.require( 'zz.model.IRow' );
-goog.require( 'zz.model.FieldTypes' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
-//noinspection JSClosureCompilerSyntax
 /**
  * @constructor
  * @extends {goog.events.EventTarget}
- * @implements zz.model.IRow
- * @param {Array} data
+ * @param {?goog.events.EventTarget} opt_parent
+ * @param {?Array.<Array>} opt_data
  */
-zz.model.Row = function( data ){
+zz.model.Dataset = function( opt_parent, opt_data ){
 
 	goog.events.EventTarget.call( this );
 
-	goog.object.forEach( this.getSchema( ), function( meta, name ){
+	if( opt_parent )
 
-		var ord = /** @type {number} */ (meta.order);
-		var typ = /** @type {zz.model.FieldTypes|Function} */ (meta.type);
-		var req = /** @type {boolean} */ (meta.required);
+		this.setParentEventTarget( opt_parent );
 
-		if( goog.isDef( data ) && req && !goog.isDefAndNotNull( data[ord] ) )
+	goog.array.forEach( opt_data, function( datarow ){
 
-			throw new TypeError( zz.model.Error.MISSING_REQUIRED_FIELD );
-
-		if( typ === zz.model.FieldTypes.BOOLEAN )
-
-			zz.model.setupBooleanField( this, name, data ? data[ord] : undefined );
-
-		if( typ === zz.model.FieldTypes.NUMBER )
-
-			zz.model.setupNumberField( this, name, data ? data[ord] : undefined );
-
-		if( typ === zz.model.FieldTypes.STRING )
-
-			zz.model.setupStringField( this, name, data ? data[ord] : undefined );
-
-		if( goog.isFunction( typ ) )
-
-			zz.model.setupSetField( this, name, typ, data ? data[ord] : undefined );
+		this.createLast( datarow );
 
 	}, this );
 };
-goog.inherits( zz.model.Row, goog.events.EventTarget );
+goog.inherits( zz.model.Dataset, goog.events.EventTarget );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
  **********************************************************************************************************************/
+
+/**
+ * Current dataset row type.
+ * @type {zz.model.Datarow}
+ * @param {zz.model.Dataset} dataset
+ * @param {Array} data
+ */
+zz.model.Dataset.prototype.datarow = function( dataset, data ){
+
+	throw new TypeError( zz.model.Error.DATAROW_TYPE_UNDEFINED );
+};
 
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
  **********************************************************************************************************************/
 
 /**
- * Return schema object.
- * @return {Object} Item Schema object.
- * @override
+ * Create new row at the first position.
+ * @param {Array} data
+ * @returns {*}
  */
-zz.model.Row.prototype.getSchema = function( ){
+zz.model.Dataset.prototype.createFirst = function( data ){
 
-	throw new TypeError( zz.model.Error.ROW_SCHEMA_NOT_IMPLEMENT );
+	var row = new this.datarow( this, data );
+	Array.prototype.unshift.call( this, row );
+	return row;
+};
+
+/**
+ * Create new row at the first position.
+ * @param {Array} data
+ * @returns {*}
+ */
+zz.model.Dataset.prototype.createLast = function( data ){
+
+	var row = new this.datarow( this, data );
+	Array.prototype.push.call( this, row );
+	return row;
 };

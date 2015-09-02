@@ -43,7 +43,7 @@ goog.require( 'goog.events' );
  */
 zz.model.EventType = {
 
-    ROW_CREATE: goog.events.getUniqueId( 'row_create' ),
-	ROW_UPDATE: goog.events.getUniqueId( 'row_update' ),
-	ROW_DELETE: goog.events.getUniqueId( 'row_delete' )
+    DATAROW_CREATE: goog.events.getUniqueId( 'datarow_create' ),
+	DATAROW_UPDATE: goog.events.getUniqueId( 'datarow_update' ),
+	DATAROW_DELETE: goog.events.getUniqueId( 'datarow_delete' )
 };
