@@ -60,12 +60,20 @@ zz.model.Dataset = function( opt_parent, opt_data ){
 		this.createLast( datarow );
 
 	}, this );
+	this.index_ = this.length > 0 ? 0 : undefined;
 };
 goog.inherits( zz.model.Dataset, goog.events.EventTarget );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
  **********************************************************************************************************************/
+
+/**
+ * Dataset cursor current position.
+ * @type {number}
+ * @private
+ */
+zz.model.Dataset.prototype.index_ = undefined;
 
 /**
  * Current dataset row type.
@@ -91,6 +99,7 @@ zz.model.Dataset.prototype.createFirst = function( data ){
 
 	var row = new this.datarow( this, data );
 	Array.prototype.unshift.call( this, row );
+	this.index_ = 0;
 	return row;
 };
 
@@ -103,5 +112,155 @@ zz.model.Dataset.prototype.createLast = function( data ){
 
 	var row = new this.datarow( this, data );
 	Array.prototype.push.call( this, row );
+	this.index_ = this.length - 1;
 	return row;
+};
+
+/**
+ * Delete first datarow from dataset if it exist.
+ * @returns {boolean}
+ */
+zz.model.Dataset.prototype.deleteFirst = function( ){
+
+	if( this.length > 0 ){
+
+		Array.prototype.shift.call( this );
+		this.index_ = this.length > 0 ? 0 : undefined;
+		return true;
+
+	}else{
+
+		return false;
+	}
+};
+
+/**
+ * Delete last datarow from dataset if it exist.
+ * @returns {boolean}
+ */
+zz.model.Dataset.prototype.deleteLast = function( ){
+
+	if( this.length > 0 ){
+
+		Array.prototype.pop.call( this );
+		this.index_ = this.length > 0 ? ( this.length - 1 ) : undefined;
+		return true;
+
+	}else{
+
+		return false;
+	}
+};
+
+/**
+ * Delete current datarow from dataset if exist.
+ * @returns {boolean}
+ */
+zz.model.Dataset.prototype.deleteCurrent = function( ){
+
+	if( goog.isDef( this.index_ ) && goog.isNumber( this.index_ ) ){
+
+		Array.prototype.splice.call( this, this.index_, 1 );
+		this.index_ = this.index_ < this.length ? this.index_ :
+
+			this.length > 0 ? this.index_ - 1 : undefined;
+
+		return true;
+
+	}else{
+
+		return false;
+	}
+};
+
+/**
+ * Return datarow index by specified unique id.
+ * @param {string} id
+ * @returns {number|undefined}
+ */
+zz.model.Dataset.prototype.getIndexByUniqueId = function( id ){
+
+	var index = undefined;
+	if( this.length > 0 ){
+
+		goog.array.forEach( this, function( datarow, key ){
+
+			if( datarow.getUniqueId( ) === id ){
+
+				this.index_ = key;
+				index = key;
+			}
+		}, this );
+	}
+	return index;
+};
+
+/**
+ * Return first datarow from current dataset if it exists, false otherwise.
+ * @returns {zz.model.Datarow|boolean}
+ */
+zz.model.Dataset.prototype.firstDatarow = function( ){
+
+	this.index_ = this.length > 0 ? 0 : undefined;
+
+	if( goog.isDef( this.index_ ) ){
+
+		return this[this.index_];
+
+	}else{
+
+		return false;
+	}
+};
+
+/**
+ * Return last datarow from current dataset if it exists, false otherwise.
+ * @returns {zz.model.Datarow|boolean}
+ */
+zz.model.Dataset.prototype.lastDatarow = function( ){
+
+	this.index_ = this.length > 0 ? this.length - 1 : undefined;
+
+	if( goog.isDef( this.index_ ) ){
+
+		return this[this.index_];
+
+	}else{
+
+		return false;
+	}
+};
+
+/**
+ * Return next datarow from current dataset if it exists, false otherwise.
+ * @returns {zz.model.Datarow|boolean}
+ */
+zz.model.Dataset.prototype.nextDatarow = function( ){
+
+	if( this.length > 0 && this.index_ < ( this.length - 1 ) ){
+
+		this.index_++;
+		return this[this.index_];
+
+	}else{
+
+		return false;
+	}
+};
+
+/**
+ * Return next datarow from current dataset if it exists, false otherwise.
+ * @returns {zz.model.Datarow|boolean}
+ */
+zz.model.Dataset.prototype.previousDatarow = function( ){
+
+	if( this.length > 0 && this.index_ > 0 ){
+
+		this.index_--;
+		return this[this.index_];
+
+	}else{
+
+		return false;
+	}
 };

@@ -55,6 +55,7 @@ zz.model.Datarow = function( dataset, opt_data ){
 
 	goog.events.EventTarget.call( this );
 	this.setParentEventTarget( dataset );
+	this.datarowUniqueId_ = zz.model.getUniqueDatarowId( );
 
 	goog.object.forEach( this.getSchema( ), function( meta, name ){
 
@@ -90,6 +91,13 @@ goog.inherits( zz.model.Datarow, goog.events.EventTarget );
  * Prototype properties section                                                                                       *
  **********************************************************************************************************************/
 
+/**
+ * Current datarow unique ID.
+ * @type {string}
+ * @private
+ */
+zz.model.Datarow.prototype.datarowUniqueId_ = '';
+
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
  **********************************************************************************************************************/
@@ -102,4 +110,13 @@ goog.inherits( zz.model.Datarow, goog.events.EventTarget );
 zz.model.Datarow.prototype.getSchema = function( ){
 
 	throw new TypeError( zz.model.Error.DATAROW_SCHEMA_UNDEFINED );
+};
+
+/**
+ * Return current datarow unique ID.
+ * @returns {string}
+ */
+zz.model.Datarow.prototype.getUniqueId = function( ){
+
+	return this.datarowUniqueId_;
 };

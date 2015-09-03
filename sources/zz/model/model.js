@@ -40,6 +40,21 @@ goog.require( 'zz.model.DatarowUpdateEvent' );
  **********************************************************************************************************************/
 
 /**
+ * Increment counter for datarows ID's. Used in zz.model.getUniqueDatarowId function.
+ * @type {number}
+ */
+var iCounter = 0;
+
+/**
+ * Return unique ID for datarow.
+ * @returns {string}
+ */
+zz.model.getUniqueDatarowId = function( ){
+
+    return 'datarow#' + iCounter++;
+};
+
+/**
  * Check is specified field exist in specified item, cal an exception if true.
  * @param {!zz.model.Datarow} datarow
  * @param {string} datafield

@@ -49,11 +49,11 @@ zz.demos.app = { };
 
 zz.demos.app.run = function( ){
 
-	var generate = goog.global.generate = function( ){
 
-		var set = goog.global.set = [];
+	var set = goog.global.set = [];
+	var generate = goog.global.generate = function( n ){
 
-		for( var i = 0; i < 100; i++ ){
+		for( var i = 0; i < n; i++ ){
 
 			set[i] = new zz.model.Example1Set( undefined, [
 
@@ -130,16 +130,17 @@ zz.demos.app.run = function( ){
 //			}, capture );
 		}
 	};
+	var clear = goog.global.clear = function( n ){
 
-	var clear = goog.global.clear = function( ){
-
-		for( var i = 0; i < 100; i++ ){
+		for( var i = 0; i < n; i++ ){
 
 			goog.global.set[i] = null;
 		}
 		goog.global.set = null;
 		delete goog.global.set;
 	};
+	generate( 5 );
+	console.log( set[0].getIndexByUniqueId( 'datarow#18' ) );
 };
 
 /**********************************************************************************************************************
