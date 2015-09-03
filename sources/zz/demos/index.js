@@ -33,6 +33,9 @@ goog.provide( 'zz.demos.app' );
 
 goog.require( 'goog.dom' );
 goog.require( 'goog.events' );
+goog.require( 'goog.events.EventType' );
+goog.require( 'goog.ui.Component' );
+goog.require( 'goog.ui.Button' );
 goog.require( 'zz.template' );
 goog.require( 'zz.model.Example1Set' );
 goog.require( 'zz.model.EventType' );
@@ -51,6 +54,7 @@ zz.demos.app.run = function( ){
 
 
 	var set = goog.global.set = [];
+
 	var generate = goog.global.generate = function( n ){
 
 		for( var i = 0; i < n; i++ ){
@@ -139,8 +143,48 @@ zz.demos.app.run = function( ){
 		goog.global.set = null;
 		delete goog.global.set;
 	};
-	generate( 5 );
-	console.log( set[0].getIndexByUniqueId( 'datarow#18' ) );
+
+	var button = new goog.ui.Button( 'Button' );
+	var component = new goog.ui.Component( );
+
+	component.render( goog.dom.getElement( 'root' ) );
+	component.addChild( button );
+
+	button.setTooltip( 'Some tooltip here' );
+	button.render( component.getElement( ) );
+
+	var EVENTS1 = goog.object.getValues( goog.ui.Component.EventType );
+	var capture = true;
+
+	goog.events.listen( button, EVENTS1, function( evt ){
+
+		console.log( 'B-level: ' + goog.now( ) );
+
+		goog.dom.getElement( 'logger' ).textContent =
+
+			goog.dom.getElement( 'logger' ).textContent + 'B-level: ' + goog.now( ) + '; ';
+
+	}, capture );
+
+	goog.events.listen( component, EVENTS1, function( evt ){
+
+		console.log( 'C-level: ' + goog.now( ) );
+
+		goog.dom.getElement( 'logger' ).textContent =
+
+			goog.dom.getElement( 'logger' ).textContent + 'C-level: ' + goog.now( ) + '; ';
+
+	}, capture );
+
+	goog.events.listen( window, goog.events.EventType.TOUCHSTART, function( evt ){
+
+		console.log( 'W-level: ' + goog.now( ) );
+
+		goog.dom.getElement( 'logger' ).textContent =
+
+			goog.dom.getElement( 'logger' ).textContent + 'W-level: ' + goog.now( ) + '; ';
+
+	}, capture );
 };
 
 /**********************************************************************************************************************
