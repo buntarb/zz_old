@@ -55,9 +55,15 @@ zz.model.Datarow = function( dataset, opt_data ){
 
 	goog.events.EventTarget.call( this );
 	this.setParentEventTarget( dataset );
-	this.datarowUniqueId_ = zz.model.getUniqueDatarowId( );
 
-	goog.object.forEach( this.getSchema( ), function( meta, name ){
+	/**
+	 * Current datarow unique ID.
+	 * @type {string}
+	 * @private
+	 */
+	this.datarowId_ = zz.model.getUniqueDatarowId( );
+
+	goog.object.forEach( this.getSchema_( ), function( meta, name ){
 
 		var ord = /** @type {number} */ (meta.order);
 		var typ = /** @type {zz.model.FieldTypes|Function} */ (meta.type);
@@ -91,13 +97,6 @@ goog.inherits( zz.model.Datarow, goog.events.EventTarget );
  * Prototype properties section                                                                                       *
  **********************************************************************************************************************/
 
-/**
- * Current datarow unique ID.
- * @type {string}
- * @private
- */
-zz.model.Datarow.prototype.datarowUniqueId_ = '';
-
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
  **********************************************************************************************************************/
@@ -105,9 +104,10 @@ zz.model.Datarow.prototype.datarowUniqueId_ = '';
 /**
  * Return schema object.
  * @return {Object} Item Schema object.
+ * @private
  * @override
  */
-zz.model.Datarow.prototype.getSchema = function( ){
+zz.model.Datarow.prototype.getSchema_ = function( ){
 
 	throw new TypeError( zz.model.Error.DATAROW_SCHEMA_UNDEFINED );
 };
@@ -116,7 +116,16 @@ zz.model.Datarow.prototype.getSchema = function( ){
  * Return current datarow unique ID.
  * @returns {string}
  */
-zz.model.Datarow.prototype.getUniqueId = function( ){
+zz.model.Datarow.prototype.getId = function( ){
 
-	return this.datarowUniqueId_;
+	return this.datarowId_;
+};
+
+/**
+ * Set specified id to current datarow. Note: id must to be globally unique.
+ * @param {string} id
+ */
+zz.model.Datarow.prototype.setId = function( id ){
+
+	this.datarowId_ = id;
 };

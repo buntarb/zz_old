@@ -41,11 +41,13 @@ goog.require( 'zz.model.EventType' );
 /**
  * @constructor
  * @extends {goog.events.Event}
- * @param {!zz.model.Datarow} item
+ * @param {!zz.model.Dataset} dataset
+ * @param {!zz.model.Datarow} datarow
  */
-zz.model.DatarowDeleteEvent = function( item ){
+zz.model.DatarowDeleteEvent = function( dataset, datarow ){
 
-	goog.events.Event.call( this, zz.model.EventType.DATAROW_DELETE, item );
+	goog.events.Event.call( this, zz.model.EventType.DATAROW_DELETE, dataset );
+	this.deletedDatarow_ = datarow;
 };
 goog.inherits( zz.model.DatarowDeleteEvent, goog.events.Event );
 
@@ -56,3 +58,13 @@ goog.inherits( zz.model.DatarowDeleteEvent, goog.events.Event );
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
  **********************************************************************************************************************/
+
+/**
+ * Return deleted datarow object.
+ * TODO(buntarb): Check memory leaks here.
+ * @returns {zz.model.Datarow}
+ */
+zz.model.DatarowDeleteEvent.prototype.getDeletedDatarow = function( ){
+
+	return this.deletedDatarow_;
+};

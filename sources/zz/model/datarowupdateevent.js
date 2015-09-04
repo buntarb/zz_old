@@ -59,7 +59,11 @@ zz.model.DatarowUpdateEvent = function( datarow, datafield, old_value, new_value
 	/**
 	 * @type {boolean}
 	 */
-	this.changes[datafield] = [old_value, new_value];
+	this.changes[datafield] = {
+
+		from: old_value,
+		to: new_value
+	};
 };
 goog.inherits( zz.model.DatarowUpdateEvent, goog.events.Event );
 

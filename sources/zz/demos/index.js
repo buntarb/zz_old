@@ -37,7 +37,7 @@ goog.require( 'goog.events.EventType' );
 goog.require( 'goog.ui.Component' );
 goog.require( 'goog.ui.Button' );
 goog.require( 'zz.template' );
-goog.require( 'zz.model.Example1Set' );
+goog.require( 'zz.model.ExampleUserSet' );
 goog.require( 'zz.model.EventType' );
 
 /**********************************************************************************************************************
@@ -45,104 +45,150 @@ goog.require( 'zz.model.EventType' );
  **********************************************************************************************************************/
 
 zz.demos.app = { };
-
-/**********************************************************************************************************************
- * Static method section                                                                                              *
- **********************************************************************************************************************/
-
 zz.demos.app.run = function( ){
 
+	/******************************************************************************************************************
+	 * Data manipulation examples                                                                                     *
+	 ******************************************************************************************************************/
 
-	var set = goog.global.set = [];
+	/**
+	 * @type {zz.model.ExampleUserSet}
+	 */
+	var userSet = goog.global.userSet = new zz.model.ExampleUserSet( undefined, [[
 
-	var generate = goog.global.generate = function( n ){
+		'Ivan',
+		'Dorn',
+		'ivandorn',
+		'ivandornpass',
+		true,
+		[[
+			'mobile',
+			'+380991234567',
+			true
+		],[
+			'home',
+			'+380991234567',
+			true
+		]]
+	],[
+		'Lev',
+		'Tolstoy',
+		'levtolstoy',
+		'levtolstoypass',
+		true,
+		[[
+			'mobile',
+			'+380991234567',
+			true
+		],[
+			'home',
+			'+380991234567',
+			true
+		]]
+	]] );
 
-		for( var i = 0; i < n; i++ ){
+	userSet.createLast( [
 
-			set[i] = new zz.model.Example1Set( undefined, [
+		'Fedor',
+		'Dostoyevsky',
+		'dostoevsky',
+		'dostoevskypass',
+		true,
+		[[
+			'mobile',
+			'+380991234567',
+			true
+		],[
+			'home',
+			'+380991234567',
+			true
+		]]
+	] );
 
-				[true, 1, '#1', [
+	/**
+	 * @type {zz.model.ExampleUserSet}
+	 */
+	var users = goog.global.users = new zz.model.ExampleUserSet( );
 
-					[false, 0, '?0'],
-					[false, 1, '?1'],
-					[false, 2, '?2'],
-					[false, 3, '?3'],
-					[false, 4, '?4']
-				]],
-				[true, 2, '#2', [
+	/**
+	 *  @type {zz.model.ExampleUser}
+	 */
+	var user = users.createLast( );
 
-					[false, 0, '?'],
-					[false, 1, '?1'],
-					[false, 2, '?2'],
-					[false, 3, '?3'],
-					[false, 4, '?4']
-				]],
-				[true, 3, '#3', [
+	user.userFirstName = 'Vasily';
+	user.userLastName = 'Pupkin';
+	user.userLogin = 'vasilypupkin';
+	user.userPassword = 'pupkinpass';
+	user.userVerifiedFlag = true;
 
-					[false, 0, '?'],
-					[false, 1, '?1'],
-					[false, 2, '?2'],
-					[false, 3, '?3'],
-					[false, 4, '?4']
-				]],
-				[true, 4, '#4', [
+	/**
+	 * @type {zz.model.ExampleUserPhone}
+	 */
+	var phone = user.userPhones.createLast( );
 
-					[false, 0, '?'],
-					[false, 1, '?1'],
-					[false, 2, '?2'],
-					[false, 3, '?3'],
-					[false, 4, '?4']
-				]],
-				[true, 5, '#5', [
+	phone.phoneActiveFlag = true;
+	phone.phoneType = 'mobile';
+	phone.phoneNumber = '+380991234567';
 
-					[false, 0, '?'],
-					[false, 1, '?1'],
-					[false, 2, '?2'],
-					[false, 3, '?3'],
-					[false, 4, '?4']
-				]]
-			] );
+	user.userPhones.deleteCurrent( );
 
-//			var capture = false;
-//
-//			goog.events.listen( set[i], zz.model.EventType.DATAROW_UPDATE, function( evt ){
-//
-//				console.log( 'Parent dataset level' );
-//				console.log( evt );
-//
-//			}, capture );
-//
-//			goog.events.listen( set[i][0], zz.model.EventType.DATAROW_UPDATE, function( evt ){
-//
-//				console.log( 'Parent datarow level' );
-//				console.log( evt );
-//
-//			}, capture );
-//
-//			goog.events.listen( set[i][0].exampleField1, zz.model.EventType.DATAROW_UPDATE, function( evt ){
-//
-//				console.log( 'Child dataset level' );
-//				console.log( evt );
-//
-//			}, capture );
-//
-//			goog.events.listen( set[i][0].exampleField1[0], zz.model.EventType.DATAROW_UPDATE, function( evt ){
-//
-//				console.log( 'Child datarow level' );
-//				console.log( evt );
-//
-//			}, capture );
+	var EVENTS = goog.object.getValues( zz.model.EventType );
+	var CAPTURE = false;
+
+	goog.events.listen( users, EVENTS, function( evt ){
+
+		if( evt.type === zz.model.EventType.DATAROW_UPDATE &&
+			evt.target instanceof zz.model.ExampleUserPhone &&
+			evt.changes.phoneType ){
+
+			console.log( '' );
+			console.log( '------------------------------- UPDATE START ---------------------------------------------' );
+			console.log( 'Old user phone type value: ' + evt.changes.phoneType.from );
+			console.log( 'New user phone type value: ' + evt.changes.phoneType.to );
+			console.log( evt );
+			console.log( '------------------------------- UPDATE END -----------------------------------------------' );
+			console.log( '' );
+
+		}else if( evt.type === zz.model.EventType.DATAROW_DELETE ){
+
+			console.log( '' );
+			console.log( '------------------------------- DELETE START ---------------------------------------------' );
+			console.log( 'Deleted row Id: ' + evt.getDeletedDatarow( ).getId( ) );
+			console.log( evt );
+			console.log( '------------------------------- DELETE END -----------------------------------------------' );
+			console.log( '' );
+
+		}else{
+
+			console.log( '' );
+			console.log( '------------------------------- OTHER EVENT START ----------------------------------------' );
+			console.log( 'User Set Level: ' + evt.type );
+			console.log( '------------------------------- OTHER EVENT END ------------------------------------------' );
+			console.log( '' );
 		}
-	};
-	var clear = goog.global.clear = function( n ){
+	}, CAPTURE );
 
-		for( var i = 0; i < n; i++ ){
+	//goog.events.listen( user, EVENTS, function( evt ){
+    //
+	//	console.log( 'User Row Level: ' + evt.type );
+    //
+	//}, CAPTURE );
+    //
+	//goog.events.listen( user.userPhones, EVENTS, function( evt ){
+    //
+	//	console.log( 'User Phone Set Level: ' + evt.type );
+    //
+	//}, CAPTURE );
+    //
+	//goog.events.listen( phone, EVENTS, function( evt ){
+    //
+	//	console.log( 'User Phone Row Level: ' + evt.type );
+    //
+	//}, CAPTURE );
 
-			goog.global.set[i] = null;
-		}
-		goog.global.set = null;
-		delete goog.global.set;
-	};
+	/******************************************************************************************************************
+	 * Testing section                                                                                                *
+	 ******************************************************************************************************************/
 
 	var button = new goog.ui.Button( 'Button' );
 	var component = new goog.ui.Component( );
@@ -165,7 +211,6 @@ zz.demos.app.run = function( ){
 			goog.dom.getElement( 'logger' ).textContent + 'B-level: ' + goog.now( ) + '; ';
 
 	}, capture );
-
 	goog.events.listen( component, EVENTS1, function( evt ){
 
 		console.log( 'C-level: ' + goog.now( ) );
@@ -175,8 +220,16 @@ zz.demos.app.run = function( ){
 			goog.dom.getElement( 'logger' ).textContent + 'C-level: ' + goog.now( ) + '; ';
 
 	}, capture );
-
 	goog.events.listen( window, goog.events.EventType.TOUCHSTART, function( evt ){
+
+		console.log( 'W-level: ' + goog.now( ) );
+
+		goog.dom.getElement( 'logger' ).textContent =
+
+			goog.dom.getElement( 'logger' ).textContent + 'W-level: ' + goog.now( ) + '; ';
+
+	}, capture );
+	goog.events.listen( window, goog.events.EventType.CLICK, function( evt ){
 
 		console.log( 'W-level: ' + goog.now( ) );
 

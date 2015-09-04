@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.model.Example2 class.
+ * @fileoverview Provide zz.model.ExampleUser class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,8 +25,8 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.Example2' );
-goog.provide( 'zz.model.Example2Set' );
+goog.provide( 'zz.model.ExampleUser' );
+goog.provide( 'zz.model.ExampleUserSet' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -36,6 +36,7 @@ goog.require( 'zz.model.Datarow' );
 goog.require( 'zz.model.Dataset' );
 goog.require( 'zz.model.IDatarow' );
 goog.require( 'zz.model.FieldTypes' );
+goog.require( 'zz.model.ExampleUserPhoneSet' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -49,60 +50,97 @@ goog.require( 'zz.model.FieldTypes' );
  * @param {!zz.model.Dataset} dataset
  * @param {?Array.<boolean, number, string>} opt_data
  */
-zz.model.Example2 = function( dataset, opt_data ){
+zz.model.ExampleUser = function( dataset, opt_data ){
 
+	/**
+	 * @type {string}
+	 */
+	this.userFirstName = undefined;
+
+	/**
+	 * @type {string}
+	 */
+	this.userLastName = undefined;
+
+	/**
+	 * @type {string}
+	 */
+	this.userLogin = undefined;
+
+	/**
+	 * @type {string}
+	 */
+	this.userPassword = undefined;
+
+	/**
+	 * @type {boolean}
+	 */
+	this.userVerifiedFlag = undefined;
+
+	/**
+	 * @type {zz.model.ExampleUserPhoneSet}
+	 */
+	this.userPhones = undefined;
+
+	/**
+	 * Call parent constructor.
+	 */
 	zz.model.Datarow.call( this, dataset, opt_data );
 };
-goog.inherits( zz.model.Example2, zz.model.Datarow );
+goog.inherits( zz.model.ExampleUser, zz.model.Datarow );
 
 /**********************************************************************************************************************
  * Model properties description section                                                                               *
  **********************************************************************************************************************/
-
-/**
- * @type {boolean}
- */
-zz.model.Example2.prototype.booleanField2;
-
-/**
- * @type {number}
- */
-zz.model.Example2.prototype.numberField2;
-
-/**
- * @type {string}
- */
-zz.model.Example2.prototype.stringField2;
 
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
  **********************************************************************************************************************/
 
 /**
- * Return zz.model.Example2 schema object.
+ * Return schema object.
  * @override
+ * @private
  * @returns {Object}
  */
-zz.model.Example2.prototype.getSchema = function( ){
+zz.model.ExampleUser.prototype.getSchema_ = function( ){
 
 	return {
 
-		booleanField2: {
+		userFirstName: {
 
 			order: 0,
-			type: zz.model.FieldTypes.BOOLEAN,
+			type: zz.model.FieldTypes.STRING,
 			required:false
 		},
-		numberField2: {
+		userLastName: {
 
 			order: 1,
-			type: zz.model.FieldTypes.NUMBER,
-			required: true
+			type: zz.model.FieldTypes.STRING,
+			required: false
 		},
-		stringField2: {
+		userLogin: {
 
 			order: 2,
 			type: zz.model.FieldTypes.STRING,
+			required: true
+		},
+		userPassword: {
+
+			order: 3,
+			type: zz.model.FieldTypes.STRING,
+			required: true
+		},
+		userVerifiedFlag: {
+
+			order: 4,
+			type: zz.model.FieldTypes.BOOLEAN,
+			required: true
+		},
+		userPhones: {
+
+			order: 5,
+			type: zz.model.ExampleUserPhoneSet,
 			required: false
 		}
 	};
@@ -114,18 +152,21 @@ zz.model.Example2.prototype.getSchema = function( ){
 
 /**
  * @constructor
- * @param {?goog.event.EventTarget} opt_parent
- * @param {?Array.<Array>} opt_data
+ * @param {goog.event.EventTarget=} opt_parent
+ * @param {Array.<Array>=} opt_data
  * @extends {zz.model.Dataset}
  */
-zz.model.Example2Set = function( opt_parent, opt_data ){
+zz.model.ExampleUserSet = function( opt_parent, opt_data ){
 
-	/**
-	 * Current dataset row type.
-	 * @overwrite
-	 * @type {zz.model.Datarow}
-	 */
-	this.datarow = zz.model.Example2;
 	zz.model.Dataset.call( this, opt_parent, opt_data );
 };
-goog.inherits( zz.model.Example2Set, zz.model.Dataset );
+goog.inherits( zz.model.ExampleUserSet, zz.model.Dataset );
+
+/**
+ * Current dataset row type.
+ * @constructor
+ * @overwrite
+ * @private
+ * @type {zz.model.ExampleUser}
+ */
+zz.model.ExampleUserSet.prototype.Datarow_ = zz.model.ExampleUser;

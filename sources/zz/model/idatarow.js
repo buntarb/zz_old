@@ -41,4 +41,4 @@ zz.model.IDatarow = function( ){ };
  * This method must to return data item schema object.
  * @return {Object} DataItem Schema object.
  */
-zz.model.IDatarow.prototype.getSchema = goog.abstractMethod;
+zz.model.IDatarow.prototype.getSchema_ = goog.abstractMethod;

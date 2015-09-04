@@ -41,8 +41,9 @@ zz.model.Error = {
 	DATAROW_SCHEMA_UNDEFINED: 'Dataset row schema is undefined.',
 	FIELD_EXIST: 'Field already exist.',
 	FIELD_REQUIRED: 'Missing required field.',
-	TYPE_MISMATCH_BOOLEAN: 'Type mismatch. Boolean expected.',
-	TYPE_MISMATCH_NUMBER: 'Type mismatch. Number expected.',
-	TYPE_MISMATCH_STRING: 'Type mismatch. String expected.',
-	TYPE_MISMATCH_DATASET: 'Type mismatch. Can\'t reset field with dataset type.'
+	TYPE_MISMATCH_BOOLEAN: 'Type mismatch: boolean expected.',
+	TYPE_MISMATCH_NUMBER: 'Type mismatch: number expected.',
+	TYPE_MISMATCH_STRING: 'Type mismatch: string expected.',
+	TYPE_MISMATCH_DATASET: 'Type mismatch: zz.model.Dataset child expected.',
+	TYPE_MISMATCH_DATASET_RESET: 'Type mismatch. Can\'t reset field with dataset type.'
 };

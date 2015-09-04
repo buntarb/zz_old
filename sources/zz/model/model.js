@@ -51,7 +51,7 @@ var iCounter = 0;
  */
 zz.model.getUniqueDatarowId = function( ){
 
-    return 'datarow#' + iCounter++;
+    return 'ID_' + iCounter++;
 };
 
 /**
@@ -262,20 +262,24 @@ zz.model.setupDatasetField = function( datarow, datafield, datatype, opt_value )
 
 	// Here we upgrade an object and create 'private' field with closure.
 	// TODO: (buntarb) check memory leaks here.
+    if( goog.typeOf( datatype ) === 'function' && goog.isDef( datatype.prototype.Datarow_ ) ){
 
-	var value = new datatype( datarow, opt_value );
+        var value = new datatype( datarow, opt_value );
+        Object.defineProperty( datarow, datafield, {
 
-	Object.defineProperty( datarow, datafield, {
+            get: function( ){
 
-		get: function( ){
+                return value;
+            },
+            set: function( ){
 
-			return value;
-		},
-		set: function( ){
+                throw new TypeError( zz.model.Error.TYPE_MISMATCH_DATASET_RESET );
+            },
+            enumerable: true,
+            configurable: false
+        } );
+    }else{
 
-			throw new TypeError( zz.model.Error.TYPE_MISMATCH_DATASET );
-		},
-		enumerable: true,
-		configurable: false
-	} );
+        throw new TypeError( zz.model.Error.TYPE_MISMATCH_DATASET );
+    }
 };
