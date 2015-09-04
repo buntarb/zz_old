@@ -132,42 +132,40 @@ zz.demos.app.run = function( ){
 
 	user.userPhones.deleteCurrent( );
 
-	var EVENTS = goog.object.getValues( zz.model.EventType );
-	var CAPTURE = false;
-
-	goog.events.listen( users, EVENTS, function( evt ){
-
-		if( evt.type === zz.model.EventType.DATAROW_UPDATE &&
-			evt.target instanceof zz.model.ExampleUserPhone &&
-			evt.changes.phoneType ){
-
-			console.log( '' );
-			console.log( '------------------------------- UPDATE START ---------------------------------------------' );
-			console.log( 'Old user phone type value: ' + evt.changes.phoneType.from );
-			console.log( 'New user phone type value: ' + evt.changes.phoneType.to );
-			console.log( evt );
-			console.log( '------------------------------- UPDATE END -----------------------------------------------' );
-			console.log( '' );
-
-		}else if( evt.type === zz.model.EventType.DATAROW_DELETE ){
-
-			console.log( '' );
-			console.log( '------------------------------- DELETE START ---------------------------------------------' );
-			console.log( 'Deleted row Id: ' + evt.getDeletedDatarow( ).getId( ) );
-			console.log( evt );
-			console.log( '------------------------------- DELETE END -----------------------------------------------' );
-			console.log( '' );
-
-		}else{
-
-			console.log( '' );
-			console.log( '------------------------------- OTHER EVENT START ----------------------------------------' );
-			console.log( 'User Set Level: ' + evt.type );
-			console.log( '------------------------------- OTHER EVENT END ------------------------------------------' );
-			console.log( '' );
-		}
-	}, CAPTURE );
-
+	//var EVENTS = goog.object.getValues( zz.model.EventType );
+	//var CAPTURE = false;
+	//goog.events.listen( users, EVENTS, function( evt ){
+    //
+	//	if( evt.type === zz.model.EventType.DATAROW_UPDATE &&
+	//		evt.target instanceof zz.model.ExampleUserPhone &&
+	//		evt.changes.phoneType ){
+    //
+	//		console.log( '' );
+	//		console.log( '------------------------------- UPDATE START ---------------------------------------------' );
+	//		console.log( 'Old user phone type value: ' + evt.changes.phoneType.from );
+	//		console.log( 'New user phone type value: ' + evt.changes.phoneType.to );
+	//		console.log( evt );
+	//		console.log( '------------------------------- UPDATE END -----------------------------------------------' );
+	//		console.log( '' );
+    //
+	//	}else if( evt.type === zz.model.EventType.DATAROW_DELETE ){
+    //
+	//		console.log( '' );
+	//		console.log( '------------------------------- DELETE START ---------------------------------------------' );
+	//		console.log( 'Deleted row Id: ' + evt.getDeletedDatarow( ).getId( ) );
+	//		console.log( evt );
+	//		console.log( '------------------------------- DELETE END -----------------------------------------------' );
+	//		console.log( '' );
+    //
+	//	}else{
+    //
+	//		console.log( '' );
+	//		console.log( '------------------------------- OTHER EVENT START ----------------------------------------' );
+	//		console.log( 'User Set Level: ' + evt.type );
+	//		console.log( '------------------------------- OTHER EVENT END ------------------------------------------' );
+	//		console.log( '' );
+	//	}
+	//}, CAPTURE );
 	//goog.events.listen( user, EVENTS, function( evt ){
     //
 	//	console.log( 'User Row Level: ' + evt.type );
@@ -238,6 +236,49 @@ zz.demos.app.run = function( ){
 			goog.dom.getElement( 'logger' ).textContent + 'W-level: ' + goog.now( ) + '; ';
 
 	}, capture );
+
+
+	var customClickEvent;
+	if( goog.global.MouseEvent ){
+
+		customClickEvent = new MouseEvent( goog.events.EventType.CLICK, {
+
+			'screenX': 10,
+			'screenY': 10,
+			'clientX': 10,
+			'clientY': 10,
+			'ctrlKey': false,
+			'shiftKey': false,
+			'altKey': false,
+			'metaKey': false,
+			'button': 0,
+			'buttons': 1,
+			'relatedTarget': null,
+			'region': null
+		} );
+	}else{
+
+		customClickEvent = document.createEvent( 'MouseEvents' );
+		customClickEvent.initMouseEvent(
+
+			goog.events.EventType.CLICK,
+			true,
+			true,
+			window,
+			1,
+			10,
+			10,
+			10,
+			10,
+			false,
+			false,
+			false,
+			false,
+			0,
+			null
+		);
+	}
+	button.getElement().dispatchEvent( customClickEvent );
 };
 
 /**********************************************************************************************************************
