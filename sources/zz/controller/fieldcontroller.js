@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.model.ExampleUser class.
+ * @fileoverview Provide zz.ui.BidiControl class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,148 +25,96 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.ExampleUser' );
-goog.provide( 'zz.model.ExampleUserSet' );
+goog.provide( 'zz.controller.FieldController' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'zz.model.Datarow' );
-goog.require( 'zz.model.Dataset' );
-goog.require( 'zz.model.IDatarow' );
+goog.require( 'goog.object' );
+goog.require( 'goog.ui.Control' );
 goog.require( 'zz.model.FieldTypes' );
-goog.require( 'zz.model.ExampleUserPhoneSet' );
+goog.require( 'zz.controller' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
-//noinspection JSClosureCompilerSyntax
 /**
  * @constructor
- * @implements {zz.model.IDatarow}
- * @extends {zz.model.Datarow}
- * @param {!zz.model.Dataset} dataset
- * @param {?Array.<boolean, number, string>} opt_data
+ * @param {goog.ui.ControlRenderer} opt_renderer
+ * @param {goog.dom.DomHelper=} opt_domHelper
+ * @extends {goog.ui.Control}
  */
-zz.model.ExampleUser = function( dataset, opt_data ){
+zz.controller.FieldController = function( opt_renderer, opt_domHelper ){
 
-	/**
-	 * @type {string}
-	 */
-	this.userFirstName = undefined;
-
-	/**
-	 * @type {string}
-	 */
-	this.userLastName = undefined;
-
-	/**
-	 * @type {string}
-	 */
-	this.userLogin = undefined;
-
-	/**
-	 * @type {string}
-	 */
-	this.userPassword = undefined;
-
-	/**
-	 * @type {boolean}
-	 */
-	this.userVerifiedFlag = undefined;
-
-	/**
-	 * @type {zz.model.ExampleUserPhoneSet}
-	 */
-	this.userPhones = undefined;
-
-	/**
-	 * Call parent constructor.
-	 */
-	zz.model.Datarow.call( this, dataset, opt_data );
+	goog.ui.Control.call( this, undefined, opt_renderer, opt_domHelper );
 };
-goog.inherits( zz.model.ExampleUser, zz.model.Datarow );
+goog.inherits( zz.controller.FieldController, goog.ui.Control );
 
 /**********************************************************************************************************************
- * Model properties description section                                                                               *
+ * Prototype properties section                                                                                       *
  **********************************************************************************************************************/
+
+/**
+ * Value for view layer.
+ * @type {string}
+ * @private
+ */
+zz.controller.FieldController.prototype.viewValue_ = '';
 
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
  **********************************************************************************************************************/
 
 /**
- * Return schema object.
- * @override
- * @private
- * @returns {Object}
+ * Setting up model to current field controller.
+ * @param {!zz.model.Datarow} datarow
+ * @param {!number} index
  */
-zz.model.ExampleUser.prototype.getSchema_ = function( ){
+zz.controller.FieldController.prototype.setModel = function( datarow, index ){
 
-	return {
+	goog.base(this, 'setModel', {
 
-		userFirstName: {
-
-			index: 0,
-			type: zz.model.FieldTypes.STRING,
-			required: false
-		},
-		userLastName: {
-
-			index: 1,
-			type: zz.model.FieldTypes.STRING,
-			required: false
-		},
-		userLogin: {
-
-			index: 2,
-			type: zz.model.FieldTypes.STRING,
-			required: true
-		},
-		userPassword: {
-
-			index: 3,
-			type: zz.model.FieldTypes.STRING,
-			required: true
-		},
-		userVerifiedFlag: {
-
-			index: 4,
-			type: zz.model.FieldTypes.BOOLEAN,
-			required: true
-		},
-		userPhones: {
-
-			index: 5,
-			type: zz.model.ExampleUserPhoneSet,
-			required: false
-		}
-	};
+		modelFieldTopEventTarget: zz.controller.getTopEventTarget( datarow ),
+		modelFieldDataset: datarow.getParentEventTarget( ),
+		modelFieldDatarow: datarow,
+		modelFieldType: datarow.getFieldTypeByIndex( index ),
+		modelFieldName: datarow.getFieldNameByIndex( index ),
+		modelFieldRequired: datarow.getFieldRequiredFlagByIndex( index )
+	} );
+	this.setViewValue( this.model_.modelFieldDatarow[this.model_.modelFieldName] );
 };
 
-/**********************************************************************************************************************
- * Definition section                                                                                                 *
- **********************************************************************************************************************/
-
 /**
- * @constructor
- * @param {goog.event.EventTarget=} opt_parent
- * @param {Array.<Array>=} opt_data
- * @extends {zz.model.Dataset}
+ * Internal method for setting view value. Generally need to be overriding.
+ * @protected
+ * @param {*} value
  */
-zz.model.ExampleUserSet = function( opt_parent, opt_data ){
+zz.controller.FieldController.prototype.setViewValueInternal = function( value ){
 
-	zz.model.Dataset.call( this, opt_parent, opt_data );
+	this.viewValue_ = zz.controller.transformModelToViewField(
+
+		this.model_.modelFieldType,
+		value
+	);
+	this.setContent( this.viewValue_ );
 };
-goog.inherits( zz.model.ExampleUserSet, zz.model.Dataset );
 
 /**
- * Current dataset row type.
- * @constructor
- * @overwrite
- * @private
- * @type {zz.model.ExampleUser}
+ * Set value to view layer.
+ * @param {*} value
  */
-zz.model.ExampleUserSet.prototype.Datarow_ = zz.model.ExampleUser;
+zz.controller.FieldController.prototype.setViewValue = function( value ){
+
+	this.setViewValueInternal( value );
+};
+
+/**
+ * Return current view value.
+ * @returns {string}
+ */
+zz.controller.FieldController.prototype.getViewValue = function( ){
+
+	return this.viewValue_;
+};

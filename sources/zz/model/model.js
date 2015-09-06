@@ -114,9 +114,7 @@ zz.model.setupBooleanField = function( datarow, datafield, opt_value ){
 
     zz.model.checkIfFieldExist( datarow, datafield );
 
-    // Here we upgrade an object and create 'private' field with closure.
     // TODO: (buntarb) check memory leaks here.
-
     var value = goog.isDef( opt_value ) ? opt_value : null;
 
     Object.defineProperty( datarow, datafield, {
@@ -163,12 +161,7 @@ zz.model.setupNumberField = function( datarow, datafield, opt_value ){
         zz.model.checkNumberType( opt_value );
 
     zz.model.checkIfFieldExist( datarow, datafield );
-
-    // Here we upgrade an object and create 'private' field with closure.
-    // TODO: (buntarb) check memory leaks here.
-
     var value = goog.isDef( opt_value ) ? opt_value : null;
-
     Object.defineProperty( datarow, datafield, {
 
         get: function( ){
@@ -213,12 +206,7 @@ zz.model.setupStringField = function( datarow, datafield, opt_value ){
         zz.model.checkStringType( opt_value );
 
     zz.model.checkIfFieldExist( datarow, datafield );
-
-    // Here we upgrade an object and create 'private' field with closure.
-    // TODO: (buntarb) check memory leaks here.
-
     var value = goog.isDef( opt_value ) ? opt_value : null;
-
     Object.defineProperty( datarow, datafield, {
 
         get: function( ){
@@ -258,11 +246,8 @@ zz.model.setupStringField = function( datarow, datafield, opt_value ){
  */
 zz.model.setupDatasetField = function( datarow, datafield, datatype, opt_value ){
 
-	zz.model.checkIfFieldExist( datarow, datafield );
-
-	// Here we upgrade an object and create 'private' field with closure.
-	// TODO: (buntarb) check memory leaks here.
-    if( goog.typeOf( datatype ) === 'function' && goog.isDef( datatype.prototype.Datarow_ ) ){
+	zz.model.checkIfFieldExist( datarow, datafield ); //noinspection JSUnresolvedVariable
+	if( goog.typeOf( datatype ) === 'function' && goog.isDef( datatype.prototype.Datarow_ ) ){
 
         var value = new datatype( datarow, opt_value );
         Object.defineProperty( datarow, datafield, {

@@ -34,6 +34,7 @@ goog.provide( 'zz.model.Dataset' );
 goog.require( 'goog.array' );
 goog.require( 'goog.async.run' );
 goog.require( 'goog.events.EventTarget' );
+goog.require( 'goog.events.EventHandler' );
 goog.require( 'zz.model' );
 goog.require( 'zz.model.DatarowCreateEvent' );
 goog.require( 'zz.model.DatarowDeleteEvent' );
@@ -77,6 +78,36 @@ goog.inherits( zz.model.Dataset, goog.events.EventTarget );
  * Prototype properties section                                                                                       *
  **********************************************************************************************************************/
 
+/**********************************************************************************************************************
+ * Prototype methods section                                                                                          *
+ **********************************************************************************************************************/
+
+/**
+ * Returns the event handler for this dataset, lazily created the first time
+ * this method is called.
+ * @return {!goog.events.EventHandler} Event handler for this dataset.
+ * @protected
+ */
+zz.model.Dataset.prototype.getHandler = function( ){
+
+	if( !this.handler_ ){
+
+		this.handler_ = new goog.events.EventHandler( this );
+	}
+	return this.handler_;
+};
+
+/** @inheritDoc */
+zz.model.Dataset.prototype.disposeInternal = function( ){
+
+	zz.model.Dataset.superClass_.disposeInternal.call( this );
+	if( this.handler_ ){
+
+		this.handler_.dispose( );
+		delete this.handler_;
+	}
+};
+
 /**
  * Current dataset row type.
  * @constructor
@@ -89,10 +120,6 @@ zz.model.Dataset.prototype.Datarow_ = function( dataset, data ){
 
 	throw new TypeError( zz.model.Error.DATAROW_TYPE_UNDEFINED );
 };
-
-/**********************************************************************************************************************
- * Prototype methods section                                                                                          *
- **********************************************************************************************************************/
 
 /**
  * Create new row at the first position.

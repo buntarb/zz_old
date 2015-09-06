@@ -89,19 +89,19 @@ zz.model.ExampleUserPhone.prototype.getSchema_ = function( ){
 
 		phoneType: {
 
-			order: 0,
+			index: 0,
 			type: zz.model.FieldTypes.STRING,
 			required:true
 		},
 		phoneNumber: {
 
-			order: 1,
+			index: 1,
 			type: zz.model.FieldTypes.STRING,
 			required: true
 		},
 		phoneActiveFlag: {
 
-			order: 2,
+			index: 2,
 			type: zz.model.FieldTypes.BOOLEAN,
 			required: true
 		}

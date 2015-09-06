@@ -65,29 +65,31 @@ zz.model.Datarow = function( dataset, opt_data ){
 
 	goog.object.forEach( this.getSchema_( ), function( meta, name ){
 
-		var ord = /** @type {number} */ (meta.order);
+		var idx = /** @type {number} */ (meta.index);
 		var typ = /** @type {zz.model.FieldTypes|Function} */ (meta.type);
 		var req = /** @type {boolean} */ (meta.required);
 
-		if( goog.isDef( opt_data ) && req && !goog.isDefAndNotNull( opt_data[ord] ) )
+		if( goog.isDef( opt_data ) && req && !goog.isDefAndNotNull( opt_data[idx] ) )
 
 			throw new TypeError( zz.model.Error.FIELD_REQUIRED );
 
 		if( typ === zz.model.FieldTypes.BOOLEAN )
 
-			zz.model.setupBooleanField( this, name, opt_data ? opt_data[ord] : undefined );
+			zz.model.setupBooleanField( this, name, opt_data ? opt_data[idx] : undefined );
 
 		if( typ === zz.model.FieldTypes.NUMBER )
 
-			zz.model.setupNumberField( this, name, opt_data ? opt_data[ord] : undefined );
+			zz.model.setupNumberField( this, name, opt_data ? opt_data[idx] : undefined );
 
 		if( typ === zz.model.FieldTypes.STRING )
 
-			zz.model.setupStringField( this, name, opt_data ? opt_data[ord] : undefined );
+			zz.model.setupStringField( this, name, opt_data ? opt_data[idx] : undefined );
 
 		if( goog.isFunction( typ ) )
 
-			zz.model.setupDatasetField( this, name, typ, opt_data ? opt_data[ord] : undefined );
+			zz.model.setupDatasetField( this, name, typ, opt_data ? opt_data[idx] : undefined );
+
+		this.fieldToIndex_[idx] = name;
 
 	}, this );
 };
@@ -96,6 +98,12 @@ goog.inherits( zz.model.Datarow, goog.events.EventTarget );
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
  **********************************************************************************************************************/
+
+/**
+ * @type {Array}
+ * @private
+ */
+zz.model.Datarow.prototype.fieldToIndex_ = [];
 
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
@@ -128,4 +136,34 @@ zz.model.Datarow.prototype.getId = function( ){
 zz.model.Datarow.prototype.setId = function( id ){
 
 	this.datarowId_ = id;
+};
+
+/**
+ * Return field name by specified index, false otherwise.
+ * @param {number} index
+ * @return {string}
+ */
+zz.model.Datarow.prototype.getFieldNameByIndex = function( index ){
+
+	return this.fieldToIndex_[index];
+};
+
+/**
+ * Return field type by specified field index.
+ * @param {number} index
+ * @returns {string}
+ */
+zz.model.Datarow.prototype.getFieldTypeByIndex = function( index ){
+
+	return this.getSchema_( )[this.getFieldNameByIndex( index )].type;
+};
+
+/**
+ * Return field required flag by specified field index.
+ * @param {number} index
+ * @returns {boolean}
+ */
+zz.model.Datarow.prototype.getFieldRequiredFlagByIndex = function( index ){
+
+	return this.getSchema_( )[this.getFieldNameByIndex( index )].required;
 };

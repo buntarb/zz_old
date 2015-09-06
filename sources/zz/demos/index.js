@@ -35,10 +35,14 @@ goog.require( 'goog.dom' );
 goog.require( 'goog.events' );
 goog.require( 'goog.events.EventType' );
 goog.require( 'goog.ui.Component' );
+goog.require( 'goog.ui.BidiInput' );
+goog.require( 'goog.ui.Checkbox' );
 goog.require( 'goog.ui.Button' );
+goog.require( 'zz.events' );
 goog.require( 'zz.template' );
 goog.require( 'zz.model.ExampleUserSet' );
 goog.require( 'zz.model.EventType' );
+goog.require( 'zz.controller.FieldController' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -86,7 +90,6 @@ zz.demos.app.run = function( ){
 			true
 		]]
 	]] );
-
 	userSet.createLast( [
 
 		'Fedor',
@@ -132,153 +135,125 @@ zz.demos.app.run = function( ){
 
 	user.userPhones.deleteCurrent( );
 
-	//var EVENTS = goog.object.getValues( zz.model.EventType );
-	//var CAPTURE = false;
-	//goog.events.listen( users, EVENTS, function( evt ){
-    //
-	//	if( evt.type === zz.model.EventType.DATAROW_UPDATE &&
-	//		evt.target instanceof zz.model.ExampleUserPhone &&
-	//		evt.changes.phoneType ){
-    //
-	//		console.log( '' );
-	//		console.log( '------------------------------- UPDATE START ---------------------------------------------' );
-	//		console.log( 'Old user phone type value: ' + evt.changes.phoneType.from );
-	//		console.log( 'New user phone type value: ' + evt.changes.phoneType.to );
-	//		console.log( evt );
-	//		console.log( '------------------------------- UPDATE END -----------------------------------------------' );
-	//		console.log( '' );
-    //
-	//	}else if( evt.type === zz.model.EventType.DATAROW_DELETE ){
-    //
-	//		console.log( '' );
-	//		console.log( '------------------------------- DELETE START ---------------------------------------------' );
-	//		console.log( 'Deleted row Id: ' + evt.getDeletedDatarow( ).getId( ) );
-	//		console.log( evt );
-	//		console.log( '------------------------------- DELETE END -----------------------------------------------' );
-	//		console.log( '' );
-    //
-	//	}else{
-    //
-	//		console.log( '' );
-	//		console.log( '------------------------------- OTHER EVENT START ----------------------------------------' );
-	//		console.log( 'User Set Level: ' + evt.type );
-	//		console.log( '------------------------------- OTHER EVENT END ------------------------------------------' );
-	//		console.log( '' );
-	//	}
-	//}, CAPTURE );
-	//goog.events.listen( user, EVENTS, function( evt ){
-    //
-	//	console.log( 'User Row Level: ' + evt.type );
-    //
-	//}, CAPTURE );
-    //
-	//goog.events.listen( user.userPhones, EVENTS, function( evt ){
-    //
-	//	console.log( 'User Phone Set Level: ' + evt.type );
-    //
-	//}, CAPTURE );
-    //
-	//goog.events.listen( phone, EVENTS, function( evt ){
-    //
-	//	console.log( 'User Phone Row Level: ' + evt.type );
-    //
-	//}, CAPTURE );
+	var EVENTS = goog.object.getValues( zz.model.EventType );
+	var CAPTURE = false;
+
+	var bidiCtrl = new zz.controller.FieldController( );
+	bidiCtrl.setModel( phone, 2 );
+	bidiCtrl.render( goog.dom.getElement( 'root' ) );
+	console.log( bidiCtrl );
+
+//	goog.events.listen( users, EVENTS, function( evt ){
+//
+//		if( evt.type === zz.model.EventType.DATAROW_UPDATE &&
+//			evt.target instanceof zz.model.ExampleUserPhone &&
+//			evt.changes.phoneType ){
+//
+//			console.log( '' );
+//			console.log( '------------------------------- UPDATE START ---------------------------------------------' );
+//			console.log( 'Old user phone type value: ' + evt.changes.phoneType.from );
+//			console.log( 'New user phone type value: ' + evt.changes.phoneType.to );
+//			//console.log( evt );
+//			console.log( '------------------------------- UPDATE END -----------------------------------------------' );
+//			console.log( '' );
+//
+//		}else if( evt.type === zz.model.EventType.DATAROW_DELETE ){
+//
+//			console.log( '' );
+//			console.log( '------------------------------- DELETE START ---------------------------------------------' );
+//			console.log( 'Deleted row Id: ' + evt.getDeletedDatarow( ).getId( ) );
+//			//console.log( evt );
+//			console.log( '------------------------------- DELETE END -----------------------------------------------' );
+//			console.log( '' );
+//
+//		}else{
+//
+//			console.log( '' );
+//			console.log( '------------------------------- OTHER EVENT START ----------------------------------------' );
+//			console.log( 'User Set Level: ' + evt.type );
+//			console.log( '------------------------------- OTHER EVENT END ------------------------------------------' );
+//			console.log( '' );
+//		}
+//	}, CAPTURE );
+
+//	goog.events.listen( user, EVENTS, function( evt ){
+//
+//		console.log( 'User Row Level: ' + evt.type );
+//
+//	}, CAPTURE );
+//
+//	goog.events.listen( user.userPhones, EVENTS, function( evt ){
+//
+//		console.log( 'User Phone Set Level: ' + evt.type );
+//
+//	}, CAPTURE );
+//
+//	goog.events.listen( phone, EVENTS, function( evt ){
+//
+//		console.log( 'User Phone Row Level: ' + evt.type );
+//
+//	}, CAPTURE );
 
 	/******************************************************************************************************************
 	 * Testing section                                                                                                *
 	 ******************************************************************************************************************/
 
-	var button = new goog.ui.Button( 'Button' );
-	var component = new goog.ui.Component( );
+//	var dom = goog.dom.getDomHelper( );
+//	var input_phone_type = new goog.ui.BidiInput( dom );
+//	var input_phone_number = new goog.ui.BidiInput( dom );
+//	var button_save = new goog.ui.Button( 'Save', undefined, dom );
+//	var button_reset = new goog.ui.Button( 'Reset', undefined, dom );
+//	var component = new goog.ui.Component( dom );
+//
+//	component.addChild( input_phone_type );
+//	component.addChild( input_phone_number );
+//	component.addChild( button_save );
+//	component.addChild( button_reset );
+//	component.render( goog.dom.getElement( 'root' ) );
+//
+//	input_phone_type.render( component.getElement( ) );
+//	input_phone_number.render( component.getElement( ) );
+//
+//	button_save.setTooltip( 'Click to save' );
+//	button_save.render( component.getElement( ) );
+//
+//	button_reset.setTooltip( 'Click to reset' );
+//	button_reset.render( component.getElement( ) );
+//
+//	goog.events.listen( input_phone_type.getElement( ), goog.events.EventType.INPUT, function( evt ){
+//
+//		console.log( 'Phone type pre-checking phase' );
+//
+//	} );
+//	goog.events.listen( input_phone_type.getElement( ), goog.events.EventType.CHANGE, function( evt ){
+//
+//		console.log( 'Update phone type model' );
+//
+//	} );
+//	goog.events.listen( input_phone_number.getElement( ), goog.events.EventType.INPUT, function( evt ){
+//
+//		console.log( 'Phone number pre-checking phase' );
+//
+//	} );
+//	goog.events.listen( input_phone_number.getElement( ), goog.events.EventType.CHANGE, function( evt ){
+//
+//		console.log( 'Update phone number model' );
+//
+//	} );
+//	goog.events.listen( button_reset, goog.ui.Component.EventType.ACTION, function( evt ){
+//
+//		input_phone_type.setValue( '' );
+//		input_phone_number.setValue( '' );
+//
+//	} );
+//	console.log( button_reset );
 
-	component.render( goog.dom.getElement( 'root' ) );
-	component.addChild( button );
 
-	button.setTooltip( 'Some tooltip here' );
-	button.render( component.getElement( ) );
-
-	var EVENTS1 = goog.object.getValues( goog.ui.Component.EventType );
-	var capture = true;
-
-	goog.events.listen( button, EVENTS1, function( evt ){
-
-		console.log( 'B-level: ' + goog.now( ) );
-
-		goog.dom.getElement( 'logger' ).textContent =
-
-			goog.dom.getElement( 'logger' ).textContent + 'B-level: ' + goog.now( ) + '; ';
-
-	}, capture );
-	goog.events.listen( component, EVENTS1, function( evt ){
-
-		console.log( 'C-level: ' + goog.now( ) );
-
-		goog.dom.getElement( 'logger' ).textContent =
-
-			goog.dom.getElement( 'logger' ).textContent + 'C-level: ' + goog.now( ) + '; ';
-
-	}, capture );
-	goog.events.listen( window, goog.events.EventType.TOUCHSTART, function( evt ){
-
-		console.log( 'W-level: ' + goog.now( ) );
-
-		goog.dom.getElement( 'logger' ).textContent =
-
-			goog.dom.getElement( 'logger' ).textContent + 'W-level: ' + goog.now( ) + '; ';
-
-	}, capture );
-	goog.events.listen( window, goog.events.EventType.CLICK, function( evt ){
-
-		console.log( 'W-level: ' + goog.now( ) );
-
-		goog.dom.getElement( 'logger' ).textContent =
-
-			goog.dom.getElement( 'logger' ).textContent + 'W-level: ' + goog.now( ) + '; ';
-
-	}, capture );
-
-
-	var customClickEvent;
-	if( goog.global.MouseEvent ){
-
-		customClickEvent = new MouseEvent( goog.events.EventType.CLICK, {
-
-			'screenX': 10,
-			'screenY': 10,
-			'clientX': 10,
-			'clientY': 10,
-			'ctrlKey': false,
-			'shiftKey': false,
-			'altKey': false,
-			'metaKey': false,
-			'button': 0,
-			'buttons': 1,
-			'relatedTarget': null,
-			'region': null
-		} );
-	}else{
-
-		customClickEvent = document.createEvent( 'MouseEvents' );
-		customClickEvent.initMouseEvent(
-
-			goog.events.EventType.CLICK,
-			true,
-			true,
-			window,
-			1,
-			10,
-			10,
-			10,
-			10,
-			false,
-			false,
-			false,
-			false,
-			0,
-			null
-		);
-	}
-	button.getElement().dispatchEvent( customClickEvent );
+	/******************************************************************************************************************
+	 * Fast click testing                                                                                             *
+	 ******************************************************************************************************************/
+//	var customClickEvent = zz.events.getMouseEvent( goog.events.EventType.CLICK, 1, 10, 10, 10, 10 );
+//	button_reset.getElement( ).dispatchEvent( customClickEvent );
 };
 
 /**********************************************************************************************************************
