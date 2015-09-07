@@ -67,6 +67,11 @@ zz.model.ExampleUserPhone = function( dataset, opt_data ){
 	this.phoneActiveFlag = undefined;
 
 	/**
+	 * @type {number}
+	 */
+	this.phoneOrder = undefined;
+
+	/**
 	 * Call parent constructor.
 	 */
 	zz.mvc.model.Datarow.call( this, dataset, opt_data );
@@ -103,6 +108,12 @@ zz.model.ExampleUserPhone.prototype.getSchema_ = function( ){
 
 			index: 2,
 			type: zz.mvc.model.FieldTypes.BOOLEAN,
+			required: true
+		},
+		phoneOrder: {
+
+			index: 3,
+			type: zz.mvc.model.FieldTypes.NUMBER,
 			required: true
 		}
 	};

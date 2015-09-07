@@ -47,11 +47,7 @@ zz.ui.InputRenderer = function( ){
 
 	goog.ui.ControlRenderer.call( this );
 };
-
-// Inheritance.
 goog.inherits( zz.ui.InputRenderer, goog.ui.ControlRenderer );
-
-// Singleton instantiation.
 goog.addSingletonGetter( zz.ui.InputRenderer );
 
 /**********************************************************************************************************************
@@ -66,15 +62,47 @@ goog.addSingletonGetter( zz.ui.InputRenderer );
 zz.ui.InputRenderer.CSS_CLASS = goog.getCssName( 'zz-control-input' );
 
 /**********************************************************************************************************************
- * Prototype methods section                                                                                          *
+ * Base renderer methods                                                                                              *
  **********************************************************************************************************************/
 
 /**
+ * Overrides by returning true only if the element is an HTML input.
  * @override
+ * @param {Element} element Element to decorate.
+ * @return {boolean} Whether the renderer can decorate the element.
  */
-zz.ui.InputRenderer.prototype.getCssClass = function( ){
+zz.ui.InputRenderer.prototype.canDecorate = function( element ){
 
-	return zz.ui.InputRenderer.CSS_CLASS;
+	return element.tagName == goog.dom.TagName.INPUT;
+};
+
+/**
+ * @override
+ * @param {zz.ui.Input} input
+ * @returns {Element}
+ */
+zz.ui.InputRenderer.prototype.createDom = function( input ){
+
+	return input.getDomHelper( ).createDom( 'input', {
+
+		'id': input.getId( ),
+		'type': 'text',
+		'value': input.getViewValue( )
+	} );
+};
+
+/**
+ * @override
+ * @param {zz.ui.Input} input
+ * @param {Element} element
+ * @returns {Element}
+ */
+zz.ui.InputRenderer.prototype.decorate = function( input, element ){
+
+	element = zz.ui.InputRenderer.superClass_.decorate.call( this, input, element );
+	//noinspection JSUnresolvedVariable
+	input.setContent( element.value );
+	return element;
 };
 
 /**
@@ -89,40 +117,33 @@ zz.ui.InputRenderer.prototype.setContent = function( element, value ){
 };
 
 /**
+ * @override
+ */
+zz.ui.InputRenderer.prototype.getCssClass = function( ){
+
+	return zz.ui.InputRenderer.CSS_CLASS;
+};
+
+/**********************************************************************************************************************
+ * View elements and elements properties access methods                                                               *
+ **********************************************************************************************************************/
+
+/**
+ * Return input element.
  * @param {zz.ui.Input} input
  * @returns {Element}
- * @override
  */
-zz.ui.InputRenderer.prototype.createDom = function( input ){
+zz.ui.InputRenderer.prototype.getInputElement = function( input ){
 
-	return input.getDomHelper( ).createDom( 'input', {
-
-		'id': input.getId( ),
-		'type': 'text',
-		'value': input.getViewValue( )
-	} );
+	return input.getElement( );
 };
 
 /**
- * Overrides by returning true only if the element is an HTML input.
- * @param {Element} element Element to decorate.
- * @return {boolean} Whether the renderer can decorate the element.
- * @override
- */
-zz.ui.InputRenderer.prototype.canDecorate = function( element ){
-
-	return element.tagName == goog.dom.TagName.INPUT;
-};
-
-/**
- * @override
+ * Return input element.
  * @param {zz.ui.Input} input
- * @param {Element} element
- * @returns
+ * @returns {string}
  */
-zz.ui.InputRenderer.prototype.decorate = function( input, element ){
+zz.ui.InputRenderer.prototype.getInputElementValue = function( input ){
 
-	element = zz.ui.InputRenderer.superClass_.decorate.call( this, input, element );
-	input.setContent( element.value );
-	return element;
+	return input.getElement( ).value;
 };

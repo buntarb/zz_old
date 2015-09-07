@@ -68,11 +68,13 @@ zz.demos.app.run = function( ){
 		[[
 			'mobile',
 			'+380991234567',
-			true
+			true,
+			0
 		],[
 			'home',
 			'+380991234567',
-			true
+			true,
+			1
 		]]
 	],[
 		'Lev',
@@ -83,11 +85,13 @@ zz.demos.app.run = function( ){
 		[[
 			'mobile',
 			'+380991234567',
-			true
+			true,
+			0
 		],[
 			'home',
 			'+380991234567',
-			true
+			true,
+			1
 		]]
 	]] );
 	userSet.createLast( [
@@ -100,11 +104,13 @@ zz.demos.app.run = function( ){
 		[[
 			'mobile',
 			'+380991234567',
-			true
+			true,
+			0
 		],[
 			'home',
 			'+380991234567',
-			true
+			true,
+			1
 		]]
 	] );
 
@@ -129,19 +135,18 @@ zz.demos.app.run = function( ){
 	 */
 	var phone = goog.global.phone = user.userPhones.createLast( );
 
-	phone.phoneActiveFlag = true;
 	phone.phoneType = 'mobile';
 	phone.phoneNumber = '+380991234567';
+	phone.phoneActiveFlag = true;
+	phone.phoneOrder = 0;
 
 	//user.userPhones.deleteCurrent( );
 
 	var EVENTS = goog.object.getValues( zz.mvc.model.EventType );
 	var CAPTURE = false;
 
-	var el = new zz.ui.Input( undefined, goog.dom.getDomHelper( ) );
-	el.setModel( phone, 0 );
+	var el = new zz.ui.Input( phone, 3 );
 	el.render( goog.dom.getElement( 'root' ) );
-	el.enableDataBinding( );
 	console.log( el );
 
 //	goog.events.listen( users, EVENTS, function( evt ){

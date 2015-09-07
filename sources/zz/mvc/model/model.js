@@ -34,6 +34,8 @@ goog.provide( 'zz.mvc.model' );
 goog.require( 'goog.async.run' );
 goog.require( 'zz.mvc.model.Error' );
 goog.require( 'zz.mvc.model.DatarowUpdateEvent' );
+goog.require( 'goog.i18n.NumberFormat' );
+goog.require( 'goog.i18n.NumberFormat.Format' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -82,7 +84,7 @@ zz.mvc.model.checkBooleanType = function( value ){
  */
 zz.mvc.model.checkNumberType = function( value ){
 
-    if( !goog.isNumber( value ) ) {
+    if( ( !goog.isNumber( value ) && !goog.isNull( value ) ) || value !== value ) {
 
         throw new TypeError( zz.mvc.model.Error.TYPE_MISMATCH_NUMBER );
     }
@@ -171,6 +173,7 @@ zz.mvc.model.setupNumberField = function( datarow, datafield, opt_value ){
         set: function( val ){
 
             zz.mvc.model.checkNumberType( val );
+			// TODO: Add required field checking.
             if( value !== val ){
 
 				var old_value = value;

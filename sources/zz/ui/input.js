@@ -36,6 +36,7 @@ goog.require( 'goog.ui.Control' );
 goog.require( 'goog.ui.registry' );
 goog.require( 'zz.mvc.controller' );
 goog.require( 'zz.mvc.model.EventType' );
+goog.require( 'zz.ui.Error' );
 goog.require( 'zz.ui.BindType' );
 goog.require( 'zz.ui.ModelBindingType' );
 goog.require( 'zz.ui.ControlBindingType' );
@@ -48,17 +49,23 @@ goog.require( 'zz.ui.InputRenderer' );
 /**
  * Base input control.
  * @constructor
+ * @param {zz.mvc.model.Datarow=} opt_datarow
+ * @param {number=} opt_index
  * @param {goog.ui.ControlRenderer=} opt_renderer
  * @param {goog.dom.DomHelper=} opt_domHelper
  * @extends {goog.ui.Control}
  */
-zz.ui.Input = function( opt_renderer, opt_domHelper ){
+zz.ui.Input = function( opt_datarow, opt_index, opt_renderer, opt_domHelper ){
 
 	goog.ui.Control.call( this, undefined, opt_renderer, opt_domHelper );
 	this.setAllowTextSelection( true );
+	if( goog.isDef( opt_datarow ) && goog.isDef( opt_index ) ){
+
+		this.setModel( opt_datarow, opt_index );
+	}
 };
 goog.inherits( zz.ui.Input, goog.ui.Control );
-goog.tagUnsealableClass(zz.ui.Input);
+goog.tagUnsealableClass( zz.ui.Input );
 goog.ui.registry.setDefaultRenderer( zz.ui.Input, zz.ui.InputRenderer );
 
 /**********************************************************************************************************************
@@ -71,6 +78,12 @@ goog.ui.registry.setDefaultRenderer( zz.ui.Input, zz.ui.InputRenderer );
  * @private
  */
 zz.ui.Input.prototype.error_ = '';
+
+/**
+ * Capture flag (default - false).
+ * @type {boolean}
+ */
+zz.ui.Input.prototype.bindCaptureFlag = false;
 
 /**
  * Binding type.
@@ -91,87 +104,30 @@ zz.ui.Input.prototype.modelBindLevel = zz.ui.ModelBindingType.ROW;
 zz.ui.Input.prototype.controlBindLevel = zz.ui.ControlBindingType.CONTROL;
 
 /**********************************************************************************************************************
- * Prototype methods section                                                                                          *
+ * Elements access section                                                                                            *
  **********************************************************************************************************************/
 
 /**
- * Model->view update event listener.
- * @param {zz.model.DatarowUpdateEvent} evt
- * @private
+ * Return input element.
+ * @returns {Element}
  */
-zz.ui.Input.prototype.modelUpdatedListener_ = function( evt ){
+zz.ui.Input.prototype.getInputElement = function( ){
 
-	// TODO (buntarb): wtf?
-	if( evt.changes[this.model_.modelName] ){
-
-		this.setViewValue( zz.mvc.controller.convertModelToView( this.getModelValue( ) ) );
-	}
+	return this.getRenderer( ).getInputElement( this );
 };
 
 /**
- * View->model update event listener.
- * @param {goog.events.Event} evt
- * @private
+ * Return input element value.
+ * @returns {string}
  */
-zz.ui.Input.prototype.viewUpdatedListener_ = function( evt ){
+zz.ui.Input.prototype.getInputElementValue = function( ){
 
-	this.setModelValue( zz.mvc.controller.convertViewToModel( this.getModelType( ), evt.target.value ) );
+	return this.getRenderer( ).getInputElementValue( this );
 };
 
-/**
- * Enable model->vew data binding.
- * @param {boolean} opt_capt
- * @private
- */
-zz.ui.Input.prototype.enableModelToViewBinding_ = function( opt_capt ){
-
-	if( this.modelBindLevel === zz.ui.ModelBindingType.ROW ){
-
-		var datarow = this.model_.modelDatarow;
-		datarow.getHandler( ).listenWithScope(
-
-			datarow,
-			zz.mvc.model.EventType.DATAROW_UPDATE,
-			this.modelUpdatedListener_,
-			opt_capt,
-			this
-		);
-	}
-};
-
-/**
- * Enable view->model data binding.
- * @param {boolean=} opt_capt
- * @private
- */
-zz.ui.Input.prototype.enableViewToModelBinding_ = function( opt_capt ){
-
-	if( this.controlBindLevel === zz.ui.ControlBindingType.CONTROL ){
-
-		var input = this.getElement( );
-		this.getHandler( ).listenWithScope(
-
-			input,
-			[goog.events.EventType.INPUT, goog.events.EventType.CHANGE],
-			this.viewUpdatedListener_,
-			opt_capt,
-			this
-		);
-	}
-};
-
-/**
- * Enable specified data binding.
- * @param {boolean=} opt_capt
- */
-zz.ui.Input.prototype.enableDataBinding = function( opt_capt ){
-
-	if( this.bindType === zz.ui.BindType.TWO_WAY_BINDING ){
-
-		this.enableModelToViewBinding_( opt_capt );
-		this.enableViewToModelBinding_( opt_capt );
-	}
-};
+/**********************************************************************************************************************
+ * Model layout section                                                                                               *
+ **********************************************************************************************************************/
 
 /**
  * Setting up model to current field controller.
@@ -218,8 +174,15 @@ zz.ui.Input.prototype.setModel = function( datarow, index ){
 	 * @type {boolean}
 	 */
 	this.model_.modelRequired = datarow.getFieldRequiredFlagByIndex( index );
+};
 
-	this.setViewValue( zz.mvc.controller.convertModelToView( this.getModelValue( ) ) );
+/**
+ * Return model field name.
+ * @returns {string}
+ */
+zz.ui.Input.prototype.getModelName = function( ){
+
+	return this.model_.modelName;
 };
 
 /**
@@ -232,6 +195,15 @@ zz.ui.Input.prototype.getModelType = function( ){
 };
 
 /**
+ * Return model value.
+ * @returns {*}
+ */
+zz.ui.Input.prototype.getModelValue = function( ){
+
+	return this.model_.modelDatarow[this.getModelName( )];
+};
+
+/**
  * Set model value.
  * @param {*} value
  */
@@ -240,7 +212,7 @@ zz.ui.Input.prototype.setModelValue = function( value ){
 	try{
 
 		this.error_ = '';
-		this.model_.modelDatarow[this.model_.modelName] = value;
+		this.model_.modelDatarow[this.getModelName( )] = value;
 
 	}catch( e ){
 
@@ -248,13 +220,17 @@ zz.ui.Input.prototype.setModelValue = function( value ){
 	}
 };
 
-/**
- * Return model value.
- * @returns {*}
- */
-zz.ui.Input.prototype.getModelValue = function( ){
+/**********************************************************************************************************************
+ * View layout section                                                                                                *
+ **********************************************************************************************************************/
 
-	return this.model_.modelDatarow[this.model_.modelName];
+/**
+ * Return view value.
+ * @returns {goog.ui.ControlContent}
+ */
+zz.ui.Input.prototype.getViewValue = function( ){
+
+	return this.getContent( );
 };
 
 /**
@@ -266,11 +242,132 @@ zz.ui.Input.prototype.setViewValue = function( value ){
 	this.setContent( value );
 };
 
-/**
- * Return view value.
- * @returns {goog.ui.ControlContent}
- */
-zz.ui.Input.prototype.getViewValue = function( ){
+/**********************************************************************************************************************
+ * Listener section                                                                                                   *
+ **********************************************************************************************************************/
 
-	return this.getContent( );
+/**
+ * Model->view update event listener.
+ * @param {zz.model.DatarowUpdateEvent} evt
+ * @private
+ */
+zz.ui.Input.prototype.modelUpdatedListener_ = function( evt ){
+
+	//noinspection JSUnresolvedVariable
+	if( evt.changes[ this.getModelName( ) ] ){
+
+		this.setViewValue( this.convertModelToViewInternal( this.getModelValue( ) ) );
+	}
+};
+
+/**
+ * View->model update event listener.
+ * @private
+ */
+zz.ui.Input.prototype.viewUpdatedListener_ = function( ){
+
+	this.setModelValue( this.convertViewToModelInternal( this.getInputElementValue( ) ) );
+};
+
+/**********************************************************************************************************************
+ * Enable binding section                                                                                             *
+ **********************************************************************************************************************/
+
+/**
+ * Enable model->vew data binding.
+ * @param {boolean} opt_capt
+ * @private
+ */
+zz.ui.Input.prototype.enableModelToViewBinding_ = function( opt_capt ){
+
+	if( this.modelBindLevel === zz.ui.ModelBindingType.ROW ){
+
+		var datarow = this.model_.modelDatarow;
+		datarow.getHandler( ).listenWithScope(
+
+			datarow,
+			zz.mvc.model.EventType.DATAROW_UPDATE,
+			this.modelUpdatedListener_,
+			opt_capt,
+			this
+		);
+	}
+};
+
+/**
+ * Enable view->model data binding.
+ * @param {boolean=} opt_capt
+ * @private
+ */
+zz.ui.Input.prototype.enableViewToModelBinding_ = function( opt_capt ){
+
+	if( this.controlBindLevel === zz.ui.ControlBindingType.CONTROL ){
+
+		var input = this.getInputElement( );
+		this.getHandler( ).listenWithScope(
+
+			input,
+			[goog.events.EventType.INPUT, goog.events.EventType.CHANGE],
+			this.viewUpdatedListener_,
+			opt_capt,
+			this
+		);
+	}
+};
+
+/**
+ * Enable specified data binding.
+ * @param {boolean=} opt_capt
+ * @private
+ */
+zz.ui.Input.prototype.enableDataBinding_ = function( opt_capt ){
+
+	if( this.bindType === zz.ui.BindType.TWO_WAY_BINDING ){
+
+		this.enableModelToViewBinding_( opt_capt );
+		this.enableViewToModelBinding_( opt_capt );
+	}
+};
+
+/**********************************************************************************************************************
+ * Converter section (need to be overridden)                                                                          *
+ **********************************************************************************************************************/
+
+/**
+ * Return model value converted into view mode.
+ * @param {*} val
+ * @returns {goog.ui.ControlContent}
+ * @protected
+ */
+zz.ui.Input.prototype.convertModelToViewInternal = function( val ){
+
+	return zz.mvc.controller.convertModelToView( this.getModelType( ), val );
+};
+
+/**
+ * Return view value converted into model mode.
+ * @param {goog.ui.ControlContent} val
+ * @returns {*}
+ * @protected
+ */
+zz.ui.Input.prototype.convertViewToModelInternal = function( val ){
+
+	return zz.mvc.controller.convertViewToModel( this.getModelType( ), val );
+};
+
+/**
+ * @override
+ */
+zz.ui.Input.prototype.enterDocument = function( ){
+
+	if( this.model_ ){
+
+		goog.base( this, 'enterDocument' );
+		this.setViewValue( this.convertModelToViewInternal( this.getModelValue( ) ) );
+		this.enableDataBinding_( this.bindCaptureFlag );
+
+	}else{
+
+		throw new Error( zz.ui.Error.INPUT_MODEL_REQUIRE );
+	}
 };

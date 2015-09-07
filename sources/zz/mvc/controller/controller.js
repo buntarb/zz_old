@@ -32,10 +32,19 @@ goog.provide( 'zz.mvc.controller' );
  **********************************************************************************************************************/
 
 goog.require( 'zz.mvc.model.FieldTypes' );
+goog.require( 'goog.i18n.NumberFormat' );
+goog.require( 'goog.i18n.NumberFormat.Format' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
+
+/**
+ * Default number formatter.
+ * @type {goog.i18n.NumberFormat}
+ */
+var defaultNumberFormatter = new goog.i18n.NumberFormat( goog.i18n.NumberFormat.Format.DECIMAL );
+
 /**
  * Return top ElementTarget in hierarchy.
  * @param {goog.events.EventTarget} eventTarget
@@ -53,15 +62,30 @@ zz.mvc.controller.getTopEventTarget = function( eventTarget ){
 
 /**
  * Convert data from model to view state.
- * @param {*} modelValue
- * @returns {goog.ui.ControlContent}
+ * @param {string} type
+ * @param {*} value
+ * @returns {string}
  */
-zz.mvc.controller.convertModelToView = function( modelValue ){
+zz.mvc.controller.convertModelToView = function( type, value ){
 
-	if( goog.isDefAndNotNull( modelValue ) ){
+	if( goog.isDefAndNotNull( value ) ){
 
-		return  modelValue.toString( );
+		if( type === zz.mvc.model.FieldTypes.BOOLEAN ){
 
+			return value.toString( );
+
+		}else if( type === zz.mvc.model.FieldTypes.NUMBER ){
+
+			return defaultNumberFormatter.format( value );
+
+		}else if( type === zz.mvc.model.FieldTypes.STRING ){
+
+			return value;
+
+		}else{
+
+			return value;
+		}
 	}else{
 
 		return '';
@@ -82,8 +106,7 @@ zz.mvc.controller.convertViewToModel = function( type, value ){
 
 	}else if( type === zz.mvc.model.FieldTypes.NUMBER ){
 
-		// TODO (buntarb): This need to be done with goog.i18n.NumberFormat
-		return parseFloat( value );
+		return value ? defaultNumberFormatter.parse( value ) : null;
 
 	}else if( type === zz.mvc.model.FieldTypes.STRING ){
 
