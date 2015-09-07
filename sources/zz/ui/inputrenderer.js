@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.model.DatarowCreateEvent class.
+ * @fileoverview Provide zz.ui.InputRenderer class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,34 +25,104 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.DatarowCreateEvent' );
+goog.provide( 'zz.ui.InputRenderer' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'goog.events.Event' );
-goog.require( 'zz.model.EventType' );
+goog.require( 'goog.dom' );
+goog.require( 'goog.ui.ControlRenderer' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
 /**
+ * Base input control.
  * @constructor
- * @extends {goog.events.Event}
- * @param {!zz.model.Datarow} item
+ * @extends {goog.ui.InputRenderer}
  */
-zz.model.DatarowCreateEvent = function( item ){
+zz.ui.InputRenderer = function( ){
 
-	goog.events.Event.call( this, zz.model.EventType.DATAROW_CREATE, item );
+	goog.ui.ControlRenderer.call( this );
 };
-goog.inherits( zz.model.DatarowCreateEvent, goog.events.Event );
+
+// Inheritance.
+goog.inherits( zz.ui.InputRenderer, goog.ui.ControlRenderer );
+
+// Singleton instantiation.
+goog.addSingletonGetter( zz.ui.InputRenderer );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
  **********************************************************************************************************************/
 
+/**
+ * Default CSS class to be applied to the root element of components rendered
+ * by this renderer.
+ * @type {string}
+ */
+zz.ui.InputRenderer.CSS_CLASS = goog.getCssName( 'zz-control-input' );
+
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
  **********************************************************************************************************************/
+
+/**
+ * @override
+ */
+zz.ui.InputRenderer.prototype.getCssClass = function( ){
+
+	return zz.ui.InputRenderer.CSS_CLASS;
+};
+
+/**
+ * @override
+ */
+zz.ui.InputRenderer.prototype.setContent = function( element, value ){
+
+	if( element ){
+
+		element.value = value;
+	}
+};
+
+/**
+ * @param {zz.ui.Input} input
+ * @returns {Element}
+ * @override
+ */
+zz.ui.InputRenderer.prototype.createDom = function( input ){
+
+	return input.getDomHelper( ).createDom( 'input', {
+
+		'id': input.getId( ),
+		'type': 'text',
+		'value': input.getViewValue( )
+	} );
+};
+
+/**
+ * Overrides by returning true only if the element is an HTML input.
+ * @param {Element} element Element to decorate.
+ * @return {boolean} Whether the renderer can decorate the element.
+ * @override
+ */
+zz.ui.InputRenderer.prototype.canDecorate = function( element ){
+
+	return element.tagName == goog.dom.TagName.INPUT;
+};
+
+/**
+ * @override
+ * @param {zz.ui.Input} input
+ * @param {Element} element
+ * @returns
+ */
+zz.ui.InputRenderer.prototype.decorate = function( input, element ){
+
+	element = zz.ui.InputRenderer.superClass_.decorate.call( this, input, element );
+	input.setContent( element.value );
+	return element;
+};

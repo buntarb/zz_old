@@ -3,17 +3,11 @@
 <head>
     <title>Demo index page</title>
     <link rel="stylesheet" href="zz.css" type="text/css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
     <script src="zz.js"></script>
 </head>
 <body>
     <div id="root"></div>
     <div id="logger"></div>
-    <script>
-        window.addEventListener('load', function() {
-            new FastClick(document.body);
-        }, false);
-    </script>
     <script>
         zz.demos.app.run( );
     </script>

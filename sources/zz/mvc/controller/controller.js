@@ -25,23 +25,23 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.controller' );
+goog.provide( 'zz.mvc.controller' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'zz.model.FieldTypes' );
+goog.require( 'zz.mvc.model.FieldTypes' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 /**
- * Return top ElementTarget in model hierarchy.
+ * Return top ElementTarget in hierarchy.
  * @param {goog.events.EventTarget} eventTarget
  * @returns {goog.events.EventTarget}
  */
-zz.controller.getTopEventTarget = function( eventTarget ){
+zz.mvc.controller.getTopEventTarget = function( eventTarget ){
 
 	var result = eventTarget;
 	while( result.getParentEventTarget( ) ){
@@ -52,31 +52,41 @@ zz.controller.getTopEventTarget = function( eventTarget ){
 };
 
 /**
- * Convert model data to view state.
- * @param {string} modelType
- * @param {*} modelData
- * @returns {*}
+ * Convert data from model to view state.
+ * @param {*} modelValue
+ * @returns {goog.ui.ControlContent}
  */
-zz.controller.transformModelToViewField = function( modelType, modelData ){
+zz.mvc.controller.convertModelToView = function( modelValue ){
 
-	if( modelData === null ){
+	if( goog.isDefAndNotNull( modelValue ) ){
 
-		return '';
-
-	}else if( modelType === zz.model.FieldTypes.BOOLEAN ){
-
-		return modelData.toString( );
-
-	}else if( modelType === zz.model.FieldTypes.NUMBER ){
-
-		return modelData;
-
-	}else if( modelType === zz.model.FieldTypes.STRING ){
-
-		return modelData;
+		return  modelValue.toString( );
 
 	}else{
 
-		return modelData;
+		return '';
+	}
+};
+
+/**
+ * Convert data from view to model state.
+ * @param {string} type
+ * @param {goog.ui.ControlContent} value
+ * @returns {*}
+ */
+zz.mvc.controller.convertViewToModel = function( type, value ){
+
+	if( type === zz.mvc.model.FieldTypes.BOOLEAN ){
+
+		return value === 'true';
+
+	}else if( type === zz.mvc.model.FieldTypes.NUMBER ){
+
+		// TODO (buntarb): This need to be done with goog.i18n.NumberFormat
+		return parseFloat( value );
+
+	}else if( type === zz.mvc.model.FieldTypes.STRING ){
+
+		return value;
 	}
 };

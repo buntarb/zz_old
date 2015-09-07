@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Model field types.
+ * @fileoverview Model errors messages.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,19 +25,25 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.FieldTypes' );
+goog.provide( 'zz.mvc.model.Error' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * Constants for model field types name.
+ * Enum for model errors messages.
  * @enum {string}
  */
-zz.model.FieldTypes = {
+zz.mvc.model.Error = {
 
-    BOOLEAN: 'boolean',
-    NUMBER: 'number',
-    STRING: 'string'
+	DATAROW_TYPE_UNDEFINED: 'Dataset row type is undefined.',
+	DATAROW_SCHEMA_UNDEFINED: 'Dataset row schema is undefined.',
+	FIELD_EXIST: 'Field already exist.',
+	FIELD_REQUIRED: 'Missing required field.',
+	TYPE_MISMATCH_BOOLEAN: 'Type mismatch: boolean expected.',
+	TYPE_MISMATCH_NUMBER: 'Type mismatch: number expected.',
+	TYPE_MISMATCH_STRING: 'Type mismatch: string expected.',
+	TYPE_MISMATCH_DATASET: 'Type mismatch: zz.mvc.model.Dataset child expected.',
+	TYPE_MISMATCH_DATASET_RESET: 'Type mismatch. Can\'t reset field with dataset type.'
 };

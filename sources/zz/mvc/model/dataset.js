@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.model.Dataset class.
+ * @fileoverview Provide zz.mvc.model.Dataset class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.Dataset' );
+goog.provide( 'zz.mvc.model.Dataset' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -35,10 +35,10 @@ goog.require( 'goog.array' );
 goog.require( 'goog.async.run' );
 goog.require( 'goog.events.EventTarget' );
 goog.require( 'goog.events.EventHandler' );
-goog.require( 'zz.model' );
-goog.require( 'zz.model.DatarowCreateEvent' );
-goog.require( 'zz.model.DatarowDeleteEvent' );
-goog.require( 'zz.model.Error' );
+goog.require( 'zz.mvc.model' );
+goog.require( 'zz.mvc.model.DatarowCreateEvent' );
+goog.require( 'zz.mvc.model.DatarowDeleteEvent' );
+goog.require( 'zz.mvc.model.Error' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -50,7 +50,7 @@ goog.require( 'zz.model.Error' );
  * @param {?goog.events.EventTarget} opt_parent
  * @param {?Array.<Array>} opt_data
  */
-zz.model.Dataset = function( opt_parent, opt_data ){
+zz.mvc.model.Dataset = function( opt_parent, opt_data ){
 
 	goog.events.EventTarget.call( this );
 
@@ -72,7 +72,7 @@ zz.model.Dataset = function( opt_parent, opt_data ){
 	}, this );
 	this.index_ = this.length > 0 ? 0 : undefined;
 };
-goog.inherits( zz.model.Dataset, goog.events.EventTarget );
+goog.inherits( zz.mvc.model.Dataset, goog.events.EventTarget );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -88,7 +88,7 @@ goog.inherits( zz.model.Dataset, goog.events.EventTarget );
  * @return {!goog.events.EventHandler} Event handler for this dataset.
  * @protected
  */
-zz.model.Dataset.prototype.getHandler = function( ){
+zz.mvc.model.Dataset.prototype.getHandler = function( ){
 
 	if( !this.handler_ ){
 
@@ -98,9 +98,9 @@ zz.model.Dataset.prototype.getHandler = function( ){
 };
 
 /** @inheritDoc */
-zz.model.Dataset.prototype.disposeInternal = function( ){
+zz.mvc.model.Dataset.prototype.disposeInternal = function( ){
 
-	zz.model.Dataset.superClass_.disposeInternal.call( this );
+	zz.mvc.model.Dataset.superClass_.disposeInternal.call( this );
 	if( this.handler_ ){
 
 		this.handler_.dispose( );
@@ -112,13 +112,13 @@ zz.model.Dataset.prototype.disposeInternal = function( ){
  * Current dataset row type.
  * @constructor
  * @private
- * @type {zz.model.Datarow}
- * @param {zz.model.Dataset} dataset
+ * @type {zz.mvc.model.Datarow}
+ * @param {zz.mvc.model.Dataset} dataset
  * @param {Array} data
  */
-zz.model.Dataset.prototype.Datarow_ = function( dataset, data ){
+zz.mvc.model.Dataset.prototype.Datarow_ = function( dataset, data ){
 
-	throw new TypeError( zz.model.Error.DATAROW_TYPE_UNDEFINED );
+	throw new TypeError( zz.mvc.model.Error.DATAROW_TYPE_UNDEFINED );
 };
 
 /**
@@ -126,14 +126,14 @@ zz.model.Dataset.prototype.Datarow_ = function( dataset, data ){
  * @param {Array=} opt_data
  * @returns {*}
  */
-zz.model.Dataset.prototype.createFirst = function( opt_data ){
+zz.mvc.model.Dataset.prototype.createFirst = function( opt_data ){
 
 	var row = new this.Datarow_( this, opt_data );
 	Array.prototype.unshift.call( this, row );
 	this.index_ = 0;
 	goog.async.run( function( ){
 
-		row.dispatchEvent( new zz.model.DatarowCreateEvent( row ) );
+		row.dispatchEvent( new zz.mvc.model.DatarowCreateEvent( row ) );
 	} );
 	return row;
 };
@@ -143,14 +143,14 @@ zz.model.Dataset.prototype.createFirst = function( opt_data ){
  * @param {Array=} opt_data
  * @returns {*}
  */
-zz.model.Dataset.prototype.createLast = function( opt_data ){
+zz.mvc.model.Dataset.prototype.createLast = function( opt_data ){
 
 	var row = new this.Datarow_( this, opt_data );
 	Array.prototype.push.call( this, row );
 	this.index_ = this.length - 1;
 	goog.async.run( function( ){
 
-		row.dispatchEvent( new zz.model.DatarowCreateEvent( row ) );
+		row.dispatchEvent( new zz.mvc.model.DatarowCreateEvent( row ) );
 	} );
 	return row;
 };
@@ -159,7 +159,7 @@ zz.model.Dataset.prototype.createLast = function( opt_data ){
  * Delete first datarow from dataset if it exist.
  * @returns {boolean}
  */
-zz.model.Dataset.prototype.deleteFirst = function( ){
+zz.mvc.model.Dataset.prototype.deleteFirst = function( ){
 
 	if( this.length > 0 ){
 
@@ -168,7 +168,7 @@ zz.model.Dataset.prototype.deleteFirst = function( ){
 		goog.async.run( function( ){
 
 			datarow.dispose( );
-			this.dispatchEvent( new zz.model.DatarowDeleteEvent( this, datarow ) );
+			this.dispatchEvent( new zz.mvc.model.DatarowDeleteEvent( this, datarow ) );
 
 		}, this );
 		return true;
@@ -183,7 +183,7 @@ zz.model.Dataset.prototype.deleteFirst = function( ){
  * Delete last datarow from dataset if it exist.
  * @returns {boolean}
  */
-zz.model.Dataset.prototype.deleteLast = function( ){
+zz.mvc.model.Dataset.prototype.deleteLast = function( ){
 
 	if( this.length > 0 ){
 
@@ -192,7 +192,7 @@ zz.model.Dataset.prototype.deleteLast = function( ){
 		goog.async.run( function( ){
 
 			datarow.dispose( );
-			this.dispatchEvent( new zz.model.DatarowDeleteEvent( this, datarow ) );
+			this.dispatchEvent( new zz.mvc.model.DatarowDeleteEvent( this, datarow ) );
 
 		}, this );
 		return true;
@@ -207,7 +207,7 @@ zz.model.Dataset.prototype.deleteLast = function( ){
  * Delete current datarow from dataset if exist.
  * @returns {boolean}
  */
-zz.model.Dataset.prototype.deleteCurrent = function( ){
+zz.mvc.model.Dataset.prototype.deleteCurrent = function( ){
 
 	if( goog.isDef( this.index_ ) && goog.isNumber( this.index_ ) ){
 
@@ -219,7 +219,7 @@ zz.model.Dataset.prototype.deleteCurrent = function( ){
 		goog.async.run( function( ){
 
 			datarow.dispose( );
-			this.dispatchEvent( new zz.model.DatarowDeleteEvent( this, datarow ) );
+			this.dispatchEvent( new zz.mvc.model.DatarowDeleteEvent( this, datarow ) );
 
 		}, this );
 		return true;
@@ -235,7 +235,7 @@ zz.model.Dataset.prototype.deleteCurrent = function( ){
  * @param {string} id
  * @returns {number|undefined}
  */
-zz.model.Dataset.prototype.getIndexById = function( id ){
+zz.mvc.model.Dataset.prototype.getIndexById = function( id ){
 
 	var index = undefined;
 	if( this.length > 0 ){
@@ -254,9 +254,9 @@ zz.model.Dataset.prototype.getIndexById = function( id ){
 
 /**
  * Return first datarow from current dataset if it exists, false otherwise.
- * @returns {zz.model.Datarow|boolean}
+ * @returns {zz.mvc.model.Datarow|boolean}
  */
-zz.model.Dataset.prototype.firstDatarow = function( ){
+zz.mvc.model.Dataset.prototype.firstDatarow = function( ){
 
 	this.index_ = this.length > 0 ? 0 : undefined;
 
@@ -272,9 +272,9 @@ zz.model.Dataset.prototype.firstDatarow = function( ){
 
 /**
  * Return last datarow from current dataset if it exists, false otherwise.
- * @returns {zz.model.Datarow|boolean}
+ * @returns {zz.mvc.model.Datarow|boolean}
  */
-zz.model.Dataset.prototype.lastDatarow = function( ){
+zz.mvc.model.Dataset.prototype.lastDatarow = function( ){
 
 	this.index_ = this.length > 0 ? this.length - 1 : undefined;
 
@@ -290,9 +290,9 @@ zz.model.Dataset.prototype.lastDatarow = function( ){
 
 /**
  * Return next datarow from current dataset if it exists, false otherwise.
- * @returns {zz.model.Datarow|boolean}
+ * @returns {zz.mvc.model.Datarow|boolean}
  */
-zz.model.Dataset.prototype.nextDatarow = function( ){
+zz.mvc.model.Dataset.prototype.nextDatarow = function( ){
 
 	if( this.length > 0 && this.index_ < ( this.length - 1 ) ){
 
@@ -307,9 +307,9 @@ zz.model.Dataset.prototype.nextDatarow = function( ){
 
 /**
  * Return next datarow from current dataset if it exists, false otherwise.
- * @returns {zz.model.Datarow|boolean}
+ * @returns {zz.mvc.model.Datarow|boolean}
  */
-zz.model.Dataset.prototype.previousDatarow = function( ){
+zz.mvc.model.Dataset.prototype.previousDatarow = function( ){
 
 	if( this.length > 0 && this.index_ > 0 ){
 

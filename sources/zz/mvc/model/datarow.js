@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.model.Datarow class.
+ * @fileoverview Provide zz.mvc.model.Datarow class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.Datarow' );
+goog.provide( 'zz.mvc.model.Datarow' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -34,10 +34,10 @@ goog.provide( 'zz.model.Datarow' );
 goog.require( 'goog.object' );
 goog.require( 'goog.async.run' );
 goog.require( 'goog.events.EventTarget' );
-goog.require( 'zz.model' );
-goog.require( 'zz.model.Error' );
-goog.require( 'zz.model.IDatarow' );
-goog.require( 'zz.model.FieldTypes' );
+goog.require( 'zz.mvc.model' );
+goog.require( 'zz.mvc.model.Error' );
+goog.require( 'zz.mvc.model.IDatarow' );
+goog.require( 'zz.mvc.model.FieldTypes' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -47,11 +47,11 @@ goog.require( 'zz.model.FieldTypes' );
 /**
  * @constructor
  * @extends {goog.events.EventTarget}
- * @implements zz.model.IDatarow
- * @param {!zz.model.Dataset} dataset
+ * @implements zz.mvc.model.IDatarow
+ * @param {!zz.mvc.model.Dataset} dataset
  * @param {?Array} opt_data
  */
-zz.model.Datarow = function( dataset, opt_data ){
+zz.mvc.model.Datarow = function( dataset, opt_data ){
 
 	goog.events.EventTarget.call( this );
 	this.setParentEventTarget( dataset );
@@ -61,39 +61,39 @@ zz.model.Datarow = function( dataset, opt_data ){
 	 * @type {string}
 	 * @private
 	 */
-	this.datarowId_ = zz.model.getUniqueDatarowId( );
+	this.datarowId_ = zz.mvc.model.getUniqueDatarowId( );
 
 	goog.object.forEach( this.getSchema_( ), function( meta, name ){
 
 		var idx = /** @type {number} */ (meta.index);
-		var typ = /** @type {zz.model.FieldTypes|Function} */ (meta.type);
+		var typ = /** @type {zz.mvc.model.FieldTypes|Function} */ (meta.type);
 		var req = /** @type {boolean} */ (meta.required);
 
 		if( goog.isDef( opt_data ) && req && !goog.isDefAndNotNull( opt_data[idx] ) )
 
-			throw new TypeError( zz.model.Error.FIELD_REQUIRED );
+			throw new TypeError( zz.mvc.model.Error.FIELD_REQUIRED );
 
-		if( typ === zz.model.FieldTypes.BOOLEAN )
+		if( typ === zz.mvc.model.FieldTypes.BOOLEAN )
 
-			zz.model.setupBooleanField( this, name, opt_data ? opt_data[idx] : undefined );
+			zz.mvc.model.setupBooleanField( this, name, opt_data ? opt_data[idx] : undefined );
 
-		if( typ === zz.model.FieldTypes.NUMBER )
+		if( typ === zz.mvc.model.FieldTypes.NUMBER )
 
-			zz.model.setupNumberField( this, name, opt_data ? opt_data[idx] : undefined );
+			zz.mvc.model.setupNumberField( this, name, opt_data ? opt_data[idx] : undefined );
 
-		if( typ === zz.model.FieldTypes.STRING )
+		if( typ === zz.mvc.model.FieldTypes.STRING )
 
-			zz.model.setupStringField( this, name, opt_data ? opt_data[idx] : undefined );
+			zz.mvc.model.setupStringField( this, name, opt_data ? opt_data[idx] : undefined );
 
 		if( goog.isFunction( typ ) )
 
-			zz.model.setupDatasetField( this, name, typ, opt_data ? opt_data[idx] : undefined );
+			zz.mvc.model.setupDatasetField( this, name, typ, opt_data ? opt_data[idx] : undefined );
 
 		this.fieldToIndex_[idx] = name;
 
 	}, this );
 };
-goog.inherits( zz.model.Datarow, goog.events.EventTarget );
+goog.inherits( zz.mvc.model.Datarow, goog.events.EventTarget );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -103,11 +103,35 @@ goog.inherits( zz.model.Datarow, goog.events.EventTarget );
  * @type {Array}
  * @private
  */
-zz.model.Datarow.prototype.fieldToIndex_ = [];
+zz.mvc.model.Datarow.prototype.fieldToIndex_ = [];
 
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
  **********************************************************************************************************************/
+
+/**
+ * Returns the event handler for this datarow, lazily created the first time this method is called.
+ * @return {!goog.events.EventHandler} Event handler for this datarow.
+ */
+zz.mvc.model.Datarow.prototype.getHandler = function( ){
+
+	if( !this.handler_ ){
+
+		this.handler_ = new goog.events.EventHandler( this );
+	}
+	return this.handler_;
+};
+
+/** @inheritDoc */
+zz.mvc.model.Datarow.prototype.disposeInternal = function( ){
+
+	zz.mvc.model.Datarow.superClass_.disposeInternal.call( this );
+	if( this.handler_ ){
+
+		this.handler_.dispose( );
+		delete this.handler_;
+	}
+};
 
 /**
  * Return schema object.
@@ -115,16 +139,16 @@ zz.model.Datarow.prototype.fieldToIndex_ = [];
  * @private
  * @override
  */
-zz.model.Datarow.prototype.getSchema_ = function( ){
+zz.mvc.model.Datarow.prototype.getSchema_ = function( ){
 
-	throw new TypeError( zz.model.Error.DATAROW_SCHEMA_UNDEFINED );
+	throw new TypeError( zz.mvc.model.Error.DATAROW_SCHEMA_UNDEFINED );
 };
 
 /**
  * Return current datarow unique ID.
  * @returns {string}
  */
-zz.model.Datarow.prototype.getId = function( ){
+zz.mvc.model.Datarow.prototype.getId = function( ){
 
 	return this.datarowId_;
 };
@@ -133,7 +157,7 @@ zz.model.Datarow.prototype.getId = function( ){
  * Set specified id to current datarow. Note: id must to be globally unique.
  * @param {string} id
  */
-zz.model.Datarow.prototype.setId = function( id ){
+zz.mvc.model.Datarow.prototype.setId = function( id ){
 
 	this.datarowId_ = id;
 };
@@ -143,7 +167,7 @@ zz.model.Datarow.prototype.setId = function( id ){
  * @param {number} index
  * @return {string}
  */
-zz.model.Datarow.prototype.getFieldNameByIndex = function( index ){
+zz.mvc.model.Datarow.prototype.getFieldNameByIndex = function( index ){
 
 	return this.fieldToIndex_[index];
 };
@@ -153,7 +177,7 @@ zz.model.Datarow.prototype.getFieldNameByIndex = function( index ){
  * @param {number} index
  * @returns {string}
  */
-zz.model.Datarow.prototype.getFieldTypeByIndex = function( index ){
+zz.mvc.model.Datarow.prototype.getFieldTypeByIndex = function( index ){
 
 	return this.getSchema_( )[this.getFieldNameByIndex( index )].type;
 };
@@ -163,7 +187,7 @@ zz.model.Datarow.prototype.getFieldTypeByIndex = function( index ){
  * @param {number} index
  * @returns {boolean}
  */
-zz.model.Datarow.prototype.getFieldRequiredFlagByIndex = function( index ){
+zz.mvc.model.Datarow.prototype.getFieldRequiredFlagByIndex = function( index ){
 
 	return this.getSchema_( )[this.getFieldNameByIndex( index )].required;
 };

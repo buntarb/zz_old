@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Definition of the model data item interface.
+ * @fileoverview Model events types.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,20 +25,25 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.IDatarow' );
+goog.provide( 'zz.mvc.model.EventType' );
+
+/**********************************************************************************************************************
+ * Dependencies section                                                                                               *
+ **********************************************************************************************************************/
+
+goog.require( 'goog.events' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * Interface for a model data item objects.
- * @interface
+ * Constants for model events types.
+ * @enum {string}
  */
-zz.model.IDatarow = function( ){ };
+zz.mvc.model.EventType = {
 
-/**
- * This method must to return data item schema object.
- * @return {Object} DataItem Schema object.
- */
-zz.model.IDatarow.prototype.getSchema_ = goog.abstractMethod;
+    DATAROW_CREATE: goog.events.getUniqueId( 'datarow_create' ),
+	DATAROW_UPDATE: goog.events.getUniqueId( 'datarow_update' ),
+	DATAROW_DELETE: goog.events.getUniqueId( 'datarow_delete' )
+};

@@ -32,10 +32,10 @@ goog.provide( 'zz.model.ExampleUserSet' );
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'zz.model.Datarow' );
-goog.require( 'zz.model.Dataset' );
-goog.require( 'zz.model.IDatarow' );
-goog.require( 'zz.model.FieldTypes' );
+goog.require( 'zz.mvc.model.Datarow' );
+goog.require( 'zz.mvc.model.Dataset' );
+goog.require( 'zz.mvc.model.IDatarow' );
+goog.require( 'zz.mvc.model.FieldTypes' );
 goog.require( 'zz.model.ExampleUserPhoneSet' );
 
 /**********************************************************************************************************************
@@ -45,9 +45,9 @@ goog.require( 'zz.model.ExampleUserPhoneSet' );
 //noinspection JSClosureCompilerSyntax
 /**
  * @constructor
- * @implements {zz.model.IDatarow}
- * @extends {zz.model.Datarow}
- * @param {!zz.model.Dataset} dataset
+ * @implements {zz.mvc.model.IDatarow}
+ * @extends {zz.mvc.model.Datarow}
+ * @param {!zz.mvc.model.Dataset} dataset
  * @param {?Array.<boolean, number, string>} opt_data
  */
 zz.model.ExampleUser = function( dataset, opt_data ){
@@ -85,9 +85,9 @@ zz.model.ExampleUser = function( dataset, opt_data ){
 	/**
 	 * Call parent constructor.
 	 */
-	zz.model.Datarow.call( this, dataset, opt_data );
+	zz.mvc.model.Datarow.call( this, dataset, opt_data );
 };
-goog.inherits( zz.model.ExampleUser, zz.model.Datarow );
+goog.inherits( zz.model.ExampleUser, zz.mvc.model.Datarow );
 
 /**********************************************************************************************************************
  * Model properties description section                                                                               *
@@ -110,31 +110,31 @@ zz.model.ExampleUser.prototype.getSchema_ = function( ){
 		userFirstName: {
 
 			index: 0,
-			type: zz.model.FieldTypes.STRING,
+			type: zz.mvc.model.FieldTypes.STRING,
 			required: false
 		},
 		userLastName: {
 
 			index: 1,
-			type: zz.model.FieldTypes.STRING,
+			type: zz.mvc.model.FieldTypes.STRING,
 			required: false
 		},
 		userLogin: {
 
 			index: 2,
-			type: zz.model.FieldTypes.STRING,
+			type: zz.mvc.model.FieldTypes.STRING,
 			required: true
 		},
 		userPassword: {
 
 			index: 3,
-			type: zz.model.FieldTypes.STRING,
+			type: zz.mvc.model.FieldTypes.STRING,
 			required: true
 		},
 		userVerifiedFlag: {
 
 			index: 4,
-			type: zz.model.FieldTypes.BOOLEAN,
+			type: zz.mvc.model.FieldTypes.BOOLEAN,
 			required: true
 		},
 		userPhones: {
@@ -154,13 +154,13 @@ zz.model.ExampleUser.prototype.getSchema_ = function( ){
  * @constructor
  * @param {goog.event.EventTarget=} opt_parent
  * @param {Array.<Array>=} opt_data
- * @extends {zz.model.Dataset}
+ * @extends {zz.mvc.model.Dataset}
  */
 zz.model.ExampleUserSet = function( opt_parent, opt_data ){
 
-	zz.model.Dataset.call( this, opt_parent, opt_data );
+	zz.mvc.model.Dataset.call( this, opt_parent, opt_data );
 };
-goog.inherits( zz.model.ExampleUserSet, zz.model.Dataset );
+goog.inherits( zz.model.ExampleUserSet, zz.mvc.model.Dataset );
 
 /**
  * Current dataset row type.

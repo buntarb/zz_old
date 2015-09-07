@@ -40,9 +40,9 @@ goog.require( 'goog.ui.Checkbox' );
 goog.require( 'goog.ui.Button' );
 goog.require( 'zz.events' );
 goog.require( 'zz.template' );
+goog.require( 'zz.mvc.model.EventType' );
 goog.require( 'zz.model.ExampleUserSet' );
-goog.require( 'zz.model.EventType' );
-goog.require( 'zz.controller.FieldController' );
+goog.require( 'zz.ui.Input' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -127,26 +127,27 @@ zz.demos.app.run = function( ){
 	/**
 	 * @type {zz.model.ExampleUserPhone}
 	 */
-	var phone = user.userPhones.createLast( );
+	var phone = goog.global.phone = user.userPhones.createLast( );
 
 	phone.phoneActiveFlag = true;
 	phone.phoneType = 'mobile';
 	phone.phoneNumber = '+380991234567';
 
-	user.userPhones.deleteCurrent( );
+	//user.userPhones.deleteCurrent( );
 
-	var EVENTS = goog.object.getValues( zz.model.EventType );
+	var EVENTS = goog.object.getValues( zz.mvc.model.EventType );
 	var CAPTURE = false;
 
-	var bidiCtrl = new zz.controller.FieldController( );
-	bidiCtrl.setModel( phone, 2 );
-	bidiCtrl.render( goog.dom.getElement( 'root' ) );
-	console.log( bidiCtrl );
+	var el = new zz.ui.Input( undefined, goog.dom.getDomHelper( ) );
+	el.setModel( phone, 0 );
+	el.render( goog.dom.getElement( 'root' ) );
+	el.enableDataBinding( );
+	console.log( el );
 
 //	goog.events.listen( users, EVENTS, function( evt ){
 //
-//		if( evt.type === zz.model.EventType.DATAROW_UPDATE &&
-//			evt.target instanceof zz.model.ExampleUserPhone &&
+//		if( evt.type === zz.mvc.model.EventType.DATAROW_UPDATE &&
+//			evt.target instanceof zz.mvc.model.ExampleUserPhone &&
 //			evt.changes.phoneType ){
 //
 //			console.log( '' );
@@ -157,7 +158,7 @@ zz.demos.app.run = function( ){
 //			console.log( '------------------------------- UPDATE END -----------------------------------------------' );
 //			console.log( '' );
 //
-//		}else if( evt.type === zz.model.EventType.DATAROW_DELETE ){
+//		}else if( evt.type === zz.mvc.model.EventType.DATAROW_DELETE ){
 //
 //			console.log( '' );
 //			console.log( '------------------------------- DELETE START ---------------------------------------------' );

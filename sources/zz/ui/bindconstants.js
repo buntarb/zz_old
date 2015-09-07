@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Model errors messages.
+ * @fileoverview Binding constants.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,25 +25,43 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.Error' );
+goog.provide( 'zz.ui.BindType' );
+goog.provide( 'zz.ui.ModelBindingType' );
+goog.provide( 'zz.ui.ControlBindingType' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * Enum for model errors messages.
+ * Constants for binding level.
  * @enum {string}
  */
-zz.model.Error = {
+zz.ui.BindType = {
 
-	DATAROW_TYPE_UNDEFINED: 'Dataset row type is undefined.',
-	DATAROW_SCHEMA_UNDEFINED: 'Dataset row schema is undefined.',
-	FIELD_EXIST: 'Field already exist.',
-	FIELD_REQUIRED: 'Missing required field.',
-	TYPE_MISMATCH_BOOLEAN: 'Type mismatch: boolean expected.',
-	TYPE_MISMATCH_NUMBER: 'Type mismatch: number expected.',
-	TYPE_MISMATCH_STRING: 'Type mismatch: string expected.',
-	TYPE_MISMATCH_DATASET: 'Type mismatch: zz.model.Dataset child expected.',
-	TYPE_MISMATCH_DATASET_RESET: 'Type mismatch. Can\'t reset field with dataset type.'
+    UI_TO_MODEL: 'ui->model',
+    MODEL_TO_UI: 'model->ui',
+    TWO_WAY_BINDING: 'model<->ui'
+};
+
+/**
+ * Constants for model binding level.
+ * @enum {string}
+ */
+zz.ui.ModelBindingType = {
+
+    ROW: 'row',
+    SET: 'set',
+    TOP: 'top'
+};
+
+/**
+ * Constants for control binding level.
+ * @enum {string}
+ */
+zz.ui.ControlBindingType = {
+
+    CONTROL: 'row',
+    PARENT: 'set',
+    TOP: 'top'
 };
