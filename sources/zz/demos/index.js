@@ -145,9 +145,8 @@ zz.demos.app.run = function( ){
 	var EVENTS = goog.object.getValues( zz.mvc.model.EventType );
 	var CAPTURE = false;
 
-	var el = new zz.ui.Input( phone, 3 );
+	var el = goog.global.el = new zz.ui.Input( phone, 3 );
 	el.render( goog.dom.getElement( 'root' ) );
-	console.log( el );
 
 //	goog.events.listen( users, EVENTS, function( evt ){
 //

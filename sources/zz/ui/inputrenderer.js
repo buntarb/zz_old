@@ -32,6 +32,7 @@ goog.provide( 'zz.ui.InputRenderer' );
  **********************************************************************************************************************/
 
 goog.require( 'goog.dom' );
+goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.ui.ControlRenderer' );
 
 /**********************************************************************************************************************
@@ -60,6 +61,12 @@ goog.addSingletonGetter( zz.ui.InputRenderer );
  * @type {string}
  */
 zz.ui.InputRenderer.CSS_CLASS = goog.getCssName( 'zz-control-input' );
+
+/**
+ * Default CSS class for error state.
+ * @type {string}
+ */
+zz.ui.InputRenderer.CSS_ERROR_CLASS = goog.getCssName( 'zz-control-input-error' );
 
 /**********************************************************************************************************************
  * Base renderer methods                                                                                              *
@@ -146,4 +153,34 @@ zz.ui.InputRenderer.prototype.getInputElement = function( input ){
 zz.ui.InputRenderer.prototype.getInputElementValue = function( input ){
 
 	return input.getElement( ).value;
+};
+
+/**
+ * Add error state to control.
+ * @param {zz.ui.Input} input
+ * @param {string} error
+ */
+zz.ui.InputRenderer.prototype.addErrorState = function( input, error ){
+
+	el = input.getElement( );
+	if( error ){
+
+		if( !goog.dom.classlist.contains( el, zz.ui.InputRenderer.CSS_ERROR_CLASS ) ){
+
+			goog.dom.classlist.add( el, zz.ui.InputRenderer.CSS_ERROR_CLASS );
+		}
+	}
+};
+
+/**
+ * Remove error state from control.
+ * @param {zz.ui.Input} input
+ */
+zz.ui.InputRenderer.prototype.removeErrorState = function( input ){
+
+	el = input.getElement( );
+	if( goog.dom.classlist.contains( el, zz.ui.InputRenderer.CSS_ERROR_CLASS ) ){
+
+		goog.dom.classlist.remove( el, zz.ui.InputRenderer.CSS_ERROR_CLASS );
+	}
 };

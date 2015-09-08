@@ -75,15 +75,15 @@ zz.mvc.model.Datarow = function( dataset, opt_data ){
 
 		if( typ === zz.mvc.model.FieldTypes.BOOLEAN )
 
-			zz.mvc.model.setupBooleanField( this, name, opt_data ? opt_data[idx] : undefined );
+			zz.mvc.model.setupBooleanField( this, name, req, opt_data ? opt_data[idx] : undefined );
 
 		if( typ === zz.mvc.model.FieldTypes.NUMBER )
 
-			zz.mvc.model.setupNumberField( this, name, opt_data ? opt_data[idx] : undefined );
+			zz.mvc.model.setupNumberField( this, name, req, opt_data ? opt_data[idx] : undefined );
 
 		if( typ === zz.mvc.model.FieldTypes.STRING )
 
-			zz.mvc.model.setupStringField( this, name, opt_data ? opt_data[idx] : undefined );
+			zz.mvc.model.setupStringField( this, name, req, opt_data ? opt_data[idx] : undefined );
 
 		if( goog.isFunction( typ ) )
 

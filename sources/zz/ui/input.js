@@ -212,11 +212,13 @@ zz.ui.Input.prototype.setModelValue = function( value ){
 	try{
 
 		this.error_ = '';
+		this.renderer_.removeErrorState( this );
 		this.model_.modelDatarow[this.getModelName( )] = value;
 
 	}catch( e ){
 
 		this.error_ = e.message;
+		this.renderer_.addErrorState( this, e.message );
 	}
 };
 
@@ -262,11 +264,16 @@ zz.ui.Input.prototype.modelUpdatedListener_ = function( evt ){
 
 /**
  * View->model update event listener.
+ * @param {goog.events.Event} evt
  * @private
  */
-zz.ui.Input.prototype.viewUpdatedListener_ = function( ){
+zz.ui.Input.prototype.viewUpdatedListener_ = function( evt ){
 
 	this.setModelValue( this.convertViewToModelInternal( this.getInputElementValue( ) ) );
+	if( evt.type === goog.events.EventType.CHANGE ){
+
+		this.setViewValue( this.convertModelToViewInternal( this.getModelValue( ) ) );
+	}
 };
 
 /**********************************************************************************************************************

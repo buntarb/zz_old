@@ -57,7 +57,7 @@ zz.mvc.model.getUniqueDatarowId = function( ){
 };
 
 /**
- * Check is specified field exist in specified item, cal an exception if true.
+ * Check is specified field exist in specified item, call an exception if true.
  * @param {!zz.mvc.model.Datarow} datarow
  * @param {string} datafield
  */
@@ -67,12 +67,22 @@ zz.mvc.model.checkIfFieldExist = function( datarow, datafield ){
 };
 
 /**
+ * Check is required field filled or not.
+ * @param {boolean} required
+ * @param {*} value
+ */
+zz.mvc.model.checkRequiredField = function( required, value ){
+
+    if( required && goog.isNull( value ) ) throw new TypeError( zz.mvc.model.Error.FIELD_REQUIRED );
+};
+
+/**
  * Check is specified value is a boolean. Throw an exception if it not.
  * @param {*} value
  */
 zz.mvc.model.checkBooleanType = function( value ){
 
-    if( !goog.isBoolean( value ) ) {
+    if( !goog.isBoolean( value ) && !goog.isNull( value ) ) {
 
         throw new TypeError( zz.mvc.model.Error.TYPE_MISMATCH_BOOLEAN );
     }
@@ -84,7 +94,7 @@ zz.mvc.model.checkBooleanType = function( value ){
  */
 zz.mvc.model.checkNumberType = function( value ){
 
-    if( ( !goog.isNumber( value ) && !goog.isNull( value ) ) || value !== value ) {
+    if( ( !goog.isNumber( value ) && !goog.isNull( value ) ) || value !== value ){
 
         throw new TypeError( zz.mvc.model.Error.TYPE_MISMATCH_NUMBER );
     }
@@ -96,7 +106,7 @@ zz.mvc.model.checkNumberType = function( value ){
  */
 zz.mvc.model.checkStringType = function( value ){
 
-    if( !goog.isString( value ) ) {
+    if( !goog.isString( value ) && !goog.isNull( value ) ) {
 
         throw new TypeError( zz.mvc.model.Error.TYPE_MISMATCH_STRING );
     }
@@ -106,9 +116,10 @@ zz.mvc.model.checkStringType = function( value ){
  * Setting up data item field with boolean type.
  * @param {!zz.mvc.model.Datarow} datarow
  * @param {!string} datafield
+ * @param {boolean} required
  * @param {?*} opt_value
  */
-zz.mvc.model.setupBooleanField = function( datarow, datafield, opt_value ){
+zz.mvc.model.setupBooleanField = function( datarow, datafield, required, opt_value ){
 
     if( goog.isDef( opt_value) )
 
@@ -128,6 +139,7 @@ zz.mvc.model.setupBooleanField = function( datarow, datafield, opt_value ){
         set: function( val ){
 
             zz.mvc.model.checkBooleanType( val );
+            zz.mvc.model.checkRequiredField( required, val );
             if( value !== val ){
 
 				var old_value = value;
@@ -154,9 +166,10 @@ zz.mvc.model.setupBooleanField = function( datarow, datafield, opt_value ){
  * Setting up data item field with number type.
  * @param {!zz.mvc.model.Datarow} datarow
  * @param {!string} datafield
+ * @param {boolean} required
  * @param {?*} opt_value
  */
-zz.mvc.model.setupNumberField = function( datarow, datafield, opt_value ){
+zz.mvc.model.setupNumberField = function( datarow, datafield, required, opt_value ){
 
     if( goog.isDef( opt_value) )
 
@@ -173,7 +186,7 @@ zz.mvc.model.setupNumberField = function( datarow, datafield, opt_value ){
         set: function( val ){
 
             zz.mvc.model.checkNumberType( val );
-			// TODO: Add required field checking.
+            zz.mvc.model.checkRequiredField( required, val );
             if( value !== val ){
 
 				var old_value = value;
@@ -200,9 +213,10 @@ zz.mvc.model.setupNumberField = function( datarow, datafield, opt_value ){
  * Setting up data item field with string type.
  * @param {!zz.mvc.model.Datarow} datarow
  * @param {!string} datafield
+ * @param {boolean} required
  * @param {*} opt_value
  */
-zz.mvc.model.setupStringField = function( datarow, datafield, opt_value ){
+zz.mvc.model.setupStringField = function( datarow, datafield, required, opt_value ){
 
     if( goog.isDef( opt_value) )
 
@@ -219,6 +233,7 @@ zz.mvc.model.setupStringField = function( datarow, datafield, opt_value ){
         set: function( val ){
 
             zz.mvc.model.checkStringType( val );
+            zz.mvc.model.checkRequiredField( required, val );
             if( value !== val ){
 
 				var old_value = value;
