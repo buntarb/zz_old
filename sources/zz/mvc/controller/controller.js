@@ -61,6 +61,25 @@ zz.mvc.controller.getTopEventTarget = function( eventTarget ){
 };
 
 /**
+ * Return an array with datarows tree ids.
+ * @param {goog.events.EventTarget} datarow
+ * @returns {Array}
+ */
+zz.mvc.controller.getDatarowTreeIds = function( datarow ){
+
+	var ids = [];
+	while( datarow.getParentEventTarget( ) ){
+
+		if( goog.isDef( datarow.getId ) ){
+
+			ids.unshift( datarow.getId( ) );
+		}
+		datarow = datarow.getParentEventTarget( );
+	}
+	return ids;
+};
+
+/**
  * Convert data from model to view state.
  * @param {string} type
  * @param {*} value
@@ -72,7 +91,7 @@ zz.mvc.controller.convertModelToView = function( type, value ){
 
 		if( type === zz.mvc.model.FieldTypes.BOOLEAN ){
 
-			return value.toString( );
+			return value;
 
 		}else if( type === zz.mvc.model.FieldTypes.NUMBER ){
 
@@ -102,7 +121,7 @@ zz.mvc.controller.convertViewToModel = function( type, value ){
 
 	if( type === zz.mvc.model.FieldTypes.BOOLEAN ){
 
-		return value === 'true';
+		return value;
 
 	}else if( type === zz.mvc.model.FieldTypes.NUMBER ){
 
@@ -110,6 +129,6 @@ zz.mvc.controller.convertViewToModel = function( type, value ){
 
 	}else if( type === zz.mvc.model.FieldTypes.STRING ){
 
-		return value;
+		return value ? value : null;
 	}
 };

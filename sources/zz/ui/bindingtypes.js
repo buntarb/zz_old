@@ -39,9 +39,9 @@ goog.provide( 'zz.ui.ControlBindingType' );
  */
 zz.ui.BindType = {
 
-    UI_TO_MODEL: 'ui->model',
-    MODEL_TO_UI: 'model->ui',
-    TWO_WAY_BINDING: 'model<->ui'
+    UI_TO_MODEL: 'UI-TO-MODEL',
+    MODEL_TO_UI: 'MODEL-TO-UI',
+    TWO_WAY_BINDING: 'TWO-WAY'
 };
 
 /**
@@ -50,9 +50,9 @@ zz.ui.BindType = {
  */
 zz.ui.ModelBindingType = {
 
-    ROW: 'row',
-    SET: 'set',
-    TOP: 'top'
+    ROW: 'ROW',
+    SET: 'SET',
+    TOP: 'TOP'
 };
 
 /**
@@ -61,7 +61,7 @@ zz.ui.ModelBindingType = {
  */
 zz.ui.ControlBindingType = {
 
-    CONTROL: 'row',
-    PARENT: 'set',
-    TOP: 'top'
+    CONTROL: 'CONTROL',
+    PARENT: 'PARENT',
+    TOP: 'TOP'
 };

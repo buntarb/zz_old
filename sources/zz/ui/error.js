@@ -37,5 +37,7 @@ goog.provide( 'zz.ui.Error' );
  */
 zz.ui.Error = {
 
-	INPUT_MODEL_REQUIRE: 'Model require.'
+	MODEL_REQUIRE: 'Model require.',
+	INCORRECT_BINDING_TYPE: 'Incorrect binding type.',
+	INCORRECT_MODEL_BINDING_TYPE: 'Incorrect model binding level type.'
 };

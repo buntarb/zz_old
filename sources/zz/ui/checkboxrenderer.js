@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.ui.InputRenderer class.
+ * @fileoverview Provide zz.ui.CheckboxRenderer class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.ui.InputRenderer' );
+goog.provide( 'zz.ui.CheckboxRenderer' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -40,16 +40,16 @@ goog.require( 'goog.ui.ControlRenderer' );
  **********************************************************************************************************************/
 
 /**
- * Base input control.
+ * Base input type checkbox control.
  * @constructor
- * @extends {goog.ui.InputRenderer}
+ * @extends {goog.ui.ControlRenderer}
  */
-zz.ui.InputRenderer = function( ){
+zz.ui.CheckboxRenderer = function( ){
 
 	goog.ui.ControlRenderer.call( this );
 };
-goog.inherits( zz.ui.InputRenderer, goog.ui.ControlRenderer );
-goog.addSingletonGetter( zz.ui.InputRenderer );
+goog.inherits( zz.ui.CheckboxRenderer, goog.ui.ControlRenderer );
+goog.addSingletonGetter( zz.ui.CheckboxRenderer );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -60,17 +60,25 @@ goog.addSingletonGetter( zz.ui.InputRenderer );
  * by this renderer.
  * @type {string}
  */
-zz.ui.InputRenderer.CSS_CLASS = goog.getCssName( 'zz-control-input' );
+zz.ui.CheckboxRenderer.CSS_CLASS = goog.getCssName( 'zz-control-checkbox' );
 
 /**
  * Default CSS class for error state.
  * @type {string}
  */
-zz.ui.InputRenderer.CSS_ERROR_CLASS = goog.getCssName( 'zz-control-input-error' );
+zz.ui.CheckboxRenderer.CSS_ERROR_CLASS = goog.getCssName( 'zz-control-checkbox-error' );
 
 /**********************************************************************************************************************
  * Base renderer methods                                                                                              *
  **********************************************************************************************************************/
+
+/**
+ * @override
+ */
+zz.ui.CheckboxRenderer.prototype.getCssClass = function( ){
+
+	return zz.ui.CheckboxRenderer.CSS_CLASS;
+};
 
 /**
  * Overrides by returning true only if the element is an HTML input.
@@ -78,57 +86,46 @@ zz.ui.InputRenderer.CSS_ERROR_CLASS = goog.getCssName( 'zz-control-input-error' 
  * @param {Element} element Element to decorate.
  * @return {boolean} Whether the renderer can decorate the element.
  */
-zz.ui.InputRenderer.prototype.canDecorate = function( element ){
+zz.ui.CheckboxRenderer.prototype.canDecorate = function( element ){
 
-	return element.tagName == goog.dom.TagName.INPUT;
+	return element.tagName == goog.dom.TagName.INPUT && element.type === "checkbox";
 };
 
 /**
  * @override
- * @param {zz.ui.Input} input
+ * @param {goog.ui.Control} control
  * @returns {Element}
  */
-zz.ui.InputRenderer.prototype.createDom = function( input ){
+zz.ui.CheckboxRenderer.prototype.createDom = function( control ){
 
-	return input.getDomHelper( ).createDom( 'input', {
+	return control.getDomHelper( ).createDom( 'input', {
 
-		'id': input.getId( ),
-		'type': 'text',
-		'value': input.getViewValue( )
+		'id': control.getId( ),
+		'type': 'checkbox'
 	} );
 };
 
 /**
  * @override
- * @param {zz.ui.Input} input
+ * @param {zz.ui.Control} control
  * @param {Element} element
  * @returns {Element}
  */
-zz.ui.InputRenderer.prototype.decorate = function( input, element ){
+zz.ui.CheckboxRenderer.prototype.decorate = function( control, element ){
 
-	element = zz.ui.InputRenderer.superClass_.decorate.call( this, input, element );
-	//noinspection JSUnresolvedVariable
-	input.setContent( element.value );
+	element = zz.ui.ControlRenderer.superClass_.decorate.call( this, control, element );
 	return element;
 };
 
 /**
  * @override
  */
-zz.ui.InputRenderer.prototype.setContent = function( element, value ){
+zz.ui.CheckboxRenderer.prototype.setContent = function( element, value ){
 
 	if( element ){
 
-		element.value = value;
+		element.checked = value;
 	}
-};
-
-/**
- * @override
- */
-zz.ui.InputRenderer.prototype.getCssClass = function( ){
-
-	return zz.ui.InputRenderer.CSS_CLASS;
 };
 
 /**********************************************************************************************************************
@@ -136,51 +133,51 @@ zz.ui.InputRenderer.prototype.getCssClass = function( ){
  **********************************************************************************************************************/
 
 /**
- * Return input element.
- * @param {zz.ui.Input} input
- * @returns {Element}
- */
-zz.ui.InputRenderer.prototype.getInputElement = function( input ){
-
-	return input.getElement( );
-};
-
-/**
- * Return input element.
- * @param {zz.ui.Input} input
- * @returns {string}
- */
-zz.ui.InputRenderer.prototype.getInputElementValue = function( input ){
-
-	return input.getElement( ).value;
-};
-
-/**
  * Add error state to control.
- * @param {zz.ui.Input} input
+ * @param {zz.ui.Control} input
  * @param {string} error
  */
-zz.ui.InputRenderer.prototype.addErrorState = function( input, error ){
+zz.ui.CheckboxRenderer.prototype.addErrorState = function( input, error ){
 
-	el = input.getElement( );
+	var el = input.getElement( );
 	if( error ){
 
-		if( !goog.dom.classlist.contains( el, zz.ui.InputRenderer.CSS_ERROR_CLASS ) ){
+		if( !goog.dom.classlist.contains( el, zz.ui.ControlRenderer.CSS_ERROR_CLASS ) ){
 
-			goog.dom.classlist.add( el, zz.ui.InputRenderer.CSS_ERROR_CLASS );
+			goog.dom.classlist.add( el, zz.ui.ControlRenderer.CSS_ERROR_CLASS );
 		}
 	}
 };
 
 /**
  * Remove error state from control.
- * @param {zz.ui.Input} input
+ * @param {zz.ui.Control} input
  */
-zz.ui.InputRenderer.prototype.removeErrorState = function( input ){
+zz.ui.CheckboxRenderer.prototype.removeErrorState = function( input ){
 
-	el = input.getElement( );
-	if( goog.dom.classlist.contains( el, zz.ui.InputRenderer.CSS_ERROR_CLASS ) ){
+	var el = input.getElement( );
+	if( goog.dom.classlist.contains( el, zz.ui.ControlRenderer.CSS_ERROR_CLASS ) ){
 
-		goog.dom.classlist.remove( el, zz.ui.InputRenderer.CSS_ERROR_CLASS );
+		goog.dom.classlist.remove( el, zz.ui.ControlRenderer.CSS_ERROR_CLASS );
 	}
+};
+
+/**
+ * Return input element.
+ * @param {zz.ui.Control} input
+ * @returns {Element}
+ */
+zz.ui.CheckboxRenderer.prototype.getChangeableElement = function( input ){
+
+	return input.getElement( );
+};
+
+/**
+ * Return input element.
+ * @param {zz.ui.Control} input
+ * @returns {string}
+ */
+zz.ui.CheckboxRenderer.prototype.getChangeableElementValue = function( input ){
+
+	return input.getElement( ).checked;
 };

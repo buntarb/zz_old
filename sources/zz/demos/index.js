@@ -42,77 +42,19 @@ goog.require( 'zz.events' );
 goog.require( 'zz.template' );
 goog.require( 'zz.mvc.model.EventType' );
 goog.require( 'zz.model.ExampleUserSet' );
-goog.require( 'zz.ui.Input' );
+goog.require( 'zz.ui.Control' );
+goog.require( 'zz.ui.CheckboxRenderer' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
-zz.demos.app = { };
+zz.demos.app = {};
 zz.demos.app.run = function( ){
 
 	/******************************************************************************************************************
 	 * Data manipulation examples                                                                                     *
 	 ******************************************************************************************************************/
-
-	/**
-	 * @type {zz.model.ExampleUserSet}
-	 */
-	var userSet = goog.global.userSet = new zz.model.ExampleUserSet( undefined, [[
-
-		'Ivan',
-		'Dorn',
-		'ivandorn',
-		'ivandornpass',
-		true,
-		[[
-			'mobile',
-			'+380991234567',
-			true,
-			0
-		],[
-			'home',
-			'+380991234567',
-			true,
-			1
-		]]
-	],[
-		'Lev',
-		'Tolstoy',
-		'levtolstoy',
-		'levtolstoypass',
-		true,
-		[[
-			'mobile',
-			'+380991234567',
-			true,
-			0
-		],[
-			'home',
-			'+380991234567',
-			true,
-			1
-		]]
-	]] );
-	userSet.createLast( [
-
-		'Fedor',
-		'Dostoyevsky',
-		'dostoevsky',
-		'dostoevskypass',
-		true,
-		[[
-			'mobile',
-			'+380991234567',
-			true,
-			0
-		],[
-			'home',
-			'+380991234567',
-			true,
-			1
-		]]
-	] );
 
 	/**
 	 * @type {zz.model.ExampleUserSet}
@@ -123,136 +65,34 @@ zz.demos.app.run = function( ){
 	 *  @type {zz.model.ExampleUser}
 	 */
 	var user = users.createLast( );
+		//user.userFirstName = 'Vasily';
+		//user.userLastName = 'Pupkin';
+		//user.userLogin = 'vasilypupkin';
+		//user.userPassword = 'pupkinpass';
+		//user.userVerifiedFlag = true;
 
-	user.userFirstName = 'Vasily';
-	user.userLastName = 'Pupkin';
-	user.userLogin = 'vasilypupkin';
-	user.userPassword = 'pupkinpass';
-	user.userVerifiedFlag = true;
+	var firstNameCtrl = new zz.ui.Control( user, 0 );
+		firstNameCtrl.render( goog.dom.getElement( 'root' ) );
+	var lastNameCtrl = new zz.ui.Control( user, 1 );
+		lastNameCtrl.render( goog.dom.getElement( 'root' ) );
+	var userLoginCtrl = new zz.ui.Control( user, 2 );
+		userLoginCtrl.render( goog.dom.getElement( 'root' ) );
+	var userPasswordCtrl = new zz.ui.Control( user, 3 );
+		userPasswordCtrl.render( goog.dom.getElement( 'root' ) );
+	var userVerifiedFlagCtrl = new zz.ui.Control( user, 4, new zz.ui.CheckboxRenderer( ) );
+		userVerifiedFlagCtrl.render( goog.dom.getElement( 'root' ) );
 
 	/**
 	 * @type {zz.model.ExampleUserPhone}
 	 */
-	var phone = goog.global.phone = user.userPhones.createLast( );
+	//var phone = goog.global.phone = user.userPhones.createLast( );
+	//	phone.phoneType = 'mobile';
+	//	phone.phoneNumber = '+380991234567';
+	//	phone.phoneActiveFlag = true;
+	//	phone.phoneOrder = 0;
 
-	phone.phoneType = 'mobile';
-	phone.phoneNumber = '+380991234567';
-	phone.phoneActiveFlag = true;
-	phone.phoneOrder = 0;
-
-	//user.userPhones.deleteCurrent( );
-
-	var EVENTS = goog.object.getValues( zz.mvc.model.EventType );
-	var CAPTURE = false;
-
-	var el = goog.global.el = new zz.ui.Input( phone, 3 );
-	el.render( goog.dom.getElement( 'root' ) );
-
-//	goog.events.listen( users, EVENTS, function( evt ){
-//
-//		if( evt.type === zz.mvc.model.EventType.DATAROW_UPDATE &&
-//			evt.target instanceof zz.mvc.model.ExampleUserPhone &&
-//			evt.changes.phoneType ){
-//
-//			console.log( '' );
-//			console.log( '------------------------------- UPDATE START ---------------------------------------------' );
-//			console.log( 'Old user phone type value: ' + evt.changes.phoneType.from );
-//			console.log( 'New user phone type value: ' + evt.changes.phoneType.to );
-//			//console.log( evt );
-//			console.log( '------------------------------- UPDATE END -----------------------------------------------' );
-//			console.log( '' );
-//
-//		}else if( evt.type === zz.mvc.model.EventType.DATAROW_DELETE ){
-//
-//			console.log( '' );
-//			console.log( '------------------------------- DELETE START ---------------------------------------------' );
-//			console.log( 'Deleted row Id: ' + evt.getDeletedDatarow( ).getId( ) );
-//			//console.log( evt );
-//			console.log( '------------------------------- DELETE END -----------------------------------------------' );
-//			console.log( '' );
-//
-//		}else{
-//
-//			console.log( '' );
-//			console.log( '------------------------------- OTHER EVENT START ----------------------------------------' );
-//			console.log( 'User Set Level: ' + evt.type );
-//			console.log( '------------------------------- OTHER EVENT END ------------------------------------------' );
-//			console.log( '' );
-//		}
-//	}, CAPTURE );
-
-//	goog.events.listen( user, EVENTS, function( evt ){
-//
-//		console.log( 'User Row Level: ' + evt.type );
-//
-//	}, CAPTURE );
-//
-//	goog.events.listen( user.userPhones, EVENTS, function( evt ){
-//
-//		console.log( 'User Phone Set Level: ' + evt.type );
-//
-//	}, CAPTURE );
-//
-//	goog.events.listen( phone, EVENTS, function( evt ){
-//
-//		console.log( 'User Phone Row Level: ' + evt.type );
-//
-//	}, CAPTURE );
-
-	/******************************************************************************************************************
-	 * Testing section                                                                                                *
-	 ******************************************************************************************************************/
-
-//	var dom = goog.dom.getDomHelper( );
-//	var input_phone_type = new goog.ui.BidiInput( dom );
-//	var input_phone_number = new goog.ui.BidiInput( dom );
-//	var button_save = new goog.ui.Button( 'Save', undefined, dom );
-//	var button_reset = new goog.ui.Button( 'Reset', undefined, dom );
-//	var component = new goog.ui.Component( dom );
-//
-//	component.addChild( input_phone_type );
-//	component.addChild( input_phone_number );
-//	component.addChild( button_save );
-//	component.addChild( button_reset );
-//	component.render( goog.dom.getElement( 'root' ) );
-//
-//	input_phone_type.render( component.getElement( ) );
-//	input_phone_number.render( component.getElement( ) );
-//
-//	button_save.setTooltip( 'Click to save' );
-//	button_save.render( component.getElement( ) );
-//
-//	button_reset.setTooltip( 'Click to reset' );
-//	button_reset.render( component.getElement( ) );
-//
-//	goog.events.listen( input_phone_type.getElement( ), goog.events.EventType.INPUT, function( evt ){
-//
-//		console.log( 'Phone type pre-checking phase' );
-//
-//	} );
-//	goog.events.listen( input_phone_type.getElement( ), goog.events.EventType.CHANGE, function( evt ){
-//
-//		console.log( 'Update phone type model' );
-//
-//	} );
-//	goog.events.listen( input_phone_number.getElement( ), goog.events.EventType.INPUT, function( evt ){
-//
-//		console.log( 'Phone number pre-checking phase' );
-//
-//	} );
-//	goog.events.listen( input_phone_number.getElement( ), goog.events.EventType.CHANGE, function( evt ){
-//
-//		console.log( 'Update phone number model' );
-//
-//	} );
-//	goog.events.listen( button_reset, goog.ui.Component.EventType.ACTION, function( evt ){
-//
-//		input_phone_type.setValue( '' );
-//		input_phone_number.setValue( '' );
-//
-//	} );
-//	console.log( button_reset );
-
+	//var ctrl = goog.global.ctrl = new zz.ui.Control( phone, 2, new zz.ui.CheckboxRenderer( ) );
+	//	ctrl.render( goog.dom.getElement( 'root' ) );
 
 	/******************************************************************************************************************
 	 * Fast click testing                                                                                             *
