@@ -31,6 +31,7 @@ goog.provide( 'zz.ui.Control' );
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
+goog.require( 'goog.array' );
 goog.require( 'goog.events.EventType' );
 goog.require( 'goog.ui.Control' );
 goog.require( 'goog.ui.registry' );
@@ -91,18 +92,6 @@ zz.ui.Control.prototype.bindCaptureFlag = false;
  */
 zz.ui.Control.prototype.bindType = zz.ui.BindType.TWO_WAY_BINDING;
 
-/**
- * Model binding level.
- * @type {zz.ui.ModelBindingType|string}
- */
-zz.ui.Control.prototype.modelBindLevel = zz.ui.ModelBindingType.TOP;
-
-/**
- * Control binding level.
- * @type {zz.ui.ControlBindingType|string}
- */
-zz.ui.Control.prototype.controlBindLevel = zz.ui.ControlBindingType.CONTROL;
-
 /**********************************************************************************************************************
  * Elements access section                                                                                            *
  **********************************************************************************************************************/
@@ -140,16 +129,16 @@ zz.ui.Control.prototype.setModel = function( datarow, index ){
 	this.model_ = {};
 
 	/**
+	 * Model top level event target.
+	 * @type {goog.events.EventTarget}
+	 */
+	this.model_.modelEventTarget = zz.mvc.controller.getTopEventTarget( datarow );
+
+	/**
 	 * Current datarow tree ids.
 	 * @type {Array}
 	 */
 	this.model_.modelTreeIds = zz.mvc.controller.getDatarowTreeIds( datarow );
-
-	/**
-	 * Model top level event target.
-	 * @type {goog.events.EventTarget}
-	 */
-	this.model_.modelTopEventTarget = zz.mvc.controller.getTopEventTarget( datarow );
 
 	/**
 	 * Model Dataset.
@@ -253,31 +242,28 @@ zz.ui.Control.prototype.setViewValue = function( value ){
 };
 
 /**********************************************************************************************************************
- * Listener section                                                                                                   *
+ * Model to view data binding                                                                                         *
  **********************************************************************************************************************/
 
 /**
  * Delete datarow event listener.
- * @param {zz.model.DatarowDeleteEvent} evt
+ * @param {zz.mvc.model.DatarowDeleteEvent} evt
  * @private
  */
-zz.ui.Control.prototype.modelDeleteListener_ = function( evt ){
+zz.ui.Control.prototype.handleDatarowDeleteEvent = function( evt ){
 
-
-	if( ~this.model_.modelTreeIds.indexOf( evt.getDeletedDatarow( ).getId( ) ) ){
+	if( goog.array.contains( this.model_.modelTreeIds, evt.getDeletedDatarow( ).getId( ) ) ){
 
 		this.disableDataBinding( );
 	}
 };
 
 /**
- * Model->view update event listener.
- * @param {zz.model.DatarowUpdateEvent} evt
- * @private
+ * Model datarow update event handler.
+ * @param {zz.mvc.model.DatarowUpdateEvent} evt
  */
-zz.ui.Control.prototype.modelUpdatedListener_ = function( evt ){
+zz.ui.Control.prototype.handleDatarowUpdateEvent = function( evt ){
 
-	//noinspection JSUnresolvedVariable
 	if( evt.changes[ this.getModelName( ) ] ){
 
 		this.setViewValue( this.convertModelToViewInternal( this.getModelValue( ) ) );
@@ -285,11 +271,34 @@ zz.ui.Control.prototype.modelUpdatedListener_ = function( evt ){
 };
 
 /**
- * View->model update event listener.
- * @param {goog.events.Event} evt
- * @private
+ * Enable model->vew data binding.
+ * @param {boolean} enable
  */
-zz.ui.Control.prototype.viewUpdatedListener_ = function( evt ){
+zz.ui.Control.prototype.setHandleDatarowEvents = function( enable ){
+
+	if( enable ){
+
+		this.model_.modelEventTarget.bindControl(
+
+			this.model_.modelDatarow.getId( ) + "_" + this.getModelName( ), this );
+
+	}else{
+
+		this.model_.modelEventTarget.unbindControl(
+
+			this.model_.modelDatarow.getId( ) + "_" + this.getModelName( ) );
+	}
+};
+
+/**********************************************************************************************************************
+ * View to model data binding methods                                                                                 *
+ **********************************************************************************************************************/
+
+/**
+ * View changed event handler.
+ * @param {goog.events.Event} evt
+ */
+zz.ui.Control.prototype.handleViewChangeEvent = function( evt ){
 
 	this.setModelValue( this.convertViewToModelInternal( this.getViewValue( ) ) );
 	if( evt.type === goog.events.EventType.CHANGE ){
@@ -298,111 +307,40 @@ zz.ui.Control.prototype.viewUpdatedListener_ = function( evt ){
 	}
 };
 
-/**********************************************************************************************************************
- * Enable binding section                                                                                             *
- **********************************************************************************************************************/
-
-/**
- * Return necessary model event target.
- * @returns {goog.events.EventTarget}
- * @private
- */
-zz.ui.Control.prototype.getModelEventTarget_ = function( ){
-
-	if( this.modelBindLevel === zz.ui.ModelBindingType.ROW ){
-
-		return this.model_.modelDatarow;
-
-	}else if( this.modelBindLevel === zz.ui.ModelBindingType.SET ){
-
-		return this.model_.modelDataset;
-
-	}else if( this.modelBindLevel === zz.ui.ModelBindingType.TOP ){
-
-		return this.model_.modelTopEventTarget;
-
-	}else{
-
-		throw new Error( zz.ui.Error.INCORRECT_MODEL_BINDING_TYPE );
-	}
-};
-
-/**
- * Enable model->vew data binding.
- * @private
- */
-zz.ui.Control.prototype.enableModelToViewBinding_ = function( ){
-
-
-	var target = this.getModelEventTarget_( );
-	target.getHandler( ).listenWithScope(
-
-		target,
-		zz.mvc.model.EventType.DATAROW_UPDATE,
-		this.modelUpdatedListener_,
-		this.bindCaptureFlag,
-		this
-	);
-};
-
-/**
- * Disable model->vew data binding.
- * @private
- */
-zz.ui.Control.prototype.disableModelToViewBinding_ = function( ){
-
-	var target = this.getModelEventTarget_( );
-	target.getHandler( ).unlisten(
-
-		target,
-		zz.mvc.model.EventType.DATAROW_UPDATE,
-		this.modelUpdatedListener_,
-		this.bindCaptureFlag,
-		this
-	);
-};
-
 /**
  * Enable view->model data binding.
+ * @param {boolean} enable
  * @private
  */
-zz.ui.Control.prototype.enableViewToModelBinding_ = function( ){
+zz.ui.Control.prototype.setHandleViewChangeEvent = function( enable ){
 
-	var target;
-	if( this.controlBindLevel === zz.ui.ControlBindingType.CONTROL ){
+	var target = this.getChangeableElement( );
+	if( enable ){
 
-		target = this.getChangeableElement( );
+		this.getHandler( ).listenWithScope(
+
+			target,
+			[goog.events.EventType.INPUT, goog.events.EventType.CHANGE],
+			this.handleViewChangeEvent,
+			this.bindCaptureFlag,
+			this
+		);
+	}else{
+
+		this.getHandler( ).unlisten(
+
+			target,
+			[goog.events.EventType.INPUT, goog.events.EventType.CHANGE],
+			this.handleViewChangeEvent,
+			this.bindCaptureFlag,
+			this
+		);
 	}
-	this.getHandler( ).listenWithScope(
-
-		target,
-		[goog.events.EventType.INPUT, goog.events.EventType.CHANGE],
-		this.viewUpdatedListener_,
-		this.bindCaptureFlag,
-		this
-	);
 };
 
-/**
- * Disable view->model data binding.
- * @private
- */
-zz.ui.Control.prototype.disableViewToModelBinding_ = function( ){
-
-	var target;
-	if( this.controlBindLevel === zz.ui.ControlBindingType.CONTROL ){
-
-		target = this.getChangeableElement( );
-	}
-	this.getHandler( ).unlisten(
-
-		target,
-		[goog.events.EventType.INPUT, goog.events.EventType.CHANGE],
-		this.viewUpdatedListener_,
-		this.bindCaptureFlag,
-		this
-	);
-};
+/**********************************************************************************************************************
+ * Common data binding                                                                                                *
+ **********************************************************************************************************************/
 
 /**
  * Enable specified data binding.
@@ -417,29 +355,27 @@ zz.ui.Control.prototype.enableDataBinding = function( opt_capt ){
 	}
 	if( this.bindType === zz.ui.BindType.TWO_WAY_BINDING ){
 
-		this.enableModelToViewBinding_( this.bindCaptureFlag );
-		this.enableViewToModelBinding_( this.bindCaptureFlag );
+		this.setHandleDatarowEvents( true );
+		this.setHandleViewChangeEvent( true );
 
 	}else if( this.bindType === zz.ui.BindType.MODEL_TO_UI ){
 
-		this.enableModelToViewBinding_( this.bindCaptureFlag );
+		this.setHandleDatarowEvents( true );
 
 	}else if( this.bindType === zz.ui.BindType.UI_TO_MODEL ){
 
-		this.enableViewToModelBinding_( this.bindCaptureFlag );
+		this.setHandleViewChangeEvent( true );
 
 	}else{
 
 		throw new Error( zz.ui.Error.INCORRECT_BINDING_TYPE );
 	}
 
-	var target = this.getModelEventTarget_( );
+	this.model_.modelEventTarget.getHandler( ).listenWithScope(
 
-	target.getHandler( ).listenWithScope(
-
-		target,
+		this.model_.modelEventTarget,
 		zz.mvc.model.EventType.DATAROW_DELETE,
-		this.modelDeleteListener_,
+		this.handleDatarowDeleteEvent,
 		this.bindCaptureFlag,
 		this
 	);
@@ -454,29 +390,27 @@ zz.ui.Control.prototype.disableDataBinding = function( ){
 
 	if( this.bindType === zz.ui.BindType.TWO_WAY_BINDING ){
 
-		this.disableModelToViewBinding_( this.bindCaptureFlag );
-		this.disableViewToModelBinding_( this.bindCaptureFlag );
+		this.setHandleDatarowEvents( false );
+		this.setHandleViewChangeEvent( false );
 
 	}else if( this.bindType === zz.ui.BindType.MODEL_TO_UI ){
 
-		this.disableModelToViewBinding_( this.bindCaptureFlag );
+		this.setHandleDatarowEvents( false );
 
 	}else if( this.bindType === zz.ui.BindType.UI_TO_MODEL ){
 
-		this.disableViewToModelBinding_( this.bindCaptureFlag );
+		this.setHandleViewChangeEvent( false );
 
 	}else{
 
 		throw new Error( zz.ui.Error.INCORRECT_BINDING_TYPE );
 	}
 
-	var target = this.getModelEventTarget_( );
+	this.model_.modelEventTarget.getHandler( ).unlisten(
 
-	target.getHandler( ).unlisten(
-
-		target,
+		this.model_.modelEventTarget,
 		zz.mvc.model.EventType.DATAROW_DELETE,
-		this.modelDeleteListener_,
+		this.handleDatarowDeleteEvent,
 		this.bindCaptureFlag,
 		this
 	);
@@ -516,6 +450,8 @@ zz.ui.Control.prototype.convertViewToModelInternal = function( val ){
 zz.ui.Control.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
+
+	// TODO: Add param to construct.
 	if( this.model_ ){
 
 		this.enableDataBinding( );

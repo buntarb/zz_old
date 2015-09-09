@@ -32,6 +32,7 @@ goog.provide( 'zz.mvc.model.Dataset' );
  **********************************************************************************************************************/
 
 goog.require( 'goog.array' );
+goog.require( 'goog.object' );
 goog.require( 'goog.async.run' );
 goog.require( 'goog.events.EventTarget' );
 goog.require( 'goog.events.EventHandler' );
@@ -83,18 +84,16 @@ goog.inherits( zz.mvc.model.Dataset, goog.events.EventTarget );
  **********************************************************************************************************************/
 
 /**
- * Returns the event handler for this dataset, lazily created the first time
- * this method is called.
- * @return {!goog.events.EventHandler} Event handler for this dataset.
- * @protected
+ * Current dataset row type.
+ * @constructor
+ * @private
+ * @type {zz.mvc.model.Datarow}
+ * @param {zz.mvc.model.Dataset} dataset
+ * @param {Array} data
  */
-zz.mvc.model.Dataset.prototype.getHandler = function( ){
+zz.mvc.model.Dataset.prototype.Datarow_ = function( dataset, data ){
 
-	if( !this.handler_ ){
-
-		this.handler_ = new goog.events.EventHandler( this );
-	}
-	return this.handler_;
+	throw new TypeError( zz.mvc.model.Error.DATAROW_TYPE_UNDEFINED );
 };
 
 /** @inheritDoc */
@@ -109,17 +108,100 @@ zz.mvc.model.Dataset.prototype.disposeInternal = function( ){
 };
 
 /**
- * Current dataset row type.
- * @constructor
- * @private
- * @type {zz.mvc.model.Datarow}
- * @param {zz.mvc.model.Dataset} dataset
- * @param {Array} data
+ * Returns the event handler for this dataset, lazily created the first time
+ * this method is called.
+ * @return {!goog.events.EventHandler} Event handler for this dataset.
+ * @protected
  */
-zz.mvc.model.Dataset.prototype.Datarow_ = function( dataset, data ){
+zz.mvc.model.Dataset.prototype.getHandler = function( ){
 
-	throw new TypeError( zz.mvc.model.Error.DATAROW_TYPE_UNDEFINED );
+	if( !this.handler_ ){
+
+		this.handler_ = new goog.events.EventHandler( this );
+	}
+	return this.handler_;
 };
+
+/**
+ * Model datarow update event handler.
+ * @param {zz.mvc.model.DatarowUpdateEvent} evt
+ */
+zz.mvc.model.Dataset.prototype.handleDatarowUpdateEvent = function( evt ){
+
+	if( goog.isDef( this.bindingMap_[ evt.target.getId( ) + "_" + goog.object.getKeys( evt.changes )[0] ] ) ){
+
+		this.bindingMap_[ evt.target.getId( ) + "_" + goog.object.getKeys( evt.changes )[0] ]
+
+			.handleDatarowUpdateEvent( evt );
+	}
+};
+
+/**
+ * Model datarow delete event handler.
+ * @param {zz.mvc.model.DatarowDeleteEvent} evt
+ * @private
+ */
+zz.mvc.model.Dataset.prototype.handleDatarowDeleteEvent = function( evt ){
+
+	if( goog.isDef( this.bindingMap_[ evt.target.getId( ) + "_" + goog.object.getKeys( evt.changes )[0] ] ) ){
+
+		this.bindingMap_[ evt.target.getId( ) + "_" + goog.object.getKeys( evt.changes )[0] ]
+
+			.handleDatarowUpdateEvent( evt );
+	}
+	if( goog.array.contains( this.model_.modelTreeIds, evt.getDeletedDatarow( ).getId( ) ) ){
+
+		this.disableDataBinding( );
+	}
+};
+
+/**
+ * Add model-control binding.
+ * @param {string} id
+ * @param {zz.ui.Control} ctrl
+ */
+zz.mvc.model.Dataset.prototype.bindControl = function( id, ctrl ){
+
+	if( !goog.isDef( this.bindingMap_ ) ){
+
+		/**
+		 * Datarow - Control map.
+		 * @type {Object}
+		 * @private
+		 */
+		this.bindingMap_ = {};
+		this.getHandler( ).listenWithScope(
+
+			this,
+			zz.mvc.model.EventType.DATAROW_UPDATE,
+			this.handleDatarowUpdateEvent,
+			this.bindCaptureFlag,
+			this
+		);
+		this.getHandler( ).listenWithScope(
+
+			this,
+			zz.mvc.model.EventType.DATAROW_DELETE,
+			this.handleDatarowDeleteEvent,
+			this.bindCaptureFlag,
+			this
+		);
+	}
+	this.bindingMap_[ id ] = ctrl;
+};
+
+/**
+ * Remove hash pair from binding map.
+ * @param {string} id
+ */
+zz.mvc.model.Dataset.prototype.unbindControl = function( id ){
+
+	delete this.bindingMap_[id];
+};
+
+/**********************************************************************************************************************
+ * Navigation                                                                                                         *
+ **********************************************************************************************************************/
 
 /**
  * Create new row at the first position.

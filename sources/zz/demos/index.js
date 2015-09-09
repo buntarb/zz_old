@@ -65,20 +65,24 @@ zz.demos.app.run = function( ){
 	 *  @type {zz.model.ExampleUser}
 	 */
 	var user = users.createLast( );
-		//user.userFirstName = 'Vasily';
-		//user.userLastName = 'Pupkin';
-		//user.userLogin = 'vasilypupkin';
-		//user.userPassword = 'pupkinpass';
-		//user.userVerifiedFlag = true;
+		user.userFirstName = 'Vasily';
+		user.userLastName = 'Pupkin';
+		user.userLogin = 'vasilypupkin';
+		user.userPassword = 'pupkinpass';
+		user.userVerifiedFlag = true;
 
-	var firstNameCtrl = new zz.ui.Control( user, 0 );
+	var firstNameCtrl = goog.global.ctrl = new zz.ui.Control( user, 0 );
 		firstNameCtrl.render( goog.dom.getElement( 'root' ) );
+
 	var lastNameCtrl = new zz.ui.Control( user, 1 );
 		lastNameCtrl.render( goog.dom.getElement( 'root' ) );
+
 	var userLoginCtrl = new zz.ui.Control( user, 2 );
 		userLoginCtrl.render( goog.dom.getElement( 'root' ) );
+
 	var userPasswordCtrl = new zz.ui.Control( user, 3 );
 		userPasswordCtrl.render( goog.dom.getElement( 'root' ) );
+
 	var userVerifiedFlagCtrl = new zz.ui.Control( user, 4, new zz.ui.CheckboxRenderer( ) );
 		userVerifiedFlagCtrl.render( goog.dom.getElement( 'root' ) );
 
