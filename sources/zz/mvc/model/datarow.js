@@ -105,6 +105,12 @@ goog.inherits( zz.mvc.model.Datarow, goog.events.EventTarget );
  */
 zz.mvc.model.Datarow.prototype.fieldToIndex_ = [];
 
+/**
+ * @type {Object}
+ * @private
+ */
+zz.mvc.model.Datarow.prototype.fieldController_ = {};
+
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
  **********************************************************************************************************************/
@@ -190,4 +196,56 @@ zz.mvc.model.Datarow.prototype.getFieldTypeByIndex = function( index ){
 zz.mvc.model.Datarow.prototype.getFieldRequiredFlagByIndex = function( index ){
 
 	return this.getSchema_( )[this.getFieldNameByIndex( index )].required;
+};
+
+/**
+ * Add new control to model field.
+ * @param {number} index
+ * @param {zz.ui.Control} control
+ * @return {number} Index of controller.
+ */
+zz.mvc.model.Datarow.prototype.addFieldControl = function( index, control ){
+
+	if( !goog.isDef( this.fieldController_[ this.getFieldNameByIndex( index ) ] ) ){
+
+		this.fieldController_[ this.getFieldNameByIndex( index ) ] = [];
+	}
+	return this.fieldController_[this.getFieldNameByIndex( index )].push( control ) - 1;
+};
+
+/**
+ * Return all controls binding with current field.
+ * @param {string} fieldName
+ * @returns {Array}
+ */
+zz.mvc.model.Datarow.prototype.getControlsByFieldName = function( fieldName ){
+
+	return this.fieldController_[ fieldName ];
+};
+
+/**
+ * Return all controls binding with current datarow.
+ * @returns {Array}
+ */
+zz.mvc.model.Datarow.prototype.getControls = function( ){
+
+	var controls = [];
+	goog.object.forEach( this.fieldController_, function( ctrlSet ){
+
+		controls.concat( ctrlSet );
+	} );
+	return controls;
+};
+
+/**
+ * Set specified by index control to undefined.
+ * @param {number} fieldIndex
+ * @param {number} controlIndex
+ */
+zz.mvc.model.Datarow.prototype.removeFieldControl = function( fieldIndex, controlIndex ){
+
+	if( goog.isDef( this.fieldController_[ this.getFieldNameByIndex( fieldIndex ) ][ controlIndex ] ) ){
+
+		this.fieldController_[ this.getFieldNameByIndex( fieldIndex ) ][ controlIndex ] = undefined;
+	}
 };

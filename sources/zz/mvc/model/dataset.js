@@ -128,12 +128,11 @@ zz.mvc.model.Dataset.prototype.getHandler = function( ){
  */
 zz.mvc.model.Dataset.prototype.handleDatarowUpdateEvent = function( evt ){
 
-	if( goog.isDef( this.bindingMap_[ evt.target.getId( ) + "_" + goog.object.getKeys( evt.changes )[0] ] ) ){
+	var ctrlArray = evt.target.getControlsByFieldName( goog.object.getKeys( evt.changes )[0] );
+	goog.array.forEach( ctrlArray, /** @type {zz.ui.Control|undefined} */ function( ctrl ){
 
-		this.bindingMap_[ evt.target.getId( ) + "_" + goog.object.getKeys( evt.changes )[0] ]
-
-			.handleDatarowUpdateEvent( evt );
-	}
+		if( ctrl ) ctrl.handleDatarowUpdateEvent( evt );
+	} );
 };
 
 /**
@@ -143,34 +142,42 @@ zz.mvc.model.Dataset.prototype.handleDatarowUpdateEvent = function( evt ){
  */
 zz.mvc.model.Dataset.prototype.handleDatarowDeleteEvent = function( evt ){
 
-	if( goog.isDef( this.bindingMap_[ evt.target.getId( ) + "_" + goog.object.getKeys( evt.changes )[0] ] ) ){
+	var ctrlArray = evt.target.getControls( );
+	goog.array.forEach( ctrlArray, /** @type {zz.ui.Control|undefined} */ function( ctrl ){
 
-		this.bindingMap_[ evt.target.getId( ) + "_" + goog.object.getKeys( evt.changes )[0] ]
-
-			.handleDatarowUpdateEvent( evt );
-	}
-	if( goog.array.contains( this.model_.modelTreeIds, evt.getDeletedDatarow( ).getId( ) ) ){
-
-		this.disableDataBinding( );
-	}
+		if( ctrl ) ctrl.handleDatarowDeleteEvent( evt );
+	} );
 };
 
 /**
  * Add model-control binding.
- * @param {string} id
- * @param {zz.ui.Control} ctrl
  */
-zz.mvc.model.Dataset.prototype.bindControl = function( id, ctrl ){
+zz.mvc.model.Dataset.prototype.setHandleDatarowEvents = function( enable ){
 
-	if( !goog.isDef( this.bindingMap_ ) ){
+	if( enable ){
 
-		/**
-		 * Datarow - Control map.
-		 * @type {Object}
-		 * @private
-		 */
-		this.bindingMap_ = {};
-		this.getHandler( ).listenWithScope(
+		if( !this.handler_ ){
+
+			this.getHandler( ).listenWithScope(
+
+				this,
+				zz.mvc.model.EventType.DATAROW_UPDATE,
+				this.handleDatarowUpdateEvent,
+				this.bindCaptureFlag,
+				this
+			);
+			this.getHandler( ).listenWithScope(
+
+				this,
+				zz.mvc.model.EventType.DATAROW_DELETE,
+				this.handleDatarowDeleteEvent,
+				this.bindCaptureFlag,
+				this
+			);
+		}
+	}else{
+
+		this.getHandler( ).unlisten(
 
 			this,
 			zz.mvc.model.EventType.DATAROW_UPDATE,
@@ -178,7 +185,7 @@ zz.mvc.model.Dataset.prototype.bindControl = function( id, ctrl ){
 			this.bindCaptureFlag,
 			this
 		);
-		this.getHandler( ).listenWithScope(
+		this.getHandler( ).unlisten(
 
 			this,
 			zz.mvc.model.EventType.DATAROW_DELETE,
@@ -186,17 +193,9 @@ zz.mvc.model.Dataset.prototype.bindControl = function( id, ctrl ){
 			this.bindCaptureFlag,
 			this
 		);
+		this.handler_.dispose( );
+		delete this.handler_;
 	}
-	this.bindingMap_[ id ] = ctrl;
-};
-
-/**
- * Remove hash pair from binding map.
- * @param {string} id
- */
-zz.mvc.model.Dataset.prototype.unbindControl = function( id ){
-
-	delete this.bindingMap_[id];
 };
 
 /**********************************************************************************************************************

@@ -129,10 +129,22 @@ zz.ui.Control.prototype.setModel = function( datarow, index ){
 	this.model_ = {};
 
 	/**
-	 * Model top level event target.
-	 * @type {goog.events.EventTarget}
+	 * Model Datarow.
+	 * @type {!zz.mvc.model.Datarow}
 	 */
-	this.model_.modelEventTarget = zz.mvc.controller.getTopEventTarget( datarow );
+	this.model_.modelDatarow = datarow;
+
+	/**
+	 * Datarow field index.
+	 * @type {!number}
+	 */
+	this.model_.modelFieldIndex = index;
+
+	/**
+	 * Control index in model scope.
+	 * @type {number}
+	 */
+	this.model_.modelControlIndex = undefined;
 
 	/**
 	 * Current datarow tree ids.
@@ -141,16 +153,21 @@ zz.ui.Control.prototype.setModel = function( datarow, index ){
 	this.model_.modelTreeIds = zz.mvc.controller.getDatarowTreeIds( datarow );
 
 	/**
+	 * Model top level event target.
+	 * @type {zz.model.Dataset}
+	 */
+	this.model_.modelEventTarget = zz.mvc.controller.getTopEventTarget( datarow );
+
+
+	// ------------------------------------------------------------------------------
+
+
+
+	/**
 	 * Model Dataset.
 	 * @type {goog.events.EventTarget}
 	 */
 	this.model_.modelDataset = datarow.getParentEventTarget( );
-
-	/**
-	 * Model Datarow.
-	 * @type {!zz.mvc.model.Datarow}
-	 */
-	this.model_.modelDatarow = datarow;
 
 	/**
 	 * Model type.
@@ -248,14 +265,10 @@ zz.ui.Control.prototype.setViewValue = function( value ){
 /**
  * Delete datarow event listener.
  * @param {zz.mvc.model.DatarowDeleteEvent} evt
- * @private
  */
 zz.ui.Control.prototype.handleDatarowDeleteEvent = function( evt ){
 
-	if( goog.array.contains( this.model_.modelTreeIds, evt.getDeletedDatarow( ).getId( ) ) ){
-
-		this.disableDataBinding( );
-	}
+	this.setHandleDatarowEvents( false );
 };
 
 /**
@@ -278,15 +291,12 @@ zz.ui.Control.prototype.setHandleDatarowEvents = function( enable ){
 
 	if( enable ){
 
-		this.model_.modelEventTarget.bindControl(
-
-			this.model_.modelDatarow.getId( ) + "_" + this.getModelName( ), this );
+		this.model_.modelControlIndex = this.model_.modelDatarow.addFieldControl( this.model_.modelFieldIndex, this );
+		this.model_.modelEventTarget.setHandleDatarowEvents( true );
 
 	}else{
 
-		this.model_.modelEventTarget.unbindControl(
-
-			this.model_.modelDatarow.getId( ) + "_" + this.getModelName( ) );
+		this.model_.modelDatarow.removeFieldControl( this.model_.modelFieldIndex, this.model_.modelControlIndex );
 	}
 };
 
@@ -370,15 +380,6 @@ zz.ui.Control.prototype.enableDataBinding = function( opt_capt ){
 
 		throw new Error( zz.ui.Error.INCORRECT_BINDING_TYPE );
 	}
-
-	this.model_.modelEventTarget.getHandler( ).listenWithScope(
-
-		this.model_.modelEventTarget,
-		zz.mvc.model.EventType.DATAROW_DELETE,
-		this.handleDatarowDeleteEvent,
-		this.bindCaptureFlag,
-		this
-	);
 	this.setViewValue( this.convertModelToViewInternal( this.getModelValue( ) ) );
 };
 
@@ -405,15 +406,6 @@ zz.ui.Control.prototype.disableDataBinding = function( ){
 
 		throw new Error( zz.ui.Error.INCORRECT_BINDING_TYPE );
 	}
-
-	this.model_.modelEventTarget.getHandler( ).unlisten(
-
-		this.model_.modelEventTarget,
-		zz.mvc.model.EventType.DATAROW_DELETE,
-		this.handleDatarowDeleteEvent,
-		this.bindCaptureFlag,
-		this
-	);
 	this.setViewValue( '' );
 	delete this.model_;
 };

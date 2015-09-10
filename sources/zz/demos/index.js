@@ -67,8 +67,8 @@ zz.demos.app.run = function( ){
 	var user = users.createLast( );
 		user.userFirstName = 'Vasily';
 		user.userLastName = 'Pupkin';
-		user.userLogin = 'vasilypupkin';
-		user.userPassword = 'pupkinpass';
+		user.userLogin = 'vasily pupkin';
+		user.userPassword = 'pupkin pass';
 		user.userVerifiedFlag = true;
 
 	var firstNameCtrl = goog.global.ctrl = new zz.ui.Control( user, 0 );
