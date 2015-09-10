@@ -275,8 +275,8 @@ zz.ui.Control.prototype.handleDatarowDeleteEvent = function( evt ){
 
 	if( goog.isDef( this.model_.modelFieldIndex ) ){
 
-		this.setHandleDatarowEvents( false );
-		this.setHandleViewChangeEvent( false );
+		this.enableHandleDatarowEvents( false );
+		this.enableHandleViewChangeEvent( false );
 		this.resetModel( );
 		this.setViewValue( '' );
 	}
@@ -301,7 +301,7 @@ zz.ui.Control.prototype.handleDatarowUpdateEvent = function( evt ){
  * Enable model->vew data binding.
  * @param {boolean} enable
  */
-zz.ui.Control.prototype.setHandleDatarowEvents = function( enable ){
+zz.ui.Control.prototype.enableHandleDatarowEvents = function( enable ){
 
 	if( goog.isDef( this.model_.modelFieldIndex ) ){
 
@@ -312,7 +312,7 @@ zz.ui.Control.prototype.setHandleDatarowEvents = function( enable ){
 				this.model_.modelFieldIndex,
 				this
 			);
-			this.model_.modelEventTarget.setHandleDatarowEvents( true );
+			this.model_.modelEventTarget.enableHandleDatarowEvents( true );
 
 		}else{
 
@@ -354,9 +354,8 @@ zz.ui.Control.prototype.handleViewChangeEvent = function( evt ){
 /**
  * Enable view->model data binding.
  * @param {boolean} enable
- * @private
  */
-zz.ui.Control.prototype.setHandleViewChangeEvent = function( enable ){
+zz.ui.Control.prototype.enableHandleViewChangeEvent = function( enable ){
 
 	if( goog.isDef( this.model_.modelFieldIndex ) ){
 
@@ -403,24 +402,23 @@ zz.ui.Control.prototype.setBindingType = function( bindType ){
 /**
  * Enable/disable control-model data binding.
  * @param {boolean} enable
- * @private
  */
-zz.ui.Control.prototype.setDataBinding = function( enable ){
+zz.ui.Control.prototype.enableDataBinding = function( enable ){
 
 	if( enable ){
 
 		if( this.bindType_ === zz.ui.BindType.TWO_WAY_BINDING ){
 
-			this.setHandleDatarowEvents( true );
-			this.setHandleViewChangeEvent( true );
+			this.enableHandleDatarowEvents( true );
+			this.enableHandleViewChangeEvent( true );
 
 		}else if( this.bindType_ === zz.ui.BindType.MODEL_TO_UI ){
 
-			this.setHandleDatarowEvents( true );
+			this.enableHandleDatarowEvents( true );
 
 		}else if( this.bindType_ === zz.ui.BindType.UI_TO_MODEL ){
 
-			this.setHandleViewChangeEvent( true );
+			this.enableHandleViewChangeEvent( true );
 
 		}else{
 
@@ -432,16 +430,16 @@ zz.ui.Control.prototype.setDataBinding = function( enable ){
 
 		if( this.bindType_ === zz.ui.BindType.TWO_WAY_BINDING ){
 
-			this.setHandleDatarowEvents( false );
-			this.setHandleViewChangeEvent( false );
+			this.enableHandleDatarowEvents( false );
+			this.enableHandleViewChangeEvent( false );
 
 		}else if( this.bindType_ === zz.ui.BindType.MODEL_TO_UI ){
 
-			this.setHandleDatarowEvents( false );
+			this.enableHandleDatarowEvents( false );
 
 		}else if( this.bindType_ === zz.ui.BindType.UI_TO_MODEL ){
 
-			this.setHandleViewChangeEvent( false );
+			this.enableHandleViewChangeEvent( false );
 
 		}else{
 
@@ -485,6 +483,6 @@ zz.ui.Control.prototype.enterDocument = function( ){
 	goog.base( this, 'enterDocument' );
 	if( goog.isDef( this.model_.modelFieldIndex ) ){
 
-		this.setDataBinding( true );
+		this.enableDataBinding( true );
 	}
 };

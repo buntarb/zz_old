@@ -68,7 +68,7 @@ zz.mvc.model.Dataset = function( opt_parent, opt_data ){
 
 	}else{
 
-		this.setHandleDatarowEvents( true );
+		this.enableHandleDatarowEvents( true );
 	}
 	goog.array.forEach( opt_data || [], function( datarow ){
 
@@ -165,7 +165,7 @@ zz.mvc.model.Dataset.prototype.handleDatarowDeleteEvent = function( evt ){
 /**
  * Add model-control binding.
  */
-zz.mvc.model.Dataset.prototype.setHandleDatarowEvents = function( enable ){
+zz.mvc.model.Dataset.prototype.enableHandleDatarowEvents = function( enable ){
 
 	if( enable ){
 
