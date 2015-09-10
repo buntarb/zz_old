@@ -93,11 +93,12 @@ zz.ui.CheckboxRenderer.prototype.canDecorate = function( element ){
 
 /**
  * @override
- * @param {goog.ui.Control} control
+ * @param {zz.ui.Control} control
  * @returns {Element}
  */
 zz.ui.CheckboxRenderer.prototype.createDom = function( control ){
 
+	control.setBindingType( zz.ui.BindType.TWO_WAY_BINDING );
 	return control.getDomHelper( ).createDom( 'input', {
 
 		'id': control.getId( ),

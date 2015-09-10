@@ -89,8 +89,9 @@ zz.ui.Control.prototype.bindCaptureFlag = false;
 /**
  * Binding type.
  * @type {zz.ui.BindType|string}
+ * @private
  */
-zz.ui.Control.prototype.bindType = zz.ui.BindType.TWO_WAY_BINDING;
+zz.ui.Control.prototype.bindType_ = zz.ui.BindType.MODEL_TO_UI;
 
 /**********************************************************************************************************************
  * Elements access section                                                                                            *
@@ -119,6 +120,15 @@ zz.ui.Control.prototype.getChangeableElementValue = function( ){
  **********************************************************************************************************************/
 
 /**
+ * Reset control model to default state.
+ */
+zz.ui.Control.prototype.resetModel = function( ){
+
+	delete this.model_;
+	this.model_ = {};
+};
+
+/**
  * Setting up model to current field controller.
  * @param {!zz.mvc.model.Datarow} datarow
  * @param {!number} index
@@ -126,7 +136,7 @@ zz.ui.Control.prototype.getChangeableElementValue = function( ){
  */
 zz.ui.Control.prototype.setModel = function( datarow, index ){
 
-	this.model_ = {};
+	this.resetModel( );
 
 	/**
 	 * Model Datarow.
@@ -157,11 +167,6 @@ zz.ui.Control.prototype.setModel = function( datarow, index ){
 	 * @type {zz.model.Dataset}
 	 */
 	this.model_.modelEventTarget = zz.mvc.controller.getTopEventTarget( datarow );
-
-
-	// ------------------------------------------------------------------------------
-
-
 
 	/**
 	 * Model Dataset.
@@ -268,7 +273,13 @@ zz.ui.Control.prototype.setViewValue = function( value ){
  */
 zz.ui.Control.prototype.handleDatarowDeleteEvent = function( evt ){
 
-	this.setHandleDatarowEvents( false );
+	if( goog.isDef( this.model_.modelFieldIndex ) ){
+
+		this.setHandleDatarowEvents( false );
+		this.setHandleViewChangeEvent( false );
+		this.resetModel( );
+		this.setViewValue( '' );
+	}
 };
 
 /**
@@ -277,9 +288,12 @@ zz.ui.Control.prototype.handleDatarowDeleteEvent = function( evt ){
  */
 zz.ui.Control.prototype.handleDatarowUpdateEvent = function( evt ){
 
-	if( evt.changes[ this.getModelName( ) ] ){
+	if( goog.isDef( this.model_.modelFieldIndex ) ){
 
-		this.setViewValue( this.convertModelToViewInternal( this.getModelValue( ) ) );
+		if( evt.changes[ this.getModelName( ) ] ){
+
+			this.setViewValue( this.convertModelToViewInternal( this.getModelValue( ) ) );
+		}
 	}
 };
 
@@ -289,14 +303,31 @@ zz.ui.Control.prototype.handleDatarowUpdateEvent = function( evt ){
  */
 zz.ui.Control.prototype.setHandleDatarowEvents = function( enable ){
 
-	if( enable ){
+	if( goog.isDef( this.model_.modelFieldIndex ) ){
 
-		this.model_.modelControlIndex = this.model_.modelDatarow.addFieldControl( this.model_.modelFieldIndex, this );
-		this.model_.modelEventTarget.setHandleDatarowEvents( true );
+		if( enable ){
 
+			this.model_.modelControlIndex = this.model_.modelDatarow.addFieldControl(
+
+				this.model_.modelFieldIndex,
+				this
+			);
+			this.model_.modelEventTarget.setHandleDatarowEvents( true );
+
+		}else{
+
+			this.model_.modelDatarow.removeFieldControl(
+
+				this.model_.modelFieldIndex,
+				this.model_.modelControlIndex
+			);
+		}
 	}else{
 
-		this.model_.modelDatarow.removeFieldControl( this.model_.modelFieldIndex, this.model_.modelControlIndex );
+		if( enable ){
+
+			throw new Error( zz.ui.Error.MODEL_REQUIRE );
+		}
 	}
 };
 
@@ -310,10 +341,13 @@ zz.ui.Control.prototype.setHandleDatarowEvents = function( enable ){
  */
 zz.ui.Control.prototype.handleViewChangeEvent = function( evt ){
 
-	this.setModelValue( this.convertViewToModelInternal( this.getViewValue( ) ) );
-	if( evt.type === goog.events.EventType.CHANGE ){
+	if( goog.isDef( this.model_.modelFieldIndex ) ){
 
-		this.setViewValue( this.convertModelToViewInternal( this.getModelValue( ) ) );
+		this.setModelValue( this.convertViewToModelInternal( this.getViewValue( ) ) );
+		if( evt.type === goog.events.EventType.CHANGE ){
+
+			this.setViewValue( this.convertModelToViewInternal( this.getModelValue( ) ) );
+		}
 	}
 };
 
@@ -324,27 +358,32 @@ zz.ui.Control.prototype.handleViewChangeEvent = function( evt ){
  */
 zz.ui.Control.prototype.setHandleViewChangeEvent = function( enable ){
 
-	var target = this.getChangeableElement( );
-	if( enable ){
+	if( goog.isDef( this.model_.modelFieldIndex ) ){
 
-		this.getHandler( ).listenWithScope(
+		if( enable ){
 
-			target,
-			[goog.events.EventType.INPUT, goog.events.EventType.CHANGE],
-			this.handleViewChangeEvent,
-			this.bindCaptureFlag,
-			this
-		);
+			this.getHandler( ).listenWithScope(
+
+				this.getChangeableElement( ),
+				[goog.events.EventType.INPUT, goog.events.EventType.CHANGE],
+				this.handleViewChangeEvent,
+				this.bindCaptureFlag,
+				this
+			);
+		}else{
+
+			this.getHandler( ).unlisten(
+
+				this.getChangeableElement( ),
+				[goog.events.EventType.INPUT, goog.events.EventType.CHANGE],
+				this.handleViewChangeEvent,
+				this.bindCaptureFlag,
+				this
+			);
+		}
 	}else{
 
-		this.getHandler( ).unlisten(
-
-			target,
-			[goog.events.EventType.INPUT, goog.events.EventType.CHANGE],
-			this.handleViewChangeEvent,
-			this.bindCaptureFlag,
-			this
-		);
+		if( enable ) throw new Error( zz.ui.Error.MODEL_REQUIRE );
 	}
 };
 
@@ -353,61 +392,63 @@ zz.ui.Control.prototype.setHandleViewChangeEvent = function( enable ){
  **********************************************************************************************************************/
 
 /**
- * Enable specified data binding.
- * @param {boolean=} opt_capt
- * @private
+ * Set data binding type.
+ * @param {string} bindType
  */
-zz.ui.Control.prototype.enableDataBinding = function( opt_capt ){
+zz.ui.Control.prototype.setBindingType = function( bindType ){
 
-	if( goog.isBoolean( opt_capt ) && opt_capt ){
-
-		this.bindCaptureFlag = opt_capt;
-	}
-	if( this.bindType === zz.ui.BindType.TWO_WAY_BINDING ){
-
-		this.setHandleDatarowEvents( true );
-		this.setHandleViewChangeEvent( true );
-
-	}else if( this.bindType === zz.ui.BindType.MODEL_TO_UI ){
-
-		this.setHandleDatarowEvents( true );
-
-	}else if( this.bindType === zz.ui.BindType.UI_TO_MODEL ){
-
-		this.setHandleViewChangeEvent( true );
-
-	}else{
-
-		throw new Error( zz.ui.Error.INCORRECT_BINDING_TYPE );
-	}
-	this.setViewValue( this.convertModelToViewInternal( this.getModelValue( ) ) );
+	this.bindType_ = bindType;
 };
 
 /**
- * Disable specified data binding.
+ * Enable/disable control-model data binding.
+ * @param {boolean} enable
  * @private
  */
-zz.ui.Control.prototype.disableDataBinding = function( ){
+zz.ui.Control.prototype.setDataBinding = function( enable ){
 
-	if( this.bindType === zz.ui.BindType.TWO_WAY_BINDING ){
+	if( enable ){
 
-		this.setHandleDatarowEvents( false );
-		this.setHandleViewChangeEvent( false );
+		if( this.bindType_ === zz.ui.BindType.TWO_WAY_BINDING ){
 
-	}else if( this.bindType === zz.ui.BindType.MODEL_TO_UI ){
+			this.setHandleDatarowEvents( true );
+			this.setHandleViewChangeEvent( true );
 
-		this.setHandleDatarowEvents( false );
+		}else if( this.bindType_ === zz.ui.BindType.MODEL_TO_UI ){
 
-	}else if( this.bindType === zz.ui.BindType.UI_TO_MODEL ){
+			this.setHandleDatarowEvents( true );
 
-		this.setHandleViewChangeEvent( false );
+		}else if( this.bindType_ === zz.ui.BindType.UI_TO_MODEL ){
+
+			this.setHandleViewChangeEvent( true );
+
+		}else{
+
+			throw new Error( zz.ui.Error.INCORRECT_BINDING_TYPE );
+		}
+		this.setViewValue( this.convertModelToViewInternal( this.getModelValue( ) ) );
 
 	}else{
 
-		throw new Error( zz.ui.Error.INCORRECT_BINDING_TYPE );
+		if( this.bindType_ === zz.ui.BindType.TWO_WAY_BINDING ){
+
+			this.setHandleDatarowEvents( false );
+			this.setHandleViewChangeEvent( false );
+
+		}else if( this.bindType_ === zz.ui.BindType.MODEL_TO_UI ){
+
+			this.setHandleDatarowEvents( false );
+
+		}else if( this.bindType_ === zz.ui.BindType.UI_TO_MODEL ){
+
+			this.setHandleViewChangeEvent( false );
+
+		}else{
+
+			throw new Error( zz.ui.Error.INCORRECT_BINDING_TYPE );
+		}
+		this.setViewValue( '' );
 	}
-	this.setViewValue( '' );
-	delete this.model_;
 };
 
 /**********************************************************************************************************************
@@ -442,10 +483,8 @@ zz.ui.Control.prototype.convertViewToModelInternal = function( val ){
 zz.ui.Control.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
+	if( goog.isDef( this.model_.modelFieldIndex ) ){
 
-	// TODO: Add param to construct.
-	if( this.model_ ){
-
-		this.enableDataBinding( );
+		this.setDataBinding( true );
 	}
 };

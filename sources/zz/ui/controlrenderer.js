@@ -34,6 +34,7 @@ goog.provide( 'zz.ui.ControlRenderer' );
 goog.require( 'goog.dom' );
 goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.ui.ControlRenderer' );
+goog.require( 'zz.ui.BindType' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -93,11 +94,12 @@ zz.ui.ControlRenderer.prototype.canDecorate = function( element ){
 
 /**
  * @override
- * @param {goog.ui.Control} input
+ * @param {zz.ui.Control} input
  * @returns {Element}
  */
 zz.ui.ControlRenderer.prototype.createDom = function( input ){
 
+	input.setBindingType( zz.ui.BindType.TWO_WAY_BINDING );
 	return input.getDomHelper( ).createDom( 'input', {
 
 		'id': input.getId( ),
@@ -114,7 +116,8 @@ zz.ui.ControlRenderer.prototype.createDom = function( input ){
 zz.ui.ControlRenderer.prototype.decorate = function( input, element ){
 
 	element = zz.ui.ControlRenderer.superClass_.decorate.call( this, input, element );
-	//noinspection JSUnresolvedVariable
+
+	//noinspection JSUnresolvedFunction,JSUnresolvedVariable
 	input.setContent( element.value );
 	return element;
 };

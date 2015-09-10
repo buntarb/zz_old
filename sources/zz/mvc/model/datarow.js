@@ -232,7 +232,7 @@ zz.mvc.model.Datarow.prototype.getControls = function( ){
 	var controls = [];
 	goog.object.forEach( this.fieldController_, function( ctrlSet ){
 
-		controls.concat( ctrlSet );
+		controls = controls.concat( ctrlSet );
 	} );
 	return controls;
 };
@@ -244,8 +244,10 @@ zz.mvc.model.Datarow.prototype.getControls = function( ){
  */
 zz.mvc.model.Datarow.prototype.removeFieldControl = function( fieldIndex, controlIndex ){
 
-	if( goog.isDef( this.fieldController_[ this.getFieldNameByIndex( fieldIndex ) ][ controlIndex ] ) ){
+	if( goog.isDef( this.fieldController_[ this.getFieldNameByIndex( fieldIndex ) ] ) &&
+		goog.isDef( this.fieldController_[ this.getFieldNameByIndex( fieldIndex ) ][ controlIndex ] ) ){
 
 		this.fieldController_[ this.getFieldNameByIndex( fieldIndex ) ][ controlIndex ] = undefined;
+		delete this.fieldController_[ this.getFieldNameByIndex( fieldIndex ) ][ controlIndex ];
 	}
 };

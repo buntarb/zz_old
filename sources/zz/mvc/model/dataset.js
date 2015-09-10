@@ -62,15 +62,20 @@ zz.mvc.model.Dataset = function( opt_parent, opt_data ){
 	 */
 	this.index_ = undefined;
 
-	if( opt_parent )
+	if( opt_parent ){
 
 		this.setParentEventTarget( opt_parent );
 
+	}else{
+
+		this.setHandleDatarowEvents( true );
+	}
 	goog.array.forEach( opt_data || [], function( datarow ){
 
 		this.createLast( datarow );
 
 	}, this );
+
 	this.index_ = this.length > 0 ? 0 : undefined;
 };
 goog.inherits( zz.mvc.model.Dataset, goog.events.EventTarget );
@@ -78,6 +83,12 @@ goog.inherits( zz.mvc.model.Dataset, goog.events.EventTarget );
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
  **********************************************************************************************************************/
+
+/**
+ * Capture flag (default - false).
+ * @type {boolean}
+ */
+zz.mvc.model.Dataset.prototype.bindCaptureFlag = false;
 
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
@@ -142,10 +153,12 @@ zz.mvc.model.Dataset.prototype.handleDatarowUpdateEvent = function( evt ){
  */
 zz.mvc.model.Dataset.prototype.handleDatarowDeleteEvent = function( evt ){
 
-	var ctrlArray = evt.target.getControls( );
+	var ctrlArray = evt.getDeletedDatarow( ).getControls( );
 	goog.array.forEach( ctrlArray, /** @type {zz.ui.Control|undefined} */ function( ctrl ){
 
-		if( ctrl ) ctrl.handleDatarowDeleteEvent( evt );
+		if( ctrl )
+
+			ctrl.handleDatarowDeleteEvent( evt );
 	} );
 };
 
