@@ -32,7 +32,6 @@ goog.provide( 'zz.ui.Container' );
  **********************************************************************************************************************/
 
 goog.require( 'goog.ui.Container' );
-
 goog.require( 'zz.ui.Control' );
 
 /**********************************************************************************************************************
@@ -50,6 +49,7 @@ goog.require( 'zz.ui.Control' );
 zz.ui.Container = function( opt_orientation, opt_renderer, opt_domHelper ){
 
 	goog.ui.Container.call( this, opt_orientation, opt_renderer, opt_domHelper );
+	this.setFocusable( true );
 };
 goog.inherits( zz.ui.Container, goog.ui.Container );
 
@@ -57,30 +57,32 @@ goog.inherits( zz.ui.Container, goog.ui.Container );
  * Prototype properties section                                                                                       *
  **********************************************************************************************************************/
 
+/**********************************************************************************************************************
+ * Prototype methods section                                                                                          *
+ **********************************************************************************************************************/
+
 /**
  * Adds the control as a child of this container at the given 0-based index.
- * @param {zz.ui.Control} control New child.
- * @param {number} index Index at which the new child is to be added.
- * @param {boolean=} opt_render Whether the new child should be rendered immediately after being added.
+ * @param {zz.ui.Control} control
+ * @param {number} index
  * @override
  */
-zz.ui.Container.prototype.addChildAt = function( control, index, opt_render ){
+zz.ui.Container.prototype.addChildAt = function( control, index ){
 
-	//goog.asserts.assertInstanceof(control, zz.ui.Control);
-	//control.enableHandleViewChangeEvent( false );
-	goog.ui.Container.superClass_.addChildAt.call( this, control, index, opt_render );
+	goog.asserts.assertInstanceof( control, zz.ui.Control );
+	control.enableHandleViewChangeEvent( false );
+	zz.ui.Container.superClass_.addChildAt.call( this, control, index, true );
 };
 
 /**
  * Removes a child control.
  * @param {zz.ui.Control} control The ID of the child to remove, or the control itself.
- * @param {boolean=} opt_unrender Whether to call {@code exitDocument} on the removed control, and detach its DOM
  * from the document (defaults to false).
- * @return {goog.ui.Control} The removed control, if any.
  * @override
  */
-zz.ui.Container.prototype.removeChild = function( control, opt_unrender ){
+zz.ui.Container.prototype.removeChild = function( control ){
 
-	//control.enableHandleViewChangeEvent( true );
-	return zz.ui.Container.superClass_.removeChild.call( this, control, opt_unrender );
+	var ctrl = zz.ui.Container.superClass_.removeChild.call( this, control, true );
+	ctrl.resetModel( );
+	ctrl.disposeInternal( );
 };

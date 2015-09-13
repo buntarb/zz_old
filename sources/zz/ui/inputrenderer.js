@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.ui.ControlRenderer class.
+ * @fileoverview Provide zz.ui.InputRenderer class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.ui.ControlRenderer' );
+goog.provide( 'zz.ui.InputRenderer' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -45,12 +45,12 @@ goog.require( 'zz.ui.BindType' );
  * @constructor
  * @extends {goog.ui.ControlRenderer}
  */
-zz.ui.ControlRenderer = function( ){
+zz.ui.InputRenderer = function( ){
 
 	goog.ui.ControlRenderer.call( this );
 };
-goog.inherits( zz.ui.ControlRenderer, goog.ui.ControlRenderer );
-goog.addSingletonGetter( zz.ui.ControlRenderer );
+goog.inherits( zz.ui.InputRenderer, goog.ui.ControlRenderer );
+goog.addSingletonGetter( zz.ui.InputRenderer );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -61,13 +61,13 @@ goog.addSingletonGetter( zz.ui.ControlRenderer );
  * by this renderer.
  * @type {string}
  */
-zz.ui.ControlRenderer.CSS_CLASS = goog.getCssName( 'zz-control' );
+zz.ui.InputRenderer.CSS_CLASS = goog.getCssName( 'zz-input' );
 
 /**
  * Default CSS class for error state.
  * @type {string}
  */
-zz.ui.ControlRenderer.CSS_ERROR_CLASS = goog.getCssName( 'zz-control-error' );
+zz.ui.InputRenderer.CSS_ERROR_CLASS = goog.getCssName( 'zz-input-error' );
 
 /**********************************************************************************************************************
  * Base renderer methods                                                                                              *
@@ -76,9 +76,9 @@ zz.ui.ControlRenderer.CSS_ERROR_CLASS = goog.getCssName( 'zz-control-error' );
 /**
  * @override
  */
-zz.ui.ControlRenderer.prototype.getCssClass = function( ){
+zz.ui.InputRenderer.prototype.getCssClass = function( ){
 
-	return zz.ui.ControlRenderer.CSS_CLASS;
+	return zz.ui.InputRenderer.CSS_CLASS;
 };
 
 /**
@@ -87,9 +87,9 @@ zz.ui.ControlRenderer.prototype.getCssClass = function( ){
  * @param {Element} element Element to decorate.
  * @return {boolean} Whether the renderer can decorate the element.
  */
-zz.ui.ControlRenderer.prototype.canDecorate = function( element ){
+zz.ui.InputRenderer.prototype.canDecorate = function( element ){
 
-	return element.tagName == goog.dom.TagName.DIV;
+	return element.tagName == goog.dom.TagName.INPUT;
 };
 
 /**
@@ -97,11 +97,13 @@ zz.ui.ControlRenderer.prototype.canDecorate = function( element ){
  * @param {zz.ui.Control} input
  * @returns {Element}
  */
-zz.ui.ControlRenderer.prototype.createDom = function( input ){
+zz.ui.InputRenderer.prototype.createDom = function( input ){
 
-	return input.getDomHelper( ).createDom( 'div', {
+	input.setBindingType( zz.ui.BindType.TWO_WAY_BINDING );
+	return input.getDomHelper( ).createDom( 'input', {
 
-		'id': input.getId( )
+		'id': input.getId( ),
+		'type': 'text'
 	} );
 };
 
@@ -111,9 +113,9 @@ zz.ui.ControlRenderer.prototype.createDom = function( input ){
  * @param {Element} element
  * @returns {Element}
  */
-zz.ui.ControlRenderer.prototype.decorate = function( input, element ){
+zz.ui.InputRenderer.prototype.decorate = function( input, element ){
 
-	element = zz.ui.ControlRenderer.superClass_.decorate.call( this, input, element );
+	element = zz.ui.InputRenderer.superClass_.decorate.call( this, input, element );
 
 	//noinspection JSUnresolvedFunction,JSUnresolvedVariable
 	input.setContent( element.value );
@@ -123,18 +125,11 @@ zz.ui.ControlRenderer.prototype.decorate = function( input, element ){
 /**
  * @override
  */
-zz.ui.ControlRenderer.prototype.setContent = function( element, value ){
+zz.ui.InputRenderer.prototype.setContent = function( element, value ){
 
 	if( element ){
 
-		if( goog.isDef( element.textContent ) ){
-
-			element.textContent = value;
-
-		}else{
-
-			element.innerText = value;
-		}
+		element.value = value;
 	}
 };
 
@@ -147,14 +142,14 @@ zz.ui.ControlRenderer.prototype.setContent = function( element, value ){
  * @param {zz.ui.Control} input
  * @param {string} error
  */
-zz.ui.ControlRenderer.prototype.addErrorState = function( input, error ){
+zz.ui.InputRenderer.prototype.addErrorState = function( input, error ){
 
 	var el = input.getElement( );
 	if( error ){
 
-		if( !goog.dom.classlist.contains( el, zz.ui.ControlRenderer.CSS_ERROR_CLASS ) ){
+		if( !goog.dom.classlist.contains( el, zz.ui.InputRenderer.CSS_ERROR_CLASS ) ){
 
-			goog.dom.classlist.add( el, zz.ui.ControlRenderer.CSS_ERROR_CLASS );
+			goog.dom.classlist.add( el, zz.ui.InputRenderer.CSS_ERROR_CLASS );
 		}
 	}
 };
@@ -163,12 +158,12 @@ zz.ui.ControlRenderer.prototype.addErrorState = function( input, error ){
  * Remove error state from control.
  * @param {zz.ui.Control} input
  */
-zz.ui.ControlRenderer.prototype.removeErrorState = function( input ){
+zz.ui.InputRenderer.prototype.removeErrorState = function( input ){
 
 	var el = input.getElement( );
-	if( goog.dom.classlist.contains( el, zz.ui.ControlRenderer.CSS_ERROR_CLASS ) ){
+	if( goog.dom.classlist.contains( el, zz.ui.InputRenderer.CSS_ERROR_CLASS ) ){
 
-		goog.dom.classlist.remove( el, zz.ui.ControlRenderer.CSS_ERROR_CLASS );
+		goog.dom.classlist.remove( el, zz.ui.InputRenderer.CSS_ERROR_CLASS );
 	}
 };
 
@@ -177,7 +172,7 @@ zz.ui.ControlRenderer.prototype.removeErrorState = function( input ){
  * @param {zz.ui.Control} input
  * @returns {Element}
  */
-zz.ui.ControlRenderer.prototype.getChangeableElement = function( input ){
+zz.ui.InputRenderer.prototype.getChangeableElement = function( input ){
 
 	return input.getElement( );
 };
@@ -187,15 +182,7 @@ zz.ui.ControlRenderer.prototype.getChangeableElement = function( input ){
  * @param {zz.ui.Control} input
  * @returns {string}
  */
-zz.ui.ControlRenderer.prototype.getChangeableElementValue = function( input ){
+zz.ui.InputRenderer.prototype.getChangeableElementValue = function( input ){
 
-	var element = input.getElement( );
-	if( goog.isDef( element.textContent ) ){
-
-		return element.textContent;
-
-	}else{
-
-		return element.innerText;
-	}
+	return input.getElement( ).value;
 };
