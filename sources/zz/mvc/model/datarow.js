@@ -208,9 +208,9 @@ zz.mvc.model.Datarow.prototype.addFieldControl = function( index, control ){
 
 	if( !goog.isDef( this.fieldController_[ this.getFieldNameByIndex( index ) ] ) ){
 
-		this.fieldController_[ this.getFieldNameByIndex( index ) ] = [];
+		this.fieldController_[ this.getFieldNameByIndex( index ) ] = [ ];
 	}
-	return this.fieldController_[this.getFieldNameByIndex( index )].push( control ) - 1;
+	return this.fieldController_[ this.getFieldNameByIndex( index ) ].push( control ) - 1;
 };
 
 /**
