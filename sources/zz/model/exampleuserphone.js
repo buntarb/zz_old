@@ -34,7 +34,6 @@ goog.provide( 'zz.model.ExampleUserPhoneSet' );
 
 goog.require( 'zz.mvc.model.Datarow' );
 goog.require( 'zz.mvc.model.Dataset' );
-goog.require( 'zz.mvc.model.IDatarow' );
 goog.require( 'zz.mvc.model.FieldTypes' );
 
 /**********************************************************************************************************************

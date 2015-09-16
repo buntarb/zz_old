@@ -7,7 +7,7 @@ goog.addDependency("../../../../sources/zz/mvc/model/fieldtypes.js", ['zz.mvc.mo
 goog.addDependency("../../../../sources/zz/mvc/model/error.js", ['zz.mvc.model.Error'], []);
 goog.addDependency("../../../../sources/zz/mvc/model/dataset.js", ['zz.mvc.model.Dataset'], ['goog.array', 'goog.object', 'goog.async.run', 'goog.events.EventTarget', 'goog.events.EventHandler', 'zz.mvc.model', 'zz.mvc.model.DatarowCreateEvent', 'zz.mvc.model.DatarowDeleteEvent', 'zz.mvc.model.Error']);
 goog.addDependency("../../../../sources/zz/mvc/model/datarowcreateevent.js", ['zz.mvc.model.DatarowCreateEvent'], ['goog.events.Event', 'zz.mvc.model.EventType']);
-goog.addDependency("../../../../sources/zz/mvc/model/datarow.js", ['zz.mvc.model.Datarow'], ['goog.object', 'goog.async.run', 'goog.events.EventTarget', 'zz.mvc.model', 'zz.mvc.model.Error', 'zz.mvc.model.IDatarow', 'zz.mvc.model.FieldTypes']);
+goog.addDependency("../../../../sources/zz/mvc/model/datarow.js", ['zz.mvc.model.Datarow'], ['goog.object', 'goog.async.run', 'goog.events.EventTarget', 'zz.mvc.model', 'zz.mvc.model.Error', 'zz.mvc.model.FieldTypes']);
 goog.addDependency("../../../../sources/zz/mvc/model/datarowdeleteevent.js", ['zz.mvc.model.DatarowDeleteEvent'], ['goog.events.Event', 'zz.mvc.model.EventType']);
 goog.addDependency("../../../../sources/zz/mvc/model/eventtype.js", ['zz.mvc.model.EventType'], ['goog.events']);
 goog.addDependency("../../../../sources/zz/mvc/model/model.js", ['zz.mvc.model'], ['goog.async.run', 'zz.mvc.model.Error', 'zz.mvc.model.DatarowUpdateEvent', 'goog.i18n.NumberFormat', 'goog.i18n.NumberFormat.Format']);
@@ -23,5 +23,5 @@ goog.addDependency("../../../../sources/zz/ui/control.js", ['zz.ui.Control'], ['
 goog.addDependency("../../../../sources/zz/ui/controlrenderer.js", ['zz.ui.ControlRenderer'], ['goog.dom', 'goog.dom.classlist', 'goog.ui.ControlRenderer', 'zz.ui.BindType']);
 goog.addDependency("../../../../sources/zz/ui/container.js", ['zz.ui.Container'], ['goog.ui.Container', 'zz.ui.Control']);
 goog.addDependency("../../../../sources/zz/_template/test.js", ['zz.template'], ['soy', 'soydata']);
-goog.addDependency("../../../../sources/zz/model/exampleuser.js", ['zz.model.ExampleUser', 'zz.model.ExampleUserSet'], ['zz.mvc.model.Datarow', 'zz.mvc.model.Dataset', 'zz.mvc.model.IDatarow', 'zz.mvc.model.FieldTypes', 'zz.model.ExampleUserPhoneSet']);
-goog.addDependency("../../../../sources/zz/model/exampleuserphone.js", ['zz.model.ExampleUserPhone', 'zz.model.ExampleUserPhoneSet'], ['zz.mvc.model.Datarow', 'zz.mvc.model.Dataset', 'zz.mvc.model.IDatarow', 'zz.mvc.model.FieldTypes']);
+goog.addDependency("../../../../sources/zz/model/exampleuser.js", ['zz.model.ExampleUser', 'zz.model.ExampleUserSet'], ['zz.mvc.model.Datarow', 'zz.mvc.model.Dataset', 'zz.mvc.model.FieldTypes', 'zz.model.ExampleUserPhoneSet']);
+goog.addDependency("../../../../sources/zz/model/exampleuserphone.js", ['zz.model.ExampleUserPhone', 'zz.model.ExampleUserPhoneSet'], ['zz.mvc.model.Datarow', 'zz.mvc.model.Dataset', 'zz.mvc.model.FieldTypes']);

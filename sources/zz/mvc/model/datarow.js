@@ -36,7 +36,6 @@ goog.require( 'goog.async.run' );
 goog.require( 'goog.events.EventTarget' );
 goog.require( 'zz.mvc.model' );
 goog.require( 'zz.mvc.model.Error' );
-goog.require( 'zz.mvc.model.IDatarow' );
 goog.require( 'zz.mvc.model.FieldTypes' );
 
 /**********************************************************************************************************************
