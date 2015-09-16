@@ -45,7 +45,6 @@ goog.require( 'zz.model.ExampleUserPhoneSet' );
 //noinspection JSClosureCompilerSyntax
 /**
  * @constructor
- * @implements {zz.mvc.model.IDatarow}
  * @extends {zz.mvc.model.Datarow}
  * @param {!zz.mvc.model.Dataset} dataset
  * @param {?Array.<boolean, number, string>} opt_data

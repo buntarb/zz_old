@@ -44,7 +44,6 @@ goog.require( 'zz.mvc.model.FieldTypes' );
 //noinspection JSClosureCompilerSyntax
 /**
  * @constructor
- * @implements {zz.mvc.model.IDatarow}
  * @param {!zz.mvc.model.Dataset} dataset
  * @param {?Array.<boolean, number, string>} opt_data
  * @extends {zz.mvc.model.Datarow}

@@ -85,7 +85,6 @@ zz.demos.app.run = function( ){
 //
 //		console.log( evt );
 //	} );
-
 //	var firstNameCtrl = goog.global.ctrl = new zz.ui.Control( user, 0 );
 //		firstNameCtrl.render( goog.dom.getElement( 'root' ) );
 //
@@ -100,7 +99,6 @@ zz.demos.app.run = function( ){
 //
 //	var userVerifiedFlagCtrl = new zz.ui.Control( user, 4, new zz.ui.CheckboxRenderer( ) );
 //		userVerifiedFlagCtrl.render( goog.dom.getElement( 'root' ) );
-
 //	var userContainer = goog.global.userContainer = new zz.ui.Container( );
 //		userContainer.addChild( firstNameCtrl );
 //		userContainer.addChild( lastNameCtrl );

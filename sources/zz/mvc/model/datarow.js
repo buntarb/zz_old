@@ -47,7 +47,6 @@ goog.require( 'zz.mvc.model.FieldTypes' );
 /**
  * @constructor
  * @extends {goog.events.EventTarget}
- * @implements zz.mvc.model.IDatarow
  * @param {!zz.mvc.model.Dataset} dataset
  * @param {?Array} opt_data
  */

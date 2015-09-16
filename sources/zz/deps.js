@@ -11,7 +11,6 @@ goog.addDependency("../../../../sources/zz/mvc/model/datarow.js", ['zz.mvc.model
 goog.addDependency("../../../../sources/zz/mvc/model/datarowdeleteevent.js", ['zz.mvc.model.DatarowDeleteEvent'], ['goog.events.Event', 'zz.mvc.model.EventType']);
 goog.addDependency("../../../../sources/zz/mvc/model/eventtype.js", ['zz.mvc.model.EventType'], ['goog.events']);
 goog.addDependency("../../../../sources/zz/mvc/model/model.js", ['zz.mvc.model'], ['goog.async.run', 'zz.mvc.model.Error', 'zz.mvc.model.DatarowUpdateEvent', 'goog.i18n.NumberFormat', 'goog.i18n.NumberFormat.Format']);
-goog.addDependency("../../../../sources/zz/mvc/model/idatarow.js", ['zz.mvc.model.IDatarow'], []);
 goog.addDependency("../../../../sources/zz/mvc/model/datarowupdateevent.js", ['zz.mvc.model.DatarowUpdateEvent'], ['goog.events.Event', 'zz.mvc.model.EventType']);
 goog.addDependency("../../../../sources/zz/_stylesheet/remap.js", ['zz._stylesheet.remap'], []);
 goog.addDependency("../../../../sources/zz/events/events.js", ['zz.events'], []);
