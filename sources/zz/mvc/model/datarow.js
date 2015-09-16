@@ -53,17 +53,28 @@ goog.require( 'zz.mvc.model.FieldTypes' );
  */
 zz.mvc.model.Datarow = function( dataset, opt_data ){
 
-	goog.events.EventTarget.call( this );
-	this.setParentEventTarget( dataset );
+	/**
+	 * Current datarow dataset object.
+	 * @type {zz.mvc.model.Dataset}
+	 * @private
+	 */
+	this.dataset_ = dataset;
 
 	/**
 	 * Current datarow unique ID.
 	 * @type {string}
 	 * @private
 	 */
-	this.datarowId_ = zz.mvc.model.getUniqueDatarowId( );
+	this.id_ = zz.mvc.model.getUniqueDatarowId( );
 
-	goog.object.forEach( this.getSchema_( ), function( meta, name ){
+//	/**
+//	 * @type {Object}
+//	 * @private
+//	 */
+//	this.fieldController_ = {};
+
+	// Construct datarow object.
+	goog.object.forEach( this.dataset_.getDatarowSchema( ), function( meta, name ){
 
 		var idx = /** @type {number} */ (meta.index);
 		var typ = /** @type {zz.mvc.model.FieldTypes|Function} */ (meta.type);
@@ -89,165 +100,115 @@ zz.mvc.model.Datarow = function( dataset, opt_data ){
 
 			zz.mvc.model.setupDatasetField( this, name, typ, opt_data ? opt_data[idx] : undefined );
 
-		this.fieldToIndex_[idx] = name;
-
 	}, this );
 };
-goog.inherits( zz.mvc.model.Datarow, goog.events.EventTarget );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
  **********************************************************************************************************************/
-
-/**
- * @type {Array}
- * @private
- */
-zz.mvc.model.Datarow.prototype.fieldToIndex_ = [];
-
-/**
- * @type {Object}
- * @private
- */
-zz.mvc.model.Datarow.prototype.fieldController_ = {};
 
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
  **********************************************************************************************************************/
 
 /**
- * Returns the event handler for this datarow, lazily created the first time this method is called.
- * @return {!goog.events.EventHandler} Event handler for this datarow.
+ * Return current datarow dataset.
+ * @returns {zz.mvc.model.Dataset}
  */
-zz.mvc.model.Datarow.prototype.getHandler = function( ){
+zz.mvc.model.Datarow.prototype.getDataset = function( ){
 
-	if( !this.handler_ ){
-
-		this.handler_ = new goog.events.EventHandler( this );
-	}
-	return this.handler_;
-};
-
-/** @inheritDoc */
-zz.mvc.model.Datarow.prototype.disposeInternal = function( ){
-
-	zz.mvc.model.Datarow.superClass_.disposeInternal.call( this );
-	if( this.handler_ ){
-
-		this.handler_.dispose( );
-		delete this.handler_;
-	}
+	return this.dataset_;
 };
 
 /**
- * Return schema object.
- * @return {Object} Item Schema object.
- * @private
- * @override
- */
-zz.mvc.model.Datarow.prototype.getSchema_ = function( ){
-
-	throw new TypeError( zz.mvc.model.Error.DATAROW_SCHEMA_UNDEFINED );
-};
-
-/**
- * Return current datarow unique ID.
- * @returns {string}
- */
+* Return current datarow unique ID.
+* @returns {string}
+*/
 zz.mvc.model.Datarow.prototype.getId = function( ){
 
-	return this.datarowId_;
+	return this.id_;
 };
 
-/**
- * Set specified id to current datarow. Note: id must to be globally unique.
- * @param {string} id
- */
-zz.mvc.model.Datarow.prototype.setId = function( id ){
-
-	this.datarowId_ = id;
-};
-
-/**
- * Return field name by specified index, false otherwise.
- * @param {number} index
- * @return {string}
- */
-zz.mvc.model.Datarow.prototype.getFieldNameByIndex = function( index ){
-
-	return this.fieldToIndex_[index];
-};
-
-/**
- * Return field type by specified field index.
- * @param {number} index
- * @returns {string}
- */
-zz.mvc.model.Datarow.prototype.getFieldTypeByIndex = function( index ){
-
-	return this.getSchema_( )[this.getFieldNameByIndex( index )].type;
-};
-
-/**
- * Return field required flag by specified field index.
- * @param {number} index
- * @returns {boolean}
- */
-zz.mvc.model.Datarow.prototype.getFieldRequiredFlagByIndex = function( index ){
-
-	return this.getSchema_( )[this.getFieldNameByIndex( index )].required;
-};
-
-/**
- * Add new control to model field.
- * @param {number} index
- * @param {zz.ui.Control} control
- * @return {number} Index of controller.
- */
-zz.mvc.model.Datarow.prototype.addFieldControl = function( index, control ){
-
-	if( !goog.isDef( this.fieldController_[ this.getFieldNameByIndex( index ) ] ) ){
-
-		this.fieldController_[ this.getFieldNameByIndex( index ) ] = [ ];
-	}
-	return this.fieldController_[ this.getFieldNameByIndex( index ) ].push( control ) - 1;
-};
-
-/**
- * Return all controls binding with current field.
- * @param {string} fieldName
- * @returns {Array}
- */
-zz.mvc.model.Datarow.prototype.getControlsByFieldName = function( fieldName ){
-
-	return this.fieldController_[ fieldName ];
-};
-
-/**
- * Return all controls binding with current datarow.
- * @returns {Array}
- */
-zz.mvc.model.Datarow.prototype.getControls = function( ){
-
-	var controls = [];
-	goog.object.forEach( this.fieldController_, function( ctrlSet ){
-
-		controls = controls.concat( ctrlSet );
-	} );
-	return controls;
-};
-
-/**
- * Set specified by index control to undefined.
- * @param {number} fieldIndex
- * @param {number} controlIndex
- */
-zz.mvc.model.Datarow.prototype.removeFieldControl = function( fieldIndex, controlIndex ){
-
-	if( goog.isDef( this.fieldController_[ this.getFieldNameByIndex( fieldIndex ) ] ) &&
-		goog.isDef( this.fieldController_[ this.getFieldNameByIndex( fieldIndex ) ][ controlIndex ] ) ){
-
-		this.fieldController_[ this.getFieldNameByIndex( fieldIndex ) ][ controlIndex ] = undefined;
-		delete this.fieldController_[ this.getFieldNameByIndex( fieldIndex ) ][ controlIndex ];
-	}
-};
+///**
+//* Return field name by specified index, false otherwise.
+//* @param {number} index
+//* @return {string}
+//*/
+//zz.mvc.model.Datarow.prototype.getFieldNameByIndex = function( index ){
+//
+//	return this.fieldToIndex_[index];
+//};
+//
+///**
+//* Return field type by specified field index.
+//* @param {number} index
+//* @returns {string}
+//*/
+//zz.mvc.model.Datarow.prototype.getFieldTypeByIndex = function( index ){
+//
+//	return this.getSchema( )[this.getFieldNameByIndex( index )].type;
+//};
+//
+///**
+//* Return field required flag by specified field index.
+//* @param {number} index
+//* @returns {boolean}
+//*/
+//zz.mvc.model.Datarow.prototype.getFieldRequiredFlagByIndex = function( index ){
+//
+//	return this.getSchema( )[this.getFieldNameByIndex( index )].required;
+//};
+//
+///**
+//* Add new control to model field.
+//* @param {number} index
+//* @param {zz.ui.Control} control
+//* @return {number} Index of controller.
+//*/
+//zz.mvc.model.Datarow.prototype.addFieldControl = function( index, control ){
+//
+//	if( !goog.isDef( this.fieldController_[ this.getFieldNameByIndex( index ) ] ) ){
+//
+//		this.fieldController_[ this.getFieldNameByIndex( index ) ] = [ ];
+//	}
+//	return this.fieldController_[ this.getFieldNameByIndex( index ) ].push( control ) - 1;
+//};
+//
+///**
+//* Return all controls binding with current field.
+//* @param {string} fieldName
+//* @returns {Array}
+//*/
+//zz.mvc.model.Datarow.prototype.getControlsByFieldName = function( fieldName ){
+//
+//	return this.fieldController_[ fieldName ];
+//};
+//
+///**
+//* Return all controls binding with current datarow.
+//* @returns {Array}
+//*/
+//zz.mvc.model.Datarow.prototype.getControls = function( ){
+//
+//	var controls = [];
+//	goog.object.forEach( this.fieldController_, function( ctrlSet ){
+//
+//		controls = controls.concat( ctrlSet );
+//	} );
+//	return controls;
+//};
+//
+///**
+//* Set specified by index control to undefined.
+//* @param {number} fieldIndex
+//* @param {number} controlIndex
+//*/
+//zz.mvc.model.Datarow.prototype.removeFieldControl = function( fieldIndex, controlIndex ){
+//
+//	if( goog.isDef( this.fieldController_[ this.getFieldNameByIndex( fieldIndex ) ] ) &&
+//		goog.isDef( this.fieldController_[ this.getFieldNameByIndex( fieldIndex ) ][ controlIndex ] ) ){
+//
+//		this.fieldController_[ this.getFieldNameByIndex( fieldIndex ) ][ controlIndex ] = undefined;
+//		delete this.fieldController_[ this.getFieldNameByIndex( fieldIndex ) ][ controlIndex ];
+//	}
+//};

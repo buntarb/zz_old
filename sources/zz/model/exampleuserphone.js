@@ -45,9 +45,9 @@ goog.require( 'zz.mvc.model.FieldTypes' );
 /**
  * @constructor
  * @implements {zz.mvc.model.IDatarow}
- * @extends {zz.mvc.model.Datarow}
  * @param {!zz.mvc.model.Dataset} dataset
  * @param {?Array.<boolean, number, string>} opt_data
+ * @extends {zz.mvc.model.Datarow}
  */
 zz.model.ExampleUserPhone = function( dataset, opt_data ){
 
@@ -79,16 +79,35 @@ zz.model.ExampleUserPhone = function( dataset, opt_data ){
 goog.inherits( zz.model.ExampleUserPhone, zz.mvc.model.Datarow );
 
 /**********************************************************************************************************************
- * Prototype methods section                                                                                          *
+ * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * Return zz.mvc.model.Example2 schema object.
+ * @constructor
+ * @param {?goog.event.EventTarget} opt_parent
+ * @param {?Array.<Array>} opt_data
+ * @extends {zz.mvc.model.Dataset}
+ */
+zz.model.ExampleUserPhoneSet = function( opt_parent, opt_data ){
+
+	zz.mvc.model.Dataset.call( this, opt_parent, opt_data );
+};
+goog.inherits( zz.model.ExampleUserPhoneSet, zz.mvc.model.Dataset );
+
+/**
+ * Current dataset row type.
+ * @constructor
+ * @overwrite
+ * @type {zz.model.ExampleUserPhone}
+ */
+zz.model.ExampleUserPhoneSet.prototype.DatarowConstructor = zz.model.ExampleUserPhone;
+
+/**
+ * Return zz.mvc.model.ExampleUserPhone schema object.
  * @override
- * @private
  * @returns {Object}
  */
-zz.model.ExampleUserPhone.prototype.getSchema_ = function( ){
+zz.model.ExampleUserPhoneSet.prototype.getDatarowSchema = function( ){
 
 	return {
 
@@ -118,28 +137,3 @@ zz.model.ExampleUserPhone.prototype.getSchema_ = function( ){
 		}
 	};
 };
-
-/**********************************************************************************************************************
- * Definition section                                                                                                 *
- **********************************************************************************************************************/
-
-/**
- * @constructor
- * @param {?goog.event.EventTarget} opt_parent
- * @param {?Array.<Array>} opt_data
- * @extends {zz.mvc.model.Dataset}
- */
-zz.model.ExampleUserPhoneSet = function( opt_parent, opt_data ){
-
-	zz.mvc.model.Dataset.call( this, opt_parent, opt_data );
-};
-goog.inherits( zz.model.ExampleUserPhoneSet, zz.mvc.model.Dataset );
-
-/**
- * Current dataset row type.
- * @constructor
- * @overwrite
- * @private
- * @type {zz.model.ExampleUserPhone}
- */
-zz.model.ExampleUserPhoneSet.prototype.Datarow_ = zz.model.ExampleUserPhone;

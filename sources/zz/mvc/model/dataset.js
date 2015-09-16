@@ -48,7 +48,7 @@ goog.require( 'zz.mvc.model.Error' );
 /**
  * @constructor
  * @extends {goog.events.EventTarget}
- * @param {?goog.events.EventTarget} opt_parent
+ * @param {?zz.mvc.model.Datarow} opt_parent
  * @param {?Array.<Array>} opt_data
  */
 zz.mvc.model.Dataset = function( opt_parent, opt_data ){
@@ -62,20 +62,39 @@ zz.mvc.model.Dataset = function( opt_parent, opt_data ){
 	 */
 	this.index_ = undefined;
 
+	/**
+	 * Datarow fields indexes array.
+	 * @type {Array}
+	 * @private
+	 */
+	this.fieldIndex_ = [];
+
+	// Creating fields index.
+	goog.object.forEach( this.getDatarowSchema( ), function( meta, name ){
+
+		this.fieldIndex_[meta.index] = name;
+
+	}, this );
+
+	// Setting up parent event target...
 	if( opt_parent ){
 
-		this.setParentEventTarget( opt_parent );
+		this.setParentEventTarget( opt_parent.getDataset( ) );
 
+	// ...or enable datarow events handling.
 	}else{
 
-		this.enableHandleDatarowEvents( true );
+		this.enableHandlingInternal( );
 	}
+
+	// De-serialize incoming array.
 	goog.array.forEach( opt_data || [], function( datarow ){
 
 		this.createLast( datarow );
 
 	}, this );
 
+	// Go to first datarow if exist.
 	this.index_ = this.length > 0 ? 0 : undefined;
 };
 goog.inherits( zz.mvc.model.Dataset, goog.events.EventTarget );
@@ -87,25 +106,39 @@ goog.inherits( zz.mvc.model.Dataset, goog.events.EventTarget );
 /**
  * Capture flag (default - false).
  * @type {boolean}
+ * @private
  */
-zz.mvc.model.Dataset.prototype.bindCaptureFlag = false;
+zz.mvc.model.Dataset.prototype.bindCaptureFlag_ = false;
 
 /**********************************************************************************************************************
- * Prototype methods section                                                                                          *
+ * Data definition section                                                                                            *
  **********************************************************************************************************************/
 
 /**
  * Current dataset row type.
  * @constructor
- * @private
  * @type {zz.mvc.model.Datarow}
  * @param {zz.mvc.model.Dataset} dataset
  * @param {Array} data
  */
-zz.mvc.model.Dataset.prototype.Datarow_ = function( dataset, data ){
+zz.mvc.model.Dataset.prototype.DatarowConstructor = function( dataset, data ){
 
 	throw new TypeError( zz.mvc.model.Error.DATAROW_TYPE_UNDEFINED );
 };
+
+/**
+ * Return schema object.
+ * @return {Object} Item Schema object.
+ * @override
+ */
+zz.mvc.model.Dataset.prototype.getDatarowSchema = function( ){
+
+	throw new TypeError( zz.mvc.model.Error.DATAROW_SCHEMA_UNDEFINED );
+};
+
+/**********************************************************************************************************************
+ * Event management section                                                                                           *
+ **********************************************************************************************************************/
 
 /** @inheritDoc */
 zz.mvc.model.Dataset.prototype.disposeInternal = function( ){
@@ -113,6 +146,7 @@ zz.mvc.model.Dataset.prototype.disposeInternal = function( ){
 	zz.mvc.model.Dataset.superClass_.disposeInternal.call( this );
 	if( this.handler_ ){
 
+		this.disableHandlingInternal( );
 		this.handler_.dispose( );
 		delete this.handler_;
 	}
@@ -122,12 +156,16 @@ zz.mvc.model.Dataset.prototype.disposeInternal = function( ){
  * Returns the event handler for this dataset, lazily created the first time
  * this method is called.
  * @return {!goog.events.EventHandler} Event handler for this dataset.
- * @protected
  */
-zz.mvc.model.Dataset.prototype.getHandler = function( ){
+zz.mvc.model.Dataset.prototype.getEventHandler = function( ){
 
 	if( !this.handler_ ){
 
+		/**
+		 * Dataset event handler.
+		 * @type {goog.events.EventHandler}
+		 * @private
+		 */
 		this.handler_ = new goog.events.EventHandler( this );
 	}
 	return this.handler_;
@@ -137,82 +175,118 @@ zz.mvc.model.Dataset.prototype.getHandler = function( ){
  * Model datarow update event handler.
  * @param {zz.mvc.model.DatarowUpdateEvent} evt
  */
+zz.mvc.model.Dataset.prototype.handleDatarowCreateEvent = function( evt ){
+
+	console.log( evt );
+
+//	var ctrlArray = evt.target.getControlsByFieldName( goog.object.getKeys( evt.changes )[0] );
+//	goog.array.forEach( ctrlArray, /** @type {zz.ui.Control|undefined} */ function( ctrl ){
+//
+//		if( ctrl ) ctrl.handleDatarowUpdateEvent( evt );
+//	} );
+};
+
+/**
+ * Model datarow update event handler.
+ * @param {zz.mvc.model.DatarowUpdateEvent} evt
+ */
 zz.mvc.model.Dataset.prototype.handleDatarowUpdateEvent = function( evt ){
 
-	var ctrlArray = evt.target.getControlsByFieldName( goog.object.getKeys( evt.changes )[0] );
-	goog.array.forEach( ctrlArray, /** @type {zz.ui.Control|undefined} */ function( ctrl ){
+	console.log( evt );
 
-		if( ctrl ) ctrl.handleDatarowUpdateEvent( evt );
-	} );
+//	var ctrlArray = evt.target.getControlsByFieldName( goog.object.getKeys( evt.changes )[0] );
+//	goog.array.forEach( ctrlArray, /** @type {zz.ui.Control|undefined} */ function( ctrl ){
+//
+//		if( ctrl ) ctrl.handleDatarowUpdateEvent( evt );
+//	} );
 };
 
 /**
  * Model datarow delete event handler.
  * @param {zz.mvc.model.DatarowDeleteEvent} evt
- * @private
  */
 zz.mvc.model.Dataset.prototype.handleDatarowDeleteEvent = function( evt ){
 
-	var ctrlArray = evt.getDeletedDatarow( ).getControls( );
-	goog.array.forEach( ctrlArray, /** @type {zz.ui.Control|undefined} */ function( ctrl ){
+	console.log( evt );
 
-		if( ctrl )
-
-			ctrl.handleDatarowDeleteEvent( evt );
-	} );
+//	var ctrlArray = evt.getDeletedDatarow( ).getControls( );
+//	goog.array.forEach( ctrlArray, /** @type {zz.ui.Control|undefined} */ function( ctrl ){
+//
+//		if( ctrl )
+//
+//			ctrl.handleDatarowDeleteEvent( evt );
+//	} );
 };
 
 /**
- * Add model-control binding.
+ * Enable datarow events internal handling.
+ * @protected
  */
-zz.mvc.model.Dataset.prototype.enableHandleDatarowEvents = function( enable ){
+zz.mvc.model.Dataset.prototype.enableHandlingInternal = function( ){
 
-	if( enable ){
+	if( !this.handler_ ){
 
-		if( !this.handler_ ){
+		this.getEventHandler( ).listenWithScope(
 
-			this.getHandler( ).listenWithScope(
-
-				this,
-				zz.mvc.model.EventType.DATAROW_UPDATE,
-				this.handleDatarowUpdateEvent,
-				this.bindCaptureFlag,
-				this
-			);
-			this.getHandler( ).listenWithScope(
-
-				this,
-				zz.mvc.model.EventType.DATAROW_DELETE,
-				this.handleDatarowDeleteEvent,
-				this.bindCaptureFlag,
-				this
-			);
-		}
-	}else{
-
-		this.getHandler( ).unlisten(
+			this,
+			zz.mvc.model.EventType.DATAROW_CREATE,
+			this.handleDatarowCreateEvent,
+			this.bindCaptureFlag_,
+			this
+		);
+		this.getEventHandler( ).listenWithScope(
 
 			this,
 			zz.mvc.model.EventType.DATAROW_UPDATE,
 			this.handleDatarowUpdateEvent,
-			this.bindCaptureFlag,
+			this.bindCaptureFlag_,
 			this
 		);
-		this.getHandler( ).unlisten(
+		this.getEventHandler( ).listenWithScope(
 
 			this,
 			zz.mvc.model.EventType.DATAROW_DELETE,
 			this.handleDatarowDeleteEvent,
-			this.bindCaptureFlag,
+			this.bindCaptureFlag_,
 			this
 		);
-		this.handler_.dispose( );
-		delete this.handler_;
 	}
 };
 
+/**
+ * Disable datarow events internal handling.
+ * @protected
+ */
+zz.mvc.model.Dataset.prototype.disableHandlingInternal = function( ){
+
+	this.getEventHandler( ).unlisten(
+
+		this,
+		zz.mvc.model.EventType.DATAROW_CREATE,
+		this.handleDatarowCreateEvent,
+		this.bindCaptureFlag_,
+		this
+	);
+	this.getEventHandler( ).unlisten(
+
+		this,
+		zz.mvc.model.EventType.DATAROW_UPDATE,
+		this.handleDatarowUpdateEvent,
+		this.bindCaptureFlag_,
+		this
+	);
+	this.getEventHandler( ).unlisten(
+
+		this,
+		zz.mvc.model.EventType.DATAROW_DELETE,
+		this.handleDatarowDeleteEvent,
+		this.bindCaptureFlag_,
+		this
+	);
+};
+
 /**********************************************************************************************************************
- * Navigation                                                                                                         *
+ * Data manipulation section                                                                                          *
  **********************************************************************************************************************/
 
 /**
@@ -222,14 +296,15 @@ zz.mvc.model.Dataset.prototype.enableHandleDatarowEvents = function( enable ){
  */
 zz.mvc.model.Dataset.prototype.createFirst = function( opt_data ){
 
-	var row = new this.Datarow_( this, opt_data );
-	Array.prototype.unshift.call( this, row );
+	var datarow = new this.DatarowConstructor( this, opt_data );
+	Array.prototype.unshift.call( this, datarow );
 	this.index_ = 0;
 	goog.async.run( function( ){
 
-		row.dispatchEvent( new zz.mvc.model.DatarowCreateEvent( row ) );
-	} );
-	return row;
+		this.dispatchEvent( new zz.mvc.model.DatarowCreateEvent( datarow ) );
+
+	}, this );
+	return datarow;
 };
 
 /**
@@ -239,14 +314,15 @@ zz.mvc.model.Dataset.prototype.createFirst = function( opt_data ){
  */
 zz.mvc.model.Dataset.prototype.createLast = function( opt_data ){
 
-	var row = new this.Datarow_( this, opt_data );
-	Array.prototype.push.call( this, row );
+	var datarow = new this.DatarowConstructor( this, opt_data );
+	Array.prototype.push.call( this, datarow );
 	this.index_ = this.length - 1;
 	goog.async.run( function( ){
 
-		row.dispatchEvent( new zz.mvc.model.DatarowCreateEvent( row ) );
-	} );
-	return row;
+		this.dispatchEvent( new zz.mvc.model.DatarowCreateEvent( datarow ) );
+
+	}, this );
+	return datarow;
 };
 
 /**
@@ -261,7 +337,6 @@ zz.mvc.model.Dataset.prototype.deleteFirst = function( ){
 		this.index_ = this.length > 0 ? 0 : undefined;
 		goog.async.run( function( ){
 
-			datarow.dispose( );
 			this.dispatchEvent( new zz.mvc.model.DatarowDeleteEvent( this, datarow ) );
 
 		}, this );
@@ -285,7 +360,6 @@ zz.mvc.model.Dataset.prototype.deleteLast = function( ){
 		this.index_ = this.length > 0 ? ( this.length - 1 ) : undefined;
 		goog.async.run( function( ){
 
-			datarow.dispose( );
 			this.dispatchEvent( new zz.mvc.model.DatarowDeleteEvent( this, datarow ) );
 
 		}, this );
@@ -312,7 +386,6 @@ zz.mvc.model.Dataset.prototype.deleteCurrent = function( ){
 
 		goog.async.run( function( ){
 
-			datarow.dispose( );
 			this.dispatchEvent( new zz.mvc.model.DatarowDeleteEvent( this, datarow ) );
 
 		}, this );
@@ -322,28 +395,6 @@ zz.mvc.model.Dataset.prototype.deleteCurrent = function( ){
 
 		return false;
 	}
-};
-
-/**
- * Return datarow index by specified unique id.
- * @param {string} id
- * @returns {number|undefined}
- */
-zz.mvc.model.Dataset.prototype.getIndexById = function( id ){
-
-	var index = undefined;
-	if( this.length > 0 ){
-
-		goog.array.forEach( this, function( datarow, key ){
-
-			if( datarow.getUniqueId( ) === id ){
-
-				this.index_ = key;
-				index = key;
-			}
-		}, this );
-	}
-	return index;
 };
 
 /**

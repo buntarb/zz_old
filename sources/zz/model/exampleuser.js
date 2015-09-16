@@ -90,20 +90,35 @@ zz.model.ExampleUser = function( dataset, opt_data ){
 goog.inherits( zz.model.ExampleUser, zz.mvc.model.Datarow );
 
 /**********************************************************************************************************************
- * Model properties description section                                                                               *
+ * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
-/**********************************************************************************************************************
- * Prototype methods section                                                                                          *
- **********************************************************************************************************************/
+/**
+ * @constructor
+ * @param {goog.event.EventTarget=} opt_parent
+ * @param {Array.<Array>=} opt_data
+ * @extends {zz.mvc.model.Dataset}
+ */
+zz.model.ExampleUserSet = function( opt_parent, opt_data ){
+
+	zz.mvc.model.Dataset.call( this, opt_parent, opt_data );
+};
+goog.inherits( zz.model.ExampleUserSet, zz.mvc.model.Dataset );
+
+/**
+ * Current dataset row type.
+ * @constructor
+ * @overwrite
+ * @type {zz.model.ExampleUser}
+ */
+zz.model.ExampleUserSet.prototype.DatarowConstructor = zz.model.ExampleUser;
 
 /**
  * Return schema object.
  * @override
- * @private
  * @returns {Object}
  */
-zz.model.ExampleUser.prototype.getSchema_ = function( ){
+zz.model.ExampleUserSet.prototype.getDatarowSchema = function( ){
 
 	return {
 
@@ -145,28 +160,3 @@ zz.model.ExampleUser.prototype.getSchema_ = function( ){
 		}
 	};
 };
-
-/**********************************************************************************************************************
- * Definition section                                                                                                 *
- **********************************************************************************************************************/
-
-/**
- * @constructor
- * @param {goog.event.EventTarget=} opt_parent
- * @param {Array.<Array>=} opt_data
- * @extends {zz.mvc.model.Dataset}
- */
-zz.model.ExampleUserSet = function( opt_parent, opt_data ){
-
-	zz.mvc.model.Dataset.call( this, opt_parent, opt_data );
-};
-goog.inherits( zz.model.ExampleUserSet, zz.mvc.model.Dataset );
-
-/**
- * Current dataset row type.
- * @constructor
- * @overwrite
- * @private
- * @type {zz.model.ExampleUser}
- */
-zz.model.ExampleUserSet.prototype.Datarow_ = zz.model.ExampleUser;

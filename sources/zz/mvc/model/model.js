@@ -43,9 +43,10 @@ goog.require( 'goog.i18n.NumberFormat.Format' );
 
 /**
  * Increment counter for datarows ID's. Used in zz.mvc.model.getUniqueDatarowId function.
+ * TODO (buntarb): Change it GCL id generator.
  * @type {number}
  */
-var iCounter = 0;
+zz.mvc.model.i = 0;
 
 /**
  * Return unique ID for datarow.
@@ -53,7 +54,7 @@ var iCounter = 0;
  */
 zz.mvc.model.getUniqueDatarowId = function( ){
 
-    return 'ID_' + iCounter++;
+    return '::' + zz.mvc.model.i++;
 };
 
 /**
@@ -127,7 +128,6 @@ zz.mvc.model.setupBooleanField = function( datarow, datafield, required, opt_val
 
     zz.mvc.model.checkIfFieldExist( datarow, datafield );
 
-    // TODO (buntarb): check memory leaks here.
     var value = goog.isDef( opt_value ) ? opt_value : null;
 
     Object.defineProperty( datarow, datafield, {
@@ -147,7 +147,7 @@ zz.mvc.model.setupBooleanField = function( datarow, datafield, required, opt_val
                 value =  val;
                 goog.async.run( function( ){
 
-					datarow.dispatchEvent( new zz.mvc.model.DatarowUpdateEvent(
+					datarow.getDataset( ).dispatchEvent( new zz.mvc.model.DatarowUpdateEvent(
 
 						datarow,
 						datafield,
@@ -194,7 +194,7 @@ zz.mvc.model.setupNumberField = function( datarow, datafield, required, opt_valu
 				value =  val;
 				goog.async.run( function( ){
 
-					datarow.dispatchEvent( new zz.mvc.model.DatarowUpdateEvent(
+					datarow.getDataset( ).dispatchEvent( new zz.mvc.model.DatarowUpdateEvent(
 
 						datarow,
 						datafield,
@@ -241,7 +241,7 @@ zz.mvc.model.setupStringField = function( datarow, datafield, required, opt_valu
 				value =  val;
 				goog.async.run( function( ){
 
-					datarow.dispatchEvent( new zz.mvc.model.DatarowUpdateEvent(
+					datarow.getDataset( ).dispatchEvent( new zz.mvc.model.DatarowUpdateEvent(
 
 						datarow,
 						datafield,
@@ -264,8 +264,8 @@ zz.mvc.model.setupStringField = function( datarow, datafield, required, opt_valu
  */
 zz.mvc.model.setupDatasetField = function( datarow, datafield, datatype, opt_value ){
 
-	zz.mvc.model.checkIfFieldExist( datarow, datafield ); //noinspection JSUnresolvedVariable
-	if( goog.typeOf( datatype ) === 'function' && goog.isDef( datatype.prototype.Datarow_ ) ){
+	zz.mvc.model.checkIfFieldExist( datarow, datafield );
+	if( goog.typeOf( datatype ) === 'function' && goog.isDef( datatype.prototype.DatarowConstructor ) ){
 
         var value = new datatype( datarow, opt_value );
         Object.defineProperty( datarow, datafield, {

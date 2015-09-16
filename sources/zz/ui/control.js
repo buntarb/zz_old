@@ -83,8 +83,9 @@ zz.ui.Control.prototype.error_ = '';
 /**
  * Capture flag (default - false).
  * @type {boolean}
+ * @private
  */
-zz.ui.Control.prototype.bindCaptureFlag = false;
+zz.ui.Control.prototype.bindCaptureFlag_ = false;
 
 /**
  * Binding type.
@@ -125,6 +126,12 @@ zz.ui.Control.prototype.getChangeableElementValue = function( ){
 zz.ui.Control.prototype.resetModel = function( ){
 
 	delete this.model_;
+
+	/**
+	 * Control model.
+	 * @type {Object}
+	 * @private
+	 */
 	this.model_ = {};
 };
 
@@ -366,7 +373,7 @@ zz.ui.Control.prototype.enableHandleViewChangeEvent = function( enable ){
 				this.getChangeableElement( ),
 				[goog.events.EventType.INPUT, goog.events.EventType.CHANGE],
 				this.handleViewChangeEvent,
-				this.bindCaptureFlag,
+				this.bindCaptureFlag_,
 				this
 			);
 		}else{
@@ -376,7 +383,7 @@ zz.ui.Control.prototype.enableHandleViewChangeEvent = function( enable ){
 				this.getChangeableElement( ),
 				[goog.events.EventType.INPUT, goog.events.EventType.CHANGE],
 				this.handleViewChangeEvent,
-				this.bindCaptureFlag,
+				this.bindCaptureFlag_,
 				this
 			);
 		}

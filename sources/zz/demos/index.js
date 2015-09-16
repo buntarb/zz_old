@@ -73,20 +73,33 @@ zz.demos.app.run = function( ){
 		user.userPassword = 'pupkin pass';
 		user.userVerifiedFlag = true;
 
-	var firstNameCtrl = goog.global.ctrl = new zz.ui.Control( user, 0 );
-		firstNameCtrl.render( goog.dom.getElement( 'root' ) );
+	/**
+	 * @type {zz.model.ExampleUserPhone}
+	 */
+	var phone = user.userPhones.createLast( );
+		phone.phoneActiveFlag = true;
 
-	var lastNameCtrl = new zz.ui.Control( user, 1 );
-		lastNameCtrl.render( goog.dom.getElement( 'root' ) );
+		user.userPhones.deleteLast( );
 
-	var userLoginCtrl = new zz.ui.Control( user, 2 );
-		userLoginCtrl.render( goog.dom.getElement( 'root' ) );
+//	goog.events.listen( users, function( evt ){
+//
+//		console.log( evt );
+//	} );
 
-	var userPasswordCtrl = new zz.ui.Control( user, 3, new zz.ui.InputRenderer( ) );
-		userPasswordCtrl.render( goog.dom.getElement( 'root' ) );
-
-	var userVerifiedFlagCtrl = new zz.ui.Control( user, 4, new zz.ui.CheckboxRenderer( ) );
-		userVerifiedFlagCtrl.render( goog.dom.getElement( 'root' ) );
+//	var firstNameCtrl = goog.global.ctrl = new zz.ui.Control( user, 0 );
+//		firstNameCtrl.render( goog.dom.getElement( 'root' ) );
+//
+//	var lastNameCtrl = new zz.ui.Control( user, 1 );
+//		lastNameCtrl.render( goog.dom.getElement( 'root' ) );
+//
+//	var userLoginCtrl = new zz.ui.Control( user, 2 );
+//		userLoginCtrl.render( goog.dom.getElement( 'root' ) );
+//
+//	var userPasswordCtrl = new zz.ui.Control( user, 3, new zz.ui.InputRenderer( ) );
+//		userPasswordCtrl.render( goog.dom.getElement( 'root' ) );
+//
+//	var userVerifiedFlagCtrl = new zz.ui.Control( user, 4, new zz.ui.CheckboxRenderer( ) );
+//		userVerifiedFlagCtrl.render( goog.dom.getElement( 'root' ) );
 
 //	var userContainer = goog.global.userContainer = new zz.ui.Container( );
 //		userContainer.addChild( firstNameCtrl );
