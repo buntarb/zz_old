@@ -41,28 +41,33 @@ goog.require( 'zz.mvc.model.EventType' );
 /**
  * @constructor
  * @extends {goog.events.Event}
+ * @param {!zz.mvc.model.Dataset} dataset
  * @param {!zz.mvc.model.Datarow} datarow
  * @param {!string} datafield
  * @param {*} old_value
  * @param {*} new_value
  */
-zz.mvc.model.DatarowUpdateEvent = function( datarow, datafield, old_value, new_value ){
-
-	goog.events.Event.call( this, zz.mvc.model.EventType.DATAROW_UPDATE, datarow );
+zz.mvc.model.DatarowUpdateEvent = function( dataset, datarow, datafield, old_value, new_value ){
 
 	/**
-	 * Changes map.
+	 * Changed datarow.
+	 * @type {!zz.mvc.model.Datarow}
+	 */
+	this.datarow = datarow;
+
+	/**
+	 * Changes description.
 	 * @type {Object}
 	 */
-	this.changes = {};
+	this.changes = {
 
-	/**
-	 * @type {boolean}
-	 */
-	this.changes[datafield] = {
+		datafield: {
 
-		from: old_value,
-		to: new_value
+			from: old_value,
+			to: new_value
+		}
 	};
+
+	goog.events.Event.call( this, zz.mvc.model.EventType.DATAROW_UPDATE, dataset );
 };
 goog.inherits( zz.mvc.model.DatarowUpdateEvent, goog.events.Event );

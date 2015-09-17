@@ -48,7 +48,7 @@ goog.require( 'zz.mvc.model.Error' );
 /**
  * @constructor
  * @extends {goog.events.EventTarget}
- * @param {?zz.mvc.model.Datarow} opt_parent
+ * @param {?zz.mvc.model.Dataset} opt_parent
  * @param {?Array.<Array>} opt_data
  */
 zz.mvc.model.Dataset = function( opt_parent, opt_data ){
@@ -64,6 +64,7 @@ zz.mvc.model.Dataset = function( opt_parent, opt_data ){
 
 	/**
 	 * Datarow fields indexes array.
+	 * TODO (buntarb): Did we need this property?
 	 * @type {Array}
 	 * @private
 	 */
@@ -79,7 +80,7 @@ zz.mvc.model.Dataset = function( opt_parent, opt_data ){
 	// Setting up parent event target...
 	if( opt_parent ){
 
-		this.setParentEventTarget( opt_parent.getDataset( ) );
+		this.setParentEventTarget( opt_parent );
 
 	// ...or enable datarow events handling.
 	}else{
@@ -108,7 +109,7 @@ goog.inherits( zz.mvc.model.Dataset, goog.events.EventTarget );
  * @type {boolean}
  * @private
  */
-zz.mvc.model.Dataset.prototype.bindCaptureFlag_ = false;
+zz.mvc.model.Dataset.prototype.capture_ = false;
 
 /**********************************************************************************************************************
  * Data definition section                                                                                            *
@@ -231,7 +232,7 @@ zz.mvc.model.Dataset.prototype.enableHandlingInternal = function( ){
 			this,
 			zz.mvc.model.EventType.DATAROW_CREATE,
 			this.handleDatarowCreateEvent,
-			this.bindCaptureFlag_,
+			this.capture_,
 			this
 		);
 		this.getEventHandler( ).listenWithScope(
@@ -239,7 +240,7 @@ zz.mvc.model.Dataset.prototype.enableHandlingInternal = function( ){
 			this,
 			zz.mvc.model.EventType.DATAROW_UPDATE,
 			this.handleDatarowUpdateEvent,
-			this.bindCaptureFlag_,
+			this.capture_,
 			this
 		);
 		this.getEventHandler( ).listenWithScope(
@@ -247,7 +248,7 @@ zz.mvc.model.Dataset.prototype.enableHandlingInternal = function( ){
 			this,
 			zz.mvc.model.EventType.DATAROW_DELETE,
 			this.handleDatarowDeleteEvent,
-			this.bindCaptureFlag_,
+			this.capture_,
 			this
 		);
 	}
@@ -264,7 +265,7 @@ zz.mvc.model.Dataset.prototype.disableHandlingInternal = function( ){
 		this,
 		zz.mvc.model.EventType.DATAROW_CREATE,
 		this.handleDatarowCreateEvent,
-		this.bindCaptureFlag_,
+		this.capture_,
 		this
 	);
 	this.getEventHandler( ).unlisten(
@@ -272,7 +273,7 @@ zz.mvc.model.Dataset.prototype.disableHandlingInternal = function( ){
 		this,
 		zz.mvc.model.EventType.DATAROW_UPDATE,
 		this.handleDatarowUpdateEvent,
-		this.bindCaptureFlag_,
+		this.capture_,
 		this
 	);
 	this.getEventHandler( ).unlisten(
@@ -280,7 +281,7 @@ zz.mvc.model.Dataset.prototype.disableHandlingInternal = function( ){
 		this,
 		zz.mvc.model.EventType.DATAROW_DELETE,
 		this.handleDatarowDeleteEvent,
-		this.bindCaptureFlag_,
+		this.capture_,
 		this
 	);
 };
@@ -296,15 +297,7 @@ zz.mvc.model.Dataset.prototype.disableHandlingInternal = function( ){
  */
 zz.mvc.model.Dataset.prototype.createFirst = function( opt_data ){
 
-	var datarow = new this.DatarowConstructor( this, opt_data );
-	Array.prototype.unshift.call( this, datarow );
-	this.index_ = 0;
-	goog.async.run( function( ){
-
-		this.dispatchEvent( new zz.mvc.model.DatarowCreateEvent( datarow ) );
-
-	}, this );
-	return datarow;
+	return this.createAt( 0, opt_data );
 };
 
 /**
@@ -314,12 +307,23 @@ zz.mvc.model.Dataset.prototype.createFirst = function( opt_data ){
  */
 zz.mvc.model.Dataset.prototype.createLast = function( opt_data ){
 
-	var datarow = new this.DatarowConstructor( this, opt_data );
-	Array.prototype.push.call( this, datarow );
-	this.index_ = this.length - 1;
+	return this.createAt( this.length || 0, opt_data );
+};
+
+/**
+ * Create new datarow with specified index.
+ * @param {number} index
+ * @param {Array=} opt_data
+ * @returns {*}
+ */
+zz.mvc.model.Dataset.prototype.createAt = function( index, opt_data ){
+
+	var datarow = /** @type {zz.mvc.model.Datarow} */ ( new this.DatarowConstructor( this, opt_data ) );
+	this.index_ = index < 0 ? 0 : index > this.length ? this.length : index;
+	Array.prototype.splice.call( this, this.index_, 0, datarow );
 	goog.async.run( function( ){
 
-		this.dispatchEvent( new zz.mvc.model.DatarowCreateEvent( datarow ) );
+		this.dispatchEvent( new zz.mvc.model.DatarowCreateEvent( this, datarow ) );
 
 	}, this );
 	return datarow;
@@ -331,21 +335,7 @@ zz.mvc.model.Dataset.prototype.createLast = function( opt_data ){
  */
 zz.mvc.model.Dataset.prototype.deleteFirst = function( ){
 
-	if( this.length > 0 ){
-
-		var datarow = Array.prototype.shift.call( this );
-		this.index_ = this.length > 0 ? 0 : undefined;
-		goog.async.run( function( ){
-
-			this.dispatchEvent( new zz.mvc.model.DatarowDeleteEvent( this, datarow ) );
-
-		}, this );
-		return true;
-
-	}else{
-
-		return false;
-	}
+	return this.deleteAt( 0 );
 };
 
 /**
@@ -354,21 +344,7 @@ zz.mvc.model.Dataset.prototype.deleteFirst = function( ){
  */
 zz.mvc.model.Dataset.prototype.deleteLast = function( ){
 
-	if( this.length > 0 ){
-
-		var datarow = Array.prototype.pop.call( this );
-		this.index_ = this.length > 0 ? ( this.length - 1 ) : undefined;
-		goog.async.run( function( ){
-
-			this.dispatchEvent( new zz.mvc.model.DatarowDeleteEvent( this, datarow ) );
-
-		}, this );
-		return true;
-
-	}else{
-
-		return false;
-	}
+	return this.deleteAt( this.length - 1 );
 };
 
 /**
@@ -377,13 +353,20 @@ zz.mvc.model.Dataset.prototype.deleteLast = function( ){
  */
 zz.mvc.model.Dataset.prototype.deleteCurrent = function( ){
 
-	if( goog.isDef( this.index_ ) && goog.isNumber( this.index_ ) ){
+	return this.deleteAt( this.index_ );
+};
 
-		var datarow = Array.prototype.splice.call( this, this.index_, 1 )[0];
-		this.index_ = this.index_ < this.length ? this.index_ :
+/**
+ * Delete datarow with specified index.
+ * @param {number} index
+ * @returns {boolean}
+ */
+zz.mvc.model.Dataset.prototype.deleteAt = function( index ){
 
-			this.length > 0 ? this.index_ - 1 : undefined;
+	if( this.length > 0 && index >= 0 && index < this.length ){
 
+		var datarow = Array.prototype.splice.call( this, index, 1 );
+		this.index_ = this.length > index ? index : this.length > 0 ? this.length - 1 : undefined;
 		goog.async.run( function( ){
 
 			this.dispatchEvent( new zz.mvc.model.DatarowDeleteEvent( this, datarow ) );

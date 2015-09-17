@@ -46,25 +46,11 @@ goog.require( 'zz.mvc.model.EventType' );
  */
 zz.mvc.model.DatarowDeleteEvent = function( dataset, datarow ){
 
+	/**
+	 * Deleted datarow.
+	 * @type {!zz.mvc.model.Datarow}
+	 */
+	this.datarow = datarow;
 	goog.events.Event.call( this, zz.mvc.model.EventType.DATAROW_DELETE, dataset );
-	this.deletedDatarow_ = datarow;
 };
 goog.inherits( zz.mvc.model.DatarowDeleteEvent, goog.events.Event );
-
-/**********************************************************************************************************************
- * Prototype properties section                                                                                       *
- **********************************************************************************************************************/
-
-/**********************************************************************************************************************
- * Prototype methods section                                                                                          *
- **********************************************************************************************************************/
-
-/**
- * Return deleted datarow object.
- * TODO (buntarb): Check memory leaks here.
- * @returns {zz.mvc.model.Datarow}
- */
-zz.mvc.model.DatarowDeleteEvent.prototype.getDeletedDatarow = function( ){
-
-	return this.deletedDatarow_;
-};

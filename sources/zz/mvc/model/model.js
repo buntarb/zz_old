@@ -42,22 +42,6 @@ goog.require( 'goog.i18n.NumberFormat.Format' );
  **********************************************************************************************************************/
 
 /**
- * Increment counter for datarows ID's. Used in zz.mvc.model.getUniqueDatarowId function.
- * TODO (buntarb): Change it GCL id generator.
- * @type {number}
- */
-zz.mvc.model.i = 0;
-
-/**
- * Return unique ID for datarow.
- * @returns {string}
- */
-zz.mvc.model.getUniqueDatarowId = function( ){
-
-    return '::' + zz.mvc.model.i++;
-};
-
-/**
  * Check is specified field exist in specified item, call an exception if true.
  * @param {!zz.mvc.model.Datarow} datarow
  * @param {string} datafield
@@ -115,12 +99,13 @@ zz.mvc.model.checkStringType = function( value ){
 
 /**
  * Setting up data item field with boolean type.
+ * @param {!zz.mvc.model.Dataset} dataset
  * @param {!zz.mvc.model.Datarow} datarow
  * @param {!string} datafield
  * @param {boolean} required
  * @param {?*} opt_value
  */
-zz.mvc.model.setupBooleanField = function( datarow, datafield, required, opt_value ){
+zz.mvc.model.setupBooleanField = function( dataset, datarow, datafield, required, opt_value ){
 
     if( goog.isDef( opt_value) )
 
@@ -147,8 +132,9 @@ zz.mvc.model.setupBooleanField = function( datarow, datafield, required, opt_val
                 value =  val;
                 goog.async.run( function( ){
 
-					datarow.getDataset( ).dispatchEvent( new zz.mvc.model.DatarowUpdateEvent(
+					dataset.dispatchEvent( new zz.mvc.model.DatarowUpdateEvent(
 
+						dataset,
 						datarow,
 						datafield,
 						old_value,
@@ -164,12 +150,13 @@ zz.mvc.model.setupBooleanField = function( datarow, datafield, required, opt_val
 
 /**
  * Setting up data item field with number type.
+ * @param {!zz.mvc.model.Dataset} dataset
  * @param {!zz.mvc.model.Datarow} datarow
  * @param {!string} datafield
  * @param {boolean} required
  * @param {?*} opt_value
  */
-zz.mvc.model.setupNumberField = function( datarow, datafield, required, opt_value ){
+zz.mvc.model.setupNumberField = function( dataset, datarow, datafield, required, opt_value ){
 
     if( goog.isDef( opt_value) )
 
@@ -194,8 +181,9 @@ zz.mvc.model.setupNumberField = function( datarow, datafield, required, opt_valu
 				value =  val;
 				goog.async.run( function( ){
 
-					datarow.getDataset( ).dispatchEvent( new zz.mvc.model.DatarowUpdateEvent(
+					dataset.dispatchEvent( new zz.mvc.model.DatarowUpdateEvent(
 
+						dataset,
 						datarow,
 						datafield,
 						old_value,
@@ -211,12 +199,13 @@ zz.mvc.model.setupNumberField = function( datarow, datafield, required, opt_valu
 
 /**
  * Setting up data item field with string type.
+ * @param {!zz.mvc.model.Dataset} dataset
  * @param {!zz.mvc.model.Datarow} datarow
  * @param {!string} datafield
  * @param {boolean} required
  * @param {*} opt_value
  */
-zz.mvc.model.setupStringField = function( datarow, datafield, required, opt_value ){
+zz.mvc.model.setupStringField = function( dataset, datarow, datafield, required, opt_value ){
 
     if( goog.isDef( opt_value) )
 
@@ -241,8 +230,9 @@ zz.mvc.model.setupStringField = function( datarow, datafield, required, opt_valu
 				value =  val;
 				goog.async.run( function( ){
 
-					datarow.getDataset( ).dispatchEvent( new zz.mvc.model.DatarowUpdateEvent(
+					dataset.dispatchEvent( new zz.mvc.model.DatarowUpdateEvent(
 
+						dataset,
 						datarow,
 						datafield,
 						old_value,
@@ -257,17 +247,18 @@ zz.mvc.model.setupStringField = function( datarow, datafield, required, opt_valu
 };
 
 /**
+ * @param {!zz.mvc.model.Dataset} dataset
  * @param {!zz.mvc.model.Datarow} datarow
  * @param {!string} datafield
  * @param {!Function} datatype
  * @param {*} opt_value
  */
-zz.mvc.model.setupDatasetField = function( datarow, datafield, datatype, opt_value ){
+zz.mvc.model.setupDatasetField = function( dataset, datarow, datafield, datatype, opt_value ){
 
 	zz.mvc.model.checkIfFieldExist( datarow, datafield );
 	if( goog.typeOf( datatype ) === 'function' && goog.isDef( datatype.prototype.DatarowConstructor ) ){
 
-        var value = new datatype( datarow, opt_value );
+        var value = new datatype( dataset, opt_value );
         Object.defineProperty( datarow, datafield, {
 
             get: function( ){

@@ -41,18 +41,16 @@ goog.require( 'zz.mvc.model.EventType' );
 /**
  * @constructor
  * @extends {goog.events.Event}
- * @param {!zz.mvc.model.Datarow} item
+ * @param {!zz.mvc.model.Dataset} dataset
+ * @param {!zz.mvc.model.Datarow} datarow
  */
-zz.mvc.model.DatarowCreateEvent = function( item ){
+zz.mvc.model.DatarowCreateEvent = function( dataset, datarow ){
 
-	goog.events.Event.call( this, zz.mvc.model.EventType.DATAROW_CREATE, item );
+	/**
+	 * Created datarow.
+	 * @type {!zz.mvc.model.Datarow}
+	 */
+	this.datarow = datarow;
+	goog.events.Event.call( this, zz.mvc.model.EventType.DATAROW_CREATE, dataset );
 };
 goog.inherits( zz.mvc.model.DatarowCreateEvent, goog.events.Event );
-
-/**********************************************************************************************************************
- * Prototype properties section                                                                                       *
- **********************************************************************************************************************/
-
-/**********************************************************************************************************************
- * Prototype methods section                                                                                          *
- **********************************************************************************************************************/

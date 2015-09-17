@@ -64,7 +64,7 @@ zz.demos.app.run = function( ){
 	var users = goog.global.users = new zz.model.ExampleUserSet( );
 
 	/**
-	 *  @type {zz.model.ExampleUser}
+	 * @type {zz.model.ExampleUser}
 	 */
 	var user = users.createLast( );
 		user.userFirstName = 'Vasily';
@@ -72,19 +72,9 @@ zz.demos.app.run = function( ){
 		user.userLogin = 'vasily pupkin';
 		user.userPassword = 'pupkin pass';
 		user.userVerifiedFlag = true;
+		user.userPhones.createLast( ['home', '+380991234567', true, 0] );
+		user.userPhones.createLast( ['work', '+380991234567', true, 1] );
 
-	/**
-	 * @type {zz.model.ExampleUserPhone}
-	 */
-	var phone = user.userPhones.createLast( );
-		phone.phoneActiveFlag = true;
-
-		user.userPhones.deleteLast( );
-
-//	goog.events.listen( users, function( evt ){
-//
-//		console.log( evt );
-//	} );
 //	var firstNameCtrl = goog.global.ctrl = new zz.ui.Control( user, 0 );
 //		firstNameCtrl.render( goog.dom.getElement( 'root' ) );
 //

@@ -7,7 +7,7 @@ goog.addDependency("../../../../sources/zz/mvc/model/fieldtypes.js", ['zz.mvc.mo
 goog.addDependency("../../../../sources/zz/mvc/model/error.js", ['zz.mvc.model.Error'], []);
 goog.addDependency("../../../../sources/zz/mvc/model/dataset.js", ['zz.mvc.model.Dataset'], ['goog.array', 'goog.object', 'goog.async.run', 'goog.events.EventTarget', 'goog.events.EventHandler', 'zz.mvc.model', 'zz.mvc.model.DatarowCreateEvent', 'zz.mvc.model.DatarowDeleteEvent', 'zz.mvc.model.Error']);
 goog.addDependency("../../../../sources/zz/mvc/model/datarowcreateevent.js", ['zz.mvc.model.DatarowCreateEvent'], ['goog.events.Event', 'zz.mvc.model.EventType']);
-goog.addDependency("../../../../sources/zz/mvc/model/datarow.js", ['zz.mvc.model.Datarow'], ['goog.object', 'goog.async.run', 'goog.events.EventTarget', 'zz.mvc.model', 'zz.mvc.model.Error', 'zz.mvc.model.FieldTypes']);
+goog.addDependency("../../../../sources/zz/mvc/model/datarow.js", ['zz.mvc.model.Datarow'], ['goog.object', 'zz.mvc.model', 'zz.mvc.model.Error', 'zz.mvc.model.FieldTypes']);
 goog.addDependency("../../../../sources/zz/mvc/model/datarowdeleteevent.js", ['zz.mvc.model.DatarowDeleteEvent'], ['goog.events.Event', 'zz.mvc.model.EventType']);
 goog.addDependency("../../../../sources/zz/mvc/model/eventtype.js", ['zz.mvc.model.EventType'], ['goog.events']);
 goog.addDependency("../../../../sources/zz/mvc/model/model.js", ['zz.mvc.model'], ['goog.async.run', 'zz.mvc.model.Error', 'zz.mvc.model.DatarowUpdateEvent', 'goog.i18n.NumberFormat', 'goog.i18n.NumberFormat.Format']);
