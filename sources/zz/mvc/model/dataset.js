@@ -34,6 +34,7 @@ goog.provide( 'zz.mvc.model.Dataset' );
 goog.require( 'goog.array' );
 goog.require( 'goog.object' );
 goog.require( 'goog.async.run' );
+goog.require( 'goog.pubsub.PubSub' );
 goog.require( 'goog.events.EventTarget' );
 goog.require( 'goog.events.EventHandler' );
 goog.require( 'zz.mvc.model' );
@@ -49,7 +50,7 @@ goog.require( 'zz.mvc.model.Error' );
  * @constructor
  * @extends {goog.events.EventTarget}
  * @param {?zz.mvc.model.Dataset} opt_parent
- * @param {?Array.<Array>} opt_data
+ * @param {?Array<Array>} opt_data
  */
 zz.mvc.model.Dataset = function( opt_parent, opt_data ){
 
@@ -68,12 +69,12 @@ zz.mvc.model.Dataset = function( opt_parent, opt_data ){
 	 * @type {Array}
 	 * @private
 	 */
-	this.fieldIndex_ = [];
+	this.fieldIndex_ = [ ];
 
 	// Creating fields index.
 	goog.object.forEach( this.getDatarowSchema( ), function( meta, name ){
 
-		this.fieldIndex_[meta.index] = name;
+		this.fieldIndex_[ meta.index ] = name;
 
 	}, this );
 
@@ -89,7 +90,7 @@ zz.mvc.model.Dataset = function( opt_parent, opt_data ){
 	}
 
 	// De-serialize incoming array.
-	goog.array.forEach( opt_data || [], function( datarow ){
+	goog.array.forEach( opt_data || [ ], function( datarow ){
 
 		this.createLast( datarow );
 
@@ -111,10 +112,18 @@ goog.inherits( zz.mvc.model.Dataset, goog.events.EventTarget );
  */
 zz.mvc.model.Dataset.prototype.capture_ = false;
 
+/**
+ * Dataset publish/subscribe channel.
+ * @type {goog.pubsub.PubSub}
+ * @private
+ */
+zz.mvc.model.Dataset.prototype.pubsub_ = undefined;
+
 /**********************************************************************************************************************
  * Data definition section                                                                                            *
  **********************************************************************************************************************/
 
+//noinspection JSUnusedLocalSymbols
 /**
  * Current dataset row type.
  * @constructor
@@ -179,12 +188,6 @@ zz.mvc.model.Dataset.prototype.getEventHandler = function( ){
 zz.mvc.model.Dataset.prototype.handleDatarowCreateEvent = function( evt ){
 
 	console.log( evt );
-
-//	var ctrlArray = evt.target.getControlsByFieldName( goog.object.getKeys( evt.changes )[0] );
-//	goog.array.forEach( ctrlArray, /** @type {zz.ui.Control|undefined} */ function( ctrl ){
-//
-//		if( ctrl ) ctrl.handleDatarowUpdateEvent( evt );
-//	} );
 };
 
 /**
@@ -194,12 +197,6 @@ zz.mvc.model.Dataset.prototype.handleDatarowCreateEvent = function( evt ){
 zz.mvc.model.Dataset.prototype.handleDatarowUpdateEvent = function( evt ){
 
 	console.log( evt );
-
-//	var ctrlArray = evt.target.getControlsByFieldName( goog.object.getKeys( evt.changes )[0] );
-//	goog.array.forEach( ctrlArray, /** @type {zz.ui.Control|undefined} */ function( ctrl ){
-//
-//		if( ctrl ) ctrl.handleDatarowUpdateEvent( evt );
-//	} );
 };
 
 /**
@@ -209,14 +206,6 @@ zz.mvc.model.Dataset.prototype.handleDatarowUpdateEvent = function( evt ){
 zz.mvc.model.Dataset.prototype.handleDatarowDeleteEvent = function( evt ){
 
 	console.log( evt );
-
-//	var ctrlArray = evt.getDeletedDatarow( ).getControls( );
-//	goog.array.forEach( ctrlArray, /** @type {zz.ui.Control|undefined} */ function( ctrl ){
-//
-//		if( ctrl )
-//
-//			ctrl.handleDatarowDeleteEvent( evt );
-//	} );
 };
 
 /**
@@ -293,7 +282,7 @@ zz.mvc.model.Dataset.prototype.disableHandlingInternal = function( ){
 /**
  * Create new row at the first position.
  * @param {Array=} opt_data
- * @returns {*}
+ * @returns {zz.mvc.model.Datarow}
  */
 zz.mvc.model.Dataset.prototype.createFirst = function( opt_data ){
 
@@ -303,7 +292,7 @@ zz.mvc.model.Dataset.prototype.createFirst = function( opt_data ){
 /**
  * Create new row at the first position.
  * @param {Array=} opt_data
- * @returns {*}
+ * @returns {zz.mvc.model.Datarow}
  */
 zz.mvc.model.Dataset.prototype.createLast = function( opt_data ){
 
@@ -314,7 +303,7 @@ zz.mvc.model.Dataset.prototype.createLast = function( opt_data ){
  * Create new datarow with specified index.
  * @param {number} index
  * @param {Array=} opt_data
- * @returns {*}
+ * @returns {zz.mvc.model.Datarow}
  */
 zz.mvc.model.Dataset.prototype.createAt = function( index, opt_data ){
 

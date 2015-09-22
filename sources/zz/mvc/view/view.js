@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.mvc.model.DatarowUpdateEvent class.
+ * @fileoverview Provide zz.mvc.View class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,46 +25,20 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.mvc.model.DatarowUpdateEvent' );
+goog.provide( 'zz.mvc.View' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'goog.events.Event' );
-goog.require( 'zz.mvc.model.EventType' );
+goog.require( 'goog.ui.ControlRenderer' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
-/**
- * @constructor
- * @extends {goog.events.Event}
- * @param {!zz.mvc.model.Dataset} dataset
- * @param {!zz.mvc.model.Datarow} datarow
- * @param {!string} datafield
- * @param {*} old_value
- * @param {*} new_value
- */
-zz.mvc.model.DatarowUpdateEvent = function( dataset, datarow, datafield, old_value, new_value ){
+zz.mvc.View = function( ){
 
-	/**
-	 * Changed datarow.
-	 * @type {!zz.mvc.model.Datarow}
-	 */
-	this.datarow = datarow;
-
-	/**
-	 * Changes description.
-	 * @type {Object}
-	 */
-	this.changes = {};
-	this.changes[datafield] = {
-
-		from: old_value,
-		to: new_value
-	};
-	goog.events.Event.call( this, zz.mvc.model.EventType.DATAROW_UPDATE, dataset );
+	goog.ui.ControlRenderer.call( this );
 };
-goog.inherits( zz.mvc.model.DatarowUpdateEvent, goog.events.Event );
+goog.inherits( zz.mvc.View, goog.ui.ControlRenderer );

@@ -58,15 +58,8 @@ zz.demos.app.run = function( ){
 	 * Data manipulation examples                                                                                     *
 	 ******************************************************************************************************************/
 
-	/**
-	 * @type {zz.model.ExampleUserSet}
-	 */
-	var users = goog.global.users = new zz.model.ExampleUserSet( );
-
-	/**
-	 * @type {zz.model.ExampleUser}
-	 */
-	var user = users.createLast( );
+	var users = goog.global.users = /** @type {zz.model.ExampleUserSet} */ ( new zz.model.ExampleUserSet( ) );
+	var user = /** @type {zz.model.ExampleUser} */ ( users.createLast( ) );
 		user.userFirstName = 'Vasily';
 		user.userLastName = 'Pupkin';
 		user.userLogin = 'vasily pupkin';
@@ -97,21 +90,10 @@ zz.demos.app.run = function( ){
 //		userContainer.addChild( userVerifiedFlagCtrl );
 //		userContainer.render( goog.dom.getElement( 'root' ) );
 
-	/**
-	 * @type {zz.model.ExampleUserPhone}
-	 */
-	//var phone = goog.global.phone = user.userPhones.createLast( );
-	//	phone.phoneType = 'mobile';
-	//	phone.phoneNumber = '+380991234567';
-	//	phone.phoneActiveFlag = true;
-	//	phone.phoneOrder = 0;
-
-	//var ctrl = goog.global.ctrl = new zz.ui.Control( phone, 2, new zz.ui.CheckboxRenderer( ) );
-	//	ctrl.render( goog.dom.getElement( 'root' ) );
-
 	/******************************************************************************************************************
 	 * Fast click testing                                                                                             *
 	 ******************************************************************************************************************/
+
 //	var customClickEvent = zz.events.getMouseEvent( goog.events.EventType.CLICK, 1, 10, 10, 10, 10 );
 //	button_reset.getElement( ).dispatchEvent( customClickEvent );
 };

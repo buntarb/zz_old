@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.mvc.controller' );
+goog.provide( 'zz.mvc.controller.filter' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -43,41 +43,7 @@ goog.require( 'goog.i18n.NumberFormat.Format' );
  * Default number formatter.
  * @type {goog.i18n.NumberFormat}
  */
-var defaultNumberFormatter = new goog.i18n.NumberFormat( goog.i18n.NumberFormat.Format.DECIMAL );
-
-/**
- * Return top ElementTarget in hierarchy.
- * @param {goog.events.EventTarget} eventTarget
- * @returns {goog.events.EventTarget}
- */
-zz.mvc.controller.getTopEventTarget = function( eventTarget ){
-
-	var result = eventTarget;
-	while( result.getParentEventTarget( ) ){
-
-		result = result.getParentEventTarget( );
-	}
-	return result;
-};
-
-/**
- * Return an array with datarows tree ids.
- * @param {goog.events.EventTarget} datarow
- * @returns {Array}
- */
-zz.mvc.controller.getDatarowTreeIds = function( datarow ){
-
-	var ids = [];
-	while( datarow.getParentEventTarget( ) ){
-
-		if( goog.isDef( datarow.getId ) ){
-
-			ids.unshift( datarow.getId( ) );
-		}
-		datarow = datarow.getParentEventTarget( );
-	}
-	return ids;
-};
+zz.mvc.controller.filter.defaultNumberFormatter = new goog.i18n.NumberFormat( goog.i18n.NumberFormat.Format.DECIMAL );
 
 /**
  * Convert data from model to view state.
@@ -85,7 +51,7 @@ zz.mvc.controller.getDatarowTreeIds = function( datarow ){
  * @param {*} value
  * @returns {string}
  */
-zz.mvc.controller.convertModelToView = function( type, value ){
+zz.mvc.controller.filter.convertModelToView = function( type, value ){
 
 	if( goog.isDefAndNotNull( value ) ){
 
@@ -95,7 +61,7 @@ zz.mvc.controller.convertModelToView = function( type, value ){
 
 		}else if( type === zz.mvc.model.FieldTypes.NUMBER ){
 
-			return defaultNumberFormatter.format( value );
+			return zz.mvc.controller.defaultNumberFormatter.format( value );
 
 		}else if( type === zz.mvc.model.FieldTypes.STRING ){
 
@@ -117,7 +83,7 @@ zz.mvc.controller.convertModelToView = function( type, value ){
  * @param {goog.ui.ControlContent} value
  * @returns {*}
  */
-zz.mvc.controller.convertViewToModel = function( type, value ){
+zz.mvc.controller.filter.convertViewToModel = function( type, value ){
 
 	if( type === zz.mvc.model.FieldTypes.BOOLEAN ){
 
@@ -125,7 +91,7 @@ zz.mvc.controller.convertViewToModel = function( type, value ){
 
 	}else if( type === zz.mvc.model.FieldTypes.NUMBER ){
 
-		return value ? defaultNumberFormatter.parse( value ) : null;
+		return value ? zz.mvc.controller.defaultNumberFormatter.parse( value ) : null;
 
 	}else if( type === zz.mvc.model.FieldTypes.STRING ){
 
