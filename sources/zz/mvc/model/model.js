@@ -34,6 +34,7 @@ goog.provide( 'zz.mvc.model' );
 goog.require( 'goog.async.run' );
 goog.require( 'goog.i18n.NumberFormat' );
 goog.require( 'goog.i18n.NumberFormat.Format' );
+goog.require( 'zz.mvc.model.DatarowUpdateEvent' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *

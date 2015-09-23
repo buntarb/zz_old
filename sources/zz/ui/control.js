@@ -35,7 +35,7 @@ goog.require( 'goog.array' );
 goog.require( 'goog.events.EventType' );
 goog.require( 'goog.ui.Control' );
 goog.require( 'goog.ui.registry' );
-goog.require( 'zz.mvc.controller' );
+goog.require( 'zz.mvc.controller.filter' );
 goog.require( 'zz.mvc.model.EventType' );
 goog.require( 'zz.ui.Error' );
 goog.require( 'zz.ui.BindType' );
@@ -167,37 +167,37 @@ zz.ui.Control.prototype.setModel = function( datarow, index ){
 	 * Current datarow tree ids.
 	 * @type {Array}
 	 */
-	this.model_.modelTreeIds = zz.mvc.controller.getDatarowTreeIds( datarow );
+	//this.model_.modelTreeIds = zz.mvc.controller.getDatarowTreeIds( datarow );
 
 	/**
 	 * Model top level event target.
 	 * @type {zz.model.Dataset}
 	 */
-	this.model_.modelEventTarget = zz.mvc.controller.getTopEventTarget( datarow );
+	//this.model_.modelEventTarget = zz.mvc.controller.getTopEventTarget( datarow );
 
 	/**
 	 * Model Dataset.
 	 * @type {goog.events.EventTarget}
 	 */
-	this.model_.modelDataset = datarow.getParentEventTarget( );
+	//this.model_.modelDataset = datarow.getParentEventTarget( );
 
 	/**
 	 * Model type.
 	 * @type {string}
 	 */
-	this.model_.modelType = datarow.getFieldTypeByIndex( index );
+	//this.model_.modelType = datarow.getFieldTypeByIndex( index );
 
 	/**
 	 * Model name.
 	 * @type {string}
 	 */
-	this.model_.modelName = datarow.getFieldNameByIndex( index );
+	//this.model_.modelName = datarow.getFieldNameByIndex( index );
 
 	/**
 	 * Model required flag.
 	 * @type {boolean}
 	 */
-	this.model_.modelRequired = datarow.getFieldRequiredFlagByIndex( index );
+	//this.model_.modelRequired = datarow.getFieldRequiredFlagByIndex( index );
 };
 
 /**
@@ -468,7 +468,7 @@ zz.ui.Control.prototype.enableDataBinding = function( enable ){
  */
 zz.ui.Control.prototype.convertModelToViewInternal = function( val ){
 
-	return zz.mvc.controller.convertModelToView( this.getModelType( ), val );
+	return zz.mvc.controller.filter.convertModelToView( this.getModelType( ), val );
 };
 
 /**
@@ -479,7 +479,7 @@ zz.ui.Control.prototype.convertModelToViewInternal = function( val ){
  */
 zz.ui.Control.prototype.convertViewToModelInternal = function( val ){
 
-	return zz.mvc.controller.convertViewToModel( this.getModelType( ), val );
+	return zz.mvc.controller.filter.convertViewToModel( this.getModelType( ), val );
 };
 
 /**
