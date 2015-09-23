@@ -44,10 +44,16 @@ goog.require( 'goog.ui.Control' );
  */
 zz.mvc.Controller = function( opt_view ){
 
-	goog.ui.Controller.call( this, undefined, opt_view, undefined );
+	goog.ui.Control.call( this, undefined, opt_view, undefined );
 };
 goog.inherits( zz.mvc.Controller, goog.ui.Control );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
  **********************************************************************************************************************/
+
+zz.mvc.Controller.prototype.modelChanged = function( type, dataset, datarow, datafield, old_val, new_val ){
+
+	console.log( arguments );
+
+};

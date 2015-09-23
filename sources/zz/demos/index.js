@@ -31,21 +31,9 @@ goog.provide( 'zz.demos.app' );
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'goog.dom' );
-goog.require( 'goog.events' );
-goog.require( 'goog.events.EventType' );
-goog.require( 'goog.ui.Component' );
-goog.require( 'goog.ui.BidiInput' );
-goog.require( 'goog.ui.Checkbox' );
-goog.require( 'goog.ui.Button' );
-goog.require( 'zz.events' );
-goog.require( 'zz.template' );
 goog.require( 'zz.mvc.model.EventType' );
 goog.require( 'zz.model.ExampleUserSet' );
-goog.require( 'zz.ui.Container' );
-goog.require( 'zz.ui.Control' );
-goog.require( 'zz.ui.CheckboxRenderer' );
-goog.require( 'zz.ui.InputRenderer' );
+goog.require( 'zz.mvc.Controller' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -60,13 +48,25 @@ zz.demos.app.run = function( ){
 
 	var users = goog.global.users = /** @type {zz.model.ExampleUserSet} */ ( new zz.model.ExampleUserSet( ) );
 	var user = /** @type {zz.model.ExampleUser} */ ( users.createLast( ) );
-		user.userFirstName = 'Vasily';
-		user.userLastName = 'Pupkin';
-		user.userLogin = 'vasily pupkin';
-		user.userPassword = 'pupkin pass';
-		user.userVerifiedFlag = true;
-		user.userPhones.createLast( ['home', '+380991234567', true, 0] );
-		user.userPhones.createLast( ['work', '+380991234567', true, 1] );
+	user.userFirstName = 'Vasily';
+	user.userLastName = 'Pupkin';
+	user.userLogin = 'vasily pupkin';
+	user.userPassword = 'pupkin pass';
+	user.userVerifiedFlag = true;
+	user.userPhones.createLast( [ 'home', '+380991234567', true, 0 ] );
+	user.userPhones.createLast( [ 'work', '+380991234567', true, 1 ] );
+
+	users.subscribe(
+
+		new zz.mvc.Controller( ),
+		zz.mvc.model.EventType.DATAROW_UPDATE,
+		user,
+		users.datafield.userFirstName
+	);
+	users.getEventHandler( ).listen( users, zz.mvc.model.EventType.DATAROW_UPDATE, function( evt ){
+
+		console.log( evt )
+	} );
 
 //	var firstNameCtrl = goog.global.ctrl = new zz.ui.Control( user, 0 );
 //		firstNameCtrl.render( goog.dom.getElement( 'root' ) );

@@ -33,8 +33,9 @@ goog.provide( 'zz.mvc.model.Dataset' );
 
 goog.require( 'goog.array' );
 goog.require( 'goog.object' );
-goog.require( 'goog.async.run' );
 goog.require( 'goog.pubsub.PubSub' );
+goog.require( 'goog.pubsub.TopicId' );
+goog.require( 'goog.async.run' );
 goog.require( 'goog.events.EventTarget' );
 goog.require( 'goog.events.EventHandler' );
 goog.require( 'zz.mvc.model' );
@@ -55,6 +56,7 @@ goog.require( 'zz.mvc.model.Error' );
 zz.mvc.model.Dataset = function( opt_parent, opt_data ){
 
 	goog.events.EventTarget.call( this );
+	goog.getUid( this );
 
 	/**
 	 * Dataset cursor current position.
@@ -71,22 +73,32 @@ zz.mvc.model.Dataset = function( opt_parent, opt_data ){
 	 */
 	this.fieldIndex_ = [ ];
 
-	// Creating fields index.
+	/**
+	 * Current dataset fields publisher topics.
+	 * @type {{string:goog.pubsub.TopicId}}
+	 */
+	this.datafield = { };
+
+	/**
+	 * Dataset publish/subscribe channel.
+	 * @type {goog.pubsub.PubSub}
+	 * @private
+	 */
+	this.pubsub_ = new goog.pubsub.PubSub( );
+
+	// Creating fields index and PubSub topics.
 	goog.object.forEach( this.getDatarowSchema( ), function( meta, name ){
 
 		this.fieldIndex_[ meta.index ] = name;
+		this.datafield[ name ] = new goog.pubsub.TopicId( name );
 
 	}, this );
 
-	// Setting up parent event target...
+	// Setting up parent event target.
 	if( opt_parent ){
 
 		this.setParentEventTarget( opt_parent );
 
-	// ...or enable datarow events handling.
-	}else{
-
-		this.enableHandlingInternal( );
 	}
 
 	// De-serialize incoming array.
@@ -111,13 +123,6 @@ goog.inherits( zz.mvc.model.Dataset, goog.events.EventTarget );
  * @private
  */
 zz.mvc.model.Dataset.prototype.capture_ = false;
-
-/**
- * Dataset publish/subscribe channel.
- * @type {goog.pubsub.PubSub}
- * @private
- */
-zz.mvc.model.Dataset.prototype.pubsub_ = undefined;
 
 /**********************************************************************************************************************
  * Data definition section                                                                                            *
@@ -154,17 +159,17 @@ zz.mvc.model.Dataset.prototype.getDatarowSchema = function( ){
 zz.mvc.model.Dataset.prototype.disposeInternal = function( ){
 
 	zz.mvc.model.Dataset.superClass_.disposeInternal.call( this );
+	this.pubsub_.dispose( );
+	delete this.pubsub_;
 	if( this.handler_ ){
 
-		this.disableHandlingInternal( );
 		this.handler_.dispose( );
 		delete this.handler_;
 	}
 };
 
 /**
- * Returns the event handler for this dataset, lazily created the first time
- * this method is called.
+ * Returns the event handler for this dataset, lazily created the first time this method is called.
  * @return {!goog.events.EventHandler} Event handler for this dataset.
  */
 zz.mvc.model.Dataset.prototype.getEventHandler = function( ){
@@ -182,97 +187,59 @@ zz.mvc.model.Dataset.prototype.getEventHandler = function( ){
 };
 
 /**
- * Model datarow update event handler.
- * @param {zz.mvc.model.DatarowUpdateEvent} evt
+ * PubSub listener.
+ * @this {{ctrl:zz.mvc.Controller, row:zz.mvc.model.Datarow}}
+ * @param {Object} params
+ * @private
  */
-zz.mvc.model.Dataset.prototype.handleDatarowCreateEvent = function( evt ){
+zz.mvc.model.Dataset.prototype.fieldsSubscribersListener_ = function( params ){
 
-	console.log( evt );
-};
+	if( params.row.getUid( ) === this.row.getUid( ) ){
 
-/**
- * Model datarow update event handler.
- * @param {zz.mvc.model.DatarowUpdateEvent} evt
- */
-zz.mvc.model.Dataset.prototype.handleDatarowUpdateEvent = function( evt ){
+		this.ctr.modelChanged( params.typ, params.dat, params.row, params.fld, params.ovl, params.nvl );
 
-	console.log( evt );
-};
-
-/**
- * Model datarow delete event handler.
- * @param {zz.mvc.model.DatarowDeleteEvent} evt
- */
-zz.mvc.model.Dataset.prototype.handleDatarowDeleteEvent = function( evt ){
-
-	console.log( evt );
-};
-
-/**
- * Enable datarow events internal handling.
- * @protected
- */
-zz.mvc.model.Dataset.prototype.enableHandlingInternal = function( ){
-
-	if( !this.handler_ ){
-
-		this.getEventHandler( ).listenWithScope(
-
-			this,
-			zz.mvc.model.EventType.DATAROW_CREATE,
-			this.handleDatarowCreateEvent,
-			this.capture_,
-			this
-		);
-		this.getEventHandler( ).listenWithScope(
-
-			this,
-			zz.mvc.model.EventType.DATAROW_UPDATE,
-			this.handleDatarowUpdateEvent,
-			this.capture_,
-			this
-		);
-		this.getEventHandler( ).listenWithScope(
-
-			this,
-			zz.mvc.model.EventType.DATAROW_DELETE,
-			this.handleDatarowDeleteEvent,
-			this.capture_,
-			this
-		);
 	}
 };
 
 /**
- * Disable datarow events internal handling.
- * @protected
+ * Subscribe controller to datafield changes.
+ * @param {!zz.mvc.Controller} controller
+ * @param {!zz.mvc.model.EventType} eventtype
+ * @param {zz.mvc.model.Datarow=} datarow
+ * @param {string=} datafield
  */
-zz.mvc.model.Dataset.prototype.disableHandlingInternal = function( ){
+zz.mvc.model.Dataset.prototype.subscribe = function( controller, eventtype, datarow, datafield ){
 
-	this.getEventHandler( ).unlisten(
+	if( eventtype === zz.mvc.model.EventType.DATAROW_UPDATE ){
 
-		this,
-		zz.mvc.model.EventType.DATAROW_CREATE,
-		this.handleDatarowCreateEvent,
-		this.capture_,
-		this
-	);
-	this.getEventHandler( ).unlisten(
+		this.pubsub_.subscribe( datafield, this.fieldsSubscribersListener_, {
 
-		this,
-		zz.mvc.model.EventType.DATAROW_UPDATE,
-		this.handleDatarowUpdateEvent,
-		this.capture_,
-		this
-	);
-	this.getEventHandler( ).unlisten(
+			ctr: controller,
+			row: datarow
+		} );
+		this.publish( {
 
-		this,
-		zz.mvc.model.EventType.DATAROW_DELETE,
-		this.handleDatarowDeleteEvent,
-		this.capture_,
-		this
-	);
+			typ: zz.mvc.model.EventType.DATAROW_UPDATE,
+			dat: this,
+			row: datarow,
+			fld: datafield,
+			ovl: undefined,
+			nvl: datarow[ datafield ]
+		} );
+	}
+};
+
+/**
+ * Publish datafield changes.
+ * @param {Object} params
+ */
+zz.mvc.model.Dataset.prototype.publish = function( params ){
+
+	if( params.typ === zz.mvc.model.EventType.DATAROW_UPDATE ){
+
+		this.pubsub_.publish( this.datafield[ params.fld ], params );
+
+	}
 };
 
 /**********************************************************************************************************************

@@ -34,6 +34,7 @@ goog.provide( 'zz.mvc.model' );
 goog.require( 'goog.async.run' );
 goog.require( 'goog.i18n.NumberFormat' );
 goog.require( 'goog.i18n.NumberFormat.Format' );
+goog.require( 'zz.mvc.model.EventType' );
 goog.require( 'zz.mvc.model.DatarowUpdateEvent' );
 
 /**********************************************************************************************************************
@@ -129,6 +130,15 @@ zz.mvc.model.setupBooleanField = function( dataset, datarow, datafield, required
 				var old_value = value;
 				var new_value = val;
                 value =  val;
+				dataset.publish( {
+
+					typ: zz.mvc.model.EventType.DATAROW_UPDATE,
+					dat: dataset,
+					row: datarow,
+					fld: datafield,
+					ovl: old_value,
+					nvl: new_value
+				} );
                 goog.async.run( function( ){
 
 					dataset.dispatchEvent( new zz.mvc.model.DatarowUpdateEvent(
@@ -178,6 +188,15 @@ zz.mvc.model.setupNumberField = function( dataset, datarow, datafield, required,
 				var old_value = value;
 				var new_value = val;
 				value =  val;
+				dataset.publish( {
+
+					typ: zz.mvc.model.EventType.DATAROW_UPDATE,
+					dat: dataset,
+					row: datarow,
+					fld: datafield,
+					ovl: old_value,
+					nvl: new_value
+				} );
 				goog.async.run( function( ){
 
 					dataset.dispatchEvent( new zz.mvc.model.DatarowUpdateEvent(
@@ -227,6 +246,15 @@ zz.mvc.model.setupStringField = function( dataset, datarow, datafield, required,
 				var old_value = value;
 				var new_value = val;
 				value =  val;
+				dataset.publish( {
+
+					typ: zz.mvc.model.EventType.DATAROW_UPDATE,
+					dat: dataset,
+					row: datarow,
+					fld: datafield,
+					ovl: old_value,
+					nvl: new_value
+				} );
 				goog.async.run( function( ){
 
 					dataset.dispatchEvent( new zz.mvc.model.DatarowUpdateEvent(
