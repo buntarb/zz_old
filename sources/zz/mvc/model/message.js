@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.mvc.model.DatarowUpdateEvent class.
+ * @fileoverview Provide zz.mvc.model.Message class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,31 +25,61 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.mvc.model.DatarowUpdateEvent' );
+goog.provide( 'zz.mvc.model.Message' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
-
-goog.require( 'goog.events.Event' );
-goog.require( 'zz.mvc.model.EventType' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
 /**
+ * zz.mvc.model.Message class .
+ * @param {!string} eventtype
+ * @param {!zz.mvc.model.Dataset} dataset
+ * @param {!zz.mvc.model.Datarow} datarow
+ * @param {string=} opt_datafield
+ * @param {*=} opt_old
+ * @param {*=} opt_new
  * @constructor
- * @extends {goog.events.Event}
- * @param {!zz.mvc.model.Message} message
  */
-zz.mvc.model.DatarowUpdateEvent = function( message ){
+zz.mvc.model.Message = function( eventtype, dataset, datarow, opt_datafield, opt_old, opt_new ){
 
 	/**
-	 * Model message.
-	 * @type {!zz.mvc.model.Datarow}
+	 * Current message event type.
+	 * @type {string}
 	 */
-	this.message = message;
-	goog.events.Event.call( this, zz.mvc.model.EventType.DATAROW_UPDATE, message.dataset );
+	this.eventtype = eventtype;
+
+	/**
+	 * Message dataset.
+	 * @type {zz.mvc.model.Dataset}
+	 */
+	this.dataset = dataset;
+
+	/**
+	 * Message datarow.
+	 * @type {zz.mvc.model.Datarow}
+	 */
+	this.datarow = datarow;
+
+	/**
+	 * Message datafield.
+	 * @type {string}
+	 */
+	this.datafield = opt_datafield;
+
+	/**
+	 * Message datafield old value.
+	 * @type {*}
+	 */
+	this.old_value = opt_old;
+
+	/**
+	 * Message datafield new value.
+	 * @type {*}
+	 */
+	this.new_value = opt_new;
 };
-goog.inherits( zz.mvc.model.DatarowUpdateEvent, goog.events.Event );

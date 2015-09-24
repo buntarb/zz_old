@@ -39,7 +39,7 @@ goog.require( 'goog.ui.Control' );
 
 /**
  * Base class for controller.
- * @param {zz.mvc.View} opt_view
+ * @param {zz.mvc.View=} opt_view
  * @constructor
  */
 zz.mvc.Controller = function( opt_view ){
@@ -52,8 +52,8 @@ goog.inherits( zz.mvc.Controller, goog.ui.Control );
  * Prototype properties section                                                                                       *
  **********************************************************************************************************************/
 
-zz.mvc.Controller.prototype.modelChanged = function( type, dataset, datarow, datafield, old_val, new_val ){
+zz.mvc.Controller.prototype.modelChanged = function( message ){
 
-	console.log( arguments );
+	console.log( message );
 
 };

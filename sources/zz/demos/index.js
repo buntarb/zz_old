@@ -59,9 +59,7 @@ zz.demos.app.run = function( ){
 	users.subscribe(
 
 		new zz.mvc.Controller( ),
-		zz.mvc.model.EventType.DATAROW_UPDATE,
-		user,
-		users.datafield.userFirstName
+		users.subscribtions.userFirstName
 	);
 	users.getEventHandler( ).listen( users, zz.mvc.model.EventType.DATAROW_UPDATE, function( evt ){
 

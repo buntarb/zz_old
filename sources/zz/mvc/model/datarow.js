@@ -83,7 +83,7 @@ zz.mvc.model.Datarow = function( dataset, opt_data ){
 
 /**
 * Return current datarow unique ID.
-* @returns {string}
+* @returns {number}
 */
 zz.mvc.model.Datarow.prototype.getUid = function( ){
 

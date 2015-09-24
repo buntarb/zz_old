@@ -39,6 +39,7 @@ goog.require( 'goog.async.run' );
 goog.require( 'goog.events.EventTarget' );
 goog.require( 'goog.events.EventHandler' );
 goog.require( 'zz.mvc.model' );
+goog.require( 'zz.mvc.model.Message' );
 goog.require( 'zz.mvc.model.DatarowCreateEvent' );
 goog.require( 'zz.mvc.model.DatarowDeleteEvent' );
 goog.require( 'zz.mvc.model.Error' );
@@ -56,7 +57,6 @@ goog.require( 'zz.mvc.model.Error' );
 zz.mvc.model.Dataset = function( opt_parent, opt_data ){
 
 	goog.events.EventTarget.call( this );
-	goog.getUid( this );
 
 	/**
 	 * Dataset cursor current position.
@@ -66,18 +66,10 @@ zz.mvc.model.Dataset = function( opt_parent, opt_data ){
 	this.index_ = undefined;
 
 	/**
-	 * Datarow fields indexes array.
-	 * TODO (buntarb): Did we need this property?
-	 * @type {Array}
-	 * @private
-	 */
-	this.fieldIndex_ = [ ];
-
-	/**
 	 * Current dataset fields publisher topics.
 	 * @type {{string:goog.pubsub.TopicId}}
 	 */
-	this.datafield = { };
+	this.subscribtions = { };
 
 	/**
 	 * Dataset publish/subscribe channel.
@@ -86,11 +78,13 @@ zz.mvc.model.Dataset = function( opt_parent, opt_data ){
 	 */
 	this.pubsub_ = new goog.pubsub.PubSub( );
 
-	// Creating fields index and PubSub topics.
+	// Generating UID.
+	goog.getUid( this );
+
+	// Creating PubSub topics.
 	goog.object.forEach( this.getDatarowSchema( ), function( meta, name ){
 
-		this.fieldIndex_[ meta.index ] = name;
-		this.datafield[ name ] = new goog.pubsub.TopicId( name );
+		this.subscribtions[ name ] = new goog.pubsub.TopicId( name );
 
 	}, this );
 
@@ -117,16 +111,18 @@ goog.inherits( zz.mvc.model.Dataset, goog.events.EventTarget );
  * Prototype properties section                                                                                       *
  **********************************************************************************************************************/
 
-/**
- * Capture flag (default - false).
- * @type {boolean}
- * @private
- */
-zz.mvc.model.Dataset.prototype.capture_ = false;
-
 /**********************************************************************************************************************
  * Data definition section                                                                                            *
  **********************************************************************************************************************/
+
+/**
+ * Return current dataset unique ID.
+ * @returns {number}
+ */
+zz.mvc.model.Dataset.prototype.getUid = function( ){
+
+	return goog.getUid( this );
+};
 
 //noinspection JSUnusedLocalSymbols
 /**
@@ -188,56 +184,43 @@ zz.mvc.model.Dataset.prototype.getEventHandler = function( ){
 
 /**
  * PubSub listener.
- * @this {{ctrl:zz.mvc.Controller, row:zz.mvc.model.Datarow}}
- * @param {Object} params
+ * @this {zz.mvc.Controller}
+ * @param {zz.mvc.model.Message} message
  * @private
  */
-zz.mvc.model.Dataset.prototype.fieldsSubscribersListener_ = function( params ){
+zz.mvc.model.Dataset.prototype.notifySubscribers_ = function( message ){
 
-	if( params.row.getUid( ) === this.row.getUid( ) ){
-
-		this.ctr.modelChanged( params.typ, params.dat, params.row, params.fld, params.ovl, params.nvl );
-
-	}
+	this.modelChanged( message );
 };
 
 /**
  * Subscribe controller to datafield changes.
- * @param {!zz.mvc.Controller} controller
- * @param {!zz.mvc.model.EventType} eventtype
- * @param {zz.mvc.model.Datarow=} datarow
- * @param {string=} datafield
+ * @param {!zz.mvc.Controller} subscriber
+ * @param {string=} subscription
  */
-zz.mvc.model.Dataset.prototype.subscribe = function( controller, eventtype, datarow, datafield ){
+zz.mvc.model.Dataset.prototype.subscribe = function( subscriber, subscription ){
 
-	if( eventtype === zz.mvc.model.EventType.DATAROW_UPDATE ){
+	this.pubsub_.subscribe( subscription, this.notifySubscribers_, subscriber );
+	this.publish( new zz.mvc.model.Message(
 
-		this.pubsub_.subscribe( datafield, this.fieldsSubscribersListener_, {
-
-			ctr: controller,
-			row: datarow
-		} );
-		this.publish( {
-
-			typ: zz.mvc.model.EventType.DATAROW_UPDATE,
-			dat: this,
-			row: datarow,
-			fld: datafield,
-			ovl: undefined,
-			nvl: datarow[ datafield ]
-		} );
-	}
+		zz.mvc.model.EventType.DATAROW_UPDATE,
+		dataset,
+		datarow,
+		datafield,
+		value,
+		val
+	) );
 };
 
 /**
  * Publish datafield changes.
- * @param {Object} params
+ * @param {zz.mvc.model.Message} message
  */
-zz.mvc.model.Dataset.prototype.publish = function( params ){
+zz.mvc.model.Dataset.prototype.publish = function( message ){
 
-	if( params.typ === zz.mvc.model.EventType.DATAROW_UPDATE ){
+	if( message.eventtype === zz.mvc.model.EventType.DATAROW_UPDATE ){
 
-		this.pubsub_.publish( this.datafield[ params.fld ], params );
+		this.pubsub_.publish( this.subscribtions[ message.datafield ], message );
 
 	}
 };
