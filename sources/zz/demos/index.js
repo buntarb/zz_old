@@ -33,7 +33,7 @@ goog.provide( 'zz.demos.app' );
 
 goog.require( 'zz.mvc.model.EventType' );
 goog.require( 'zz.model.ExampleUserSet' );
-goog.require( 'zz.mvc.Controller' );
+goog.require( 'zz.mvc.view.BaseView' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -56,15 +56,9 @@ zz.demos.app.run = function( ){
 	user.userPhones.createLast( [ 'home', '+380991234567', true, 0 ] );
 	user.userPhones.createLast( [ 'work', '+380991234567', true, 1 ] );
 
-	users.subscribe(
-
-		new zz.mvc.Controller( ),
-		users.subscribtions.userFirstName
-	);
-	users.getEventHandler( ).listen( users, zz.mvc.model.EventType.DATAROW_UPDATE, function( evt ){
-
-		console.log( evt )
-	} );
+	var view = new zz.mvc.view.BaseView( );
+	view.setModel( users, user, users.datafield.userFirstName );
+	view.render( goog.dom.getElement( 'root' ) );
 
 //	var firstNameCtrl = goog.global.ctrl = new zz.ui.Control( user, 0 );
 //		firstNameCtrl.render( goog.dom.getElement( 'root' ) );

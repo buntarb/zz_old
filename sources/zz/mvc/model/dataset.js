@@ -34,12 +34,11 @@ goog.provide( 'zz.mvc.model.Dataset' );
 goog.require( 'goog.array' );
 goog.require( 'goog.object' );
 goog.require( 'goog.pubsub.PubSub' );
-goog.require( 'goog.pubsub.TopicId' );
 goog.require( 'goog.async.run' );
 goog.require( 'goog.events.EventTarget' );
 goog.require( 'goog.events.EventHandler' );
 goog.require( 'zz.mvc.model' );
-goog.require( 'zz.mvc.model.Message' );
+goog.require( 'zz.mvc.model.EventType' );
 goog.require( 'zz.mvc.model.DatarowCreateEvent' );
 goog.require( 'zz.mvc.model.DatarowDeleteEvent' );
 goog.require( 'zz.mvc.model.Error' );
@@ -69,7 +68,7 @@ zz.mvc.model.Dataset = function( opt_parent, opt_data ){
 	 * Current dataset fields publisher topics.
 	 * @type {{string:goog.pubsub.TopicId}}
 	 */
-	this.subscribtions = { };
+	this.datafield = { };
 
 	/**
 	 * Dataset publish/subscribe channel.
@@ -84,7 +83,7 @@ zz.mvc.model.Dataset = function( opt_parent, opt_data ){
 	// Creating PubSub topics.
 	goog.object.forEach( this.getDatarowSchema( ), function( meta, name ){
 
-		this.subscribtions[ name ] = new goog.pubsub.TopicId( name );
+		this.datafield[ name ] = name;
 
 	}, this );
 
@@ -184,32 +183,40 @@ zz.mvc.model.Dataset.prototype.getEventHandler = function( ){
 
 /**
  * PubSub listener.
- * @this {zz.mvc.Controller}
- * @param {zz.mvc.model.Message} message
+ * @param {!zz.mvc.model.Message} message
+ * @this {!zz.mvc.view.BaseView}
  * @private
  */
-zz.mvc.model.Dataset.prototype.notifySubscribers_ = function( message ){
+zz.mvc.model.Dataset.prototype.notifyFieldSubscribers_ = function( message ){
 
 	this.modelChanged( message );
 };
 
 /**
- * Subscribe controller to datafield changes.
- * @param {!zz.mvc.Controller} subscriber
- * @param {string=} subscription
+ * Subscribe view to model changes.
+ * @param {!zz.mvc.view.BaseView} subscriber
  */
-zz.mvc.model.Dataset.prototype.subscribe = function( subscriber, subscription ){
+zz.mvc.model.Dataset.prototype.subscribe = function( subscriber ){
 
-	this.pubsub_.subscribe( subscription, this.notifySubscribers_, subscriber );
-	this.publish( new zz.mvc.model.Message(
+	var model = subscriber.getModel( );
+	if( goog.isDef( model.datafield ) ){
 
-		zz.mvc.model.EventType.DATAROW_UPDATE,
-		dataset,
-		datarow,
-		datafield,
-		value,
-		val
-	) );
+		this.pubsub_.subscribe( this.datafield[ model.datafield ], this.notifyFieldSubscribers_, subscriber );
+	}
+};
+
+/**
+ * Unsubscribe view from model changes.
+ * @param {!zz.mvc.view.BaseView} subscriber
+ */
+zz.mvc.model.Dataset.prototype.unsubscribe = function( subscriber ){
+
+	var model = subscriber.getModel( );
+	if( goog.isDef( model.datafield ) ){
+
+		this.pubsub_.unsubscribe( this.datafield[ model.datafield ], this.notifyFieldSubscribers_, subscriber );
+
+	}
 };
 
 /**
@@ -218,10 +225,9 @@ zz.mvc.model.Dataset.prototype.subscribe = function( subscriber, subscription ){
  */
 zz.mvc.model.Dataset.prototype.publish = function( message ){
 
-	if( message.eventtype === zz.mvc.model.EventType.DATAROW_UPDATE ){
+	if( goog.isDef( message.datafield ) ){
 
-		this.pubsub_.publish( this.subscribtions[ message.datafield ], message );
-
+		this.pubsub_.publish( this.datafield[ message.datafield ], message );
 	}
 };
 
@@ -356,6 +362,22 @@ zz.mvc.model.Dataset.prototype.lastDatarow = function( ){
 };
 
 /**
+ * Return current datarow from dataset if it exists, false otherwise.
+ * @returns {zz.mvc.model.Datarow|boolean}
+ */
+zz.mvc.model.Dataset.prototype.currentDatarow = function( ){
+
+	if( goog.isDef( this.index_ ) ){
+
+		return this[this.index_];
+
+	}else{
+
+		return false;
+	}
+};
+
+/**
  * Return next datarow from current dataset if it exists, false otherwise.
  * @returns {zz.mvc.model.Datarow|boolean}
  */
@@ -387,4 +409,22 @@ zz.mvc.model.Dataset.prototype.previousDatarow = function( ){
 
 		return false;
 	}
+};
+
+/**
+ * Serialize model to array and convert to Json format.
+ * @returns {string}
+ */
+zz.mvc.model.Dataset.prototype.serializeArray = function( ){
+
+	return '{ "a": 1, "b":[ { "c": 2 }, { "d": 3 } ] }';
+};
+
+/**
+ * Serialize model to Json format.
+ * @returns {string}
+ */
+zz.mvc.model.Dataset.prototype.serializeJson = function( ){
+
+	return '{ "a": 1, "b":[ { "c": 2 }, { "d": 3 } ] }';
 };
