@@ -91,7 +91,6 @@ zz.mvc.model.Dataset = function( opt_parent, opt_data ){
 	if( opt_parent ){
 
 		this.setParentEventTarget( opt_parent );
-
 	}
 
 	// De-serialize incoming array.
@@ -144,6 +143,44 @@ zz.mvc.model.Dataset.prototype.DatarowConstructor = function( dataset, data ){
 zz.mvc.model.Dataset.prototype.getDatarowSchema = function( ){
 
 	throw new TypeError( zz.mvc.model.Error.DATAROW_SCHEMA_UNDEFINED );
+};
+
+/**
+ * Serialize specified datarow.
+ * @param {number} index
+ * @param {boolean=} opt_object
+ * @returns {Object|Array}
+ */
+zz.mvc.model.Dataset.prototype.serializeDatarow = function( index, opt_object ){
+
+	var res = opt_object ? { } : [ ];
+	goog.object.forEach( this.getDatarowSchema( ), function( meta, name ){
+
+		var indx = /** @type {number} */ (meta.index);
+		var type = /** @type {zz.mvc.model.FieldTypes|Function} */ (meta.type);
+
+		res[ opt_object ? name : indx ] = !goog.isFunction( type ) ?
+
+			this[ index ][ name ] :
+			this[ index ][ name ].serializeDataset( opt_object );
+
+	}, this );
+	return res;
+};
+
+/**
+ * Serialize current dataset.
+ * @param {boolean=} opt_object
+ * @returns {Array}
+ */
+zz.mvc.model.Dataset.prototype.serializeDataset = function( opt_object ){
+
+	var res = [ ];
+	for( var i = 0; i < this.length; i++ ){
+
+		res.push( this.serializeDatarow( i, opt_object ) );
+	}
+	return res;
 };
 
 /**********************************************************************************************************************
@@ -228,6 +265,10 @@ zz.mvc.model.Dataset.prototype.publish = function( message ){
 	if( goog.isDef( message.datafield ) ){
 
 		this.pubsub_.publish( this.datafield[ message.datafield ], message );
+	}
+	if( this.getParentEventTarget( ) ){
+
+		this.getParentEventTarget( ).publish( message );
 	}
 };
 
@@ -409,22 +450,4 @@ zz.mvc.model.Dataset.prototype.previousDatarow = function( ){
 
 		return false;
 	}
-};
-
-/**
- * Serialize model to array and convert to Json format.
- * @returns {string}
- */
-zz.mvc.model.Dataset.prototype.serializeArray = function( ){
-
-	return '{ "a": 1, "b":[ { "c": 2 }, { "d": 3 } ] }';
-};
-
-/**
- * Serialize model to Json format.
- * @returns {string}
- */
-zz.mvc.model.Dataset.prototype.serializeJson = function( ){
-
-	return '{ "a": 1, "b":[ { "c": 2 }, { "d": 3 } ] }';
 };

@@ -57,7 +57,7 @@ zz.demos.app.run = function( ){
 	user.userPhones.createLast( [ 'work', '+380991234567', true, 1 ] );
 
 	var view = new zz.mvc.view.BaseView( );
-	view.setModel( users, user, users.datafield.userFirstName );
+	view.setModel( users, users.currentDatarow( ) , users.datafield.userFirstName );
 	view.render( goog.dom.getElement( 'root' ) );
 
 //	var firstNameCtrl = goog.global.ctrl = new zz.ui.Control( user, 0 );

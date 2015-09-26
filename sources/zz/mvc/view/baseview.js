@@ -230,14 +230,13 @@ zz.mvc.view.BaseView.prototype.modelChanged = function( message ){
  */
 zz.mvc.view.BaseView.prototype.modelChangedInternal = function( message ){
 
-	var subModel = this.getModel( );
-	if( message.datarow.getUid( ) === subModel.datarow.getUid( ) ){
+	var jsonFormatter = new goog.format.JsonPrettyPrinter( new goog.format.JsonPrettyPrinter.TextDelimiters( ) );
+	var content = jsonFormatter.format( goog.json.serialize( message.dataset.serializeDataset( true ) ) );
+	var element = goog.dom.createElement( 'pre' );
+	if( this.getContentElement( ) ){
 
-		var jsonFormatter = new goog.format.JsonPrettyPrinter( new goog.format.JsonPrettyPrinter.TextDelimiters( ) );
-		var content = jsonFormatter.format( subModel.dataset.serializeJson( ) );
-		if( this.getContentElement( ) ){
-
-			goog.dom.setTextContent( this.getContentElement( ), content );
-		}
+		goog.dom.setTextContent( element, content );
+		goog.dom.removeChildren( this.getElement( ) );
+		goog.dom.insertChildAt( this.getElement( ), element, 0 );
 	}
 };
