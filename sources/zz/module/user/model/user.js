@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.model.ExampleUser class.
+ * @fileoverview Provide zz.module.user.model.User class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,8 +25,8 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.ExampleUser' );
-goog.provide( 'zz.model.ExampleUserSet' );
+goog.provide( 'zz.module.user.model.User' );
+goog.provide( 'zz.module.user.model.UserSet' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -35,7 +35,7 @@ goog.provide( 'zz.model.ExampleUserSet' );
 goog.require( 'zz.mvc.model.Datarow' );
 goog.require( 'zz.mvc.model.Dataset' );
 goog.require( 'zz.mvc.model.FieldTypes' );
-goog.require( 'zz.model.ExampleUserPhoneSet' );
+goog.require( 'zz.module.user.model.UserPhoneSet' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -48,7 +48,7 @@ goog.require( 'zz.model.ExampleUserPhoneSet' );
  * @param {!zz.mvc.model.Dataset} dataset
  * @param {?Array.<boolean, number, string>} opt_data
  */
-zz.model.ExampleUser = function( dataset, opt_data ){
+zz.module.user.model.User = function( dataset, opt_data ){
 
 	/**
 	 * @type {string}
@@ -76,7 +76,7 @@ zz.model.ExampleUser = function( dataset, opt_data ){
 	this.userVerifiedFlag = undefined;
 
 	/**
-	 * @type {zz.model.ExampleUserPhoneSet}
+	 * @type {zz.module.user.model.UserPhoneSet}
 	 */
 	this.userPhones = undefined;
 
@@ -85,7 +85,7 @@ zz.model.ExampleUser = function( dataset, opt_data ){
 	 */
 	zz.mvc.model.Datarow.call( this, dataset, opt_data );
 };
-goog.inherits( zz.model.ExampleUser, zz.mvc.model.Datarow );
+goog.inherits( zz.module.user.model.User, zz.mvc.model.Datarow );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -97,26 +97,26 @@ goog.inherits( zz.model.ExampleUser, zz.mvc.model.Datarow );
  * @param {Array.<Array>=} opt_data
  * @extends {zz.mvc.model.Dataset}
  */
-zz.model.ExampleUserSet = function( opt_parent, opt_data ){
+zz.module.user.model.UserSet = function( opt_parent, opt_data ){
 
 	zz.mvc.model.Dataset.call( this, opt_parent, opt_data );
 };
-goog.inherits( zz.model.ExampleUserSet, zz.mvc.model.Dataset );
+goog.inherits( zz.module.user.model.UserSet, zz.mvc.model.Dataset );
 
 /**
  * Current dataset row type.
  * @constructor
  * @overwrite
- * @type {zz.model.ExampleUser}
+ * @type {zz.module.user.model.User}
  */
-zz.model.ExampleUserSet.prototype.DatarowConstructor = zz.model.ExampleUser;
+zz.module.user.model.UserSet.prototype.DatarowConstructor = zz.module.user.model.User;
 
 /**
  * Return schema object.
  * @override
  * @returns {Object}
  */
-zz.model.ExampleUserSet.prototype.getDatarowSchema = function( ){
+zz.module.user.model.UserSet.prototype.getDatarowSchema = function( ){
 
 	return {
 
@@ -153,7 +153,7 @@ zz.model.ExampleUserSet.prototype.getDatarowSchema = function( ){
 		userPhones: {
 
 			index: 5,
-			type: zz.model.ExampleUserPhoneSet,
+			type: zz.module.user.model.UserPhoneSet,
 			required: false
 		}
 	};

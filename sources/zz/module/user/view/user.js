@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.mvc.View class.
+ * @fileoverview Provide zz.module.user.view.User class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,101 +25,111 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.mvc.View' );
+goog.provide( 'zz.module.user.view.User' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'goog.ui.ControlRenderer' );
+goog.require( 'goog.dom' );
+goog.require( 'goog.ui.BidiInput' );
+goog.require( 'goog.ui.Checkbox' );
+goog.require( 'zz.mvc.view.BaseView' );
+goog.require( 'zz.module.user.controller.User' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
-zz.mvc.View = function( ){
+/**
+ * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+ * @extends {zz.mvc.view.BaseView}
+ * @constructor
+ */
+zz.module.user.view.User = function( opt_domHelper ){
 
-	goog.ui.ControlRenderer.call( this );
+	/**
+	 * Current view controller.
+	 * @type {zz.module.user.controller.User}
+	 * @private
+	 */
+	this.controller_ = new zz.module.user.controller.User( );
+
+	zz.mvc.view.BaseView.call( this, opt_domHelper );
 };
-goog.inherits( zz.mvc.View, goog.ui.ControlRenderer );
+goog.inherits( zz.module.user.view.User, zz.mvc.view.BaseView );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
  **********************************************************************************************************************/
 
-/**
- * Default CSS class to be applied to the root element of view.
- * @type {string}
- */
-zz.mvc.View.CSS_CLASS = goog.getCssName( 'zz-view' );
-
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
  **********************************************************************************************************************/
 
-/**
- * Returns the CSS class name to be applied to the root element of all sub-views rendered or decorated using this view.
- * The class name is expected to uniquely identify the view class, i.e. no two view classes are expected to share the
- * same CSS class name.
- * @override
- */
-zz.mvc.View.prototype.getCssClass = function( ){
-
-	return zz.mvc.View.CSS_CLASS;
-};
-
 /**********************************************************************************************************************
- * Methods to override                                                                                                *
+ * DOM construct methods section                                                                                      *
  **********************************************************************************************************************/
 
 /**
- * Takes the controller's root element and returns the parent element of the controller's contents. Since by default
- * controllers are rendered as a single DIV, the default implementation returns the element itself. Subclasses with
- * more complex DOM structures must override this method as needed.
+ * Creates the initial DOM representation for the component.  The default implementation is to set this.element_ = div.
+ *
  * @override
  */
-zz.mvc.View.prototype.getContentElement = function( element ){
+zz.module.user.view.User.prototype.createDom = function( ){
 
-	return zz.mvc.View.superClass_.getContentElement.call( this, element );
+	var element = goog.base( this, 'createDom' );
+	var firstNameElement = new goog.ui.BidiInput( );
+		firstNameElement.setId( '0' );
+	var lastNameElement = new goog.ui.BidiInput( );
+		lastNameElement.setId( '1' );
+	var loginElement = new goog.ui.BidiInput( );
+		loginElement.setId( '3' );
+	var passwordElement = new goog.ui.BidiInput( );
+		passwordElement.setId( '4' );
+	var verifiedElement = new goog.ui.Checkbox( );
+		verifiedElement.setId( '5' );
+
+	this.addChildAt( firstNameElement, 0, true );
+	this.addChildAt( lastNameElement, 1, true );
+	this.addChildAt( loginElement, 2, true );
+	this.addChildAt( passwordElement, 3, true );
+	this.addChildAt( verifiedElement, 4, true );
+
+	return element;
 };
 
-/**
- * Returns true if this view can decorate the element, false otherwise. The default implementation returns true if
- * elements tag name is DIV.
- * @override
- */
-zz.mvc.View.prototype.canDecorate = function( element ){
+zz.module.user.view.User.prototype.enterDocument = function( ){
 
-	return zz.mvc.View.superClass_.canDecorate.call( this, element );
+	this.getHandler( ).listenWithScope(
+
+		this.getChildAt( 0 ).getElement( ),
+		[ goog.events.EventType.INPUT, goog.events.EventType.CHANGE ],
+		function( evt ){
+
+			console.log( evt.target.id );
+			this.model_.datarow.firstNameElement = evt.target.value
+		},
+		false,
+		this
+	);
 };
 
-/**
- * Returns the controller's contents wrapped in a DIV, with the view's own CSS class and additional state-specific
- * classes applied to it.
- * @override
- */
-zz.mvc.View.prototype.createDom = function( controller ){
-
-	return zz.mvc.View.superClass_.createDom.call( this, controller );
-};
+/**********************************************************************************************************************
+ * Model subscriber methods section                                                                                   *
+ **********************************************************************************************************************/
 
 /**
- * Default implementation of {@code decorate}. Initializes the controller's ID, content, and state based on the ID of
- * the element, its child nodes, and its CSS classes, respectively. Returns the element.
- * @override
+ * Update view to process model changes. This method need to be override by child.
+ *
+ * @param {zz.mvc.model.Message} message
+ * @protected
  */
-zz.mvc.View.prototype.decorate = function( controller, element ){
+zz.module.user.view.User.prototype.modelChangedInternal = function( message ){
 
-	return zz.mvc.View.superClass_.decorate.call( this, controller, element );
-};
-
-/**
- * Takes a controller's root element, and sets its content to the given text caption or DOM structure. The default
- * implementation replaces the children of the given element. Views that create more complex DOM structures must
- * override this method accordingly.
- * @override
- */
-zz.mvc.View.prototype.setContent = function( element, value ){
-
-	zz.mvc.View.superClass_.setContent.call( this, element, value );
+	this.getChildAt( 0 ).setValue( message.datarow.userFirstName );
+	this.getChildAt( 1 ).setValue( message.datarow.userLastName );
+	this.getChildAt( 2 ).setValue( message.datarow.userLogin );
+	this.getChildAt( 3 ).setValue( message.datarow.userPassword );
+	this.getChildAt( 4 ).setChecked( message.datarow.userVerifiedFlag );
 };

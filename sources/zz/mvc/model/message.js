@@ -54,14 +54,20 @@ zz.mvc.model.Message = function( eventtype, dataset, datarow, opt_datafield, opt
 	this.eventtype = eventtype;
 
 	/**
+	 * Message source dataset.
+	 * @type {!zz.mvc.model.Dataset}
+	 */
+	this.sourceDataset = dataset;
+
+	/**
 	 * Message dataset.
-	 * @type {zz.mvc.model.Dataset}
+	 * @type {!zz.mvc.model.Dataset}
 	 */
 	this.dataset = dataset;
 
 	/**
 	 * Message datarow.
-	 * @type {zz.mvc.model.Datarow}
+	 * @type {!zz.mvc.model.Datarow}
 	 */
 	this.datarow = datarow;
 
@@ -82,4 +88,13 @@ zz.mvc.model.Message = function( eventtype, dataset, datarow, opt_datafield, opt
 	 * @type {*}
 	 */
 	this.new_value = opt_new;
+};
+
+/**
+ * Setting up parent dataset for existing message. Used for messages bubbling.
+ * @param {!zz.mvc.model.Dataset} dataset
+ */
+zz.mvc.model.Message.prototype.setParentDataset = function( dataset ){
+
+	this.dataset = dataset;
 };

@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.mvc.Controller class.
+ * @fileoverview Provide zz.module.user.controller.User class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,35 +25,28 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.mvc.Controller' );
+goog.provide( 'zz.module.user.controller.User' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'goog.ui.Control' );
+goog.require( 'zz.mvc.controller.BaseController' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * Base class for controller.
- * @param {zz.mvc.View=} opt_view
+ * @extends {zz.mvc.controller.BaseController}
  * @constructor
  */
-zz.mvc.Controller = function( opt_view ){
+zz.module.user.controller.User = function( ){
 
-	goog.ui.Control.call( this, undefined, opt_view, undefined );
+	zz.mvc.controller.BaseController.call( this );
 };
-goog.inherits( zz.mvc.Controller, goog.ui.Control );
+goog.inherits( zz.module.user.controller.User, zz.mvc.controller.BaseController );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
  **********************************************************************************************************************/
-
-zz.mvc.Controller.prototype.modelChanged = function( message ){
-
-	console.log( message );
-
-};

@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview View errors messages.
+ * @fileoverview Controller errors messages.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,14 +25,19 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.mvc.view.Error' );
+goog.provide( 'zz.mvc.controller.Error' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * Enum for view errors messages.
+ * Enum for controller errors messages.
  * @enum {string}
  */
-zz.mvc.view.Error = { };
+zz.mvc.controller.Error = {
+
+	OPERATION_REQUIRED: 'Operation required.',
+	DATASET_REQUIRED: 'Dataset required.',
+	ILLEGAL_OPERATION: 'Illegal operation.'
+};

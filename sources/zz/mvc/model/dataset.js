@@ -239,6 +239,17 @@ zz.mvc.model.Dataset.prototype.subscribe = function( subscriber ){
 	if( goog.isDef( model.datafield ) ){
 
 		this.pubsub_.subscribe( this.datafield[ model.datafield ], this.notifyFieldSubscribers_, subscriber );
+
+	}
+	if( goog.isDef( model.datarow ) && !goog.isDef( model.datafield ) ){
+
+		this.pubsub_.subscribe( 'DR#' + model.datarow.getUid( ), this.notifyFieldSubscribers_, subscriber );
+
+	}
+	if( !goog.isDef( model.datarow ) && !goog.isDef( model.datafield ) ){
+
+		this.pubsub_.subscribe( 'DS#' + this.getUid( ), this.notifyFieldSubscribers_, subscriber );
+
 	}
 };
 
@@ -254,6 +265,16 @@ zz.mvc.model.Dataset.prototype.unsubscribe = function( subscriber ){
 		this.pubsub_.unsubscribe( this.datafield[ model.datafield ], this.notifyFieldSubscribers_, subscriber );
 
 	}
+	if( goog.isDef( model.datarow ) && !goog.isDef( model.datafield ) ){
+
+		this.pubsub_.unsubscribe( 'DR#' + model.datarow.getUid( ), this.notifyFieldSubscribers_, subscriber );
+
+	}
+	if( !goog.isDef( model.datarow ) && !goog.isDef( model.datafield ) ){
+
+		this.pubsub_.unsubscribe( 'DS#' + this.getUid( ), this.notifyFieldSubscribers_, subscriber );
+
+	}
 };
 
 /**
@@ -265,9 +286,13 @@ zz.mvc.model.Dataset.prototype.publish = function( message ){
 	if( goog.isDef( message.datafield ) ){
 
 		this.pubsub_.publish( this.datafield[ message.datafield ], message );
+
 	}
+	this.pubsub_.publish( 'DR#' + message.datarow.getUid( ), message );
+	this.pubsub_.publish( 'DS#' + this.getUid( ), message );
 	if( this.getParentEventTarget( ) ){
 
+		message.setParentDataset( /** @type {zz.mvc.model.Dataset} */( this.getParentEventTarget( ) ) );
 		this.getParentEventTarget( ).publish( message );
 	}
 };

@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.model.ExampleUserPhone class.
+ * @fileoverview Provide zz.module.user.model.UserPhone class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,8 +25,8 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.model.ExampleUserPhone' );
-goog.provide( 'zz.model.ExampleUserPhoneSet' );
+goog.provide( 'zz.module.user.model.UserPhone' );
+goog.provide( 'zz.module.user.model.UserPhoneSet' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -47,7 +47,7 @@ goog.require( 'zz.mvc.model.FieldTypes' );
  * @param {?Array.<boolean, number, string>} opt_data
  * @extends {zz.mvc.model.Datarow}
  */
-zz.model.ExampleUserPhone = function( dataset, opt_data ){
+zz.module.user.model.UserPhone = function( dataset, opt_data ){
 
 	/**
 	 * @type {string}
@@ -74,7 +74,7 @@ zz.model.ExampleUserPhone = function( dataset, opt_data ){
 	 */
 	zz.mvc.model.Datarow.call( this, dataset, opt_data );
 };
-goog.inherits( zz.model.ExampleUserPhone, zz.mvc.model.Datarow );
+goog.inherits( zz.module.user.model.UserPhone, zz.mvc.model.Datarow );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -86,26 +86,26 @@ goog.inherits( zz.model.ExampleUserPhone, zz.mvc.model.Datarow );
  * @param {?Array.<Array>} opt_data
  * @extends {zz.mvc.model.Dataset}
  */
-zz.model.ExampleUserPhoneSet = function( opt_parent, opt_data ){
+zz.module.user.model.UserPhoneSet = function( opt_parent, opt_data ){
 
 	zz.mvc.model.Dataset.call( this, opt_parent, opt_data );
 };
-goog.inherits( zz.model.ExampleUserPhoneSet, zz.mvc.model.Dataset );
+goog.inherits( zz.module.user.model.UserPhoneSet, zz.mvc.model.Dataset );
 
 /**
  * Current dataset row type.
  * @constructor
  * @overwrite
- * @type {zz.model.ExampleUserPhone}
+ * @type {zz.module.user.model.UserPhone}
  */
-zz.model.ExampleUserPhoneSet.prototype.DatarowConstructor = zz.model.ExampleUserPhone;
+zz.module.user.model.UserPhoneSet.prototype.DatarowConstructor = zz.module.user.model.UserPhone;
 
 /**
- * Return zz.mvc.model.ExampleUserPhone schema object.
+ * Return zz.mvc.model.UserPhone schema object.
  * @override
  * @returns {Object}
  */
-zz.model.ExampleUserPhoneSet.prototype.getDatarowSchema = function( ){
+zz.module.user.model.UserPhoneSet.prototype.getDatarowSchema = function( ){
 
 	return {
 

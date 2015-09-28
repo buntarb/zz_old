@@ -31,9 +31,8 @@ goog.provide( 'zz.demos.app' );
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'zz.mvc.model.EventType' );
-goog.require( 'zz.model.ExampleUserSet' );
-goog.require( 'zz.mvc.view.BaseView' );
+goog.require( 'zz.module.user.view.User' );
+goog.require( 'zz.module.user.model.UserSet' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -46,41 +45,10 @@ zz.demos.app.run = function( ){
 	 * Data manipulation examples                                                                                     *
 	 ******************************************************************************************************************/
 
-	var users = goog.global.users = /** @type {zz.model.ExampleUserSet} */ ( new zz.model.ExampleUserSet( ) );
-	var user = /** @type {zz.model.ExampleUser} */ ( users.createLast( ) );
-	user.userFirstName = 'Vasily';
-	user.userLastName = 'Pupkin';
-	user.userLogin = 'vasily pupkin';
-	user.userPassword = 'pupkin pass';
-	user.userVerifiedFlag = true;
-	user.userPhones.createLast( [ 'home', '+380991234567', true, 0 ] );
-	user.userPhones.createLast( [ 'work', '+380991234567', true, 1 ] );
-
-	var view = new zz.mvc.view.BaseView( );
-	view.setModel( users, users.currentDatarow( ) , users.datafield.userFirstName );
-	view.render( goog.dom.getElement( 'root' ) );
-
-//	var firstNameCtrl = goog.global.ctrl = new zz.ui.Control( user, 0 );
-//		firstNameCtrl.render( goog.dom.getElement( 'root' ) );
-//
-//	var lastNameCtrl = new zz.ui.Control( user, 1 );
-//		lastNameCtrl.render( goog.dom.getElement( 'root' ) );
-//
-//	var userLoginCtrl = new zz.ui.Control( user, 2 );
-//		userLoginCtrl.render( goog.dom.getElement( 'root' ) );
-//
-//	var userPasswordCtrl = new zz.ui.Control( user, 3, new zz.ui.InputRenderer( ) );
-//		userPasswordCtrl.render( goog.dom.getElement( 'root' ) );
-//
-//	var userVerifiedFlagCtrl = new zz.ui.Control( user, 4, new zz.ui.CheckboxRenderer( ) );
-//		userVerifiedFlagCtrl.render( goog.dom.getElement( 'root' ) );
-//	var userContainer = goog.global.userContainer = new zz.ui.Container( );
-//		userContainer.addChild( firstNameCtrl );
-//		userContainer.addChild( lastNameCtrl );
-//		userContainer.addChild( userLoginCtrl );
-//		userContainer.addChild( userPasswordCtrl );
-//		userContainer.addChild( userVerifiedFlagCtrl );
-//		userContainer.render( goog.dom.getElement( 'root' ) );
+	var users = goog.global.users = new zz.module.user.model.UserSet( );
+	var userView = new zz.module.user.view.User( );
+	userView.setModel( users, users.createLast( ) );
+	userView.render( goog.dom.getElement( 'root' ) );
 
 	/******************************************************************************************************************
 	 * Fast click testing                                                                                             *

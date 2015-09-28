@@ -38,7 +38,6 @@ goog.require( 'goog.format.JsonPrettyPrinter' );
 goog.require( 'goog.format.JsonPrettyPrinter.TextDelimiters' );
 goog.require( 'zz.mvc.model.Message' );
 goog.require( 'zz.mvc.model.EventType' );
-goog.require( 'zz.mvc.view.Error' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -93,15 +92,18 @@ zz.mvc.view.BaseView.prototype.getCssClass = function( ){
 zz.mvc.view.BaseView.prototype.enterDocument = function( ){
 
 	zz.mvc.view.BaseView.superClass_.enterDocument.call( this );
-	this.modelChanged( new zz.mvc.model.Message(
+	if( this.model_ ){
 
-		zz.mvc.model.EventType.DATAROW_UPDATE,
-		this.model_.dataset,
-		this.model_.datarow,
-		this.model_.datafield,
-		undefined,
-		this.model_.datarow[ this.model_.datafield ]
-	) );
+		this.modelChanged( new zz.mvc.model.Message(
+
+			zz.mvc.model.EventType.DATAROW_UPDATE,
+			this.model_.dataset,
+			this.model_.datarow,
+			this.model_.datafield,
+			undefined,
+			this.model_.datafield ? this.model_.datarow[ this.model_.datafield ] : undefined
+		) );
+	}
 };
 
 /**********************************************************************************************************************
@@ -166,9 +168,10 @@ zz.mvc.view.BaseView.prototype.disposeInternal = function( ){
 
 /**
  * Setting up view model.
+ *
  * @param {zz.mvc.model.Dataset} dataset
- * @param {zz.mvc.model.Datarow} opt_datarow
- * @param {string} opt_datafield
+ * @param {zz.mvc.model.Datarow=} opt_datarow
+ * @param {string=} opt_datafield
  */
 zz.mvc.view.BaseView.prototype.setModel = function( dataset, opt_datarow, opt_datafield ){
 
@@ -184,6 +187,7 @@ zz.mvc.view.BaseView.prototype.setModel = function( dataset, opt_datarow, opt_da
 
 /**
  * Subscribe view on setting model changes.
+ *
  * @private
  */
 zz.mvc.view.BaseView.prototype.subscribe_ = function( ){

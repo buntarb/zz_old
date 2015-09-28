@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Controller common function.
+ * @fileoverview Model field types.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,76 +25,30 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.mvc.controller.filter' );
+goog.provide( 'zz.mvc.controller.OperationTypes' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'zz.mvc.model.FieldTypes' );
-goog.require( 'goog.i18n.NumberFormat' );
-goog.require( 'goog.i18n.NumberFormat.Format' );
+goog.require( 'goog.events' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * Default number formatter.
- * @type {goog.i18n.NumberFormat}
+ * Constants for controllers operations.
+ * TODO (buntarb): Add SAVE, SYNC, etc.
+ * @enum {string}
  */
-zz.mvc.controller.filter.defaultNumberFormatter = new goog.i18n.NumberFormat( goog.i18n.NumberFormat.Format.DECIMAL );
+zz.mvc.controller.OperationTypes = {
 
-/**
- * Convert data from model to view state.
- * @param {string} type
- * @param {*} value
- * @returns {string}
- */
-zz.mvc.controller.filter.convertModelToView = function( type, value ){
-
-	if( goog.isDefAndNotNull( value ) ){
-
-		if( type === zz.mvc.model.FieldTypes.BOOLEAN ){
-
-			return value;
-
-		}else if( type === zz.mvc.model.FieldTypes.NUMBER ){
-
-			return zz.mvc.controller.defaultNumberFormatter.format( value );
-
-		}else if( type === zz.mvc.model.FieldTypes.STRING ){
-
-			return value;
-
-		}else{
-
-			return value;
-		}
-	}else{
-
-		return '';
-	}
-};
-
-/**
- * Convert data from view to model state.
- * @param {string} type
- * @param {goog.ui.ControlContent} value
- * @returns {*}
- */
-zz.mvc.controller.filter.convertViewToModel = function( type, value ){
-
-	if( type === zz.mvc.model.FieldTypes.BOOLEAN ){
-
-		return value;
-
-	}else if( type === zz.mvc.model.FieldTypes.NUMBER ){
-
-		return value ? zz.mvc.controller.defaultNumberFormatter.parse( value ) : null;
-
-	}else if( type === zz.mvc.model.FieldTypes.STRING ){
-
-		return value ? value : null;
-	}
+    CREATE_FIRST: goog.events.getUniqueId( 'createFirst' ),
+    CREATE_LAST: goog.events.getUniqueId( 'createLast' ),
+    CREATE_AT: goog.events.getUniqueId( 'createAt' ),
+    DELETE_FIRST: goog.events.getUniqueId( 'deleteFirst' ),
+    DELETE_LAST: goog.events.getUniqueId( 'deleteLast' ),
+    DELETE_CURRENT: goog.events.getUniqueId( 'deleteCurrent' ),
+    DELETE_AT: goog.events.getUniqueId( 'deleteAt' )
 };
