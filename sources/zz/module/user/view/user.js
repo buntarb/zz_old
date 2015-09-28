@@ -32,7 +32,7 @@ goog.provide( 'zz.module.user.view.User' );
  **********************************************************************************************************************/
 
 goog.require( 'goog.dom' );
-goog.require( 'goog.ui.BidiInput' );
+goog.require( 'goog.ui.Textarea' );
 goog.require( 'goog.ui.Checkbox' );
 goog.require( 'zz.mvc.view.BaseView' );
 goog.require( 'zz.module.user.controller.User' );
@@ -79,16 +79,11 @@ goog.inherits( zz.module.user.view.User, zz.mvc.view.BaseView );
 zz.module.user.view.User.prototype.createDom = function( ){
 
 	var element = goog.base( this, 'createDom' );
-	var firstNameElement = new goog.ui.BidiInput( );
-		firstNameElement.setId( '0' );
-	var lastNameElement = new goog.ui.BidiInput( );
-		lastNameElement.setId( '1' );
-	var loginElement = new goog.ui.BidiInput( );
-		loginElement.setId( '3' );
-	var passwordElement = new goog.ui.BidiInput( );
-		passwordElement.setId( '4' );
+	var firstNameElement = new goog.ui.Textarea( );
+	var lastNameElement = new goog.ui.Textarea( );
+	var loginElement = new goog.ui.Textarea( );
+	var passwordElement = new goog.ui.Textarea( );
 	var verifiedElement = new goog.ui.Checkbox( );
-		verifiedElement.setId( '5' );
 
 	this.addChildAt( firstNameElement, 0, true );
 	this.addChildAt( lastNameElement, 1, true );
@@ -107,8 +102,7 @@ zz.module.user.view.User.prototype.enterDocument = function( ){
 		[ goog.events.EventType.INPUT, goog.events.EventType.CHANGE ],
 		function( evt ){
 
-			console.log( evt.target.id );
-			this.model_.datarow.firstNameElement = evt.target.value
+			console.log( evt );
 		},
 		false,
 		this

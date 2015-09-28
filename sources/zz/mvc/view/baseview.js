@@ -53,11 +53,12 @@ goog.require( 'zz.mvc.model.EventType' );
 zz.mvc.view.BaseView = function( opt_domHelper ){
 
 	goog.ui.Component.call( this, opt_domHelper );
+	this.controller_.initialize( this );
 };
 goog.inherits( zz.mvc.view.BaseView, goog.ui.Component );
 
 /**********************************************************************************************************************
- * Prototype properties section                                                                                       *
+ * Static properties section                                                                                          *
  **********************************************************************************************************************/
 
 /**
@@ -65,7 +66,18 @@ goog.inherits( zz.mvc.view.BaseView, goog.ui.Component );
  *
  * @type {string}
  */
-zz.mvc.view.BaseView.CSS_CLASS = goog.getCssName( 'zz-view' );
+zz.mvc.view.BaseView.CSS_CLASS = goog.getCssName( 'zz-base-view' );
+
+/**********************************************************************************************************************
+ * Prototype properties section                                                                                       *
+ **********************************************************************************************************************/
+
+/**
+ * Current view controller.
+ * @type {zz.mvc.controller.BaseController}
+ * @private
+ */
+zz.mvc.view.BaseView.prototype.controller_ = undefined;
 
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *

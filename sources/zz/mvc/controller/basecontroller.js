@@ -179,3 +179,10 @@ zz.mvc.controller.BaseController.prototype.execute = function( operation, datase
 			throw new Error( zz.mvc.controller.Error.ILLEGAL_OPERATION );
 	}
 };
+
+//noinspection JSUnusedLocalSymbols
+/**
+ * Initialize view.
+ * @param {zz.mvc.view.BaseView} view
+ */
+zz.mvc.controller.BaseController.prototype.initialize = function( view ){ };

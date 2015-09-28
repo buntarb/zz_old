@@ -32,7 +32,6 @@ goog.provide( 'zz.demos.app' );
  **********************************************************************************************************************/
 
 goog.require( 'zz.module.user.view.User' );
-goog.require( 'zz.module.user.model.UserSet' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -41,13 +40,7 @@ goog.require( 'zz.module.user.model.UserSet' );
 zz.demos.app = {};
 zz.demos.app.run = function( ){
 
-	/******************************************************************************************************************
-	 * Data manipulation examples                                                                                     *
-	 ******************************************************************************************************************/
-
-	var users = goog.global.users = new zz.module.user.model.UserSet( );
 	var userView = new zz.module.user.view.User( );
-	userView.setModel( users, users.createLast( ) );
 	userView.render( goog.dom.getElement( 'root' ) );
 
 	/******************************************************************************************************************

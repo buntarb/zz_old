@@ -32,6 +32,7 @@ goog.provide( 'zz.module.user.controller.User' );
  **********************************************************************************************************************/
 
 goog.require( 'zz.mvc.controller.BaseController' );
+goog.require( 'zz.module.user.model.UserSet' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -50,3 +51,17 @@ goog.inherits( zz.module.user.controller.User, zz.mvc.controller.BaseController 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
  **********************************************************************************************************************/
+
+/**********************************************************************************************************************
+ * Prototype methods section                                                                                          *
+ **********************************************************************************************************************/
+
+/**
+ * @type {zz.module.user.view.User}
+ * @override
+ */
+zz.module.user.controller.User.prototype.initialize = function( view ){
+
+	var users = goog.global.users = new zz.module.user.model.UserSet( );
+	view.setModel( users, users.createLast( ) );
+};

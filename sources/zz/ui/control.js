@@ -35,7 +35,6 @@ goog.require( 'goog.array' );
 goog.require( 'goog.events.EventType' );
 goog.require( 'goog.ui.Control' );
 goog.require( 'goog.ui.registry' );
-goog.require( 'zz.mvc.controller.filter' );
 goog.require( 'zz.mvc.model.EventType' );
 goog.require( 'zz.ui.Error' );
 goog.require( 'zz.ui.BindType' );
