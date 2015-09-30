@@ -34,6 +34,8 @@ goog.provide( 'zz.ui.LabelInputRenderer' );
 goog.require( 'goog.dom' );
 goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.ui.ControlRenderer' );
+goog.require( 'goog.ui.LabelInput' );
+goog.require( 'goog.ui.Button' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -60,13 +62,13 @@ goog.addSingletonGetter( zz.ui.LabelInputRenderer );
  * by this renderer.
  * @type {string}
  */
-zz.ui.LabelInputRenderer.CSS_CLASS = goog.getCssName( 'zz-control' );
+zz.ui.LabelInputRenderer.CSS_CLASS = goog.getCssName( 'zz-label-input' );
 
 /**
  * Default CSS class for error state.
  * @type {string}
  */
-zz.ui.LabelInputRenderer.CSS_ERROR_CLASS = goog.getCssName( 'zz-control-error' );
+zz.ui.LabelInputRenderer.CSS_ERROR_CLASS = goog.getCssName( 'zz-label-input-error' );
 
 /**********************************************************************************************************************
  * Base renderer methods                                                                                              *
@@ -98,10 +100,23 @@ zz.ui.LabelInputRenderer.prototype.canDecorate = function( element ){
  */
 zz.ui.LabelInputRenderer.prototype.createDom = function( control ){
 
-	return control.getDomHelper( ).createDom( 'div', {
+	var element = goog.base( this, 'createDom', control );
+	var helper = control.getDomHelper( );
+	var input = new goog.ui.LabelInput( '', helper );
+	var button = new goog.ui.Button( '', undefined, helper );
+	var inputWrapper = helper.createDom( 'div', { 'class': goog.getCssName( 'input' ) } );
+	var buttonWrapper = helper.createDom( 'div', { 'class': goog.getCssName( 'button' ) } );
 
-		'id': input.getId( )
-	} );
+	goog.dom.appendChild( element, inputWrapper );
+	goog.dom.appendChild( element, buttonWrapper );
+
+	control.setElementInternal( inputWrapper );
+	control.addChild( input, true );
+
+	control.setElementInternal( buttonWrapper );
+	control.addChild( button, true );
+
+	return element;
 };
 
 /**
@@ -132,67 +147,5 @@ zz.ui.LabelInputRenderer.prototype.setContent = function( element, value ){
 
 			element.innerText = value;
 		}
-	}
-};
-
-/**********************************************************************************************************************
- * View elements and elements properties access methods                                                               *
- **********************************************************************************************************************/
-
-/**
- * Add error state to control.
- * @param {zz.ui.LabelInput} control
- * @param {string} error
- */
-zz.ui.LabelInputRenderer.prototype.addErrorState = function( control, error ){
-
-	var el = control.getElement( );
-	if( error ){
-
-		if( !goog.dom.classlist.contains( el, zz.ui.LabelInputRenderer.CSS_ERROR_CLASS ) ){
-
-			goog.dom.classlist.add( el, zz.ui.LabelInputRenderer.CSS_ERROR_CLASS );
-		}
-	}
-};
-
-/**
- * Remove error state from control.
- * @param {zz.ui.LabelInput} control
- */
-zz.ui.LabelInputRenderer.prototype.removeErrorState = function( control ){
-
-	var el = control.getElement( );
-	if( goog.dom.classlist.contains( el, zz.ui.LabelInputRenderer.CSS_ERROR_CLASS ) ){
-
-		goog.dom.classlist.remove( el, zz.ui.LabelInputRenderer.CSS_ERROR_CLASS );
-	}
-};
-
-/**
- * Return input element.
- * @param {zz.ui.LabelInput} control
- * @returns {Element}
- */
-zz.ui.LabelInputRenderer.prototype.getChangeableElement = function( control ){
-
-	return control.getElement( );
-};
-
-/**
- * Return input element.
- * @param {zz.ui.LabelInput} control
- * @returns {string}
- */
-zz.ui.LabelInputRenderer.prototype.getChangeableElementValue = function( control ){
-
-	var element = control.getElement( );
-	if( goog.isDef( element.textContent ) ){
-
-		return element.textContent;
-
-	}else{
-
-		return element.innerText;
 	}
 };

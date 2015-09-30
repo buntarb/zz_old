@@ -36,6 +36,7 @@ goog.require( 'goog.ui.Textarea' );
 goog.require( 'goog.ui.Checkbox' );
 goog.require( 'zz.mvc.view.BaseView' );
 goog.require( 'zz.module.user.controller.User' );
+goog.require( 'zz.ui.LabelInput' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -79,11 +80,18 @@ goog.inherits( zz.module.user.view.User, zz.mvc.view.BaseView );
 zz.module.user.view.User.prototype.createDom = function( ){
 
 	var element = goog.base( this, 'createDom' );
-	var firstNameElement = new goog.ui.Textarea( );
-	var lastNameElement = new goog.ui.Textarea( );
-	var loginElement = new goog.ui.Textarea( );
-	var passwordElement = new goog.ui.Textarea( );
+
+	var firstNameElement = new zz.ui.LabelInput( );
+	var lastNameElement = new zz.ui.LabelInput( );
+	var loginElement = new zz.ui.LabelInput( );
+	var passwordElement = new zz.ui.LabelInput( );
 	var verifiedElement = new goog.ui.Checkbox( );
+
+//	firstNameElement.render( element );
+//	lastNameElement.render( element );
+//	loginElement.render( element );
+//	passwordElement.render( element );
+//	verifiedElement.render( element );
 
 	this.addChildAt( firstNameElement, 0, true );
 	this.addChildAt( lastNameElement, 1, true );
@@ -96,17 +104,19 @@ zz.module.user.view.User.prototype.createDom = function( ){
 
 zz.module.user.view.User.prototype.enterDocument = function( ){
 
-	this.getHandler( ).listenWithScope(
+	goog.base( this, 'enterDocument' );
 
-		this.getChildAt( 0 ).getElement( ),
-		[ goog.events.EventType.INPUT, goog.events.EventType.CHANGE ],
-		function( evt ){
-
-			console.log( evt );
-		},
-		false,
-		this
-	);
+//	this.getHandler( ).listenWithScope(
+//
+//		this.getChildAt( 0 ).getElement( ),
+//		[ goog.events.EventType.INPUT, goog.events.EventType.CHANGE ],
+//		function( evt ){
+//
+//			console.log( evt );
+//		},
+//		false,
+//		this
+//	);
 };
 
 /**********************************************************************************************************************
@@ -121,9 +131,9 @@ zz.module.user.view.User.prototype.enterDocument = function( ){
  */
 zz.module.user.view.User.prototype.modelChangedInternal = function( message ){
 
-	this.getChildAt( 0 ).setValue( message.datarow.userFirstName );
-	this.getChildAt( 1 ).setValue( message.datarow.userLastName );
-	this.getChildAt( 2 ).setValue( message.datarow.userLogin );
-	this.getChildAt( 3 ).setValue( message.datarow.userPassword );
-	this.getChildAt( 4 ).setChecked( message.datarow.userVerifiedFlag );
+//	this.getChildAt( 0 ).setValue( message.datarow.userFirstName );
+//	this.getChildAt( 1 ).setValue( message.datarow.userLastName );
+//	this.getChildAt( 2 ).setValue( message.datarow.userLogin );
+//	this.getChildAt( 3 ).setValue( message.datarow.userPassword );
+//	this.getChildAt( 4 ).setChecked( message.datarow.userVerifiedFlag );
 };

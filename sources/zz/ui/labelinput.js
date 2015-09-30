@@ -31,8 +31,8 @@ goog.provide( 'zz.ui.LabelInput' );
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require('goog.ui.Control');
-goog.require('goog.ui.LabelInput');
+goog.require( 'goog.ui.Control' );
+goog.require( 'zz.ui.LabelInputRenderer' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -50,6 +50,9 @@ goog.require('goog.ui.LabelInput');
 zz.ui.LabelInput = function( opt_label, opt_renderer, opt_domHelper ){
 
 	goog.ui.Control.call( this, opt_renderer, opt_domHelper );
+
+	this.setAllowTextSelection( true );
+	this.setHandleMouseEvents( true );
 
 	/**
 	 * The text to show as the label.
