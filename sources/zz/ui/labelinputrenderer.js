@@ -102,19 +102,13 @@ zz.ui.LabelInputRenderer.prototype.createDom = function( control ){
 
 	var element = goog.base( this, 'createDom', control );
 	var helper = control.getDomHelper( );
+
 	var input = new goog.ui.LabelInput( '', helper );
-	var button = new goog.ui.Button( '', undefined, helper );
-	var inputWrapper = helper.createDom( 'div', { 'class': goog.getCssName( 'input' ) } );
-	var buttonWrapper = helper.createDom( 'div', { 'class': goog.getCssName( 'button' ) } );
+	var wrapper = helper.createDom( 'div', { 'class': goog.getCssName( 'input' ) } );
 
-	goog.dom.appendChild( element, inputWrapper );
-	goog.dom.appendChild( element, buttonWrapper );
-
-	control.setElementInternal( inputWrapper );
+	goog.dom.appendChild( element, wrapper );
+	control.setElementInternal( wrapper );
 	control.addChild( input, true );
-
-	control.setElementInternal( buttonWrapper );
-	control.addChild( button, true );
 
 	return element;
 };

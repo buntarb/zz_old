@@ -40,7 +40,7 @@ goog.require( 'zz.module.user.view.User' );
 zz.demos.app = {};
 zz.demos.app.run = function( ){
 
-	var userView = new zz.module.user.view.User( );
+	var userView = goog.global.userView =  new zz.module.user.view.User( );
 	userView.render( goog.dom.getElement( 'root' ) );
 
 	/******************************************************************************************************************

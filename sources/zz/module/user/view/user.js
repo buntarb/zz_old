@@ -80,24 +80,61 @@ goog.inherits( zz.module.user.view.User, zz.mvc.view.BaseView );
 zz.module.user.view.User.prototype.createDom = function( ){
 
 	var element = goog.base( this, 'createDom' );
+	var viewModel = this.getModel( );
 
-	var firstNameElement = new zz.ui.LabelInput( );
-	var lastNameElement = new zz.ui.LabelInput( );
-	var loginElement = new zz.ui.LabelInput( );
-	var passwordElement = new zz.ui.LabelInput( );
+	// User id
+	var userIdElement = new zz.ui.LabelInput( 'User #' );
+	userIdElement.setModel(
+
+		viewModel.dataset,
+		viewModel.datarow,
+		/** @type {string} */( viewModel.dataset.datafield.userId )
+	);
+	this.addChildAt( userIdElement, 0, true );
+
+	// User first name
+	var firstNameElement = new zz.ui.LabelInput( 'User first name' );
+	firstNameElement.setModel(
+
+		viewModel.dataset,
+		viewModel.datarow,
+		viewModel.dataset.datafield.userFirstName
+	);
+	this.addChildAt( firstNameElement, 1, true );
+
+	// User last name
+	var lastNameElement = new zz.ui.LabelInput( 'User last name' );
+	lastNameElement.setModel(
+
+		viewModel.dataset,
+		viewModel.datarow,
+		viewModel.dataset.datafield.userLastName
+	);
+	this.addChildAt( lastNameElement, 2, true );
+
+	// User login
+	var loginElement = new zz.ui.LabelInput( 'User login' );
+	loginElement.setModel(
+
+		viewModel.dataset,
+		viewModel.datarow,
+		viewModel.dataset.datafield.userLogin
+	);
+	this.addChildAt( loginElement, 3, true );
+
+	// User password
+	var passwordElement = new zz.ui.LabelInput( 'User password', true );
+	passwordElement.setModel(
+
+		viewModel.dataset,
+		viewModel.datarow,
+		viewModel.dataset.datafield.userPassword
+	);
+	this.addChildAt( passwordElement, 4, true );
+
+	// User verified flag
 	var verifiedElement = new goog.ui.Checkbox( );
-
-//	firstNameElement.render( element );
-//	lastNameElement.render( element );
-//	loginElement.render( element );
-//	passwordElement.render( element );
-//	verifiedElement.render( element );
-
-	this.addChildAt( firstNameElement, 0, true );
-	this.addChildAt( lastNameElement, 1, true );
-	this.addChildAt( loginElement, 2, true );
-	this.addChildAt( passwordElement, 3, true );
-	this.addChildAt( verifiedElement, 4, true );
+	this.addChildAt( verifiedElement, 5, true );
 
 	return element;
 };
@@ -105,18 +142,6 @@ zz.module.user.view.User.prototype.createDom = function( ){
 zz.module.user.view.User.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
-
-//	this.getHandler( ).listenWithScope(
-//
-//		this.getChildAt( 0 ).getElement( ),
-//		[ goog.events.EventType.INPUT, goog.events.EventType.CHANGE ],
-//		function( evt ){
-//
-//			console.log( evt );
-//		},
-//		false,
-//		this
-//	);
 };
 
 /**********************************************************************************************************************

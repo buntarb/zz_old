@@ -109,7 +109,7 @@ zz.mvc.controller.BaseController.convertViewToModel = function( type, value ){
 
 	}else if( type === zz.mvc.model.FieldTypes.NUMBER ){
 
-		return value ? zz.mvc.controller.defaultNumberFormatter.parse( value ) : null;
+		return value ? zz.mvc.controller.BaseController.defaultNumberFormatter.parse( value ) : null;
 
 	}else if( type === zz.mvc.model.FieldTypes.STRING ){
 

@@ -231,7 +231,7 @@ zz.mvc.model.Dataset.prototype.notifyFieldSubscribers_ = function( message ){
 
 /**
  * Subscribe view to model changes.
- * @param {!zz.mvc.view.BaseView} subscriber
+ * @param {!zz.mvc.view.BaseView|!zz.ui.LabelInput} subscriber
  */
 zz.mvc.model.Dataset.prototype.subscribe = function( subscriber ){
 
@@ -255,7 +255,7 @@ zz.mvc.model.Dataset.prototype.subscribe = function( subscriber ){
 
 /**
  * Unsubscribe view from model changes.
- * @param {!zz.mvc.view.BaseView} subscriber
+ * @param {!zz.mvc.view.BaseView|!zz.ui.LabelInput} subscriber
  */
 zz.mvc.model.Dataset.prototype.unsubscribe = function( subscriber ){
 

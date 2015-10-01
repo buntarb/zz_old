@@ -51,6 +51,11 @@ goog.require( 'zz.module.user.model.UserPhoneSet' );
 zz.module.user.model.User = function( dataset, opt_data ){
 
 	/**
+	 * @type {number}
+	 */
+	this.userId = undefined;
+
+	/**
 	 * @type {string}
 	 */
 	this.userFirstName = undefined;
@@ -120,39 +125,45 @@ zz.module.user.model.UserSet.prototype.getDatarowSchema = function( ){
 
 	return {
 
-		userFirstName: {
+		userId: {
 
 			index: 0,
-			type: zz.mvc.model.FieldTypes.STRING,
-			required: false
+			type: zz.mvc.model.FieldTypes.NUMBER,
+			required: true
 		},
-		userLastName: {
+		userFirstName: {
 
 			index: 1,
 			type: zz.mvc.model.FieldTypes.STRING,
 			required: false
 		},
-		userLogin: {
+		userLastName: {
 
 			index: 2,
 			type: zz.mvc.model.FieldTypes.STRING,
-			required: true
+			required: false
 		},
-		userPassword: {
+		userLogin: {
 
 			index: 3,
 			type: zz.mvc.model.FieldTypes.STRING,
 			required: true
 		},
-		userVerifiedFlag: {
+		userPassword: {
 
 			index: 4,
+			type: zz.mvc.model.FieldTypes.STRING,
+			required: true
+		},
+		userVerifiedFlag: {
+
+			index: 5,
 			type: zz.mvc.model.FieldTypes.BOOLEAN,
 			required: true
 		},
 		userPhones: {
 
-			index: 5,
+			index: 6,
 			type: zz.module.user.model.UserPhoneSet,
 			required: false
 		}
