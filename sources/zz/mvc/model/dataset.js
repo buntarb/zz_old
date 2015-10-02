@@ -220,8 +220,9 @@ zz.mvc.model.Dataset.prototype.getEventHandler = function( ){
 
 /**
  * PubSub listener.
+ * TODO (buntarb): Do something with this type notice.
  * @param {!zz.mvc.model.Message} message
- * @this {!zz.mvc.view.BaseView}
+ * @this {zz.mvc.view.BaseView|zz.ui.LabelInput}
  * @private
  */
 zz.mvc.model.Dataset.prototype.notifyFieldSubscribers_ = function( message ){
@@ -235,21 +236,30 @@ zz.mvc.model.Dataset.prototype.notifyFieldSubscribers_ = function( message ){
  */
 zz.mvc.model.Dataset.prototype.subscribe = function( subscriber ){
 
-	var model = subscriber.getModel( );
-	if( goog.isDef( model.datafield ) ){
+	var subscriberModel = subscriber.getModel( );
+	if( goog.isDef( subscriberModel.datafield ) ){
 
-		this.pubsub_.subscribe( this.datafield[ model.datafield ], this.notifyFieldSubscribers_, subscriber );
+		this.pubsub_.subscribe(
 
+			this.datafield[ subscriberModel.datafield ],
+			this.notifyFieldSubscribers_,
+			subscriber );
 	}
-	if( goog.isDef( model.datarow ) && !goog.isDef( model.datafield ) ){
+	if( goog.isDef( subscriberModel.datarow ) && !goog.isDef( subscriberModel.datafield ) ){
 
-		this.pubsub_.subscribe( 'DR#' + model.datarow.getUid( ), this.notifyFieldSubscribers_, subscriber );
+		this.pubsub_.subscribe(
 
+			'DR#' + subscriberModel.datarow.getUid( ),
+			this.notifyFieldSubscribers_,
+			subscriber );
 	}
-	if( !goog.isDef( model.datarow ) && !goog.isDef( model.datafield ) ){
+	if( !goog.isDef( subscriberModel.datarow ) && !goog.isDef( subscriberModel.datafield ) ){
 
-		this.pubsub_.subscribe( 'DS#' + this.getUid( ), this.notifyFieldSubscribers_, subscriber );
+		this.pubsub_.subscribe(
 
+			'DS#' + this.getUid( ),
+			this.notifyFieldSubscribers_,
+			subscriber );
 	}
 };
 
@@ -259,21 +269,30 @@ zz.mvc.model.Dataset.prototype.subscribe = function( subscriber ){
  */
 zz.mvc.model.Dataset.prototype.unsubscribe = function( subscriber ){
 
-	var model = subscriber.getModel( );
-	if( goog.isDef( model.datafield ) ){
+	var subscriberModel = subscriber.getModel( );
+	if( goog.isDef( subscriberModel.datafield ) ){
 
-		this.pubsub_.unsubscribe( this.datafield[ model.datafield ], this.notifyFieldSubscribers_, subscriber );
+		this.pubsub_.unsubscribe(
 
+			this.datafield[ subscriberModel.datafield ],
+			this.notifyFieldSubscribers_,
+			subscriber );
 	}
-	if( goog.isDef( model.datarow ) && !goog.isDef( model.datafield ) ){
+	if( goog.isDef( subscriberModel.datarow ) && !goog.isDef( subscriberModel.datafield ) ){
 
-		this.pubsub_.unsubscribe( 'DR#' + model.datarow.getUid( ), this.notifyFieldSubscribers_, subscriber );
+		this.pubsub_.unsubscribe(
 
+			'DR#' + subscriberModel.datarow.getUid( ),
+			this.notifyFieldSubscribers_,
+			subscriber );
 	}
-	if( !goog.isDef( model.datarow ) && !goog.isDef( model.datafield ) ){
+	if( !goog.isDef( subscriberModel.datarow ) && !goog.isDef( subscriberModel.datafield ) ){
 
-		this.pubsub_.unsubscribe( 'DS#' + this.getUid( ), this.notifyFieldSubscribers_, subscriber );
+		this.pubsub_.unsubscribe(
 
+			'DS#' + this.getUid( ),
+			this.notifyFieldSubscribers_,
+			subscriber );
 	}
 };
 

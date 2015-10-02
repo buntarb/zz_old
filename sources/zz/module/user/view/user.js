@@ -34,9 +34,12 @@ goog.provide( 'zz.module.user.view.User' );
 goog.require( 'goog.dom' );
 goog.require( 'goog.ui.Textarea' );
 goog.require( 'goog.ui.Checkbox' );
+goog.require( 'goog.i18n.NumberFormat' );
+goog.require( 'goog.i18n.NumberFormat.Format' );
 goog.require( 'zz.mvc.view.BaseView' );
 goog.require( 'zz.module.user.controller.User' );
 goog.require( 'zz.ui.LabelInput' );
+goog.require( 'zz.ui.DecimalFormatter' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -81,16 +84,17 @@ zz.module.user.view.User.prototype.createDom = function( ){
 
 	var element = goog.base( this, 'createDom' );
 	var viewModel = this.getModel( );
+	var formatter = new goog.i18n.NumberFormat( goog.i18n.NumberFormat.Format.DECIMAL );
 
 	// User id
-	var userIdElement = new zz.ui.LabelInput( 'User #' );
+	var userIdElement = new zz.ui.LabelInput( 'User #', formatter, false );
 	userIdElement.setModel(
 
 		viewModel.dataset,
 		viewModel.datarow,
 		/** @type {string} */( viewModel.dataset.datafield.userId )
 	);
-	this.addChildAt( userIdElement, 0, true );
+	this.addChild( userIdElement, true );
 
 	// User first name
 	var firstNameElement = new zz.ui.LabelInput( 'User first name' );
@@ -100,7 +104,7 @@ zz.module.user.view.User.prototype.createDom = function( ){
 		viewModel.datarow,
 		viewModel.dataset.datafield.userFirstName
 	);
-	this.addChildAt( firstNameElement, 1, true );
+	this.addChild( firstNameElement, true );
 
 	// User last name
 	var lastNameElement = new zz.ui.LabelInput( 'User last name' );
@@ -110,7 +114,7 @@ zz.module.user.view.User.prototype.createDom = function( ){
 		viewModel.datarow,
 		viewModel.dataset.datafield.userLastName
 	);
-	this.addChildAt( lastNameElement, 2, true );
+	this.addChild( lastNameElement, true );
 
 	// User login
 	var loginElement = new zz.ui.LabelInput( 'User login' );
@@ -120,21 +124,21 @@ zz.module.user.view.User.prototype.createDom = function( ){
 		viewModel.datarow,
 		viewModel.dataset.datafield.userLogin
 	);
-	this.addChildAt( loginElement, 3, true );
+	this.addChild( loginElement, true );
 
 	// User password
-	var passwordElement = new zz.ui.LabelInput( 'User password', true );
+	var passwordElement = new zz.ui.LabelInput( 'User password', undefined, true );
 	passwordElement.setModel(
 
 		viewModel.dataset,
 		viewModel.datarow,
 		viewModel.dataset.datafield.userPassword
 	);
-	this.addChildAt( passwordElement, 4, true );
+	this.addChild( passwordElement, true );
 
 	// User verified flag
-	var verifiedElement = new goog.ui.Checkbox( );
-	this.addChildAt( verifiedElement, 5, true );
+	//var verifiedElement = new goog.ui.Checkbox( );
+	//this.addChildAt( verifiedElement, 5, true );
 
 	return element;
 };

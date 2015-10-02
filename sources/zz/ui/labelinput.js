@@ -34,9 +34,11 @@ goog.provide( 'zz.ui.LabelInput' );
 goog.require( 'goog.ui.LabelInput' );
 goog.require( 'goog.dom.InputType' );
 goog.require( 'goog.events.EventType' );
+
 goog.require( 'zz.mvc.model.Message' );
 goog.require( 'zz.mvc.model.EventType' );
 goog.require( 'zz.mvc.controller.BaseController' );
+goog.require( 'zz.ui.Formatter' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -45,21 +47,29 @@ goog.require( 'zz.mvc.controller.BaseController' );
 /**
  * This creates the label input object.
  * @param {string=} opt_label The text to show as the label.
- * @param {boolean=} opt_pass Determine is current component used for password input.
+ * @param {Object=} opt_formatter Formatter object.
+ * @param {boolean=} opt_password Determine is current component used for password input.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
- * @extends {goog.ui.Component}
+ * @extends {goog.ui.LabelInput}
  * @constructor
  */
-zz.ui.LabelInput = function( opt_label, opt_pass, opt_domHelper ){
+zz.ui.LabelInput = function( opt_label, opt_formatter, opt_password, opt_domHelper ){
 
 	goog.ui.LabelInput.call( this, opt_label, opt_domHelper );
+
+	/**
+	 * Model-View formatter.
+	 * @type {goog.i18n.NumberFormat}
+	 * @private
+	 */
+	this.formatter_ = opt_formatter || zz.ui.Formatter.getInstance( );
 
 	/**
 	 * Password type flag.
 	 * @type {boolean}
 	 * @private
 	 */
-	this.isPassword_ = !!opt_pass;
+	this.isPassword_ = !!opt_password;
 };
 goog.inherits( zz.ui.LabelInput, goog.ui.LabelInput );
 goog.tagUnsealableClass( zz.ui.LabelInput );
@@ -138,18 +148,18 @@ zz.ui.LabelInput.prototype.enterDocument = function( ){
 
 	], /** @this {zz.ui.LabelInput} */ function( evt ){
 
-		this.model_.datarow[ this.model_.datafield ] = /*zz.mvc.controller.BaseController.convertViewToModel(
+		try{
 
-			this.model_.dataset.getDatarowSchema( )[ this.model_.datafield ].type,*/
-			1*this.getValue( )/*
-		)*/;
+			this.model_.datarow[ this.model_.datafield ] = this.formatter_.parse( this.getValue( ) );
+
+		}catch( err ){
+
+			this.errorHandler_( err );
+
+		}
 		if( evt.type === goog.events.EventType.CHANGE ){
 
-			this.setValue( zz.mvc.controller.BaseController.convertModelToView(
-
-				this.model_.dataset.getDatarowSchema( )[ this.model_.datafield ].type,
-				this.model_.datarow[ this.model_.datafield ]
-			) );
+			this.setValue( this.formatter_.format( this.model_.datarow[ this.model_.datafield ] ) );
 		}
 	}, false, this );
 };
@@ -237,9 +247,34 @@ zz.ui.LabelInput.prototype.modelChanged = function( message ){
  */
 zz.ui.LabelInput.prototype.modelChangedInternal = function( message ){
 
-	this.setValue( zz.mvc.controller.BaseController.convertModelToView(
+	this.setValue( this.formatter_ ?
 
-		this.model_.dataset.getDatarowSchema( )[ this.model_.datafield ].type,
-		message.new_value
-	) );
+		this.formatter_.format( message.new_value ):
+		message.new_value );
+};
+
+/**********************************************************************************************************************
+ * Error handling                                                                                                     *
+ **********************************************************************************************************************/
+
+/**
+ * Error handler function.
+ * @param {Error} err
+ * @private
+ */
+zz.ui.LabelInput.prototype.errorHandler_ = function( err ){
+
+	console.log( err.message );
+};
+
+/**
+ * Setting up error handler function.
+ * @param {function(err:Error)} fn
+ */
+zz.ui.LabelInput.prototype.setErrorHandler = function( fn ){
+
+	if( goog.isDef( fn ) && goog.isFunction( fn ) ){
+
+		this.errorHandler_ = fn;
+	}
 };
