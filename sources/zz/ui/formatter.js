@@ -52,8 +52,8 @@ goog.addSingletonGetter( zz.ui.Formatter );
 
 /**
  * Formatting model value to view form.
- * @param {boolean|number|string} modelValue
- * @returns {string}
+ * @param {*} modelValue
+ * @returns {*}
  */
 zz.ui.Formatter.prototype.format = function( modelValue ){
 
@@ -62,8 +62,8 @@ zz.ui.Formatter.prototype.format = function( modelValue ){
 
 /**
  * Parse model value from view form.
- * @param {string} viewValue
- * @returns {boolean|number|string}
+ * @param {*} viewValue
+ * @returns {*}
  */
 zz.ui.Formatter.prototype.parse = function( viewValue ){
 

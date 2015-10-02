@@ -84,7 +84,7 @@ zz.module.user.view.User.prototype.createDom = function( ){
 
 	var element = goog.base( this, 'createDom' );
 	var viewModel = this.getModel( );
-	var formatter = new goog.i18n.NumberFormat( goog.i18n.NumberFormat.Format.DECIMAL );
+	var formatter = zz.ui.DecimalFormatter.getInstance( );
 
 	// User id
 	var userIdElement = new zz.ui.LabelInput( 'User #', formatter, false );

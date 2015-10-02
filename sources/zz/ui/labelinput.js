@@ -47,7 +47,7 @@ goog.require( 'zz.ui.Formatter' );
 /**
  * This creates the label input object.
  * @param {string=} opt_label The text to show as the label.
- * @param {Object=} opt_formatter Formatter object.
+ * @param {zz.ui.DecimalFormatter=} opt_formatter Formatter object.
  * @param {boolean=} opt_password Determine is current component used for password input.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @extends {goog.ui.LabelInput}
@@ -59,7 +59,7 @@ zz.ui.LabelInput = function( opt_label, opt_formatter, opt_password, opt_domHelp
 
 	/**
 	 * Model-View formatter.
-	 * @type {goog.i18n.NumberFormat}
+	 * @type {zz.ui.Formatter|zz.ui.DecimalFormatter}
 	 * @private
 	 */
 	this.formatter_ = opt_formatter || zz.ui.Formatter.getInstance( );
