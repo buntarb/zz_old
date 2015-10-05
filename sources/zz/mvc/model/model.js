@@ -57,7 +57,9 @@ zz.mvc.model.checkIfFieldExist = function( datarow, datafield ){
  */
 zz.mvc.model.checkRequiredField = function( required, value ){
 
-    if( required && goog.isNull( value ) ) throw new TypeError( zz.mvc.model.Error.FIELD_REQUIRED );
+    if( required && ( goog.isNull( value ) || value === '' ) )
+
+        throw new TypeError( zz.mvc.model.Error.FIELD_REQUIRED );
 };
 
 /**
