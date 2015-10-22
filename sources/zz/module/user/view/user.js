@@ -77,7 +77,6 @@ goog.inherits( zz.module.user.view.User, zz.mvc.view.BaseView );
 
 /**
  * Creates the initial DOM representation for the component.  The default implementation is to set this.element_ = div.
- *
  * @override
  */
 zz.module.user.view.User.prototype.createDom = function( ){
@@ -154,7 +153,6 @@ zz.module.user.view.User.prototype.enterDocument = function( ){
 
 /**
  * Update view to process model changes. This method need to be override by child.
- *
  * @param {zz.mvc.model.Message} message
  * @protected
  */

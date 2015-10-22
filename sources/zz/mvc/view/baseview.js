@@ -45,7 +45,6 @@ goog.require( 'zz.mvc.model.EventType' );
 
 /**
  * The default implementation of base view.
- *
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @extends {goog.ui.Component}
  * @constructor
@@ -63,7 +62,6 @@ goog.inherits( zz.mvc.view.BaseView, goog.ui.Component );
 
 /**
  * Default CSS class to be applied to the root element of view.
- *
  * @type {string}
  */
 zz.mvc.view.BaseView.CSS_CLASS = goog.getCssName( 'zz-base-view' );
@@ -87,7 +85,6 @@ zz.mvc.view.BaseView.prototype.controller_ = undefined;
  * Returns the CSS class name to be applied to the root element of all sub-views rendered or decorated using this view.
  * The class name is expected to uniquely identify the view class, i.e. no two view classes are expected to share the
  * same CSS class name.
- *
  * @override
  */
 zz.mvc.view.BaseView.prototype.getCssClass = function( ){
@@ -98,7 +95,6 @@ zz.mvc.view.BaseView.prototype.getCssClass = function( ){
 /**
  * Called when the component's element is known to be in the document. Anything using document.getElementById etc.
  * should be done at this stage. If the component contains child components, this call is propagated to its children.
- *
  * @override
  */
 zz.mvc.view.BaseView.prototype.enterDocument = function( ){
@@ -134,7 +130,6 @@ zz.mvc.view.BaseView.prototype.getContentElement = function( ){
 /**
  * Determines if a given element can be decorated by this type of component. This method should be overridden by
  * inheriting objects.
- *
  * @param {Element} element Element to decorate.
  * @return {boolean} True if the element can be decorated, false otherwise.
  * @override
@@ -146,7 +141,6 @@ zz.mvc.view.BaseView.prototype.canDecorate = function( element ){
 
 /**
  * Creates the initial DOM representation for the component.  The default implementation is to set this.element_ = div.
- *
  * @override
  */
 zz.mvc.view.BaseView.prototype.createDom = function( ){
@@ -158,7 +152,6 @@ zz.mvc.view.BaseView.prototype.createDom = function( ){
  * Decorates the element for the UI component. If the element is in the document, the enterDocument method will be
  * called. If goog.ui.Component.ALLOW_DETACHED_DECORATION is false, the caller must pass an element that is in the
  * document.
- *
  * @param {Element} element Element to decorate.
  * @override
  */
@@ -180,7 +173,6 @@ zz.mvc.view.BaseView.prototype.disposeInternal = function( ){
 
 /**
  * Setting up view model.
- *
  * @param {zz.mvc.model.Dataset} dataset
  * @param {zz.mvc.model.Datarow=} opt_datarow
  * @param {string=} opt_datafield
@@ -199,7 +191,6 @@ zz.mvc.view.BaseView.prototype.setModel = function( dataset, opt_datarow, opt_da
 
 /**
  * Subscribe view on setting model changes.
- *
  * @private
  */
 zz.mvc.view.BaseView.prototype.subscribe_ = function( ){
@@ -225,7 +216,6 @@ zz.mvc.view.BaseView.prototype.unsubscribe = function( ){
 
 /**
  * Calling protected zz.mvc.view.BaseView#modelChangedInternal to process model changes and update current view.
- *
  * @param {zz.mvc.model.Message} message
  * @final
  */
@@ -240,7 +230,6 @@ zz.mvc.view.BaseView.prototype.modelChanged = function( message ){
 
 /**
  * Update view to process model changes. This method need to be override by child.
- *
  * @param {zz.mvc.model.Message} message
  * @protected
  */
