@@ -221,10 +221,19 @@ zz.mvc.view.BaseView.prototype.unsubscribe = function( ){
  */
 zz.mvc.view.BaseView.prototype.modelChanged = function( message ){
 
-	var subModel = this.getModel( );
-	if( goog.isDefAndNotNull( subModel ) ){
+	var model = this.getModel( );
+	if( goog.isDefAndNotNull( model ) ){
 
-		this.modelChangedInternal( message );
+		if( goog.isDefAndNotNull( model.datafield ) ){
+
+			if( model.datarow.getUid( ) === message.datarow.getUid( ) ){
+
+				this.modelChangedInternal( message );
+			}
+		}else{
+
+			this.modelChangedInternal( message );
+		}
 	}
 };
 

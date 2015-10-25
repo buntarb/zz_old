@@ -8,7 +8,7 @@ goog.addDependency("../../../../sources/zz/mvc/controller/basecontroller.js", ['
 goog.addDependency("../../../../sources/zz/mvc/controller/operationtypes.js", ['zz.mvc.controller.OperationTypes'], ['goog.events']);
 goog.addDependency("../../../../sources/zz/mvc/model/fieldtypes.js", ['zz.mvc.model.FieldTypes'], []);
 goog.addDependency("../../../../sources/zz/mvc/model/error.js", ['zz.mvc.model.Error'], []);
-goog.addDependency("../../../../sources/zz/mvc/model/dataset.js", ['zz.mvc.model.Dataset'], ['goog.array', 'goog.object', 'goog.pubsub.PubSub', 'goog.async.run', 'goog.events.EventTarget', 'goog.events.EventHandler', 'zz.mvc.model', 'zz.mvc.model.EventType', 'zz.mvc.model.DatarowCreateEvent', 'zz.mvc.model.DatarowDeleteEvent', 'zz.mvc.model.Error']);
+goog.addDependency("../../../../sources/zz/mvc/model/dataset.js", ['zz.mvc.model.Dataset'], ['goog.array', 'goog.object', 'goog.pubsub.PubSub', 'goog.async.run', 'goog.events.EventTarget', 'goog.events.EventHandler', 'zz.mvc.model', 'zz.mvc.model.Message', 'zz.mvc.model.EventType', 'zz.mvc.model.DatarowCreateEvent', 'zz.mvc.model.DatarowDeleteEvent', 'zz.mvc.model.Error']);
 goog.addDependency("../../../../sources/zz/mvc/model/datarowcreateevent.js", ['zz.mvc.model.DatarowCreateEvent'], ['goog.events.Event', 'zz.mvc.model.EventType']);
 goog.addDependency("../../../../sources/zz/mvc/model/datarow.js", ['zz.mvc.model.Datarow'], ['goog.object', 'zz.mvc.model', 'zz.mvc.model.Error', 'zz.mvc.model.FieldTypes']);
 goog.addDependency("../../../../sources/zz/mvc/model/datarowdeleteevent.js", ['zz.mvc.model.DatarowDeleteEvent'], ['goog.events.Event', 'zz.mvc.model.EventType']);
@@ -18,7 +18,7 @@ goog.addDependency("../../../../sources/zz/mvc/model/model.js", ['zz.mvc.model']
 goog.addDependency("../../../../sources/zz/mvc/model/datarowupdateevent.js", ['zz.mvc.model.DatarowUpdateEvent'], ['goog.events.Event', 'zz.mvc.model.EventType']);
 goog.addDependency("../../../../sources/zz/_stylesheet/remap.js", ['zz._stylesheet.remap'], []);
 goog.addDependency("../../../../sources/zz/events/events.js", ['zz.events'], []);
-goog.addDependency("../../../../sources/zz/demos/index.js", ['zz.demos.app'], ['zz.module.user.view.User']);
+goog.addDependency("../../../../sources/zz/demos/index.js", ['zz.demos.app'], ['zz.module.user.view.Users']);
 goog.addDependency("../../../../sources/zz/ui/checkboxrenderer.js", ['zz.ui.CheckboxRenderer'], ['goog.dom', 'goog.dom.classlist', 'goog.ui.ControlRenderer']);
 goog.addDependency("../../../../sources/zz/ui/bindingtypes.js", ['zz.ui.BindType', 'zz.ui.ModelBindingType', 'zz.ui.ControlBindingType'], []);
 goog.addDependency("../../../../sources/zz/ui/decimalformatter.js", ['zz.ui.DecimalFormatter'], ['goog.i18n.NumberFormat', 'goog.i18n.NumberFormat.Format']);
@@ -30,8 +30,11 @@ goog.addDependency("../../../../sources/zz/ui/control.js", ['zz.ui.Control'], ['
 goog.addDependency("../../../../sources/zz/ui/controlrenderer.js", ['zz.ui.ControlRenderer'], ['goog.dom', 'goog.dom.classlist', 'goog.ui.ControlRenderer', 'zz.ui.BindType']);
 goog.addDependency("../../../../sources/zz/ui/container.js", ['zz.ui.Container'], ['goog.ui.Container', 'zz.ui.Control']);
 goog.addDependency("../../../../sources/zz/ui/formatter.js", ['zz.ui.Formatter'], []);
-goog.addDependency("../../../../sources/zz/module/user/view/user.js", ['zz.module.user.view.User'], ['goog.dom', 'goog.ui.Textarea', 'goog.ui.Checkbox', 'goog.i18n.NumberFormat', 'goog.i18n.NumberFormat.Format', 'zz.mvc.view.BaseView', 'zz.module.user.controller.User', 'zz.ui.LabelInput', 'zz.ui.DecimalFormatter']);
-goog.addDependency("../../../../sources/zz/module/user/controller/user.js", ['zz.module.user.controller.User'], ['zz.mvc.controller.BaseController', 'zz.module.user.model.UserSet']);
+goog.addDependency("../../../../sources/zz/module/user/view/users.js", ['zz.module.user.view.Users'], ['goog.events.EventType', 'goog.dom', 'goog.ui.Button', 'zz.mvc.view.BaseView', 'zz.module.user.controller.Users', 'zz.module.user.view.User']);
+goog.addDependency("../../../../sources/zz/module/user/view/phone.js", ['zz.module.user.view.Phone'], ['goog.dom', 'zz.mvc.view.BaseView', 'zz.ui.LabelInput', 'zz.ui.DecimalFormatter', 'zz.module.user.controller.Users']);
+goog.addDependency("../../../../sources/zz/module/user/view/phones.js", ['zz.module.user.view.Phones'], ['goog.dom', 'zz.mvc.view.BaseView', 'zz.ui.LabelInput', 'zz.module.user.controller.Users', 'zz.module.user.view.Phone']);
+goog.addDependency("../../../../sources/zz/module/user/view/user.js", ['zz.module.user.view.User'], ['goog.dom', 'zz.mvc.view.BaseView', 'zz.ui.LabelInput', 'zz.ui.DecimalFormatter', 'zz.module.user.controller.Users', 'zz.module.user.view.Phones']);
+goog.addDependency("../../../../sources/zz/module/user/controller/users.js", ['zz.module.user.controller.Users'], ['zz.mvc.controller.BaseController', 'zz.module.user.model.Users']);
 goog.addDependency("../../../../sources/zz/module/user/model/userphone.js", ['zz.module.user.model.UserPhone', 'zz.module.user.model.UserPhoneSet'], ['zz.mvc.model.Datarow', 'zz.mvc.model.Dataset', 'zz.mvc.model.FieldTypes']);
-goog.addDependency("../../../../sources/zz/module/user/model/user.js", ['zz.module.user.model.User', 'zz.module.user.model.UserSet'], ['zz.mvc.model.Datarow', 'zz.mvc.model.Dataset', 'zz.mvc.model.FieldTypes', 'zz.module.user.model.UserPhoneSet']);
+goog.addDependency("../../../../sources/zz/module/user/model/users.js", ['zz.module.user.model.User', 'zz.module.user.model.Users'], ['zz.mvc.model.Datarow', 'zz.mvc.model.Dataset', 'zz.mvc.model.FieldTypes', 'zz.module.user.model.UserPhoneSet']);
 goog.addDependency("../../../../sources/zz/_template/test.js", ['zz.template'], ['soy', 'soydata']);

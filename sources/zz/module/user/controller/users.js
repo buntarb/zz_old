@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.module.user.controller.User class.
+ * @fileoverview Provide zz.module.user.controller.Users class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,14 +25,14 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.module.user.controller.User' );
+goog.provide( 'zz.module.user.controller.Users' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
 goog.require( 'zz.mvc.controller.BaseController' );
-goog.require( 'zz.module.user.model.UserSet' );
+goog.require( 'zz.module.user.model.Users' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -42,11 +42,11 @@ goog.require( 'zz.module.user.model.UserSet' );
  * @extends {zz.mvc.controller.BaseController}
  * @constructor
  */
-zz.module.user.controller.User = function( ){
+zz.module.user.controller.Users = function( ){
 
 	zz.mvc.controller.BaseController.call( this );
 };
-goog.inherits( zz.module.user.controller.User, zz.mvc.controller.BaseController );
+goog.inherits( zz.module.user.controller.Users, zz.mvc.controller.BaseController );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -57,11 +57,31 @@ goog.inherits( zz.module.user.controller.User, zz.mvc.controller.BaseController 
  **********************************************************************************************************************/
 
 /**
- * @type {zz.module.user.view.User}
+ * @type {zz.module.user.view.Users}
  * @override
  */
-zz.module.user.controller.User.prototype.initialize = function( view ){
+zz.module.user.controller.Users.prototype.initialize = function( view ){
 
-	var users = goog.global.users = new zz.module.user.model.UserSet( );
-	view.setModel( users, users.createLast( ) );
+	if( view instanceof zz.module.user.view.Users ){
+
+		var users = goog.global.users = new zz.module.user.model.Users( );
+		view.setModel( users );
+
+	}
+};
+
+/**
+ * @this {zz.module.user.view.Users}
+ */
+zz.module.user.controller.Users.prototype.addUser = function( ){
+
+	this.getModel( ).dataset.createFirst( );
+};
+
+/**
+ * @this {zz.module.user.view.User}
+ */
+zz.module.user.controller.Users.prototype.addPhone = function( ){
+
+	this.getModel( ).dataset.createFirst( );
 };

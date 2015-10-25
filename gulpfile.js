@@ -154,6 +154,8 @@ function watchFrontendChanges( ){
 	gulp.watch( './stylesheets/gss/*', ['compileStylesheets'] );
 	gulp.watch( './sources/zz/base.js', ['calcDependencies'] );
 	gulp.watch( './sources/zz/*/*.js', ['calcDependencies'] );
+	gulp.watch( './sources/zz/*/*/*.js', ['calcDependencies'] );
+	gulp.watch( './sources/zz/*/*/*/*.js', ['calcDependencies'] );
 
 	//This watcher work with both ./sources/zz/* dir and all of it subdirs.
 	//gulp.watch( './sources/zz/**/*.js', ['calcDependencies'] );
@@ -260,3 +262,5 @@ gulp.task( 'compileTemplates', compileTemplates );
 gulp.task( 'compileStylesheets', compileStylesheets );
 gulp.task( 'compileApplication', compileApplication );
 gulp.task( 'watchFrontendChanges', watchFrontendChanges );
+gulp.task( 'start-ws', startWebServer );
+gulp.task( 'watch-fe', watchFrontendChanges );

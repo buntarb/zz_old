@@ -31,7 +31,7 @@ goog.provide( 'zz.demos.app' );
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'zz.module.user.view.User' );
+goog.require( 'zz.module.user.view.Users' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -40,8 +40,8 @@ goog.require( 'zz.module.user.view.User' );
 zz.demos.app = {};
 zz.demos.app.run = function( ){
 
-	var userView = goog.global.userView =  new zz.module.user.view.User( );
-	userView.render( goog.dom.getElement( 'root' ) );
+	var usersView = goog.global.userView =  new zz.module.user.view.Users( );
+	usersView.render( goog.dom.getElement( 'root' ) );
 
 	/******************************************************************************************************************
 	 * Fast click testing                                                                                             *

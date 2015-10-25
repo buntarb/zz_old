@@ -38,6 +38,7 @@ goog.require( 'goog.async.run' );
 goog.require( 'goog.events.EventTarget' );
 goog.require( 'goog.events.EventHandler' );
 goog.require( 'zz.mvc.model' );
+goog.require( 'zz.mvc.model.Message' );
 goog.require( 'zz.mvc.model.EventType' );
 goog.require( 'zz.mvc.model.DatarowCreateEvent' );
 goog.require( 'zz.mvc.model.DatarowDeleteEvent' );
@@ -243,7 +244,8 @@ zz.mvc.model.Dataset.prototype.subscribe = function( subscriber ){
 
 			this.datafield[ subscriberModel.datafield ],
 			this.notifyFieldSubscribers_,
-			subscriber );
+			subscriber
+		);
 	}
 	if( goog.isDef( subscriberModel.datarow ) && !goog.isDef( subscriberModel.datafield ) ){
 
@@ -349,11 +351,18 @@ zz.mvc.model.Dataset.prototype.createLast = function( opt_data ){
 zz.mvc.model.Dataset.prototype.createAt = function( index, opt_data ){
 
 	var datarow = /** @type {zz.mvc.model.Datarow} */ ( new this.DatarowConstructor( this, opt_data ) );
+	var message = new zz.mvc.model.Message(
+
+		zz.mvc.model.EventType.DATAROW_CREATE,
+		this,
+		datarow
+	);
 	this.index_ = index < 0 ? 0 : index > this.length ? this.length : index;
 	Array.prototype.splice.call( this, this.index_, 0, datarow );
+	this.publish( message );
 	goog.async.run( function( ){
 
-		this.dispatchEvent( new zz.mvc.model.DatarowCreateEvent( this, datarow ) );
+		this.dispatchEvent( new zz.mvc.model.DatarowCreateEvent( message ) );
 
 	}, this );
 	return datarow;
@@ -396,10 +405,17 @@ zz.mvc.model.Dataset.prototype.deleteAt = function( index ){
 	if( this.length > 0 && index >= 0 && index < this.length ){
 
 		var datarow = Array.prototype.splice.call( this, index, 1 );
+		var message = new zz.mvc.model.Message(
+
+			zz.mvc.model.EventType.DATAROW_CREATE,
+			this,
+			datarow
+		);
 		this.index_ = this.length > index ? index : this.length > 0 ? this.length - 1 : undefined;
+		this.publish( message );
 		goog.async.run( function( ){
 
-			this.dispatchEvent( new zz.mvc.model.DatarowDeleteEvent( this, datarow ) );
+			this.dispatchEvent( new zz.mvc.model.DatarowDeleteEvent( message ) );
 
 		}, this );
 		return true;

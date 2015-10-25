@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.module.user.view.User class.
+ * @fileoverview Provide zz.module.user.view.Users class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,18 +25,18 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.module.user.view.User' );
+goog.provide( 'zz.module.user.view.Users' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
+goog.require( 'goog.events.EventType' );
 goog.require( 'goog.dom' );
+goog.require( 'goog.ui.Button' );
 goog.require( 'zz.mvc.view.BaseView' );
-goog.require( 'zz.ui.LabelInput' );
-goog.require( 'zz.ui.DecimalFormatter' );
 goog.require( 'zz.module.user.controller.Users' );
-goog.require( 'zz.module.user.view.Phones' );
+goog.require( 'zz.module.user.view.User' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -47,18 +47,18 @@ goog.require( 'zz.module.user.view.Phones' );
  * @extends {zz.mvc.view.BaseView}
  * @constructor
  */
-zz.module.user.view.User = function( opt_domHelper ){
+zz.module.user.view.Users = function( opt_domHelper ){
 
 	/**
 	 * Current view controller.
-	 * @type {zz.module.user.controller.Users}
+	 * @type {zz.module.user.controller.User}
 	 * @private
 	 */
 	this.controller_ = new zz.module.user.controller.Users( );
 
 	zz.mvc.view.BaseView.call( this, opt_domHelper );
 };
-goog.inherits( zz.module.user.view.User, zz.mvc.view.BaseView );
+goog.inherits( zz.module.user.view.Users, zz.mvc.view.BaseView );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -75,31 +75,28 @@ goog.inherits( zz.module.user.view.User, zz.mvc.view.BaseView );
 /**
  * @override
  */
-zz.module.user.view.User.prototype.createDom = function( ){
-
-	var model = this.getModel( );
-	var formatter = zz.ui.DecimalFormatter.getInstance( );
+zz.module.user.view.Users.prototype.createDom = function( ){
 
 	// Create dom structure.
 
 	/**
-	 * Wrapper element for user inputs.
+	 * Wrapper element for users add and remove buttons.
 	 * @type {Element}
 	 * @private
 	 */
-	this.userDetailPanelElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+	this.controlPanelElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 
-		'class': goog.getCssName( 'user-detail' )
+		'class': goog.getCssName( 'users-control' )
 	} );
 
 	/**
-	 * Wrapper element for user phones view.
+	 * Wrapper element for user view.
 	 * @type {Element}
 	 * @private
 	 */
-	this.userPhonesPanelElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+	this.contentPanelElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 
-		'class': goog.getCssName( 'user-phones' )
+		'class': goog.getCssName( 'users-content' )
 	} );
 
 	/**
@@ -107,117 +104,62 @@ zz.module.user.view.User.prototype.createDom = function( ){
 	 * @type {Element}
 	 * @private
 	 */
-	this.userWrapperElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+	this.wrapperElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 
-		'class': goog.getCssName( 'user-view' )
+		'class': goog.getCssName( 'users-view' )
 
-	}, [ this.userDetailPanelElement_, this.userPhonesPanelElement_ ] );
-
-	// Create inputs.
+	}, [ this.controlPanelElement_, this.contentPanelElement_ ] );
 
 	/**
-	 * Control for user id.
-	 * @type {zz.ui.LabelInput}
+	 * Array for storing created user views.
+	 * @type {Array}
 	 * @private
 	 */
-	this.userIdElement_ = new zz.ui.LabelInput( 'User #', formatter, false );
+	this.userViews_ = [];
+
+	// Create controls.
 
 	/**
-	 * Control for user first name.
-	 * @type {zz.ui.LabelInput}
+	 * Add user control button.
+	 * @type {goog.ui.Button}
 	 * @private
 	 */
-	this.firstNameElement_ = new zz.ui.LabelInput( 'User first name' );
+	this.addUserButton_ = new goog.ui.Button( 'Add user' );
 
 	/**
-	 * Control for user last name.
-	 * @type {zz.ui.LabelInput}
+	 * Remove user control button.
+	 * @type {goog.ui.Button}
 	 * @private
 	 */
-	this.lastNameElement_ = new zz.ui.LabelInput( 'User last name' );
+	this.remUserButton_ = new goog.ui.Button( 'Remove user' );
 
-	/**
-	 * Control for user login.
-	 * @type {zz.ui.LabelInput}
-	 * @private
-	 */
-	this.loginElement_ = new zz.ui.LabelInput( 'User login' );
+	// Change internal element to inject controls.
+	this.setElementInternal( this.controlPanelElement_ );
 
-	/**
-	 * Control for user password.
-	 * @type {zz.ui.LabelInput}
-	 * @private
-	 */
-	this.passwordElement_ = new zz.ui.LabelInput( 'User password', undefined, true );
+	// Adding controls to element.
+	this.addChild( this.addUserButton_, true );
+	this.addChild( this.remUserButton_, true );
 
-	/**
-	 * Phones view.
-	 * @type {zz.module.user.view.Phones}
-	 * @private
-	 */
-	this.phonesView_ = new zz.module.user.view.Phones( );
-
-	// Setting up controls models.
-	this.userIdElement_.setModel(
-
-		model.dataset,
-		model.datarow,
-		/** @type {string} */( model.dataset.datafield.userId )
-	);
-	this.firstNameElement_.setModel(
-
-		model.dataset,
-		model.datarow,
-		model.dataset.datafield.userFirstName
-	);
-	this.lastNameElement_.setModel(
-
-		model.dataset,
-		model.datarow,
-		model.dataset.datafield.userLastName
-	);
-	this.loginElement_.setModel(
-
-		model.dataset,
-		model.datarow,
-		model.dataset.datafield.userLogin
-	);
-	this.passwordElement_.setModel(
-
-		model.dataset,
-		model.datarow,
-		model.dataset.datafield.userPassword
-	);
-
-	// Setting up views models.
-	this.phonesView_.setModel( model.datarow.userPhones );
-
-	// Change internal element to insert controls.
-	this.setElementInternal( this.userDetailPanelElement_ );
-
-	// Inserting controls.
-	this.addChild( this.userIdElement_, true );
-	this.addChild( this.firstNameElement_, true );
-	this.addChild( this.lastNameElement_, true );
-	this.addChild( this.loginElement_, true );
-	this.addChild( this.passwordElement_, true );
-
-	// Change internal element to insert phones view.
-	this.setElementInternal( this.userPhonesPanelElement_ );
-
-	// Inserting phones view.
-	this.addChild( this.phonesView_, true );
-
-	// Change internal element to view root element before exit.
-	this.setElementInternal( this.userWrapperElement_ );
+	// Change internal element to view root element.
+	this.setElementInternal( this.wrapperElement_ );
 };
 
 /**
  * @override
  */
-zz.module.user.view.User.prototype.enterDocument = function( ){
+zz.module.user.view.Users.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
+
+	// Setting up add user button click event.
+	this.getHandler( ).listenWithScope(
+
+		this.addUserButton_,
+		goog.ui.Component.EventType.ACTION,
+		this.controller_.addUser,
+		false,
+		this
+	);
 };
 
 /**********************************************************************************************************************
@@ -229,4 +171,23 @@ zz.module.user.view.User.prototype.enterDocument = function( ){
  * @param {zz.mvc.model.Message} message
  * @protected
  */
-zz.module.user.view.User.prototype.modelChangedInternal = function( message ){ };
+zz.module.user.view.Users.prototype.modelChangedInternal = function( message ){
+
+	if( message.eventtype === zz.mvc.model.EventType.DATAROW_CREATE &&
+		message.sourceDataset.getUid( ) === this.getModel( ).dataset.getUid( ) ){
+
+		this.addUser( message );
+	}
+};
+
+/**
+ * @param {zz.mvc.model.Message} message
+ */
+zz.module.user.view.Users.prototype.addUser = function( message ){
+
+	this.userViews_.push( new zz.module.user.view.User( ) );
+	this.userViews_[ this.userViews_.length - 1 ].setModel( message.dataset, message.datarow );
+	this.setElementInternal( goog.dom.getElement( this.contentPanelElement_ ) );
+	this.addChildAt( this.userViews_[ this.userViews_.length - 1 ], 2, true );
+	this.setElementInternal( goog.dom.getElement( this.wrapperElement_ ) );
+};

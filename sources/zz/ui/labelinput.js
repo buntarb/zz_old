@@ -34,7 +34,6 @@ goog.provide( 'zz.ui.LabelInput' );
 goog.require( 'goog.ui.LabelInput' );
 goog.require( 'goog.dom.InputType' );
 goog.require( 'goog.events.EventType' );
-
 goog.require( 'zz.mvc.model.Message' );
 goog.require( 'zz.mvc.model.EventType' );
 goog.require( 'zz.mvc.controller.BaseController' );
@@ -155,7 +154,6 @@ zz.ui.LabelInput.prototype.enterDocument = function( ){
 		}catch( err ){
 
 			this.errorHandler_( err );
-
 		}
 		if( evt.type === goog.events.EventType.CHANGE ){
 
@@ -233,10 +231,13 @@ zz.ui.LabelInput.prototype.unsubscribe = function( ){
  */
 zz.ui.LabelInput.prototype.modelChanged = function( message ){
 
-	var subscriberModel = this.getModel( );
-	if( goog.isDefAndNotNull( subscriberModel ) ){
+	var model = this.getModel( );
+	if( goog.isDefAndNotNull( model ) ){
 
-		this.modelChangedInternal( message );
+		if( model.datarow.getUid( ) === message.datarow.getUid( ) ){
+
+			this.modelChangedInternal( message );
+		}
 	}
 };
 

@@ -41,16 +41,15 @@ goog.require( 'zz.mvc.model.EventType' );
 /**
  * @constructor
  * @extends {goog.events.Event}
- * @param {!zz.mvc.model.Dataset} dataset
- * @param {!zz.mvc.model.Datarow} datarow
+ * @param {!zz.mvc.model.Message} message
  */
-zz.mvc.model.DatarowDeleteEvent = function( dataset, datarow ){
+zz.mvc.model.DatarowDeleteEvent = function( message ){
 
 	/**
-	 * Deleted datarow.
+	 * Model message.
 	 * @type {!zz.mvc.model.Datarow}
 	 */
-	this.datarow = datarow;
-	goog.events.Event.call( this, zz.mvc.model.EventType.DATAROW_DELETE, dataset );
+	this.message = message;
+	goog.events.Event.call( this, zz.mvc.model.EventType.DATAROW_DELETE, message.dataset );
 };
 goog.inherits( zz.mvc.model.DatarowDeleteEvent, goog.events.Event );

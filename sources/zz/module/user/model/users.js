@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.module.user.model.User class.
+ * @fileoverview Provide zz.module.user.model.User and zz.module.user.model.Users class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -26,7 +26,7 @@
  **********************************************************************************************************************/
 
 goog.provide( 'zz.module.user.model.User' );
-goog.provide( 'zz.module.user.model.UserSet' );
+goog.provide( 'zz.module.user.model.Users' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -102,11 +102,11 @@ goog.inherits( zz.module.user.model.User, zz.mvc.model.Datarow );
  * @param {Array.<Array>=} opt_data
  * @extends {zz.mvc.model.Dataset}
  */
-zz.module.user.model.UserSet = function( opt_parent, opt_data ){
+zz.module.user.model.Users = function( opt_parent, opt_data ){
 
 	zz.mvc.model.Dataset.call( this, opt_parent, opt_data );
 };
-goog.inherits( zz.module.user.model.UserSet, zz.mvc.model.Dataset );
+goog.inherits( zz.module.user.model.Users, zz.mvc.model.Dataset );
 
 /**
  * Current dataset row type.
@@ -114,14 +114,14 @@ goog.inherits( zz.module.user.model.UserSet, zz.mvc.model.Dataset );
  * @overwrite
  * @type {zz.module.user.model.User}
  */
-zz.module.user.model.UserSet.prototype.DatarowConstructor = zz.module.user.model.User;
+zz.module.user.model.Users.prototype.DatarowConstructor = zz.module.user.model.User;
 
 /**
  * Return schema object.
  * @override
  * @returns {Object}
  */
-zz.module.user.model.UserSet.prototype.getDatarowSchema = function( ){
+zz.module.user.model.Users.prototype.getDatarowSchema = function( ){
 
 	return {
 
