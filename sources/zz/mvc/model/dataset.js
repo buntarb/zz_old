@@ -237,25 +237,25 @@ zz.mvc.model.Dataset.prototype.notifyFieldSubscribers_ = function( message ){
  */
 zz.mvc.model.Dataset.prototype.subscribe = function( subscriber ){
 
-	var subscriberModel = subscriber.getModel( );
-	if( goog.isDef( subscriberModel.datafield ) ){
+	var model = subscriber.getModel( );
+	if( goog.isDef( model.datafield ) ){
 
 		this.pubsub_.subscribe(
 
-			this.datafield[ subscriberModel.datafield ],
+			'DS#' + this.getUid( ) + 'DR#' + model.datarow.getUid( ) + 'DF#' + this.datafield[ model.datafield ],
 			this.notifyFieldSubscribers_,
 			subscriber
 		);
 	}
-	if( goog.isDef( subscriberModel.datarow ) && !goog.isDef( subscriberModel.datafield ) ){
+	if( goog.isDef( model.datarow ) && !goog.isDef( model.datafield ) ){
 
 		this.pubsub_.subscribe(
 
-			'DR#' + subscriberModel.datarow.getUid( ),
+			'DR#' + model.datarow.getUid( ),
 			this.notifyFieldSubscribers_,
 			subscriber );
 	}
-	if( !goog.isDef( subscriberModel.datarow ) && !goog.isDef( subscriberModel.datafield ) ){
+	if( !goog.isDef( model.datarow ) && !goog.isDef( model.datafield ) ){
 
 		this.pubsub_.subscribe(
 
@@ -271,24 +271,24 @@ zz.mvc.model.Dataset.prototype.subscribe = function( subscriber ){
  */
 zz.mvc.model.Dataset.prototype.unsubscribe = function( subscriber ){
 
-	var subscriberModel = subscriber.getModel( );
-	if( goog.isDef( subscriberModel.datafield ) ){
+	var model = subscriber.getModel( );
+	if( goog.isDef( model.datafield ) ){
 
 		this.pubsub_.unsubscribe(
 
-			this.datafield[ subscriberModel.datafield ],
+			'DS#' + this.getUid( ) + 'DR#' + model.datarow.getUid( ) + 'DF#' + this.datafield[ model.datafield ],
 			this.notifyFieldSubscribers_,
 			subscriber );
 	}
-	if( goog.isDef( subscriberModel.datarow ) && !goog.isDef( subscriberModel.datafield ) ){
+	if( goog.isDef( model.datarow ) && !goog.isDef( model.datafield ) ){
 
 		this.pubsub_.unsubscribe(
 
-			'DR#' + subscriberModel.datarow.getUid( ),
+			'DR#' + model.datarow.getUid( ),
 			this.notifyFieldSubscribers_,
 			subscriber );
 	}
-	if( !goog.isDef( subscriberModel.datarow ) && !goog.isDef( subscriberModel.datafield ) ){
+	if( !goog.isDef( model.datarow ) && !goog.isDef( model.datafield ) ){
 
 		this.pubsub_.unsubscribe(
 
@@ -306,8 +306,11 @@ zz.mvc.model.Dataset.prototype.publish = function( message ){
 
 	if( goog.isDef( message.datafield ) ){
 
-		this.pubsub_.publish( this.datafield[ message.datafield ], message );
+		this.pubsub_.publish(
 
+			'DS#' + this.getUid( ) + 'DR#' + message.datarow.getUid( ) + 'DF#' + this.datafield[ message.datafield ],
+			message
+		);
 	}
 	this.pubsub_.publish( 'DR#' + message.datarow.getUid( ), message );
 	this.pubsub_.publish( 'DS#' + this.getUid( ), message );

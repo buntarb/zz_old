@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.ui.Container class.
+ * @fileoverview Provide zz.ui.formatter.Default class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,33 +25,22 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.ui.Container' );
+goog.provide( 'zz.ui.formatter.Default' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
-
-goog.require( 'goog.ui.Container' );
-goog.require( 'zz.ui.Control' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * Base container.
- * @param {?goog.ui.Container.Orientation=} opt_orientation Container orientation; defaults to {@code VERTICAL}.
- * @param {goog.ui.ContainerRenderer=} opt_renderer Renderer used to render or decorate the container..
- * @param {goog.dom.DomHelper=} opt_domHelper DOM helper, used for document interaction.
+ * Base formatter class.
  * @constructor
- * @extends {goog.ui.Container}
  */
-zz.ui.Container = function( opt_orientation, opt_renderer, opt_domHelper ){
-
-	goog.ui.Container.call( this, opt_orientation, opt_renderer, opt_domHelper );
-	this.setFocusable( true );
-};
-goog.inherits( zz.ui.Container, goog.ui.Container );
+zz.ui.formatter.Default = function( ){ };
+goog.addSingletonGetter( zz.ui.formatter.Default );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -62,27 +51,21 @@ goog.inherits( zz.ui.Container, goog.ui.Container );
  **********************************************************************************************************************/
 
 /**
- * Adds the control as a child of this container at the given 0-based index.
- * @param {zz.ui.Control} control
- * @param {number} index
- * @override
+ * Formatting model value to view form.
+ * @param {*} modelValue
+ * @returns {*}
  */
-zz.ui.Container.prototype.addChildAt = function( control, index ){
+zz.ui.formatter.Default.prototype.format = function( modelValue ){
 
-	goog.asserts.assertInstanceof( control, zz.ui.Control );
-	control.enableHandleViewChangeEvent( false );
-	zz.ui.Container.superClass_.addChildAt.call( this, control, index, true );
+	return modelValue;
 };
 
 /**
- * Removes a child control.
- * @param {zz.ui.Control} control The ID of the child to remove, or the control itself.
- * from the document (defaults to false).
- * @override
+ * Parse model value from view form.
+ * @param {*} viewValue
+ * @returns {*}
  */
-zz.ui.Container.prototype.removeChild = function( control ){
+zz.ui.formatter.Default.prototype.parse = function( viewValue ){
 
-	var ctrl = zz.ui.Container.superClass_.removeChild.call( this, control, true );
-	ctrl.resetModel( );
-	ctrl.disposeInternal( );
+	return viewValue;
 };

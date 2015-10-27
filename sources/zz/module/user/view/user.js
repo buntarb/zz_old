@@ -33,8 +33,9 @@ goog.provide( 'zz.module.user.view.User' );
 
 goog.require( 'goog.dom' );
 goog.require( 'zz.mvc.view.BaseView' );
+goog.require( 'zz.ui.Checkbox' );
 goog.require( 'zz.ui.LabelInput' );
-goog.require( 'zz.ui.DecimalFormatter' );
+goog.require( 'zz.ui.formatter.Decimal' );
 goog.require( 'zz.module.user.controller.Users' );
 goog.require( 'zz.module.user.view.Phones' );
 
@@ -78,7 +79,7 @@ goog.inherits( zz.module.user.view.User, zz.mvc.view.BaseView );
 zz.module.user.view.User.prototype.createDom = function( ){
 
 	var model = this.getModel( );
-	var formatter = zz.ui.DecimalFormatter.getInstance( );
+	var formatter = zz.ui.formatter.Decimal.getInstance( );
 
 	// Create dom structure.
 
@@ -151,6 +152,13 @@ zz.module.user.view.User.prototype.createDom = function( ){
 	this.passwordElement_ = new zz.ui.LabelInput( 'User password', undefined, true );
 
 	/**
+	 * Control for userVerifiedFlag.
+	 * @type {zz.ui.Checkbox}
+	 * @private
+	 */
+	this.verifiedElement_ = new zz.ui.Checkbox( );
+
+	/**
 	 * Phones view.
 	 * @type {zz.module.user.view.Phones}
 	 * @private
@@ -188,6 +196,12 @@ zz.module.user.view.User.prototype.createDom = function( ){
 		model.datarow,
 		model.dataset.datafield.userPassword
 	);
+	this.verifiedElement_.setModel(
+
+		model.dataset,
+		model.datarow,
+		model.dataset.datafield.userVerifiedFlag
+	);
 
 	// Setting up views models.
 	this.phonesView_.setModel( model.datarow.userPhones );
@@ -201,6 +215,7 @@ zz.module.user.view.User.prototype.createDom = function( ){
 	this.addChild( this.lastNameElement_, true );
 	this.addChild( this.loginElement_, true );
 	this.addChild( this.passwordElement_, true );
+	this.addChild( this.verifiedElement_, true );
 
 	// Change internal element to insert phones view.
 	this.setElementInternal( this.userPhonesPanelElement_ );

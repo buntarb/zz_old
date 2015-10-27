@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.ui.LabelInput class.
+ * @fileoverview Provide zz.ui.Checkbox class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,53 +25,37 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.ui.LabelInput' );
+goog.provide( 'zz.ui.Checkbox' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'goog.ui.LabelInput' );
-goog.require( 'goog.dom.InputType' );
+goog.require( 'goog.ui.Checkbox' );
 goog.require( 'goog.events.EventType' );
 goog.require( 'zz.mvc.model.Message' );
 goog.require( 'zz.mvc.model.EventType' );
 goog.require( 'zz.mvc.controller.BaseController' );
-goog.require( 'zz.ui.formatter.Default' );
+goog.require( 'zz.ui.CheckboxRenderer' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * This creates the label input object.
- * @param {string=} opt_label The text to show as the label.
- * @param {zz.ui.formatter.Decimal=} opt_formatter Formatter object.
- * @param {boolean=} opt_password Determine is current component used for password input.
+ * 3-state checkbox widget. Fires CHECK or UNCHECK events before toggled and CHANGE event after toggled by user.
+ * The checkbox can also be enabled/disabled and get focused and highlighted.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
- * @extends {goog.ui.LabelInput}
+ * @param {goog.ui.CheckboxRenderer=} opt_renderer Renderer used to render or decorate the checkbox.
+ * @extends {goog.ui.Checkbox}
  * @constructor
  */
-zz.ui.LabelInput = function( opt_label, opt_formatter, opt_password, opt_domHelper ){
+zz.ui.Checkbox = function( opt_domHelper, opt_renderer ){
 
-	goog.ui.LabelInput.call( this, opt_label, opt_domHelper );
-
-	/**
-	 * Model-View formatter.
-	 * @type {zz.ui.formatter.Default|zz.ui.formatter.Decimal}
-	 * @private
-	 */
-	this.formatter_ = opt_formatter || zz.ui.formatter.Default.getInstance( );
-
-	/**
-	 * Password type flag.
-	 * @type {boolean}
-	 * @private
-	 */
-	this.isPassword_ = !!opt_password;
+	goog.ui.Checkbox.call( this, undefined, opt_domHelper, opt_renderer || zz.ui.CheckboxRenderer.getInstance( ) );
 };
-goog.inherits( zz.ui.LabelInput, goog.ui.LabelInput );
-goog.tagUnsealableClass( zz.ui.LabelInput );
+goog.inherits( zz.ui.Checkbox, goog.ui.Checkbox );
+goog.tagUnsealableClass( zz.ui.Checkbox );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -81,7 +65,7 @@ goog.tagUnsealableClass( zz.ui.LabelInput );
  * Default CSS class to be applied to the root element of components rendered by this renderer.
  * @type {string}
  */
-zz.ui.LabelInput.CSS_CLASS = goog.getCssName( 'zz-label-input' );
+//zz.ui.Checkbox.CSS_CLASS = goog.getCssName( 'zz-checkbox' );
 
 /**********************************************************************************************************************
  * Base renderer methods                                                                                              *
@@ -93,39 +77,21 @@ zz.ui.LabelInput.CSS_CLASS = goog.getCssName( 'zz-label-input' );
  * same CSS class name.
  * @override
  */
-zz.ui.LabelInput.prototype.getCssClass = function( ){
-
-	return zz.ui.LabelInput.CSS_CLASS;
-};
-
-/**
- * The CSS class name to add to the input when the user has not entered a value.
- * @type {string}
- */
-zz.ui.LabelInput.prototype.labelCssClassName = goog.getCssName( 'zz-label-input-label' );
+//zz.ui.Checkbox.prototype.getCssClass = function( ){
+//
+//	return zz.ui.Checkbox.CSS_CLASS;
+//};
 
 /**********************************************************************************************************************
  * Life cycle methods                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * Creates the DOM nodes needed for the label input.
- * @override
- */
-zz.ui.LabelInput.prototype.createDom = function( ){
-
-	this.setElementInternal( this.getDomHelper( ).createDom( goog.dom.TagName.INPUT, {
-
-		'type': this.isPassword_ ? goog.dom.InputType.PASSWORD : goog.dom.InputType.TEXT
-	} ) );
-};
-
-/**
  * Called when the component's element is known to be in the document. Anything using document.getElementById etc.
  * should be done at this stage. If the component contains child components, this call is propagated to its children.
  * @override
  */
-zz.ui.LabelInput.prototype.enterDocument = function( ){
+zz.ui.Checkbox.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
 	if( this.model_ ){
@@ -142,23 +108,22 @@ zz.ui.LabelInput.prototype.enterDocument = function( ){
 	}
 	this.getHandler( ).listenWithScope( this.getContentElement( ), [
 
-		goog.events.EventType.INPUT,
 		goog.events.EventType.CHANGE
 
-	], /** @this {zz.ui.LabelInput} */ function( evt ){
+	], /** @this {zz.ui.Checkbox} */ function( evt ){
 
 		try{
 
-			this.model_.datarow[ this.model_.datafield ] = this.formatter_.parse( this.getValue( ) );
+			this.model_.datarow[ this.model_.datafield ] = this.getChecked( );
 
 		}catch( err ){
 
 			this.errorHandler_( err );
 		}
-		if( evt.type === goog.events.EventType.CHANGE ){
-
-			this.setValue( this.formatter_.format( this.model_.datarow[ this.model_.datafield ] ) );
-		}
+//		if( evt.type === goog.events.EventType.CHANGE ){
+//
+//			this.setChecked( this.model_.datarow[ this.model_.datafield ] );
+//		}
 	}, false, this );
 };
 
@@ -169,7 +134,7 @@ zz.ui.LabelInput.prototype.enterDocument = function( ){
  * be used.
  * @inheritDoc
  **/
-zz.ui.LabelInput.prototype.disposeInternal = function( ){
+zz.ui.Checkbox.prototype.disposeInternal = function( ){
 
 	goog.base( this, 'disposeInternal' );
 
@@ -187,7 +152,7 @@ zz.ui.LabelInput.prototype.disposeInternal = function( ){
  * @param {!zz.mvc.model.Datarow} datarow
  * @param {!string} datafield
  */
-zz.ui.LabelInput.prototype.setModel = function( dataset, datarow, datafield ){
+zz.ui.Checkbox.prototype.setModel = function( dataset, datarow, datafield ){
 
 	this.unsubscribe( );
 	this.model_ = {
@@ -203,7 +168,7 @@ zz.ui.LabelInput.prototype.setModel = function( dataset, datarow, datafield ){
  * Subscribe control to model changes.
  * @private
  */
-zz.ui.LabelInput.prototype.subscribe_ = function( ){
+zz.ui.Checkbox.prototype.subscribe_ = function( ){
 
 	if( goog.isDefAndNotNull( this.model_ ) ){
 
@@ -214,7 +179,7 @@ zz.ui.LabelInput.prototype.subscribe_ = function( ){
 /**
  * Unsubscribe control from model changes.
  */
-zz.ui.LabelInput.prototype.unsubscribe = function( ){
+zz.ui.Checkbox.prototype.unsubscribe = function( ){
 
 	if( goog.isDefAndNotNull( this.model_ ) ){
 
@@ -227,7 +192,7 @@ zz.ui.LabelInput.prototype.unsubscribe = function( ){
  * @param {zz.mvc.model.Message} message
  * @final
  */
-zz.ui.LabelInput.prototype.modelChanged = function( message ){
+zz.ui.Checkbox.prototype.modelChanged = function( message ){
 
 	if( goog.isDefAndNotNull( this.model_ ) ){
 
@@ -236,16 +201,13 @@ zz.ui.LabelInput.prototype.modelChanged = function( message ){
 };
 
 /**
- * Update input value if the model have changed.
+ * Update checkbox value if the model have changed.
  * @param {zz.mvc.model.Message} message
  * @protected
  */
-zz.ui.LabelInput.prototype.modelChangedInternal = function( message ){
+zz.ui.Checkbox.prototype.modelChangedInternal = function( message ){
 
-	this.setValue( this.formatter_ ?
-
-		this.formatter_.format( message.new_value ):
-		message.new_value );
+	this.setChecked( message.new_value );
 };
 
 /**********************************************************************************************************************
@@ -257,7 +219,7 @@ zz.ui.LabelInput.prototype.modelChangedInternal = function( message ){
  * @param {Error} err
  * @private
  */
-zz.ui.LabelInput.prototype.errorHandler_ = function( err ){
+zz.ui.Checkbox.prototype.errorHandler_ = function( err ){
 
 	console.log( err.message );
 };
@@ -266,7 +228,7 @@ zz.ui.LabelInput.prototype.errorHandler_ = function( err ){
  * Setting up error handler function.
  * @param {function(err:Error)} fn
  */
-zz.ui.LabelInput.prototype.setErrorHandler = function( fn ){
+zz.ui.Checkbox.prototype.setErrorHandler = function( fn ){
 
 	if( goog.isDef( fn ) && goog.isFunction( fn ) ){
 

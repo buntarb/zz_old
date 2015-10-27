@@ -31,8 +31,14 @@ goog.provide( 'zz.ui.CheckboxRenderer' );
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'goog.dom' );
+goog.require( 'goog.a11y.aria' );
+goog.require( 'goog.a11y.aria.Role' );
+goog.require( 'goog.a11y.aria.State' );
+goog.require( 'goog.array' );
+goog.require( 'goog.asserts' );
+goog.require( 'goog.dom.TagName' );
 goog.require( 'goog.dom.classlist' );
+goog.require( 'goog.object' );
 goog.require( 'goog.ui.ControlRenderer' );
 
 /**********************************************************************************************************************
@@ -40,13 +46,13 @@ goog.require( 'goog.ui.ControlRenderer' );
  **********************************************************************************************************************/
 
 /**
- * Base input type checkbox control.
+ * Default renderer for {@link zz.ui.Checkbox}s.  Extends the superclass to support checkbox states.
  * @constructor
  * @extends {goog.ui.ControlRenderer}
  */
 zz.ui.CheckboxRenderer = function( ){
 
-	goog.ui.ControlRenderer.call( this );
+	zz.ui.CheckboxRenderer.base( this, 'constructor' );
 };
 goog.inherits( zz.ui.CheckboxRenderer, goog.ui.ControlRenderer );
 goog.addSingletonGetter( zz.ui.CheckboxRenderer );
@@ -56,23 +62,19 @@ goog.addSingletonGetter( zz.ui.CheckboxRenderer );
  **********************************************************************************************************************/
 
 /**
- * Default CSS class to be applied to the root element of components rendered
- * by this renderer.
+ * Default CSS class to be applied to the root element of components rendered by this renderer.
  * @type {string}
  */
-zz.ui.CheckboxRenderer.CSS_CLASS = goog.getCssName( 'zz-control-checkbox' );
-
-/**
- * Default CSS class for error state.
- * @type {string}
- */
-zz.ui.CheckboxRenderer.CSS_ERROR_CLASS = goog.getCssName( 'zz-control-checkbox-error' );
+zz.ui.CheckboxRenderer.CSS_CLASS = goog.getCssName( 'zz-checkbox' );
 
 /**********************************************************************************************************************
  * Base renderer methods                                                                                              *
  **********************************************************************************************************************/
 
 /**
+ * Returns the CSS class name to be applied to the root element of all sub-views rendered or decorated using this view.
+ * The class name is expected to uniquely identify the view class, i.e. no two view classes are expected to share the
+ * same CSS class name.
  * @override
  */
 zz.ui.CheckboxRenderer.prototype.getCssClass = function( ){
@@ -80,105 +82,140 @@ zz.ui.CheckboxRenderer.prototype.getCssClass = function( ){
 	return zz.ui.CheckboxRenderer.CSS_CLASS;
 };
 
-/**
- * Overrides by returning true only if the element is an HTML input.
- * @override
- * @param {Element} element Element to decorate.
- * @return {boolean} Whether the renderer can decorate the element.
- */
-zz.ui.CheckboxRenderer.prototype.canDecorate = function( element ){
+/**********************************************************************************************************************
+ * Life cycle methods                                                                                                 *
+ **********************************************************************************************************************/
 
-	return element.tagName == goog.dom.TagName.INPUT && element.type === "checkbox";
-};
+/** @override */
+zz.ui.CheckboxRenderer.prototype.createDom = function( checkbox ){
 
-/**
- * @override
- * @param {zz.ui.Control} control
- * @returns {Element}
- */
-zz.ui.CheckboxRenderer.prototype.createDom = function( control ){
+	var element = checkbox.getDomHelper( ).createDom(
 
-	control.setBindingType( zz.ui.BindType.TWO_WAY_BINDING );
-	return control.getDomHelper( ).createDom( 'input', {
-
-		'id': control.getId( ),
-		'type': 'checkbox'
-	} );
-};
-
-/**
- * @override
- * @param {zz.ui.Control} control
- * @param {Element} element
- * @returns {Element}
- */
-zz.ui.CheckboxRenderer.prototype.decorate = function( control, element ){
-
-	element = zz.ui.ControlRenderer.superClass_.decorate.call( this, control, element );
+		goog.dom.TagName.SPAN, this.getClassNames( checkbox ).join( ' ' )
+	);
+	var state = checkbox.getChecked( );
+	this.setCheckboxState( element, state );
 	return element;
 };
 
-/**
- * @override
- */
-zz.ui.CheckboxRenderer.prototype.setContent = function( element, value ){
+/** @override */
+zz.ui.CheckboxRenderer.prototype.decorate = function( checkbox, element ){
 
-	if( element ){
+	// The superclass implementation takes care of common attributes; we only need to set the checkbox state.
 
-		element.checked = value;
+	element = zz.ui.CheckboxRenderer.base( this, 'decorate', checkbox, element );
+	goog.asserts.assert( element );
+	var classes = goog.dom.classlist.get( element );
+
+	// Update the checked state of the element based on its css classNames with the following order:
+	// undetermined -> checked -> unchecked.
+
+	var checked = /** @suppress {missingRequire} */ ( goog.ui.Checkbox.State.UNCHECKED );
+	if( goog.array.contains( classes,
+		this.getClassForCheckboxState( /** @suppress {missingRequire} */ goog.ui.Checkbox.State.UNDETERMINED ) ) ){
+
+		checked = ( /** @suppress {missingRequire} */ goog.ui.Checkbox.State.UNDETERMINED );
+
+	}else if( goog.array.contains( classes,
+		this.getClassForCheckboxState( /** @suppress {missingRequire} */ goog.ui.Checkbox.State.CHECKED ) ) ){
+
+		checked = ( /** @suppress {missingRequire} */ goog.ui.Checkbox.State.CHECKED );
+
+	}else if( goog.array.contains( classes,
+		this.getClassForCheckboxState( /** @suppress {missingRequire} */ goog.ui.Checkbox.State.UNCHECKED ) ) ){
+
+		checked = ( /** @suppress {missingRequire} */ goog.ui.Checkbox.State.UNCHECKED );
 	}
+	checkbox.setCheckedInternal( checked );
+	goog.asserts.assert( element, 'The element cannot be null.' );
+	goog.a11y.aria.setState( element, goog.a11y.aria.State.CHECKED, this.ariaStateFromCheckState_( checked ) );
+	return element;
 };
 
 /**********************************************************************************************************************
- * View elements and elements properties access methods                                                               *
+ * Methods                                                                                                            *
  **********************************************************************************************************************/
 
 /**
- * Add error state to control.
- * @param {zz.ui.Control} input
- * @param {string} error
+ * Returns the ARIA role to be applied to checkboxes.
+ * @return {goog.a11y.aria.Role} ARIA role.
+ * @override
  */
-zz.ui.CheckboxRenderer.prototype.addErrorState = function( input, error ){
+zz.ui.CheckboxRenderer.prototype.getAriaRole = function( ){
 
-	var el = input.getElement( );
-	if( error ){
+	return goog.a11y.aria.Role.CHECKBOX;
+};
 
-		if( !goog.dom.classlist.contains( el, zz.ui.ControlRenderer.CSS_ERROR_CLASS ) ){
+/**
+ * Updates the appearance of the control in response to a checkbox state change.
+ * @param {Element} element Checkbox element.
+ * @param {goog.ui.Checkbox.State} state Updated checkbox state.
+ */
+zz.ui.CheckboxRenderer.prototype.setCheckboxState = function( element, state ){
 
-			goog.dom.classlist.add( el, zz.ui.ControlRenderer.CSS_ERROR_CLASS );
+	if( element ){
+
+		goog.asserts.assert( element );
+		var classToAdd = this.getClassForCheckboxState( state );
+		goog.asserts.assert( classToAdd );
+		goog.asserts.assert( element );
+		if( goog.dom.classlist.contains( element, classToAdd ) ){
+
+			return;
 		}
+		goog.object.forEach( /** @suppress {missingRequire} */ goog.ui.Checkbox.State, function( state ){
+
+			var className = this.getClassForCheckboxState( state );
+			goog.asserts.assert( element );
+			goog.dom.classlist.enable( element, className, className == classToAdd );
+
+		}, this );
+		goog.a11y.aria.setState( element, goog.a11y.aria.State.CHECKED, this.ariaStateFromCheckState_( state ) );
 	}
 };
 
 /**
- * Remove error state from control.
- * @param {zz.ui.Control} input
+ * Gets the checkbox's ARIA (accessibility) state from its checked state.
+ * @param {goog.ui.Checkbox.State} state Checkbox state.
+ * @return {string} The value of goog.a11y.aria.state.CHECKED. Either 'true', 'false', or 'mixed'.
+ * @private
  */
-zz.ui.CheckboxRenderer.prototype.removeErrorState = function( input ){
+zz.ui.CheckboxRenderer.prototype.ariaStateFromCheckState_ = function( state ){
 
-	var el = input.getElement( );
-	if( goog.dom.classlist.contains( el, zz.ui.ControlRenderer.CSS_ERROR_CLASS ) ){
+	if( state == /** @suppress {missingRequire} */ goog.ui.Checkbox.State.UNDETERMINED ){
 
-		goog.dom.classlist.remove( el, zz.ui.ControlRenderer.CSS_ERROR_CLASS );
+		return 'mixed';
+
+	}else if( state == /** @suppress {missingRequire} */ goog.ui.Checkbox.State.CHECKED ){
+
+		return 'true';
+
+	}else{
+
+		return 'false';
 	}
 };
 
 /**
- * Return input element.
- * @param {zz.ui.Control} input
- * @returns {Element}
+ * Takes a single {@link goog.ui.Checkbox.State}, and returns the corresponding CSS class name.
+ * @param {goog.ui.Checkbox.State} state Checkbox state.
+ * @return {string} CSS class representing the given state.
+ * @protected
  */
-zz.ui.CheckboxRenderer.prototype.getChangeableElement = function( input ){
+zz.ui.CheckboxRenderer.prototype.getClassForCheckboxState = function( state ){
 
-	return input.getElement( );
-};
+	var baseClass = this.getStructuralCssClass( );
+	if( state == /** @suppress {missingRequire} */ goog.ui.Checkbox.State.CHECKED ){
 
-/**
- * Return input element.
- * @param {zz.ui.Control} input
- * @returns {string}
- */
-zz.ui.CheckboxRenderer.prototype.getChangeableElementValue = function( input ){
+		return goog.getCssName( baseClass, 'checked' );
 
-	return input.getElement( ).checked;
+	}else if( state == /** @suppress {missingRequire} */ goog.ui.Checkbox.State.UNCHECKED ){
+
+		return goog.getCssName( baseClass, 'unchecked' );
+
+	}else if( state == /** @suppress {missingRequire} */ goog.ui.Checkbox.State.UNDETERMINED ){
+
+		return goog.getCssName( baseClass, 'undetermined' );
+	}
+	throw Error( 'Invalid checkbox state: ' + state );
 };

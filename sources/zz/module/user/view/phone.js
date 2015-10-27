@@ -34,7 +34,7 @@ goog.provide( 'zz.module.user.view.Phone' );
 goog.require( 'goog.dom' );
 goog.require( 'zz.mvc.view.BaseView' );
 goog.require( 'zz.ui.LabelInput' );
-goog.require( 'zz.ui.DecimalFormatter' );
+goog.require( 'zz.ui.formatter.Decimal' );
 goog.require( 'zz.module.user.controller.Users' );
 
 /**********************************************************************************************************************
@@ -77,7 +77,7 @@ goog.inherits( zz.module.user.view.Phone, zz.mvc.view.BaseView );
 zz.module.user.view.Phone.prototype.createDom = function( ){
 
 	var model = this.getModel( );
-	var formatter = zz.ui.DecimalFormatter.getInstance( );
+	var formatter = zz.ui.formatter.Decimal.getInstance( );
 
 	/**
 	 * Current view root element.

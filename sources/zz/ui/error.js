@@ -35,9 +35,4 @@ goog.provide( 'zz.ui.Error' );
  * Enum for model errors messages.
  * @enum {string}
  */
-zz.ui.Error = {
-
-	MODEL_REQUIRE: 'Model require.',
-	INCORRECT_BINDING_TYPE: 'Incorrect binding type.',
-	INCORRECT_MODEL_BINDING_TYPE: 'Incorrect model binding level type.'
-};
+zz.ui.Error = { };

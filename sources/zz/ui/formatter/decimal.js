@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.ui.LabelInputRenderer class.
+ * @fileoverview Provide zz.ui.formatter.Decimal class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,121 +25,56 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.ui.LabelInputRenderer' );
+goog.provide( 'zz.ui.formatter.Decimal' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'goog.dom' );
-goog.require( 'goog.dom.classlist' );
-goog.require( 'goog.ui.ControlRenderer' );
-goog.require( 'goog.ui.LabelInput' );
-goog.require( 'goog.ui.Button' );
+goog.require( 'goog.i18n.NumberFormat' );
+goog.require( 'goog.i18n.NumberFormat.Format' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * Base input control.
+ * Base formatter class.
  * @constructor
- * @extends {goog.ui.ControlRenderer}
  */
-zz.ui.LabelInputRenderer = function( ){
+zz.ui.formatter.Decimal = function( ){
 
-	goog.ui.ControlRenderer.call( this );
+	this.num_ = new goog.i18n.NumberFormat( goog.i18n.NumberFormat.Format.DECIMAL );
 };
-goog.inherits( zz.ui.LabelInputRenderer, goog.ui.ControlRenderer );
-goog.addSingletonGetter( zz.ui.LabelInputRenderer );
+goog.addSingletonGetter( zz.ui.formatter.Decimal );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
  **********************************************************************************************************************/
 
-/**
- * Default CSS class to be applied to the root element of components rendered
- * by this renderer.
- * @type {string}
- */
-zz.ui.LabelInputRenderer.CSS_CLASS = goog.getCssName( 'zz-label-input' );
-
-/**
- * Default CSS class for error state.
- * @type {string}
- */
-zz.ui.LabelInputRenderer.CSS_ERROR_CLASS = goog.getCssName( 'zz-label-input-error' );
-
 /**********************************************************************************************************************
- * Base renderer methods                                                                                              *
+ * Prototype methods section                                                                                          *
  **********************************************************************************************************************/
 
 /**
- * @override
+ * Formatting model value to view form.
+ * @param {number} modelValue
+ * @returns {string}
  */
-zz.ui.LabelInputRenderer.prototype.getCssClass = function( ){
+zz.ui.formatter.Decimal.prototype.format = function( modelValue ){
 
-	return zz.ui.LabelInputRenderer.CSS_CLASS;
+	return goog.isDefAndNotNull( modelValue ) ? this.num_.format( modelValue ) : '';
 };
 
 /**
- * Overrides by returning true only if the element is an HTML input.
- * @override
- * @param {Element} element Element to decorate.
- * @return {boolean} Whether the renderer can decorate the element.
+ * Parse model value from view form.
+ * @param {string} viewValue
+ * @returns {number}
  */
-zz.ui.LabelInputRenderer.prototype.canDecorate = function( element ){
+zz.ui.formatter.Decimal.prototype.parse = function( viewValue ){
 
-	return element.tagName == goog.dom.TagName.INPUT;
-};
+	return goog.isDefAndNotNull( viewValue ) && viewValue !== '' && viewValue === viewValue ?
 
-/**
- * @override
- * @param {zz.ui.LabelInput} control
- * @returns {Element}
- */
-zz.ui.LabelInputRenderer.prototype.createDom = function( control ){
-
-	var element = goog.base( this, 'createDom', control );
-	var helper = control.getDomHelper( );
-
-	var input = new goog.ui.LabelInput( '', helper );
-	var wrapper = helper.createDom( 'div', { 'class': goog.getCssName( 'input' ) } );
-
-	goog.dom.appendChild( element, wrapper );
-	control.setElementInternal( wrapper );
-	control.addChild( input, true );
-
-	return element;
-};
-
-/**
- * @override
- * @param {zz.ui.LabelInput} control
- * @param {Element} element
- * @returns {Element}
- */
-zz.ui.LabelInputRenderer.prototype.decorate = function( control, element ){
-
-	element = zz.ui.LabelInputRenderer.superClass_.decorate.call( this, control, element );
-	control.setContent( element.value );
-	return element;
-};
-
-/**
- * @override
- */
-zz.ui.LabelInputRenderer.prototype.setContent = function( element, value ){
-
-	if( element ){
-
-		if( goog.isDef( element.textContent ) ){
-
-			element.textContent = value;
-
-		}else{
-
-			element.innerText = value;
-		}
-	}
+		this.num_.parse( viewValue ) :
+		null;
 };
