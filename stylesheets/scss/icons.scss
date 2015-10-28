@@ -1,0 +1,42 @@
+@import 'constants';
+
+// Declaring 'Awesome' font type.
+@font-face {
+  font-family: 'Awesome';
+  font-weight: normal;
+  font-style: normal;
+  src: url('resources/fonts/awesome/fontawesome-webfont.eot?v=4.3.0');
+  src: url('resources/fonts/awesome/fontawesome-webfont.eot?#iefix&v=4.3.0') format('embedded-opentype'),
+       url('resources/fonts/awesome/fontawesome-webfont.woff2?v=4.3.0') format('woff2'),
+       url('resources/fonts/awesome/fontawesome-webfont.woff?v=4.3.0') format('woff'),
+       url('resources/fonts/awesome/fontawesome-webfont.ttf?v=4.3.0') format('truetype'),
+       url('resources/fonts/awesome/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular') format('svg');
+}
+
+// Declaring 'Ionicons' font type.
+@font-face {
+  font-family: "Ionicons";
+  font-weight: normal;
+  font-style: normal;
+  src: url("resources/fonts/ionicons/ionicons.eot?v=2.0.0");
+  src: url("resources/fonts/ionicons/ionicons.eot?v=2.0.0#iefix") format("embedded-opentype"),
+       url("resources/fonts/ionicons/ionicons.ttf?v=2.0.0") format("truetype"),
+       url("resources/fonts/ionicons/ionicons.woff?v=2.0.0") format("woff"),
+       url("resources/fonts/ionicons/ionicons.svg?v=2.0.0#Ionicons") format("svg");
+}
+
+// Declaring variables for different icons.
+$icon-check: if( $ICON_TYPE == 'Awesome', "", "\f383" );
+
+// Declaring classes for icons.
+i.icon {
+
+  font-family: $ICON_TYPE;
+  font-style: normal;
+  text-decoration: none;
+  -webkit-user-select:none;
+  &.check:before {
+
+    content: $icon-check;
+  }
+}

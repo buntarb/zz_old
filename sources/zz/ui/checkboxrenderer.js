@@ -92,7 +92,10 @@ zz.ui.CheckboxRenderer.prototype.createDom = function( checkbox ){
 	var element = checkbox.getDomHelper( ).createDom(
 
 		goog.dom.TagName.SPAN, this.getClassNames( checkbox ).join( ' ' )
+		//goog.dom.TagName.I
 	);
+//	goog.dom.classlist.add( element, goog.getCssName( 'icon' ) );
+//	goog.dom.classlist.add( element, goog.getCssName( 'check' ) );
 	var state = checkbox.getChecked( );
 	this.setCheckboxState( element, state );
 	return element;

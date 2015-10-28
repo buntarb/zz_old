@@ -1,26 +1,5 @@
 goog.provide('zz._stylesheet.remap');
 goog.setCssNameMapping({
-  "block": "b",
-  "scrollable": "a",
-  "default": "c",
-  "icon": "d",
-  "menu": "e",
-  "submenu": "f",
-  "back": "g",
-  "home": "h",
-  "about": "i",
-  "file": "j",
-  "share": "k",
-  "contacts": "l",
-  "refresh": "m",
-  "school": "n",
-  "work": "o",
-  "photo": "p",
-  "video": "q",
-  "download": "r",
-  "close": "s",
-  "user": "t",
-  "pass": "u",
-  "text": "v",
-  "test": "w"
+  "icon": "a",
+  "check": "b"
 });
