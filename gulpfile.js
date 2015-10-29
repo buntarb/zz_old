@@ -176,6 +176,21 @@ function calcDependencies( ){//noinspection JSUnresolvedFunction
 	} );
 }
 
+function copyResources( ){
+
+	var exec = require('child_process').exec;
+	var cmd = 'rm -r ./stylesheets/_css/resources/*';
+	exec( cmd, function( err ){
+
+		if( err ) console.log( err );
+		cmd = 'cp -r ./resources/* ./stylesheets/_css/resources/';
+		exec( cmd, function( err ){
+
+			if( err ) console.log( err );
+		} );
+	} );
+}
+
 /**
  * Start watchers processes.
  */
@@ -183,7 +198,7 @@ function watchFrontendChanges( ){
 
 	gulp.watch( './templates/*', [ 'compileTemplates' ] );
 	gulp.watch( './stylesheets/scss/*', [ 'compileSass' ] );
-	gulp.watch( './stylesheets/_gss/*', [ 'prepareCss', 'compileStylesheets' ] );
+	gulp.watch( './stylesheets/_gss/*', [ 'prepareCss', 'compileStylesheets', 'copyResources' ] );
 	gulp.watch( './sources/zz/base.js', [ 'calcDependencies' ] );
 	gulp.watch( './sources/zz/*/*.js', [ 'calcDependencies' ] );
 	gulp.watch( './sources/zz/*/*/*.js', [ 'calcDependencies' ] );
@@ -277,6 +292,16 @@ function compileApplication( ){
 			exec( cmd, function( err ){
 
 				if( err ) console.log( err );
+				cmd = 'rm -r ./app/resources/*';
+				exec( cmd, function( err ){
+
+					if( err ) console.log( err );
+					cmd = 'cp -r ./resources/* ./app/resources/';
+					exec( cmd, function( err ){
+
+						if( err ) console.log( err );
+					} );
+				} );
 			} );
 		} );
 	} );
@@ -294,6 +319,7 @@ gulp.task( 'compileTemplates', compileTemplates );
 gulp.task( 'compileSass', compileSass );
 gulp.task( 'prepareCss', prepareCss );
 gulp.task( 'compileStylesheets', compileStylesheets );
+gulp.task( 'copyResources', copyResources );
 gulp.task( 'compileApplication', compileApplication );
 gulp.task( 'watchFrontendChanges', watchFrontendChanges );
 gulp.task( 'start-ws', startWebServer );

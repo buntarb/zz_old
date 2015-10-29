@@ -1,8 +1,0 @@
-div.scrollable-block {
-
-    @mixin translate3d(0, 0, 0);
-    position: relative;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-}

@@ -1,2 +1,7 @@
 // Icon font type.
-$ICON_TYPE: 'Ionicons';  //'Awesome'
+// @enum [ 'Ionicons', 'Awesome' ]
+$ICON_TYPE: 'Ionicons';
+
+// Color theme.
+// @enum [ 'default' ]
+$COLOR_THEME: 'default';
