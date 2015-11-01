@@ -1,0 +1,56 @@
+// Screens sizes.
+$SCREEN_1:  257  480  50  6;
+$SCREEN_2:  481  960  50 10;
+$SCREEN_3:  961 1200 100 10;
+$SCREEN_4: 1201 1440 200  6;
+$SCREEN_5: 1441 1680 200  7;
+$SCREEN_6: 1681 2048 200  9;
+$SCREEN_7: 2049 2560 200 12;
+$SCREEN_8: 2561 2880 200 13;
+$SCREEN_9: 2881 3280 200 15;
+$SCREENS: $SCREEN_1 $SCREEN_2 $SCREEN_3 $SCREEN_4 $SCREEN_5 $SCREEN_6 $SCREEN_7 $SCREEN_8 $SCREEN_9;
+
+// Dimentions list.
+$DIM_LIST: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39
+
+  40 41 42 43 44 45 46 47 48 49 50 75 100 125 150 175 200;
+
+$DIM_PROPERIES: top right bottom left height width
+
+  margin-top margin-right margin-bottom margin-left
+  //border-top border-right border-bottom border-left
+  padding-top padding-right padding-bottom padding-left;
+
+@each $min-size, $max-size, $units, $unit in $SCREENS {
+
+  @media screen and ( min-width: #{$min-size}px ) and ( max-width: #{$max-size}px ){
+
+    @each $val in $DIM_LIST {
+
+      @each $property in $DIM_PROPERIES {
+
+        @if $val <= $units {
+
+          .#{$property}-#{$val}un {
+
+            #{$property}: #{$val * $unit}px;
+          }
+          //.#{$property}-minus-#{$val}un {
+          //
+          //  #{$property}: -#{$val * $unit}px;
+          //}
+        } @else {
+
+          .#{$property}-#{$val}un {
+
+            #{$property}: #{$units * $unit}px;
+          }
+          //.#{$property}-minus-#{$val}un {
+          //
+          //  #{$property}: -#{$units * $unit}px;
+          //}
+        }
+      }
+    }
+  }
+}

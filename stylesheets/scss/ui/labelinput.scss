@@ -1,0 +1,9 @@
+input{
+
+  &.zz-input[ type=text ],
+  &.zz-input[ type=password ]{
+
+    box-sizing: border-box;
+    outline: none;
+  }
+}

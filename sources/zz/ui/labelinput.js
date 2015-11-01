@@ -81,7 +81,7 @@ goog.tagUnsealableClass( zz.ui.LabelInput );
  * Default CSS class to be applied to the root element of components rendered by this renderer.
  * @type {string}
  */
-zz.ui.LabelInput.CSS_CLASS = goog.getCssName( 'zz-label-input' );
+zz.ui.LabelInput.CSS_CLASS = goog.getCssName( 'zz-input' );
 
 /**********************************************************************************************************************
  * Base renderer methods                                                                                              *
@@ -102,7 +102,7 @@ zz.ui.LabelInput.prototype.getCssClass = function( ){
  * The CSS class name to add to the input when the user has not entered a value.
  * @type {string}
  */
-zz.ui.LabelInput.prototype.labelCssClassName = goog.getCssName( 'zz-label-input-label' );
+zz.ui.LabelInput.prototype.labelCssClassName = goog.getCssName( 'zz-input-label' );
 
 /**********************************************************************************************************************
  * Life cycle methods                                                                                                 *
@@ -116,6 +116,7 @@ zz.ui.LabelInput.prototype.createDom = function( ){
 
 	this.setElementInternal( this.getDomHelper( ).createDom( goog.dom.TagName.INPUT, {
 
+		'class': this.getCssClass( ),
 		'type': this.isPassword_ ? goog.dom.InputType.PASSWORD : goog.dom.InputType.TEXT
 	} ) );
 };

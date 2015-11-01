@@ -28,7 +28,6 @@
 var gulp = require( 'gulp' );
 var http = require('http');
 var sass = require('gulp-sass');
-var rename = require("gulp-rename");
 var express = require('express');
 
 /**********************************************************************************************************************
@@ -197,7 +196,7 @@ function copyResources( ){
 function watchFrontendChanges( ){
 
 	gulp.watch( './templates/*', [ 'compileTemplates' ] );
-	gulp.watch( './stylesheets/scss/*', [ 'compileSass' ] );
+	gulp.watch( './stylesheets/scss/**/*', [ 'compileSass' ] );
 	gulp.watch( './stylesheets/_gss/*', [ 'prepareCss', 'compileStylesheets', 'copyResources' ] );
 	gulp.watch( './sources/zz/base.js', [ 'calcDependencies' ] );
 	gulp.watch( './sources/zz/*/*.js', [ 'calcDependencies' ] );

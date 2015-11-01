@@ -1,0 +1,31 @@
+@import '../../common/colors';
+@import '../../common/shadows';
+div.user-view{
+
+  & > div.user-detail{
+
+    & > input.zz-input{
+
+      border: 1px solid;
+      border-radius: 2px;
+      transition: border-color, box-shadow 100ms, 100ms ease, ease 0ms, 0ms;
+      border-color: $control-default-border-color;
+      box-shadow: $control-default-border-shadow;
+      &:hover{
+
+        border-color: $control-hover-border-color;
+        box-shadow: $control-hover-border-shadow;
+      }
+      &:focus{
+
+        border-color: $control-focused-border-color;
+        box-shadow: $control-focused-border-shadow;
+      }
+      &.error{
+
+        border-color: $control-error-border-color;
+        box-shadow: $control-error-border-shadow;
+      }
+    }
+  }
+}
