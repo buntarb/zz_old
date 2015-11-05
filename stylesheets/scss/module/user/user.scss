@@ -1,3 +1,4 @@
+@import '../../common/const';
 @import '../../common/colors';
 @import '../../common/shadows';
 div.user-view{
@@ -6,10 +7,9 @@ div.user-view{
 
     & > input.zz-input{
 
-      border: 1px solid;
-      border-radius: 2px;
+      border-radius: $CONTROL_BORDER_RADIUS;
       transition: border-color, box-shadow 100ms, 100ms ease, ease 0ms, 0ms;
-      border-color: $control-default-border-color;
+      border: 1px solid $control-default-border-color;
       box-shadow: $control-default-border-shadow;
       &:hover{
 

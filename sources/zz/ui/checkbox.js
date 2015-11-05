@@ -120,10 +120,6 @@ zz.ui.Checkbox.prototype.enterDocument = function( ){
 
 			this.errorHandler_( err );
 		}
-//		if( evt.type === goog.events.EventType.CHANGE ){
-//
-//			this.setChecked( this.model_.datarow[ this.model_.datafield ] );
-//		}
 	}, false, this );
 };
 

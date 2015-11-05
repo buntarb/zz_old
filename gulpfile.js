@@ -112,7 +112,14 @@ function prepareCss( ){
 		var cmd = "sed '1d' ./stylesheets/_gss/zz.css > tmpfile; mv tmpfile ./stylesheets/_gss/zz.css";
 		exec( cmd, function( err ){
 
-			if( err ) console.log( err );
+			if( err ){
+
+				console.log( err );
+
+			}else{
+
+				compileStylesheets( );
+			}
 		} );
 	} )
 }
@@ -133,7 +140,7 @@ function compileStylesheets( ){//noinspection JSUnresolvedFunction
 			'--output-renaming-map-format CLOSURE_COMPILED ' +
 			'--rename CLOSURE ' +
 			'--output-renaming-map ./sources/zz/_stylesheet/remap.dat ' +
-			'./stylesheets/_gss/*.*';
+			'./stylesheets/_gss/zz.css';
 
 	exec( cmd, function( err ){
 
@@ -146,7 +153,14 @@ function compileStylesheets( ){//noinspection JSUnresolvedFunction
 
 		exec( cmd, function( err ){
 
-			if( err ) console.log( err );
+			if( err ){
+
+				console.log( err );
+
+			}else{
+
+				copyResources( );
+			}
 		} );
 	} );
 }
@@ -197,7 +211,7 @@ function watchFrontendChanges( ){
 
 	gulp.watch( './templates/*', [ 'compileTemplates' ] );
 	gulp.watch( './stylesheets/scss/**/*', [ 'compileSass' ] );
-	gulp.watch( './stylesheets/_gss/*', [ 'prepareCss', 'compileStylesheets', 'copyResources' ] );
+	gulp.watch( './stylesheets/_gss/zz.css', [ 'prepareCss' ] );
 	gulp.watch( './sources/zz/base.js', [ 'calcDependencies' ] );
 	gulp.watch( './sources/zz/*/*.js', [ 'calcDependencies' ] );
 	gulp.watch( './sources/zz/*/*/*.js', [ 'calcDependencies' ] );

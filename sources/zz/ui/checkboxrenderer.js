@@ -89,13 +89,16 @@ zz.ui.CheckboxRenderer.prototype.getCssClass = function( ){
 /** @override */
 zz.ui.CheckboxRenderer.prototype.createDom = function( checkbox ){
 
-	var element = checkbox.getDomHelper( ).createDom(
+	var element = checkbox.getDomHelper( ).createDom( goog.dom.TagName.I );
+	goog.dom.classlist.addAll( element, [
 
-		//goog.dom.TagName.SPAN, this.getClassNames( checkbox ).join( ' ' )
-		goog.dom.TagName.I
-	);
-	goog.dom.classlist.add( element, goog.getCssName( 'icon' ) );
-	goog.dom.classlist.add( element, goog.getCssName( 'check' ) );
+		goog.getCssName( 'icon' ),
+		goog.getCssName( 'check' ),
+		goog.getCssName( 'width-5un' ),
+		goog.getCssName( 'height-5un' ),
+		goog.getCssName( 'font-size-2un' ),
+		goog.getCssName( 'line-height-5un' )
+	] );
 	var state = checkbox.getChecked( );
 	this.setCheckboxState( element, state );
 	return element;
