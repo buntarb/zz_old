@@ -25,6 +25,26 @@ $DIM_PROPERIES: top right bottom left height width line-height
 
   @media screen and ( min-width: #{$min-size}px ) and ( max-width: #{$max-size}px ){
 
+    .font-size-small {
+
+      font-size: #{2 * $unit}px;
+    }
+    .font-size-normal {
+
+      font-size: #{$unit * ( 3 - 2 / 3 )}px;
+    }
+    .font-size-large {
+
+      font-size: #{3 * $unit}px;
+    }
+    .font-size-title2 {
+
+      font-size: #{$unit * ( 4 - 2 / 3 )}px;
+    }
+    .font-size-title1 {
+
+      font-size: #{4 * $unit}px;
+    }
     @each $val in $DIM_LIST {
 
       @each $property in $DIM_PROPERIES {
@@ -34,13 +54,6 @@ $DIM_PROPERIES: top right bottom left height width line-height
           .#{$property}-#{$val}un {
 
             #{$property}: #{$val * $unit}px;
-          }
-          @if $val > 0 and $val <= 5 {
-
-            .font-size-#{$val}un {
-
-              font-size: #{$val * $unit + $unit/3}px;
-            }
           }
         } @else {
 

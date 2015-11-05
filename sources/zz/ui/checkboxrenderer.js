@@ -92,13 +92,19 @@ zz.ui.CheckboxRenderer.prototype.createDom = function( checkbox ){
 	var element = checkbox.getDomHelper( ).createDom( goog.dom.TagName.I );
 	goog.dom.classlist.addAll( element, [
 
+		this.getCssClass( ),
 		goog.getCssName( 'icon' ),
 		goog.getCssName( 'check' ),
 		goog.getCssName( 'width-5un' ),
 		goog.getCssName( 'height-5un' ),
-		goog.getCssName( 'font-size-2un' ),
-		goog.getCssName( 'line-height-5un' )
+		goog.getCssName( 'line-height-3un' ),
+		goog.getCssName( 'padding-top-1un' ),
+		goog.getCssName( 'padding-right-1un' ),
+		goog.getCssName( 'padding-bottom-1un' ),
+		goog.getCssName( 'padding-left-1un' ),
+		goog.getCssName( 'font-size-large' )
 	] );
+	//noinspection JSUnresolvedFunction
 	var state = checkbox.getChecked( );
 	this.setCheckboxState( element, state );
 	return element;
@@ -132,7 +138,9 @@ zz.ui.CheckboxRenderer.prototype.decorate = function( checkbox, element ){
 
 		checked = ( /** @suppress {missingRequire} */ goog.ui.Checkbox.State.UNCHECKED );
 	}
+	//noinspection JSUnresolvedFunction
 	checkbox.setCheckedInternal( checked );
+	//noinspection JSCheckFunctionSignatures
 	goog.asserts.assert( element, 'The element cannot be null.' );
 	goog.a11y.aria.setState( element, goog.a11y.aria.State.CHECKED, this.ariaStateFromCheckState_( checked ) );
 	return element;

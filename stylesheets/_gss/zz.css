@@ -1,4 +1,14 @@
 @media screen and (min-width: 257px) and (max-width: 480px) {
+  .font-size-small {
+    font-size: 12px; }
+  .font-size-normal {
+    font-size: 14px; }
+  .font-size-large {
+    font-size: 18px; }
+  .font-size-title2 {
+    font-size: 20px; }
+  .font-size-title1 {
+    font-size: 24px; }
   .top-0un {
     top: 0px; }
   .right-0un {
@@ -31,304 +41,154 @@
     padding-left: 0px; }
   .top-1un {
     top: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .right-1un {
     right: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .bottom-1un {
     bottom: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .left-1un {
     left: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .height-1un {
     height: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .width-1un {
     width: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .line-height-1un {
     line-height: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .margin-top-1un {
     margin-top: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .margin-right-1un {
     margin-right: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .margin-bottom-1un {
     margin-bottom: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .margin-left-1un {
     margin-left: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .padding-top-1un {
     padding-top: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .padding-right-1un {
     padding-right: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .padding-bottom-1un {
     padding-bottom: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .padding-left-1un {
     padding-left: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .top-2un {
     top: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .right-2un {
     right: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .bottom-2un {
     bottom: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .left-2un {
     left: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .height-2un {
     height: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .width-2un {
     width: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .line-height-2un {
     line-height: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .margin-top-2un {
     margin-top: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .margin-right-2un {
     margin-right: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .margin-bottom-2un {
     margin-bottom: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .margin-left-2un {
     margin-left: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .padding-top-2un {
     padding-top: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .padding-right-2un {
     padding-right: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .padding-bottom-2un {
     padding-bottom: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .padding-left-2un {
     padding-left: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .top-3un {
     top: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .right-3un {
     right: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .bottom-3un {
     bottom: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .left-3un {
     left: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .height-3un {
     height: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .width-3un {
     width: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .line-height-3un {
     line-height: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .margin-top-3un {
     margin-top: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .margin-right-3un {
     margin-right: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .margin-bottom-3un {
     margin-bottom: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .margin-left-3un {
     margin-left: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .padding-top-3un {
     padding-top: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .padding-right-3un {
     padding-right: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .padding-bottom-3un {
     padding-bottom: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .padding-left-3un {
     padding-left: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .top-4un {
     top: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .right-4un {
     right: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .bottom-4un {
     bottom: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .left-4un {
     left: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .height-4un {
     height: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .width-4un {
     width: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .line-height-4un {
     line-height: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .margin-top-4un {
     margin-top: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .margin-right-4un {
     margin-right: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .margin-bottom-4un {
     margin-bottom: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .margin-left-4un {
     margin-left: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .padding-top-4un {
     padding-top: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .padding-right-4un {
     padding-right: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .padding-bottom-4un {
     padding-bottom: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .padding-left-4un {
     padding-left: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .top-5un {
     top: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .right-5un {
     right: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .bottom-5un {
     bottom: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .left-5un {
     left: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .height-5un {
     height: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .width-5un {
     width: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .line-height-5un {
     line-height: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .margin-top-5un {
     margin-top: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .margin-right-5un {
     margin-right: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .margin-bottom-5un {
     margin-bottom: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .margin-left-5un {
     margin-left: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .padding-top-5un {
     padding-top: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .padding-right-5un {
     padding-right: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .padding-bottom-5un {
     padding-bottom: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .padding-left-5un {
     padding-left: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .top-6un {
     top: 36px; }
   .right-6un {
@@ -1861,6 +1721,16 @@
     padding-left: 300px; } }
 
 @media screen and (min-width: 481px) and (max-width: 960px) {
+  .font-size-small {
+    font-size: 20px; }
+  .font-size-normal {
+    font-size: 23.33333px; }
+  .font-size-large {
+    font-size: 30px; }
+  .font-size-title2 {
+    font-size: 33.33333px; }
+  .font-size-title1 {
+    font-size: 40px; }
   .top-0un {
     top: 0px; }
   .right-0un {
@@ -1893,304 +1763,154 @@
     padding-left: 0px; }
   .top-1un {
     top: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .right-1un {
     right: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .bottom-1un {
     bottom: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .left-1un {
     left: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .height-1un {
     height: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .width-1un {
     width: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .line-height-1un {
     line-height: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .margin-top-1un {
     margin-top: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .margin-right-1un {
     margin-right: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .margin-bottom-1un {
     margin-bottom: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .margin-left-1un {
     margin-left: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .padding-top-1un {
     padding-top: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .padding-right-1un {
     padding-right: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .padding-bottom-1un {
     padding-bottom: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .padding-left-1un {
     padding-left: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .top-2un {
     top: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .right-2un {
     right: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .bottom-2un {
     bottom: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .left-2un {
     left: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .height-2un {
     height: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .width-2un {
     width: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .line-height-2un {
     line-height: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .margin-top-2un {
     margin-top: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .margin-right-2un {
     margin-right: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .margin-bottom-2un {
     margin-bottom: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .margin-left-2un {
     margin-left: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .padding-top-2un {
     padding-top: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .padding-right-2un {
     padding-right: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .padding-bottom-2un {
     padding-bottom: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .padding-left-2un {
     padding-left: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .top-3un {
     top: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .right-3un {
     right: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .bottom-3un {
     bottom: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .left-3un {
     left: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .height-3un {
     height: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .width-3un {
     width: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .line-height-3un {
     line-height: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .margin-top-3un {
     margin-top: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .margin-right-3un {
     margin-right: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .margin-bottom-3un {
     margin-bottom: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .margin-left-3un {
     margin-left: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .padding-top-3un {
     padding-top: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .padding-right-3un {
     padding-right: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .padding-bottom-3un {
     padding-bottom: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .padding-left-3un {
     padding-left: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .top-4un {
     top: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .right-4un {
     right: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .bottom-4un {
     bottom: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .left-4un {
     left: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .height-4un {
     height: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .width-4un {
     width: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .line-height-4un {
     line-height: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .margin-top-4un {
     margin-top: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .margin-right-4un {
     margin-right: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .margin-bottom-4un {
     margin-bottom: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .margin-left-4un {
     margin-left: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .padding-top-4un {
     padding-top: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .padding-right-4un {
     padding-right: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .padding-bottom-4un {
     padding-bottom: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .padding-left-4un {
     padding-left: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .top-5un {
     top: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .right-5un {
     right: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .bottom-5un {
     bottom: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .left-5un {
     left: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .height-5un {
     height: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .width-5un {
     width: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .line-height-5un {
     line-height: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .margin-top-5un {
     margin-top: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .margin-right-5un {
     margin-right: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .margin-bottom-5un {
     margin-bottom: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .margin-left-5un {
     margin-left: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .padding-top-5un {
     padding-top: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .padding-right-5un {
     padding-right: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .padding-bottom-5un {
     padding-bottom: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .padding-left-5un {
     padding-left: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .top-6un {
     top: 60px; }
   .right-6un {
@@ -3723,6 +3443,16 @@
     padding-left: 500px; } }
 
 @media screen and (min-width: 961px) and (max-width: 1200px) {
+  .font-size-small {
+    font-size: 20px; }
+  .font-size-normal {
+    font-size: 23.33333px; }
+  .font-size-large {
+    font-size: 30px; }
+  .font-size-title2 {
+    font-size: 33.33333px; }
+  .font-size-title1 {
+    font-size: 40px; }
   .top-0un {
     top: 0px; }
   .right-0un {
@@ -3755,304 +3485,154 @@
     padding-left: 0px; }
   .top-1un {
     top: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .right-1un {
     right: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .bottom-1un {
     bottom: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .left-1un {
     left: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .height-1un {
     height: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .width-1un {
     width: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .line-height-1un {
     line-height: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .margin-top-1un {
     margin-top: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .margin-right-1un {
     margin-right: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .margin-bottom-1un {
     margin-bottom: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .margin-left-1un {
     margin-left: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .padding-top-1un {
     padding-top: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .padding-right-1un {
     padding-right: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .padding-bottom-1un {
     padding-bottom: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .padding-left-1un {
     padding-left: 10px; }
-  .font-size-1un {
-    font-size: 13.33333px; }
   .top-2un {
     top: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .right-2un {
     right: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .bottom-2un {
     bottom: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .left-2un {
     left: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .height-2un {
     height: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .width-2un {
     width: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .line-height-2un {
     line-height: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .margin-top-2un {
     margin-top: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .margin-right-2un {
     margin-right: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .margin-bottom-2un {
     margin-bottom: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .margin-left-2un {
     margin-left: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .padding-top-2un {
     padding-top: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .padding-right-2un {
     padding-right: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .padding-bottom-2un {
     padding-bottom: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .padding-left-2un {
     padding-left: 20px; }
-  .font-size-2un {
-    font-size: 23.33333px; }
   .top-3un {
     top: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .right-3un {
     right: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .bottom-3un {
     bottom: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .left-3un {
     left: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .height-3un {
     height: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .width-3un {
     width: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .line-height-3un {
     line-height: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .margin-top-3un {
     margin-top: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .margin-right-3un {
     margin-right: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .margin-bottom-3un {
     margin-bottom: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .margin-left-3un {
     margin-left: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .padding-top-3un {
     padding-top: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .padding-right-3un {
     padding-right: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .padding-bottom-3un {
     padding-bottom: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .padding-left-3un {
     padding-left: 30px; }
-  .font-size-3un {
-    font-size: 33.33333px; }
   .top-4un {
     top: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .right-4un {
     right: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .bottom-4un {
     bottom: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .left-4un {
     left: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .height-4un {
     height: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .width-4un {
     width: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .line-height-4un {
     line-height: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .margin-top-4un {
     margin-top: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .margin-right-4un {
     margin-right: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .margin-bottom-4un {
     margin-bottom: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .margin-left-4un {
     margin-left: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .padding-top-4un {
     padding-top: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .padding-right-4un {
     padding-right: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .padding-bottom-4un {
     padding-bottom: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .padding-left-4un {
     padding-left: 40px; }
-  .font-size-4un {
-    font-size: 43.33333px; }
   .top-5un {
     top: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .right-5un {
     right: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .bottom-5un {
     bottom: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .left-5un {
     left: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .height-5un {
     height: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .width-5un {
     width: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .line-height-5un {
     line-height: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .margin-top-5un {
     margin-top: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .margin-right-5un {
     margin-right: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .margin-bottom-5un {
     margin-bottom: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .margin-left-5un {
     margin-left: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .padding-top-5un {
     padding-top: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .padding-right-5un {
     padding-right: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .padding-bottom-5un {
     padding-bottom: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .padding-left-5un {
     padding-left: 50px; }
-  .font-size-5un {
-    font-size: 53.33333px; }
   .top-6un {
     top: 60px; }
   .right-6un {
@@ -5585,6 +5165,16 @@
     padding-left: 1000px; } }
 
 @media screen and (min-width: 1201px) and (max-width: 1440px) {
+  .font-size-small {
+    font-size: 12px; }
+  .font-size-normal {
+    font-size: 14px; }
+  .font-size-large {
+    font-size: 18px; }
+  .font-size-title2 {
+    font-size: 20px; }
+  .font-size-title1 {
+    font-size: 24px; }
   .top-0un {
     top: 0px; }
   .right-0un {
@@ -5617,304 +5207,154 @@
     padding-left: 0px; }
   .top-1un {
     top: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .right-1un {
     right: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .bottom-1un {
     bottom: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .left-1un {
     left: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .height-1un {
     height: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .width-1un {
     width: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .line-height-1un {
     line-height: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .margin-top-1un {
     margin-top: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .margin-right-1un {
     margin-right: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .margin-bottom-1un {
     margin-bottom: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .margin-left-1un {
     margin-left: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .padding-top-1un {
     padding-top: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .padding-right-1un {
     padding-right: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .padding-bottom-1un {
     padding-bottom: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .padding-left-1un {
     padding-left: 6px; }
-  .font-size-1un {
-    font-size: 8px; }
   .top-2un {
     top: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .right-2un {
     right: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .bottom-2un {
     bottom: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .left-2un {
     left: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .height-2un {
     height: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .width-2un {
     width: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .line-height-2un {
     line-height: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .margin-top-2un {
     margin-top: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .margin-right-2un {
     margin-right: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .margin-bottom-2un {
     margin-bottom: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .margin-left-2un {
     margin-left: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .padding-top-2un {
     padding-top: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .padding-right-2un {
     padding-right: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .padding-bottom-2un {
     padding-bottom: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .padding-left-2un {
     padding-left: 12px; }
-  .font-size-2un {
-    font-size: 14px; }
   .top-3un {
     top: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .right-3un {
     right: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .bottom-3un {
     bottom: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .left-3un {
     left: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .height-3un {
     height: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .width-3un {
     width: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .line-height-3un {
     line-height: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .margin-top-3un {
     margin-top: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .margin-right-3un {
     margin-right: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .margin-bottom-3un {
     margin-bottom: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .margin-left-3un {
     margin-left: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .padding-top-3un {
     padding-top: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .padding-right-3un {
     padding-right: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .padding-bottom-3un {
     padding-bottom: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .padding-left-3un {
     padding-left: 18px; }
-  .font-size-3un {
-    font-size: 20px; }
   .top-4un {
     top: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .right-4un {
     right: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .bottom-4un {
     bottom: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .left-4un {
     left: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .height-4un {
     height: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .width-4un {
     width: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .line-height-4un {
     line-height: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .margin-top-4un {
     margin-top: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .margin-right-4un {
     margin-right: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .margin-bottom-4un {
     margin-bottom: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .margin-left-4un {
     margin-left: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .padding-top-4un {
     padding-top: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .padding-right-4un {
     padding-right: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .padding-bottom-4un {
     padding-bottom: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .padding-left-4un {
     padding-left: 24px; }
-  .font-size-4un {
-    font-size: 26px; }
   .top-5un {
     top: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .right-5un {
     right: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .bottom-5un {
     bottom: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .left-5un {
     left: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .height-5un {
     height: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .width-5un {
     width: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .line-height-5un {
     line-height: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .margin-top-5un {
     margin-top: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .margin-right-5un {
     margin-right: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .margin-bottom-5un {
     margin-bottom: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .margin-left-5un {
     margin-left: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .padding-top-5un {
     padding-top: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .padding-right-5un {
     padding-right: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .padding-bottom-5un {
     padding-bottom: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .padding-left-5un {
     padding-left: 30px; }
-  .font-size-5un {
-    font-size: 32px; }
   .top-6un {
     top: 36px; }
   .right-6un {
@@ -7447,6 +6887,16 @@
     padding-left: 1200px; } }
 
 @media screen and (min-width: 1441px) and (max-width: 1680px) {
+  .font-size-small {
+    font-size: 14px; }
+  .font-size-normal {
+    font-size: 16.33333px; }
+  .font-size-large {
+    font-size: 21px; }
+  .font-size-title2 {
+    font-size: 23.33333px; }
+  .font-size-title1 {
+    font-size: 28px; }
   .top-0un {
     top: 0px; }
   .right-0un {
@@ -7479,304 +6929,154 @@
     padding-left: 0px; }
   .top-1un {
     top: 7px; }
-  .font-size-1un {
-    font-size: 9.33333px; }
   .right-1un {
     right: 7px; }
-  .font-size-1un {
-    font-size: 9.33333px; }
   .bottom-1un {
     bottom: 7px; }
-  .font-size-1un {
-    font-size: 9.33333px; }
   .left-1un {
     left: 7px; }
-  .font-size-1un {
-    font-size: 9.33333px; }
   .height-1un {
     height: 7px; }
-  .font-size-1un {
-    font-size: 9.33333px; }
   .width-1un {
     width: 7px; }
-  .font-size-1un {
-    font-size: 9.33333px; }
   .line-height-1un {
     line-height: 7px; }
-  .font-size-1un {
-    font-size: 9.33333px; }
   .margin-top-1un {
     margin-top: 7px; }
-  .font-size-1un {
-    font-size: 9.33333px; }
   .margin-right-1un {
     margin-right: 7px; }
-  .font-size-1un {
-    font-size: 9.33333px; }
   .margin-bottom-1un {
     margin-bottom: 7px; }
-  .font-size-1un {
-    font-size: 9.33333px; }
   .margin-left-1un {
     margin-left: 7px; }
-  .font-size-1un {
-    font-size: 9.33333px; }
   .padding-top-1un {
     padding-top: 7px; }
-  .font-size-1un {
-    font-size: 9.33333px; }
   .padding-right-1un {
     padding-right: 7px; }
-  .font-size-1un {
-    font-size: 9.33333px; }
   .padding-bottom-1un {
     padding-bottom: 7px; }
-  .font-size-1un {
-    font-size: 9.33333px; }
   .padding-left-1un {
     padding-left: 7px; }
-  .font-size-1un {
-    font-size: 9.33333px; }
   .top-2un {
     top: 14px; }
-  .font-size-2un {
-    font-size: 16.33333px; }
   .right-2un {
     right: 14px; }
-  .font-size-2un {
-    font-size: 16.33333px; }
   .bottom-2un {
     bottom: 14px; }
-  .font-size-2un {
-    font-size: 16.33333px; }
   .left-2un {
     left: 14px; }
-  .font-size-2un {
-    font-size: 16.33333px; }
   .height-2un {
     height: 14px; }
-  .font-size-2un {
-    font-size: 16.33333px; }
   .width-2un {
     width: 14px; }
-  .font-size-2un {
-    font-size: 16.33333px; }
   .line-height-2un {
     line-height: 14px; }
-  .font-size-2un {
-    font-size: 16.33333px; }
   .margin-top-2un {
     margin-top: 14px; }
-  .font-size-2un {
-    font-size: 16.33333px; }
   .margin-right-2un {
     margin-right: 14px; }
-  .font-size-2un {
-    font-size: 16.33333px; }
   .margin-bottom-2un {
     margin-bottom: 14px; }
-  .font-size-2un {
-    font-size: 16.33333px; }
   .margin-left-2un {
     margin-left: 14px; }
-  .font-size-2un {
-    font-size: 16.33333px; }
   .padding-top-2un {
     padding-top: 14px; }
-  .font-size-2un {
-    font-size: 16.33333px; }
   .padding-right-2un {
     padding-right: 14px; }
-  .font-size-2un {
-    font-size: 16.33333px; }
   .padding-bottom-2un {
     padding-bottom: 14px; }
-  .font-size-2un {
-    font-size: 16.33333px; }
   .padding-left-2un {
     padding-left: 14px; }
-  .font-size-2un {
-    font-size: 16.33333px; }
   .top-3un {
     top: 21px; }
-  .font-size-3un {
-    font-size: 23.33333px; }
   .right-3un {
     right: 21px; }
-  .font-size-3un {
-    font-size: 23.33333px; }
   .bottom-3un {
     bottom: 21px; }
-  .font-size-3un {
-    font-size: 23.33333px; }
   .left-3un {
     left: 21px; }
-  .font-size-3un {
-    font-size: 23.33333px; }
   .height-3un {
     height: 21px; }
-  .font-size-3un {
-    font-size: 23.33333px; }
   .width-3un {
     width: 21px; }
-  .font-size-3un {
-    font-size: 23.33333px; }
   .line-height-3un {
     line-height: 21px; }
-  .font-size-3un {
-    font-size: 23.33333px; }
   .margin-top-3un {
     margin-top: 21px; }
-  .font-size-3un {
-    font-size: 23.33333px; }
   .margin-right-3un {
     margin-right: 21px; }
-  .font-size-3un {
-    font-size: 23.33333px; }
   .margin-bottom-3un {
     margin-bottom: 21px; }
-  .font-size-3un {
-    font-size: 23.33333px; }
   .margin-left-3un {
     margin-left: 21px; }
-  .font-size-3un {
-    font-size: 23.33333px; }
   .padding-top-3un {
     padding-top: 21px; }
-  .font-size-3un {
-    font-size: 23.33333px; }
   .padding-right-3un {
     padding-right: 21px; }
-  .font-size-3un {
-    font-size: 23.33333px; }
   .padding-bottom-3un {
     padding-bottom: 21px; }
-  .font-size-3un {
-    font-size: 23.33333px; }
   .padding-left-3un {
     padding-left: 21px; }
-  .font-size-3un {
-    font-size: 23.33333px; }
   .top-4un {
     top: 28px; }
-  .font-size-4un {
-    font-size: 30.33333px; }
   .right-4un {
     right: 28px; }
-  .font-size-4un {
-    font-size: 30.33333px; }
   .bottom-4un {
     bottom: 28px; }
-  .font-size-4un {
-    font-size: 30.33333px; }
   .left-4un {
     left: 28px; }
-  .font-size-4un {
-    font-size: 30.33333px; }
   .height-4un {
     height: 28px; }
-  .font-size-4un {
-    font-size: 30.33333px; }
   .width-4un {
     width: 28px; }
-  .font-size-4un {
-    font-size: 30.33333px; }
   .line-height-4un {
     line-height: 28px; }
-  .font-size-4un {
-    font-size: 30.33333px; }
   .margin-top-4un {
     margin-top: 28px; }
-  .font-size-4un {
-    font-size: 30.33333px; }
   .margin-right-4un {
     margin-right: 28px; }
-  .font-size-4un {
-    font-size: 30.33333px; }
   .margin-bottom-4un {
     margin-bottom: 28px; }
-  .font-size-4un {
-    font-size: 30.33333px; }
   .margin-left-4un {
     margin-left: 28px; }
-  .font-size-4un {
-    font-size: 30.33333px; }
   .padding-top-4un {
     padding-top: 28px; }
-  .font-size-4un {
-    font-size: 30.33333px; }
   .padding-right-4un {
     padding-right: 28px; }
-  .font-size-4un {
-    font-size: 30.33333px; }
   .padding-bottom-4un {
     padding-bottom: 28px; }
-  .font-size-4un {
-    font-size: 30.33333px; }
   .padding-left-4un {
     padding-left: 28px; }
-  .font-size-4un {
-    font-size: 30.33333px; }
   .top-5un {
     top: 35px; }
-  .font-size-5un {
-    font-size: 37.33333px; }
   .right-5un {
     right: 35px; }
-  .font-size-5un {
-    font-size: 37.33333px; }
   .bottom-5un {
     bottom: 35px; }
-  .font-size-5un {
-    font-size: 37.33333px; }
   .left-5un {
     left: 35px; }
-  .font-size-5un {
-    font-size: 37.33333px; }
   .height-5un {
     height: 35px; }
-  .font-size-5un {
-    font-size: 37.33333px; }
   .width-5un {
     width: 35px; }
-  .font-size-5un {
-    font-size: 37.33333px; }
   .line-height-5un {
     line-height: 35px; }
-  .font-size-5un {
-    font-size: 37.33333px; }
   .margin-top-5un {
     margin-top: 35px; }
-  .font-size-5un {
-    font-size: 37.33333px; }
   .margin-right-5un {
     margin-right: 35px; }
-  .font-size-5un {
-    font-size: 37.33333px; }
   .margin-bottom-5un {
     margin-bottom: 35px; }
-  .font-size-5un {
-    font-size: 37.33333px; }
   .margin-left-5un {
     margin-left: 35px; }
-  .font-size-5un {
-    font-size: 37.33333px; }
   .padding-top-5un {
     padding-top: 35px; }
-  .font-size-5un {
-    font-size: 37.33333px; }
   .padding-right-5un {
     padding-right: 35px; }
-  .font-size-5un {
-    font-size: 37.33333px; }
   .padding-bottom-5un {
     padding-bottom: 35px; }
-  .font-size-5un {
-    font-size: 37.33333px; }
   .padding-left-5un {
     padding-left: 35px; }
-  .font-size-5un {
-    font-size: 37.33333px; }
   .top-6un {
     top: 42px; }
   .right-6un {
@@ -9309,6 +8609,16 @@
     padding-left: 1400px; } }
 
 @media screen and (min-width: 1681px) and (max-width: 2048px) {
+  .font-size-small {
+    font-size: 18px; }
+  .font-size-normal {
+    font-size: 21px; }
+  .font-size-large {
+    font-size: 27px; }
+  .font-size-title2 {
+    font-size: 30px; }
+  .font-size-title1 {
+    font-size: 36px; }
   .top-0un {
     top: 0px; }
   .right-0un {
@@ -9341,304 +8651,154 @@
     padding-left: 0px; }
   .top-1un {
     top: 9px; }
-  .font-size-1un {
-    font-size: 12px; }
   .right-1un {
     right: 9px; }
-  .font-size-1un {
-    font-size: 12px; }
   .bottom-1un {
     bottom: 9px; }
-  .font-size-1un {
-    font-size: 12px; }
   .left-1un {
     left: 9px; }
-  .font-size-1un {
-    font-size: 12px; }
   .height-1un {
     height: 9px; }
-  .font-size-1un {
-    font-size: 12px; }
   .width-1un {
     width: 9px; }
-  .font-size-1un {
-    font-size: 12px; }
   .line-height-1un {
     line-height: 9px; }
-  .font-size-1un {
-    font-size: 12px; }
   .margin-top-1un {
     margin-top: 9px; }
-  .font-size-1un {
-    font-size: 12px; }
   .margin-right-1un {
     margin-right: 9px; }
-  .font-size-1un {
-    font-size: 12px; }
   .margin-bottom-1un {
     margin-bottom: 9px; }
-  .font-size-1un {
-    font-size: 12px; }
   .margin-left-1un {
     margin-left: 9px; }
-  .font-size-1un {
-    font-size: 12px; }
   .padding-top-1un {
     padding-top: 9px; }
-  .font-size-1un {
-    font-size: 12px; }
   .padding-right-1un {
     padding-right: 9px; }
-  .font-size-1un {
-    font-size: 12px; }
   .padding-bottom-1un {
     padding-bottom: 9px; }
-  .font-size-1un {
-    font-size: 12px; }
   .padding-left-1un {
     padding-left: 9px; }
-  .font-size-1un {
-    font-size: 12px; }
   .top-2un {
     top: 18px; }
-  .font-size-2un {
-    font-size: 21px; }
   .right-2un {
     right: 18px; }
-  .font-size-2un {
-    font-size: 21px; }
   .bottom-2un {
     bottom: 18px; }
-  .font-size-2un {
-    font-size: 21px; }
   .left-2un {
     left: 18px; }
-  .font-size-2un {
-    font-size: 21px; }
   .height-2un {
     height: 18px; }
-  .font-size-2un {
-    font-size: 21px; }
   .width-2un {
     width: 18px; }
-  .font-size-2un {
-    font-size: 21px; }
   .line-height-2un {
     line-height: 18px; }
-  .font-size-2un {
-    font-size: 21px; }
   .margin-top-2un {
     margin-top: 18px; }
-  .font-size-2un {
-    font-size: 21px; }
   .margin-right-2un {
     margin-right: 18px; }
-  .font-size-2un {
-    font-size: 21px; }
   .margin-bottom-2un {
     margin-bottom: 18px; }
-  .font-size-2un {
-    font-size: 21px; }
   .margin-left-2un {
     margin-left: 18px; }
-  .font-size-2un {
-    font-size: 21px; }
   .padding-top-2un {
     padding-top: 18px; }
-  .font-size-2un {
-    font-size: 21px; }
   .padding-right-2un {
     padding-right: 18px; }
-  .font-size-2un {
-    font-size: 21px; }
   .padding-bottom-2un {
     padding-bottom: 18px; }
-  .font-size-2un {
-    font-size: 21px; }
   .padding-left-2un {
     padding-left: 18px; }
-  .font-size-2un {
-    font-size: 21px; }
   .top-3un {
     top: 27px; }
-  .font-size-3un {
-    font-size: 30px; }
   .right-3un {
     right: 27px; }
-  .font-size-3un {
-    font-size: 30px; }
   .bottom-3un {
     bottom: 27px; }
-  .font-size-3un {
-    font-size: 30px; }
   .left-3un {
     left: 27px; }
-  .font-size-3un {
-    font-size: 30px; }
   .height-3un {
     height: 27px; }
-  .font-size-3un {
-    font-size: 30px; }
   .width-3un {
     width: 27px; }
-  .font-size-3un {
-    font-size: 30px; }
   .line-height-3un {
     line-height: 27px; }
-  .font-size-3un {
-    font-size: 30px; }
   .margin-top-3un {
     margin-top: 27px; }
-  .font-size-3un {
-    font-size: 30px; }
   .margin-right-3un {
     margin-right: 27px; }
-  .font-size-3un {
-    font-size: 30px; }
   .margin-bottom-3un {
     margin-bottom: 27px; }
-  .font-size-3un {
-    font-size: 30px; }
   .margin-left-3un {
     margin-left: 27px; }
-  .font-size-3un {
-    font-size: 30px; }
   .padding-top-3un {
     padding-top: 27px; }
-  .font-size-3un {
-    font-size: 30px; }
   .padding-right-3un {
     padding-right: 27px; }
-  .font-size-3un {
-    font-size: 30px; }
   .padding-bottom-3un {
     padding-bottom: 27px; }
-  .font-size-3un {
-    font-size: 30px; }
   .padding-left-3un {
     padding-left: 27px; }
-  .font-size-3un {
-    font-size: 30px; }
   .top-4un {
     top: 36px; }
-  .font-size-4un {
-    font-size: 39px; }
   .right-4un {
     right: 36px; }
-  .font-size-4un {
-    font-size: 39px; }
   .bottom-4un {
     bottom: 36px; }
-  .font-size-4un {
-    font-size: 39px; }
   .left-4un {
     left: 36px; }
-  .font-size-4un {
-    font-size: 39px; }
   .height-4un {
     height: 36px; }
-  .font-size-4un {
-    font-size: 39px; }
   .width-4un {
     width: 36px; }
-  .font-size-4un {
-    font-size: 39px; }
   .line-height-4un {
     line-height: 36px; }
-  .font-size-4un {
-    font-size: 39px; }
   .margin-top-4un {
     margin-top: 36px; }
-  .font-size-4un {
-    font-size: 39px; }
   .margin-right-4un {
     margin-right: 36px; }
-  .font-size-4un {
-    font-size: 39px; }
   .margin-bottom-4un {
     margin-bottom: 36px; }
-  .font-size-4un {
-    font-size: 39px; }
   .margin-left-4un {
     margin-left: 36px; }
-  .font-size-4un {
-    font-size: 39px; }
   .padding-top-4un {
     padding-top: 36px; }
-  .font-size-4un {
-    font-size: 39px; }
   .padding-right-4un {
     padding-right: 36px; }
-  .font-size-4un {
-    font-size: 39px; }
   .padding-bottom-4un {
     padding-bottom: 36px; }
-  .font-size-4un {
-    font-size: 39px; }
   .padding-left-4un {
     padding-left: 36px; }
-  .font-size-4un {
-    font-size: 39px; }
   .top-5un {
     top: 45px; }
-  .font-size-5un {
-    font-size: 48px; }
   .right-5un {
     right: 45px; }
-  .font-size-5un {
-    font-size: 48px; }
   .bottom-5un {
     bottom: 45px; }
-  .font-size-5un {
-    font-size: 48px; }
   .left-5un {
     left: 45px; }
-  .font-size-5un {
-    font-size: 48px; }
   .height-5un {
     height: 45px; }
-  .font-size-5un {
-    font-size: 48px; }
   .width-5un {
     width: 45px; }
-  .font-size-5un {
-    font-size: 48px; }
   .line-height-5un {
     line-height: 45px; }
-  .font-size-5un {
-    font-size: 48px; }
   .margin-top-5un {
     margin-top: 45px; }
-  .font-size-5un {
-    font-size: 48px; }
   .margin-right-5un {
     margin-right: 45px; }
-  .font-size-5un {
-    font-size: 48px; }
   .margin-bottom-5un {
     margin-bottom: 45px; }
-  .font-size-5un {
-    font-size: 48px; }
   .margin-left-5un {
     margin-left: 45px; }
-  .font-size-5un {
-    font-size: 48px; }
   .padding-top-5un {
     padding-top: 45px; }
-  .font-size-5un {
-    font-size: 48px; }
   .padding-right-5un {
     padding-right: 45px; }
-  .font-size-5un {
-    font-size: 48px; }
   .padding-bottom-5un {
     padding-bottom: 45px; }
-  .font-size-5un {
-    font-size: 48px; }
   .padding-left-5un {
     padding-left: 45px; }
-  .font-size-5un {
-    font-size: 48px; }
   .top-6un {
     top: 54px; }
   .right-6un {
@@ -11171,6 +10331,16 @@
     padding-left: 1800px; } }
 
 @media screen and (min-width: 2049px) and (max-width: 2560px) {
+  .font-size-small {
+    font-size: 24px; }
+  .font-size-normal {
+    font-size: 28px; }
+  .font-size-large {
+    font-size: 36px; }
+  .font-size-title2 {
+    font-size: 40px; }
+  .font-size-title1 {
+    font-size: 48px; }
   .top-0un {
     top: 0px; }
   .right-0un {
@@ -11203,304 +10373,154 @@
     padding-left: 0px; }
   .top-1un {
     top: 12px; }
-  .font-size-1un {
-    font-size: 16px; }
   .right-1un {
     right: 12px; }
-  .font-size-1un {
-    font-size: 16px; }
   .bottom-1un {
     bottom: 12px; }
-  .font-size-1un {
-    font-size: 16px; }
   .left-1un {
     left: 12px; }
-  .font-size-1un {
-    font-size: 16px; }
   .height-1un {
     height: 12px; }
-  .font-size-1un {
-    font-size: 16px; }
   .width-1un {
     width: 12px; }
-  .font-size-1un {
-    font-size: 16px; }
   .line-height-1un {
     line-height: 12px; }
-  .font-size-1un {
-    font-size: 16px; }
   .margin-top-1un {
     margin-top: 12px; }
-  .font-size-1un {
-    font-size: 16px; }
   .margin-right-1un {
     margin-right: 12px; }
-  .font-size-1un {
-    font-size: 16px; }
   .margin-bottom-1un {
     margin-bottom: 12px; }
-  .font-size-1un {
-    font-size: 16px; }
   .margin-left-1un {
     margin-left: 12px; }
-  .font-size-1un {
-    font-size: 16px; }
   .padding-top-1un {
     padding-top: 12px; }
-  .font-size-1un {
-    font-size: 16px; }
   .padding-right-1un {
     padding-right: 12px; }
-  .font-size-1un {
-    font-size: 16px; }
   .padding-bottom-1un {
     padding-bottom: 12px; }
-  .font-size-1un {
-    font-size: 16px; }
   .padding-left-1un {
     padding-left: 12px; }
-  .font-size-1un {
-    font-size: 16px; }
   .top-2un {
     top: 24px; }
-  .font-size-2un {
-    font-size: 28px; }
   .right-2un {
     right: 24px; }
-  .font-size-2un {
-    font-size: 28px; }
   .bottom-2un {
     bottom: 24px; }
-  .font-size-2un {
-    font-size: 28px; }
   .left-2un {
     left: 24px; }
-  .font-size-2un {
-    font-size: 28px; }
   .height-2un {
     height: 24px; }
-  .font-size-2un {
-    font-size: 28px; }
   .width-2un {
     width: 24px; }
-  .font-size-2un {
-    font-size: 28px; }
   .line-height-2un {
     line-height: 24px; }
-  .font-size-2un {
-    font-size: 28px; }
   .margin-top-2un {
     margin-top: 24px; }
-  .font-size-2un {
-    font-size: 28px; }
   .margin-right-2un {
     margin-right: 24px; }
-  .font-size-2un {
-    font-size: 28px; }
   .margin-bottom-2un {
     margin-bottom: 24px; }
-  .font-size-2un {
-    font-size: 28px; }
   .margin-left-2un {
     margin-left: 24px; }
-  .font-size-2un {
-    font-size: 28px; }
   .padding-top-2un {
     padding-top: 24px; }
-  .font-size-2un {
-    font-size: 28px; }
   .padding-right-2un {
     padding-right: 24px; }
-  .font-size-2un {
-    font-size: 28px; }
   .padding-bottom-2un {
     padding-bottom: 24px; }
-  .font-size-2un {
-    font-size: 28px; }
   .padding-left-2un {
     padding-left: 24px; }
-  .font-size-2un {
-    font-size: 28px; }
   .top-3un {
     top: 36px; }
-  .font-size-3un {
-    font-size: 40px; }
   .right-3un {
     right: 36px; }
-  .font-size-3un {
-    font-size: 40px; }
   .bottom-3un {
     bottom: 36px; }
-  .font-size-3un {
-    font-size: 40px; }
   .left-3un {
     left: 36px; }
-  .font-size-3un {
-    font-size: 40px; }
   .height-3un {
     height: 36px; }
-  .font-size-3un {
-    font-size: 40px; }
   .width-3un {
     width: 36px; }
-  .font-size-3un {
-    font-size: 40px; }
   .line-height-3un {
     line-height: 36px; }
-  .font-size-3un {
-    font-size: 40px; }
   .margin-top-3un {
     margin-top: 36px; }
-  .font-size-3un {
-    font-size: 40px; }
   .margin-right-3un {
     margin-right: 36px; }
-  .font-size-3un {
-    font-size: 40px; }
   .margin-bottom-3un {
     margin-bottom: 36px; }
-  .font-size-3un {
-    font-size: 40px; }
   .margin-left-3un {
     margin-left: 36px; }
-  .font-size-3un {
-    font-size: 40px; }
   .padding-top-3un {
     padding-top: 36px; }
-  .font-size-3un {
-    font-size: 40px; }
   .padding-right-3un {
     padding-right: 36px; }
-  .font-size-3un {
-    font-size: 40px; }
   .padding-bottom-3un {
     padding-bottom: 36px; }
-  .font-size-3un {
-    font-size: 40px; }
   .padding-left-3un {
     padding-left: 36px; }
-  .font-size-3un {
-    font-size: 40px; }
   .top-4un {
     top: 48px; }
-  .font-size-4un {
-    font-size: 52px; }
   .right-4un {
     right: 48px; }
-  .font-size-4un {
-    font-size: 52px; }
   .bottom-4un {
     bottom: 48px; }
-  .font-size-4un {
-    font-size: 52px; }
   .left-4un {
     left: 48px; }
-  .font-size-4un {
-    font-size: 52px; }
   .height-4un {
     height: 48px; }
-  .font-size-4un {
-    font-size: 52px; }
   .width-4un {
     width: 48px; }
-  .font-size-4un {
-    font-size: 52px; }
   .line-height-4un {
     line-height: 48px; }
-  .font-size-4un {
-    font-size: 52px; }
   .margin-top-4un {
     margin-top: 48px; }
-  .font-size-4un {
-    font-size: 52px; }
   .margin-right-4un {
     margin-right: 48px; }
-  .font-size-4un {
-    font-size: 52px; }
   .margin-bottom-4un {
     margin-bottom: 48px; }
-  .font-size-4un {
-    font-size: 52px; }
   .margin-left-4un {
     margin-left: 48px; }
-  .font-size-4un {
-    font-size: 52px; }
   .padding-top-4un {
     padding-top: 48px; }
-  .font-size-4un {
-    font-size: 52px; }
   .padding-right-4un {
     padding-right: 48px; }
-  .font-size-4un {
-    font-size: 52px; }
   .padding-bottom-4un {
     padding-bottom: 48px; }
-  .font-size-4un {
-    font-size: 52px; }
   .padding-left-4un {
     padding-left: 48px; }
-  .font-size-4un {
-    font-size: 52px; }
   .top-5un {
     top: 60px; }
-  .font-size-5un {
-    font-size: 64px; }
   .right-5un {
     right: 60px; }
-  .font-size-5un {
-    font-size: 64px; }
   .bottom-5un {
     bottom: 60px; }
-  .font-size-5un {
-    font-size: 64px; }
   .left-5un {
     left: 60px; }
-  .font-size-5un {
-    font-size: 64px; }
   .height-5un {
     height: 60px; }
-  .font-size-5un {
-    font-size: 64px; }
   .width-5un {
     width: 60px; }
-  .font-size-5un {
-    font-size: 64px; }
   .line-height-5un {
     line-height: 60px; }
-  .font-size-5un {
-    font-size: 64px; }
   .margin-top-5un {
     margin-top: 60px; }
-  .font-size-5un {
-    font-size: 64px; }
   .margin-right-5un {
     margin-right: 60px; }
-  .font-size-5un {
-    font-size: 64px; }
   .margin-bottom-5un {
     margin-bottom: 60px; }
-  .font-size-5un {
-    font-size: 64px; }
   .margin-left-5un {
     margin-left: 60px; }
-  .font-size-5un {
-    font-size: 64px; }
   .padding-top-5un {
     padding-top: 60px; }
-  .font-size-5un {
-    font-size: 64px; }
   .padding-right-5un {
     padding-right: 60px; }
-  .font-size-5un {
-    font-size: 64px; }
   .padding-bottom-5un {
     padding-bottom: 60px; }
-  .font-size-5un {
-    font-size: 64px; }
   .padding-left-5un {
     padding-left: 60px; }
-  .font-size-5un {
-    font-size: 64px; }
   .top-6un {
     top: 72px; }
   .right-6un {
@@ -13033,6 +12053,16 @@
     padding-left: 2400px; } }
 
 @media screen and (min-width: 2561px) and (max-width: 2880px) {
+  .font-size-small {
+    font-size: 26px; }
+  .font-size-normal {
+    font-size: 30.33333px; }
+  .font-size-large {
+    font-size: 39px; }
+  .font-size-title2 {
+    font-size: 43.33333px; }
+  .font-size-title1 {
+    font-size: 52px; }
   .top-0un {
     top: 0px; }
   .right-0un {
@@ -13065,304 +12095,154 @@
     padding-left: 0px; }
   .top-1un {
     top: 13px; }
-  .font-size-1un {
-    font-size: 17.33333px; }
   .right-1un {
     right: 13px; }
-  .font-size-1un {
-    font-size: 17.33333px; }
   .bottom-1un {
     bottom: 13px; }
-  .font-size-1un {
-    font-size: 17.33333px; }
   .left-1un {
     left: 13px; }
-  .font-size-1un {
-    font-size: 17.33333px; }
   .height-1un {
     height: 13px; }
-  .font-size-1un {
-    font-size: 17.33333px; }
   .width-1un {
     width: 13px; }
-  .font-size-1un {
-    font-size: 17.33333px; }
   .line-height-1un {
     line-height: 13px; }
-  .font-size-1un {
-    font-size: 17.33333px; }
   .margin-top-1un {
     margin-top: 13px; }
-  .font-size-1un {
-    font-size: 17.33333px; }
   .margin-right-1un {
     margin-right: 13px; }
-  .font-size-1un {
-    font-size: 17.33333px; }
   .margin-bottom-1un {
     margin-bottom: 13px; }
-  .font-size-1un {
-    font-size: 17.33333px; }
   .margin-left-1un {
     margin-left: 13px; }
-  .font-size-1un {
-    font-size: 17.33333px; }
   .padding-top-1un {
     padding-top: 13px; }
-  .font-size-1un {
-    font-size: 17.33333px; }
   .padding-right-1un {
     padding-right: 13px; }
-  .font-size-1un {
-    font-size: 17.33333px; }
   .padding-bottom-1un {
     padding-bottom: 13px; }
-  .font-size-1un {
-    font-size: 17.33333px; }
   .padding-left-1un {
     padding-left: 13px; }
-  .font-size-1un {
-    font-size: 17.33333px; }
   .top-2un {
     top: 26px; }
-  .font-size-2un {
-    font-size: 30.33333px; }
   .right-2un {
     right: 26px; }
-  .font-size-2un {
-    font-size: 30.33333px; }
   .bottom-2un {
     bottom: 26px; }
-  .font-size-2un {
-    font-size: 30.33333px; }
   .left-2un {
     left: 26px; }
-  .font-size-2un {
-    font-size: 30.33333px; }
   .height-2un {
     height: 26px; }
-  .font-size-2un {
-    font-size: 30.33333px; }
   .width-2un {
     width: 26px; }
-  .font-size-2un {
-    font-size: 30.33333px; }
   .line-height-2un {
     line-height: 26px; }
-  .font-size-2un {
-    font-size: 30.33333px; }
   .margin-top-2un {
     margin-top: 26px; }
-  .font-size-2un {
-    font-size: 30.33333px; }
   .margin-right-2un {
     margin-right: 26px; }
-  .font-size-2un {
-    font-size: 30.33333px; }
   .margin-bottom-2un {
     margin-bottom: 26px; }
-  .font-size-2un {
-    font-size: 30.33333px; }
   .margin-left-2un {
     margin-left: 26px; }
-  .font-size-2un {
-    font-size: 30.33333px; }
   .padding-top-2un {
     padding-top: 26px; }
-  .font-size-2un {
-    font-size: 30.33333px; }
   .padding-right-2un {
     padding-right: 26px; }
-  .font-size-2un {
-    font-size: 30.33333px; }
   .padding-bottom-2un {
     padding-bottom: 26px; }
-  .font-size-2un {
-    font-size: 30.33333px; }
   .padding-left-2un {
     padding-left: 26px; }
-  .font-size-2un {
-    font-size: 30.33333px; }
   .top-3un {
     top: 39px; }
-  .font-size-3un {
-    font-size: 43.33333px; }
   .right-3un {
     right: 39px; }
-  .font-size-3un {
-    font-size: 43.33333px; }
   .bottom-3un {
     bottom: 39px; }
-  .font-size-3un {
-    font-size: 43.33333px; }
   .left-3un {
     left: 39px; }
-  .font-size-3un {
-    font-size: 43.33333px; }
   .height-3un {
     height: 39px; }
-  .font-size-3un {
-    font-size: 43.33333px; }
   .width-3un {
     width: 39px; }
-  .font-size-3un {
-    font-size: 43.33333px; }
   .line-height-3un {
     line-height: 39px; }
-  .font-size-3un {
-    font-size: 43.33333px; }
   .margin-top-3un {
     margin-top: 39px; }
-  .font-size-3un {
-    font-size: 43.33333px; }
   .margin-right-3un {
     margin-right: 39px; }
-  .font-size-3un {
-    font-size: 43.33333px; }
   .margin-bottom-3un {
     margin-bottom: 39px; }
-  .font-size-3un {
-    font-size: 43.33333px; }
   .margin-left-3un {
     margin-left: 39px; }
-  .font-size-3un {
-    font-size: 43.33333px; }
   .padding-top-3un {
     padding-top: 39px; }
-  .font-size-3un {
-    font-size: 43.33333px; }
   .padding-right-3un {
     padding-right: 39px; }
-  .font-size-3un {
-    font-size: 43.33333px; }
   .padding-bottom-3un {
     padding-bottom: 39px; }
-  .font-size-3un {
-    font-size: 43.33333px; }
   .padding-left-3un {
     padding-left: 39px; }
-  .font-size-3un {
-    font-size: 43.33333px; }
   .top-4un {
     top: 52px; }
-  .font-size-4un {
-    font-size: 56.33333px; }
   .right-4un {
     right: 52px; }
-  .font-size-4un {
-    font-size: 56.33333px; }
   .bottom-4un {
     bottom: 52px; }
-  .font-size-4un {
-    font-size: 56.33333px; }
   .left-4un {
     left: 52px; }
-  .font-size-4un {
-    font-size: 56.33333px; }
   .height-4un {
     height: 52px; }
-  .font-size-4un {
-    font-size: 56.33333px; }
   .width-4un {
     width: 52px; }
-  .font-size-4un {
-    font-size: 56.33333px; }
   .line-height-4un {
     line-height: 52px; }
-  .font-size-4un {
-    font-size: 56.33333px; }
   .margin-top-4un {
     margin-top: 52px; }
-  .font-size-4un {
-    font-size: 56.33333px; }
   .margin-right-4un {
     margin-right: 52px; }
-  .font-size-4un {
-    font-size: 56.33333px; }
   .margin-bottom-4un {
     margin-bottom: 52px; }
-  .font-size-4un {
-    font-size: 56.33333px; }
   .margin-left-4un {
     margin-left: 52px; }
-  .font-size-4un {
-    font-size: 56.33333px; }
   .padding-top-4un {
     padding-top: 52px; }
-  .font-size-4un {
-    font-size: 56.33333px; }
   .padding-right-4un {
     padding-right: 52px; }
-  .font-size-4un {
-    font-size: 56.33333px; }
   .padding-bottom-4un {
     padding-bottom: 52px; }
-  .font-size-4un {
-    font-size: 56.33333px; }
   .padding-left-4un {
     padding-left: 52px; }
-  .font-size-4un {
-    font-size: 56.33333px; }
   .top-5un {
     top: 65px; }
-  .font-size-5un {
-    font-size: 69.33333px; }
   .right-5un {
     right: 65px; }
-  .font-size-5un {
-    font-size: 69.33333px; }
   .bottom-5un {
     bottom: 65px; }
-  .font-size-5un {
-    font-size: 69.33333px; }
   .left-5un {
     left: 65px; }
-  .font-size-5un {
-    font-size: 69.33333px; }
   .height-5un {
     height: 65px; }
-  .font-size-5un {
-    font-size: 69.33333px; }
   .width-5un {
     width: 65px; }
-  .font-size-5un {
-    font-size: 69.33333px; }
   .line-height-5un {
     line-height: 65px; }
-  .font-size-5un {
-    font-size: 69.33333px; }
   .margin-top-5un {
     margin-top: 65px; }
-  .font-size-5un {
-    font-size: 69.33333px; }
   .margin-right-5un {
     margin-right: 65px; }
-  .font-size-5un {
-    font-size: 69.33333px; }
   .margin-bottom-5un {
     margin-bottom: 65px; }
-  .font-size-5un {
-    font-size: 69.33333px; }
   .margin-left-5un {
     margin-left: 65px; }
-  .font-size-5un {
-    font-size: 69.33333px; }
   .padding-top-5un {
     padding-top: 65px; }
-  .font-size-5un {
-    font-size: 69.33333px; }
   .padding-right-5un {
     padding-right: 65px; }
-  .font-size-5un {
-    font-size: 69.33333px; }
   .padding-bottom-5un {
     padding-bottom: 65px; }
-  .font-size-5un {
-    font-size: 69.33333px; }
   .padding-left-5un {
     padding-left: 65px; }
-  .font-size-5un {
-    font-size: 69.33333px; }
   .top-6un {
     top: 78px; }
   .right-6un {
@@ -14895,6 +13775,16 @@
     padding-left: 2600px; } }
 
 @media screen and (min-width: 2881px) and (max-width: 3280px) {
+  .font-size-small {
+    font-size: 30px; }
+  .font-size-normal {
+    font-size: 35px; }
+  .font-size-large {
+    font-size: 45px; }
+  .font-size-title2 {
+    font-size: 50px; }
+  .font-size-title1 {
+    font-size: 60px; }
   .top-0un {
     top: 0px; }
   .right-0un {
@@ -14927,304 +13817,154 @@
     padding-left: 0px; }
   .top-1un {
     top: 15px; }
-  .font-size-1un {
-    font-size: 20px; }
   .right-1un {
     right: 15px; }
-  .font-size-1un {
-    font-size: 20px; }
   .bottom-1un {
     bottom: 15px; }
-  .font-size-1un {
-    font-size: 20px; }
   .left-1un {
     left: 15px; }
-  .font-size-1un {
-    font-size: 20px; }
   .height-1un {
     height: 15px; }
-  .font-size-1un {
-    font-size: 20px; }
   .width-1un {
     width: 15px; }
-  .font-size-1un {
-    font-size: 20px; }
   .line-height-1un {
     line-height: 15px; }
-  .font-size-1un {
-    font-size: 20px; }
   .margin-top-1un {
     margin-top: 15px; }
-  .font-size-1un {
-    font-size: 20px; }
   .margin-right-1un {
     margin-right: 15px; }
-  .font-size-1un {
-    font-size: 20px; }
   .margin-bottom-1un {
     margin-bottom: 15px; }
-  .font-size-1un {
-    font-size: 20px; }
   .margin-left-1un {
     margin-left: 15px; }
-  .font-size-1un {
-    font-size: 20px; }
   .padding-top-1un {
     padding-top: 15px; }
-  .font-size-1un {
-    font-size: 20px; }
   .padding-right-1un {
     padding-right: 15px; }
-  .font-size-1un {
-    font-size: 20px; }
   .padding-bottom-1un {
     padding-bottom: 15px; }
-  .font-size-1un {
-    font-size: 20px; }
   .padding-left-1un {
     padding-left: 15px; }
-  .font-size-1un {
-    font-size: 20px; }
   .top-2un {
     top: 30px; }
-  .font-size-2un {
-    font-size: 35px; }
   .right-2un {
     right: 30px; }
-  .font-size-2un {
-    font-size: 35px; }
   .bottom-2un {
     bottom: 30px; }
-  .font-size-2un {
-    font-size: 35px; }
   .left-2un {
     left: 30px; }
-  .font-size-2un {
-    font-size: 35px; }
   .height-2un {
     height: 30px; }
-  .font-size-2un {
-    font-size: 35px; }
   .width-2un {
     width: 30px; }
-  .font-size-2un {
-    font-size: 35px; }
   .line-height-2un {
     line-height: 30px; }
-  .font-size-2un {
-    font-size: 35px; }
   .margin-top-2un {
     margin-top: 30px; }
-  .font-size-2un {
-    font-size: 35px; }
   .margin-right-2un {
     margin-right: 30px; }
-  .font-size-2un {
-    font-size: 35px; }
   .margin-bottom-2un {
     margin-bottom: 30px; }
-  .font-size-2un {
-    font-size: 35px; }
   .margin-left-2un {
     margin-left: 30px; }
-  .font-size-2un {
-    font-size: 35px; }
   .padding-top-2un {
     padding-top: 30px; }
-  .font-size-2un {
-    font-size: 35px; }
   .padding-right-2un {
     padding-right: 30px; }
-  .font-size-2un {
-    font-size: 35px; }
   .padding-bottom-2un {
     padding-bottom: 30px; }
-  .font-size-2un {
-    font-size: 35px; }
   .padding-left-2un {
     padding-left: 30px; }
-  .font-size-2un {
-    font-size: 35px; }
   .top-3un {
     top: 45px; }
-  .font-size-3un {
-    font-size: 50px; }
   .right-3un {
     right: 45px; }
-  .font-size-3un {
-    font-size: 50px; }
   .bottom-3un {
     bottom: 45px; }
-  .font-size-3un {
-    font-size: 50px; }
   .left-3un {
     left: 45px; }
-  .font-size-3un {
-    font-size: 50px; }
   .height-3un {
     height: 45px; }
-  .font-size-3un {
-    font-size: 50px; }
   .width-3un {
     width: 45px; }
-  .font-size-3un {
-    font-size: 50px; }
   .line-height-3un {
     line-height: 45px; }
-  .font-size-3un {
-    font-size: 50px; }
   .margin-top-3un {
     margin-top: 45px; }
-  .font-size-3un {
-    font-size: 50px; }
   .margin-right-3un {
     margin-right: 45px; }
-  .font-size-3un {
-    font-size: 50px; }
   .margin-bottom-3un {
     margin-bottom: 45px; }
-  .font-size-3un {
-    font-size: 50px; }
   .margin-left-3un {
     margin-left: 45px; }
-  .font-size-3un {
-    font-size: 50px; }
   .padding-top-3un {
     padding-top: 45px; }
-  .font-size-3un {
-    font-size: 50px; }
   .padding-right-3un {
     padding-right: 45px; }
-  .font-size-3un {
-    font-size: 50px; }
   .padding-bottom-3un {
     padding-bottom: 45px; }
-  .font-size-3un {
-    font-size: 50px; }
   .padding-left-3un {
     padding-left: 45px; }
-  .font-size-3un {
-    font-size: 50px; }
   .top-4un {
     top: 60px; }
-  .font-size-4un {
-    font-size: 65px; }
   .right-4un {
     right: 60px; }
-  .font-size-4un {
-    font-size: 65px; }
   .bottom-4un {
     bottom: 60px; }
-  .font-size-4un {
-    font-size: 65px; }
   .left-4un {
     left: 60px; }
-  .font-size-4un {
-    font-size: 65px; }
   .height-4un {
     height: 60px; }
-  .font-size-4un {
-    font-size: 65px; }
   .width-4un {
     width: 60px; }
-  .font-size-4un {
-    font-size: 65px; }
   .line-height-4un {
     line-height: 60px; }
-  .font-size-4un {
-    font-size: 65px; }
   .margin-top-4un {
     margin-top: 60px; }
-  .font-size-4un {
-    font-size: 65px; }
   .margin-right-4un {
     margin-right: 60px; }
-  .font-size-4un {
-    font-size: 65px; }
   .margin-bottom-4un {
     margin-bottom: 60px; }
-  .font-size-4un {
-    font-size: 65px; }
   .margin-left-4un {
     margin-left: 60px; }
-  .font-size-4un {
-    font-size: 65px; }
   .padding-top-4un {
     padding-top: 60px; }
-  .font-size-4un {
-    font-size: 65px; }
   .padding-right-4un {
     padding-right: 60px; }
-  .font-size-4un {
-    font-size: 65px; }
   .padding-bottom-4un {
     padding-bottom: 60px; }
-  .font-size-4un {
-    font-size: 65px; }
   .padding-left-4un {
     padding-left: 60px; }
-  .font-size-4un {
-    font-size: 65px; }
   .top-5un {
     top: 75px; }
-  .font-size-5un {
-    font-size: 80px; }
   .right-5un {
     right: 75px; }
-  .font-size-5un {
-    font-size: 80px; }
   .bottom-5un {
     bottom: 75px; }
-  .font-size-5un {
-    font-size: 80px; }
   .left-5un {
     left: 75px; }
-  .font-size-5un {
-    font-size: 80px; }
   .height-5un {
     height: 75px; }
-  .font-size-5un {
-    font-size: 80px; }
   .width-5un {
     width: 75px; }
-  .font-size-5un {
-    font-size: 80px; }
   .line-height-5un {
     line-height: 75px; }
-  .font-size-5un {
-    font-size: 80px; }
   .margin-top-5un {
     margin-top: 75px; }
-  .font-size-5un {
-    font-size: 80px; }
   .margin-right-5un {
     margin-right: 75px; }
-  .font-size-5un {
-    font-size: 80px; }
   .margin-bottom-5un {
     margin-bottom: 75px; }
-  .font-size-5un {
-    font-size: 80px; }
   .margin-left-5un {
     margin-left: 75px; }
-  .font-size-5un {
-    font-size: 80px; }
   .padding-top-5un {
     padding-top: 75px; }
-  .font-size-5un {
-    font-size: 80px; }
   .padding-right-5un {
     padding-right: 75px; }
-  .font-size-5un {
-    font-size: 80px; }
   .padding-bottom-5un {
     padding-bottom: 75px; }
-  .font-size-5un {
-    font-size: 80px; }
   .padding-left-5un {
     padding-left: 75px; }
-  .font-size-5un {
-    font-size: 80px; }
   .top-6un {
     top: 90px; }
   .right-6un {
@@ -16783,7 +15523,7 @@ input.zz-input[type=text], input.zz-input[type=password] {
   box-sizing: border-box;
   outline: none; }
 
-i.zz-checkbox-undetermined, i.zz-checkbox-checked, i.zz-checkbox-unchecked {
+i.zz-checkbox {
   display: inline-block;
   box-sizing: border-box;
   outline: none;
@@ -16791,40 +15531,38 @@ i.zz-checkbox-undetermined, i.zz-checkbox-checked, i.zz-checkbox-unchecked {
   border-radius: 2px;
   transition: border-color, box-shadow 100ms, 100ms ease, ease 0ms, 0ms;
   text-align: center;
-  cursor: default;
   box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }
-
-i.zz-checkbox-undetermined.zz-checkbox-hover, i.zz-checkbox-undetermined.zz-checkbox-active, i.zz-checkbox-undetermined.zz-checkbox-focused, i.zz-checkbox-checked.zz-checkbox-hover, i.zz-checkbox-checked.zz-checkbox-active, i.zz-checkbox-checked.zz-checkbox-focused, i.zz-checkbox-unchecked.zz-checkbox-hover, i.zz-checkbox-unchecked.zz-checkbox-active, i.zz-checkbox-unchecked.zz-checkbox-focused {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-color: white;
   cursor: pointer; }
 
-i.zz-checkbox-checked {
+i.zz-checkbox.zz-checkbox-checked {
   color: #4d90fe;
-  border-color: #4d90fe;
-  box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.5), 0 1px 3px 0 rgba(0, 0, 0, 0.3);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+  border-color: #4d90fe; }
 
-i.zz-checkbox-unchecked, i.zz-checkbox-undetermined {
+i.zz-checkbox.zz-checkbox-unchecked, i.zz-checkbox.zz-checkbox-undetermined {
   color: #c2c2c2;
   border-color: #c2c2c2; }
 
-i.zz-checkbox-unchecked.zz-checkbox-hover, i.zz-checkbox-undetermined.zz-checkbox-hover {
+i.zz-checkbox.zz-checkbox-unchecked.zz-checkbox-hover, i.zz-checkbox.zz-checkbox-unchecked.zz-checkbox-focused, i.zz-checkbox.zz-checkbox-undetermined.zz-checkbox-hover, i.zz-checkbox.zz-checkbox-undetermined.zz-checkbox-focused {
   color: #969696;
-  border-color: #969696;
+  border-color: #969696; }
+
+i.zz-checkbox.zz-checkbox-undetermined {
+  background-color: #fafafa; }
+
+i.zz-checkbox.zz-checkbox-hover, i.zz-checkbox.zz-checkbox-focused {
   box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.5), 0 1px 3px 0 rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
 
-i.zz-checkbox-unchecked.zz-checkbox-active, i.zz-checkbox-undetermined.zz-checkbox-active {
-  color: #969696;
-  border-color: #969696;
+i.zz-checkbox.zz-checkbox-active {
   box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.5), inset 0 2px 6px 0 rgba(0, 0, 0, 0.3), 0 1px 3px 0 rgba(0, 0, 0, 0.3);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
 
-i.zz-checkbox-unchecked.zz-checkbox-focused, i.zz-checkbox-undetermined.zz-checkbox-focused {
-  color: #969696;
-  border-color: #969696;
-  box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.5), inset 0 2px 6px 0 rgba(0, 0, 0, 0.3), 0 1px 3px 0 rgba(0, 0, 0, 0.3);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+i.zz-checkbox.zz-checkbox-disabled {
+  cursor: default;
+  border-color: #c2c2c2;
+  background-color: #fafafa; }
 
 div.user-view > div.user-detail > input.zz-input {
   border-radius: 2px;

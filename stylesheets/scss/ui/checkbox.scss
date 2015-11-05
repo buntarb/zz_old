@@ -3,9 +3,7 @@
 @import '../common/shadows';
 i {
 
-  &.zz-checkbox-undetermined,
-  &.zz-checkbox-checked,
-  &.zz-checkbox-unchecked {
+  &.zz-checkbox {
 
     display: inline-block;
     box-sizing: border-box;
@@ -14,48 +12,47 @@ i {
     border-radius: $CONTROL_BORDER_RADIUS;
     transition: border-color, box-shadow 100ms, 100ms ease, ease 0ms, 0ms;
     text-align: center;
-    cursor: default;
     box-shadow: $control-default-border-shadow;
     text-shadow: $control-default-icons-shadow;
+    background-color: $control-enable-background-color;
+    cursor: pointer;
+    &.zz-checkbox-checked {
+
+      color: $control-focused-border-color;
+      border-color: $control-focused-border-color;
+    }
+    &.zz-checkbox-unchecked,
+    &.zz-checkbox-undetermined {
+
+      color: $control-default-border-color;
+      border-color: $control-default-border-color;
+      &.zz-checkbox-hover,
+      &.zz-checkbox-focused {
+
+        color: $control-hover-border-color;
+        border-color: $control-hover-border-color;
+      }
+    }
+    &.zz-checkbox-undetermined {
+
+      background-color: $control-disable-background-color;
+    }
     &.zz-checkbox-hover,
-    &.zz-checkbox-active,
     &.zz-checkbox-focused {
 
-      cursor: pointer;
-    }
-  }
-  &.zz-checkbox-checked {
-
-    color: $control-focused-border-color;
-    border-color: $control-focused-border-color;
-    box-shadow: $control-hover-border-shadow;
-    text-shadow: $control-hover-icons-shadow;
-  }
-  &.zz-checkbox-unchecked,
-  &.zz-checkbox-undetermined {
-
-    color: $control-default-border-color;
-    border-color: $control-default-border-color;
-    &.zz-checkbox-hover {
-
-      color: $control-hover-border-color;
-      border-color: $control-hover-border-color;
       box-shadow: $control-hover-border-shadow;
       text-shadow: $control-hover-icons-shadow;
     }
     &.zz-checkbox-active {
 
-      color: $control-hover-border-color;
-      border-color: $control-hover-border-color;
       box-shadow: $control-focused-border-shadow;
       text-shadow: $control-focused-icons-shadow;
     }
-    &.zz-checkbox-focused {
+    &.zz-checkbox-disabled {
 
-      color: $control-hover-border-color;
-      border-color: $control-hover-border-color;
-      box-shadow: $control-focused-border-shadow;
-      text-shadow: $control-focused-icons-shadow;
+      cursor: default;
+      border-color: $control-disabled-border-color;
+      background-color: $control-disable-background-color;
     }
   }
 }
