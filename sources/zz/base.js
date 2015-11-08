@@ -31,6 +31,7 @@ goog.provide( 'zz' );
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
+goog.require( 'componentHandler' );
 goog.require( 'zz._stylesheet.remap' );
 goog.require( 'zz.demos.app' );
 

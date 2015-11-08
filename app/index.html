@@ -3,11 +3,16 @@
 <head>
     <title>Demo index page</title>
     <link rel="stylesheet" href="zz.css" type="text/css">
+    <link rel="stylesheet" href="../libs/google-material-design/material.min.css" type="text/css">
     <script src="zz.js"></script>
 </head>
 <body>
     <div id="root"></div>
-    <div id="logger"></div>
+    <div class="mdl-textfield mdl-js-textfield">
+        <input class="mdl-textfield__input" type="text" id="user" pattern="[A-Z,a-z, ]*">
+        <label class="mdl-textfield__label" for="user">User name</label>
+        <span class="mdl-textfield__error">Letters and spaces only</span>
+    </div>
     <script>
         zz.demos.app.run( );
     </script>

@@ -26,9 +26,10 @@
  **********************************************************************************************************************/
 
 var gulp = require( 'gulp' );
-var http = require('http');
-var sass = require('gulp-sass');
-var express = require('express');
+var http = require( 'http' );
+var sass = require( 'gulp-sass' );
+var express = require('express' );
+var compiler = require( 'gulp-closure-compiler' );
 
 /**********************************************************************************************************************
  * Functions declare section                                                                                          *
@@ -180,6 +181,7 @@ function calcDependencies( ){//noinspection JSUnresolvedFunction
 			'python ./libs/google-closure-library/closure/bin/calcdeps.py ' +
 				'--output_mode deps ' +
 				'--dep ./libs/google-closure-library/closure/goog/ ' +
+				'--path ./libs/google-material-design/src/ ' +
 				'--path ./sources/zz/ > ./sources/zz/deps.js';
 
 		exec( cmd, function( err ){
@@ -267,6 +269,31 @@ function compileApplication( ){
 
 	var exec = require('child_process').exec;
 	var cmd = 'rm ./app/zz.js ./app/zz.css';
+	var mdlSrc = [
+		// Component handler
+		'./libs/google-material-design/src/mdlComponentHandler.js',
+		// Polyfills/dependencies
+		'./libs/google-material-design/src/third_party/**/*.js',
+		// Base components
+		'./libs/google-material-design/src/button/button.js',
+		'./libs/google-material-design/src/checkbox/checkbox.js',
+		'./libs/google-material-design/src/icon-toggle/icon-toggle.js',
+		'./libs/google-material-design/src/menu/menu.js',
+		'./libs/google-material-design/src/progress/progress.js',
+		'./libs/google-material-design/src/radio/radio.js',
+		'./libs/google-material-design/src/slider/slider.js',
+		'./libs/google-material-design/src/snackbar/snackbar.js',
+		'./libs/google-material-design/src/spinner/spinner.js',
+		'./libs/google-material-design/src/switch/switch.js',
+		'./libs/google-material-design/src/tabs/tabs.js',
+		'./libs/google-material-design/src/textfield/textfield.js',
+		'./libs/google-material-design/src/tooltip/tooltip.js',
+		// Complex components (which reuse base components)
+		'./libs/google-material-design/src/layout/layout.js',
+		'./libs/google-material-design/src/data-table/data-table.js',
+		// And finally, the ripples
+		'./libs/google-material-design/src/ripple/ripple.js'
+	];
 
 	exec( cmd, function( err ){
 
@@ -279,6 +306,7 @@ function compileApplication( ){
 				'--root=./libs/google-closure-library/closure/goog/ ' +
 				'--root=./libs/google-closure-library/third_party/closure/ ' +
 				'--root=./libs/google-closure-templates/ ' +
+				'--root=./libs/google-material-design/src/ ' +
 				'--root=./sources/zz/ ' +
 
 				// Externs
@@ -290,12 +318,15 @@ function compileApplication( ){
 				// Compiler settings
 				'--output_mode=compiled ' +
 				'--compiler_jar=./libs/google-closure-compiler/compiler.jar ' +
+
 				'--compiler_flags="--compilation_level=ADVANCED_OPTIMIZATIONS" ' +
-				'--compiler_flags="--language_in=ECMASCRIPT5" ' +
-				'--compiler_flags="--language_out=ECMASCRIPT5" ' +
+				'--compiler_flags="--language_in=ECMASCRIPT5_STRICT" ' +
+				'--compiler_flags="--language_out=ECMASCRIPT5_STRICT" ' +
 
 				// Output file
 				'--compiler_flags="--js_output_file=./app/zz.js" ';
+
+		console.log( cmd );
 
 		exec( cmd, function( error, stdout, stderr ){
 
@@ -320,6 +351,49 @@ function compileApplication( ){
 	} );
 }
 
+function compileDesign( ){
+
+	var sources = [
+		// Component handler
+		'./libs/google-material-design/src/mdlComponentHandler.js',
+		// Polyfills/dependencies
+		'./libs/google-material-design/src/third_party/**/*.js',
+		// Base components
+		'./libs/google-material-design/src/button/button.js',
+		'./libs/google-material-design/src/checkbox/checkbox.js',
+		'./libs/google-material-design/src/icon-toggle/icon-toggle.js',
+		'./libs/google-material-design/src/menu/menu.js',
+		'./libs/google-material-design/src/progress/progress.js',
+		'./libs/google-material-design/src/radio/radio.js',
+		'./libs/google-material-design/src/slider/slider.js',
+		'./libs/google-material-design/src/snackbar/snackbar.js',
+		'./libs/google-material-design/src/spinner/spinner.js',
+		'./libs/google-material-design/src/switch/switch.js',
+		'./libs/google-material-design/src/tabs/tabs.js',
+		'./libs/google-material-design/src/textfield/textfield.js',
+		'./libs/google-material-design/src/tooltip/tooltip.js',
+		// Complex components (which reuse base components)
+		'./libs/google-material-design/src/layout/layout.js',
+		'./libs/google-material-design/src/data-table/data-table.js',
+		// And finally, the ripples
+		'./libs/google-material-design/src/ripple/ripple.js'
+	];
+	return gulp.src( sources )
+
+		.pipe( compiler( {
+
+			compilerPath: './libs/google-closure-compiler/compiler.jar',
+			fileName: 'zz.js',
+			compilerFlags: {
+				compilation_level: 'ADVANCED_OPTIMIZATIONS',
+				language_in: 'ECMASCRIPT6_STRICT',
+				language_out: 'ECMASCRIPT5_STRICT',
+				warning_level: 'VERBOSE'
+			}
+		} ) )
+		.pipe( gulp.dest( './app' ) );
+}
+
 /**********************************************************************************************************************
  * Gulp tasks declare section                                                                                         *
  **********************************************************************************************************************/
@@ -339,3 +413,4 @@ gulp.task( 'start-ws', startWebServer );
 gulp.task( 'watch-fe', watchFrontendChanges );
 gulp.task( 'check-app', checkApplication );
 gulp.task( 'compile-app', compileApplication );
+gulp.task( 'compile-mdl', compileDesign );
