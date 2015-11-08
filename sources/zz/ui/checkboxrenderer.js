@@ -102,7 +102,7 @@ zz.ui.CheckboxRenderer.prototype.createDom = function( checkbox ){
 		goog.getCssName( 'padding-right-1un' ),
 		goog.getCssName( 'padding-bottom-1un' ),
 		goog.getCssName( 'padding-left-1un' ),
-		goog.getCssName( 'font-size-large' )
+		goog.getCssName( 'font-size-normal' )
 	] );
 	//noinspection JSUnresolvedFunction
 	var state = checkbox.getChecked( );

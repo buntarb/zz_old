@@ -18,9 +18,9 @@ goog.addDependency("../../../../sources/zz/_stylesheet/remap.js", ['zz._styleshe
 goog.addDependency("../../../../sources/zz/events/events.js", ['zz.events'], []);
 goog.addDependency("../../../../sources/zz/demos/index.js", ['zz.demos.app'], ['zz.module.user.view.Users']);
 goog.addDependency("../../../../sources/zz/ui/checkboxrenderer.js", ['zz.ui.CheckboxRenderer'], ['goog.a11y.aria', 'goog.a11y.aria.Role', 'goog.a11y.aria.State', 'goog.array', 'goog.asserts', 'goog.dom.TagName', 'goog.dom.classlist', 'goog.object', 'goog.ui.ControlRenderer']);
-goog.addDependency("../../../../sources/zz/ui/error.js", ['zz.ui.Error'], []);
 goog.addDependency("../../../../sources/zz/ui/labelinput.js", ['zz.ui.LabelInput'], ['goog.ui.LabelInput', 'goog.dom.InputType', 'goog.events.EventType', 'zz.mvc.model.Message', 'zz.mvc.model.EventType', 'zz.mvc.controller.BaseController', 'zz.ui.formatter.Default']);
 goog.addDependency("../../../../sources/zz/ui/checkbox.js", ['zz.ui.Checkbox'], ['goog.ui.Checkbox', 'goog.events.EventType', 'zz.mvc.model.Message', 'zz.mvc.model.EventType', 'zz.mvc.controller.BaseController', 'zz.ui.CheckboxRenderer']);
+goog.addDependency("../../../../sources/zz/ui/input.js", ['zz.ui.Input'], ['goog.ui.Control', 'goog.events.EventType', 'zz.ui.LabelInput']);
 goog.addDependency("../../../../sources/zz/ui/formatter/default.js", ['zz.ui.formatter.Default'], []);
 goog.addDependency("../../../../sources/zz/ui/formatter/decimal.js", ['zz.ui.formatter.Decimal'], ['goog.i18n.NumberFormat', 'goog.i18n.NumberFormat.Format']);
 goog.addDependency("../../../../sources/zz/module/user/view/users.js", ['zz.module.user.view.Users'], ['goog.events.EventType', 'goog.dom', 'goog.ui.Button', 'zz.mvc.view.BaseView', 'zz.module.user.controller.Users', 'zz.module.user.view.User']);

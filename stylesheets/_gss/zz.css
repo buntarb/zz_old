@@ -15519,6 +15519,9 @@ i.icon {
 i.icon.check:before {
   content: ""; }
 
+i.icon.close:before {
+  content: ""; }
+
 input.zz-input[type=text], input.zz-input[type=password] {
   box-sizing: border-box;
   outline: none; }

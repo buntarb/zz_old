@@ -26,7 +26,13 @@
 }
 
 // Declaring variables for different icons.
-$icon-check: if( $ICON_TYPE == 'Awesome', "", "\f383" );
+// $icon-check: if( $ICON_TYPE == 'Awesome', "", "\f383" );
+
+@if $ICON_TYPE == 'Ionicons' {
+
+  $icon-check: "\f383";
+  $icon-close: "\f2d7";
+}
 
 // Declaring classes for icons.
 i.icon {
@@ -38,5 +44,9 @@ i.icon {
   &.check:before {
 
     content: $icon-check;
+  }
+  &.close:before {
+
+    content: $icon-close;
   }
 }

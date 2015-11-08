@@ -58,31 +58,6 @@ goog.inherits( zz.ui.Checkbox, goog.ui.Checkbox );
 goog.tagUnsealableClass( zz.ui.Checkbox );
 
 /**********************************************************************************************************************
- * Prototype properties section                                                                                       *
- **********************************************************************************************************************/
-
-/**
- * Default CSS class to be applied to the root element of components rendered by this renderer.
- * @type {string}
- */
-//zz.ui.Checkbox.CSS_CLASS = goog.getCssName( 'zz-checkbox' );
-
-/**********************************************************************************************************************
- * Base renderer methods                                                                                              *
- **********************************************************************************************************************/
-
-/**
- * Returns the CSS class name to be applied to the root element of all sub-views rendered or decorated using this view.
- * The class name is expected to uniquely identify the view class, i.e. no two view classes are expected to share the
- * same CSS class name.
- * @override
- */
-//zz.ui.Checkbox.prototype.getCssClass = function( ){
-//
-//	return zz.ui.Checkbox.CSS_CLASS;
-//};
-
-/**********************************************************************************************************************
  * Life cycle methods                                                                                                 *
  **********************************************************************************************************************/
 

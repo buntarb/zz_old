@@ -218,9 +218,6 @@ zz.module.user.view.User.prototype.createDom = function( ){
 	this.addChild( this.passwordElement_, true );
 	this.addChild( this.verifiedElement_, true );
 
-	this.loginElement_.setEnabled( false );
-	this.verifiedElement_.setEnabled( true );
-
 	// Adding classes.
 	this.setInputControlStyle( this.userIdElement_ );
 	this.setInputControlStyle( this.firstNameElement_ );
@@ -244,6 +241,20 @@ zz.module.user.view.User.prototype.createDom = function( ){
 zz.module.user.view.User.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
+};
+
+/**
+ * @override
+ */
+zz.module.user.view.User.prototype.disposeInternal = function( ){
+
+	goog.base( this, 'disposeInternal' );
+	this.userIdElement_ = null;
+	this.firstNameElement_ = null;
+	this.lastNameElement_ = null;
+	this.loginElement_ = null;
+	this.passwordElement_ = null;
+	this.verifiedElement_ = null;
 };
 
 /**********************************************************************************************************************
