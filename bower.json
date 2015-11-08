@@ -14,6 +14,6 @@
 	  "google-closure-compiler": "http://dl.google.com/closure-compiler/compiler-latest.zip",
 	  "google-closure-templates": "https://dl.google.com/closure-templates/closure-templates-for-javascript-latest.zip",
 	  "google-closure-stylesheets": "https://closure-stylesheets.googlecode.com/files/closure-stylesheets-20111230.jar",
-	  "google-material-design": "https://github.com/google/material-design-lite"
+	  "google-material-design": "https://github.com/google/material-design-lite.git"
   }
 }
