@@ -2558,6 +2558,7 @@
   font-size: 14px;
   font-weight: 500;
   text-transform: uppercase;
+  /* @alternate */
   line-height: 1;
   letter-spacing: 0;
   overflow: hidden;
@@ -3526,6 +3527,7 @@ input.mdl-button[type="submit"] {
   position: relative;
   vertical-align: bottom;
   text-overflow: ellipsis;
+  /* @alternate */
   font-size: 14px;
   font-weight: bold;
   line-height: 24px;
@@ -3896,6 +3898,7 @@ input.mdl-button[type="submit"] {
 .mdl-mega-footer__link-list li {
   font-size: 14px;
   font-weight: 400;
+  /* @alternate */
   line-height: 24px;
   letter-spacing: 0;
   line-height: 20px; }
@@ -4678,6 +4681,7 @@ input.mdl-button[type="submit"] {
   overflow: hidden;
   font-size: 14px;
   font-weight: 400;
+  /* @alternate */
   line-height: 24px;
   letter-spacing: 0;
   text-decoration: none;
@@ -4911,11 +4915,6 @@ input.mdl-button[type="submit"] {
 
 .mdl-progress > .auxbar {
   right: 0; }
-
-@supports (-webkit-appearance: none) {
-  .mdl-progress:not(.mdl-progress__indeterminate):not(.mdl-progress__indeterminate) > .auxbar {
-    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), linear-gradient(to right, #3f51b5, #3f51b5);
-    mask: url("/images/buffer.svg?embed"); } }
 
 .mdl-progress:not(.mdl-progress__indeterminate) > .auxbar {
   background-image: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), linear-gradient(to right, #3f51b5, #3f51b5); }
@@ -5173,6 +5172,7 @@ input.mdl-button[type="submit"] {
   position: relative;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-size: 20px;
+  /* @alternate */
   font-weight: 500;
   line-height: 1;
   letter-spacing: 0.02em;
@@ -7148,6 +7148,7 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
   float: left;
   position: relative;
   display: block;
+  /* @alternate */
   color: red;
   text-decoration: none;
   height: 48px;

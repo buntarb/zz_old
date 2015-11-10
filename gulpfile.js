@@ -135,9 +135,13 @@ function compileStylesheets( ){
 
 		'java -jar ./libs/google-closure-stylesheets/index.jar ' +
 
+			'--allow-unrecognized-properties ' +
+			'--allowed-non-standard-function -webkit-radial-gradient ' +
+			'--allowed-non-standard-function radial-gradient ' +
+			'--allowed-non-standard-function scale3d ' +
 			'--allowed-non-standard-function blur ' +
 			'--allowed-non-standard-function calc ' +
-			'--allowed-unrecognized-property -webkit-overflow-scrolling ' +
+			//'--allowed-unrecognized-property -webkit-overflow-scrolling ' +
 			'--output-file ./stylesheets/_css/zz.css ' +
 			'--output-renaming-map-format CLOSURE_COMPILED ' +
 			'--rename CLOSURE ' +
