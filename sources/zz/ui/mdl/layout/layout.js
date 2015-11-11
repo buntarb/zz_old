@@ -82,6 +82,7 @@ goog.require( 'zz.ui.mdl.componentHandler' );
    */
   MaterialLayout.prototype.CssClasses_ = {
     CONTAINER: goog.getCssName( 'mdl-layout__container' ),
+
     HEADER: goog.getCssName( 'mdl-layout__header' ),
     DRAWER: goog.getCssName( 'mdl-layout__drawer' ),
     CONTENT: goog.getCssName( 'mdl-layout__content' ),
@@ -127,7 +128,7 @@ goog.require( 'zz.ui.mdl.componentHandler' );
 
   /**
    * Handles scrolling on the content.
-   * /// updateHeaderStyle ///
+   * /// setStyleOnScroll ///
    * @private
    */
   MaterialLayout.prototype.contentScrollHandler_ = function() {
@@ -152,7 +153,7 @@ goog.require( 'zz.ui.mdl.componentHandler' );
 
   /**
    * Handles changes in screen size.
-   * /// updateRootStyle ///
+   * /// setStyleOnResize ///
    * @private
    */
   MaterialLayout.prototype.screenSizeHandler_ = function() {
@@ -175,7 +176,7 @@ goog.require( 'zz.ui.mdl.componentHandler' );
 
   /**
    * Handles toggling of the drawer.
-   * /// toggleDrawerStyle ///
+   * /// setStyleOnDrawerToggle ///
    * @private
    */
   MaterialLayout.prototype.drawerToggleHandler_ = function() {
@@ -186,7 +187,7 @@ goog.require( 'zz.ui.mdl.componentHandler' );
 
   /**
    * Handles (un)setting the `is-animating` class
-   *
+   * /// setStyleOnHeaderTransitionEnd ///
    * @private
    */
   MaterialLayout.prototype.headerTransitionEndHandler_ = function() {
@@ -196,7 +197,7 @@ goog.require( 'zz.ui.mdl.componentHandler' );
 
   /**
    * Handles expanding the header on click
-   *
+   * /// setStyleOnHeaderClick ///
    * @private
    */
   MaterialLayout.prototype.headerClickHandler_ = function() {
@@ -210,7 +211,7 @@ goog.require( 'zz.ui.mdl.componentHandler' );
 
   /**
    * Reset tab state, dropping active classes
-   *
+   * /// resetTabState ///
    * @private
    */
   MaterialLayout.prototype.resetTabState_ = function(tabBar) {
@@ -223,7 +224,7 @@ goog.require( 'zz.ui.mdl.componentHandler' );
 
   /**
    * Reset panel state, droping active classes
-   *
+   * /// resetPanelState ///
    * @private
    */
   MaterialLayout.prototype.resetPanelState_ = function(panels) {

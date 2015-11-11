@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.ui.layout.NavigationTransparentHeaderRenderer class.
+ * @fileoverview Provide zz.ui.layout.NavigationRenderer class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.ui.layout.NavigationTransparentHeaderRenderer' );
+goog.provide( 'zz.ui.layout.NavigationRenderer' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -53,13 +53,13 @@ goog.require( 'goog.dom.classlist' );
  * @constructor
  * @extends {goog.ui.ControlRenderer}
  */
-zz.ui.layout.NavigationTransparentHeaderRenderer = function( ){
+zz.ui.layout.NavigationRenderer = function( ){
 
 	zz.ui.CheckboxRenderer.base( this, 'constructor' );
 };
-goog.inherits( zz.ui.layout.NavigationTransparentHeaderRenderer, goog.ui.ControlRenderer );
-goog.tagUnsealableClass( zz.ui.layout.NavigationTransparentHeaderRenderer );
-goog.addSingletonGetter( zz.ui.layout.NavigationTransparentHeaderRenderer );
+goog.inherits( zz.ui.layout.NavigationRenderer, goog.ui.ControlRenderer );
+goog.tagUnsealableClass( zz.ui.layout.NavigationRenderer );
+goog.addSingletonGetter( zz.ui.layout.NavigationRenderer );
 
 /**********************************************************************************************************************
  * Static properties section                                                                                          *
@@ -69,7 +69,7 @@ goog.addSingletonGetter( zz.ui.layout.NavigationTransparentHeaderRenderer );
  * Store constants in one place so they can be updated easily.
  * @enum {string | number}
  */
-zz.ui.layout.NavigationTransparentHeaderRenderer.CONST = {
+zz.ui.layout.NavigationRenderer.CONST = {
 
 	MAX_WIDTH: 1024,
 	MAX_WIDTH_MEDIA: '(max-width: 1024px)',
@@ -84,9 +84,13 @@ zz.ui.layout.NavigationTransparentHeaderRenderer.CONST = {
  * it in one place should we decide to modify at a later date.
  * @enum {string}
  */
-zz.ui.layout.NavigationTransparentHeaderRenderer.CSS = {
+zz.ui.layout.NavigationRenderer.CSS = {
 
 	CONTAINER: goog.getCssName( 'mdl-layout__container' ),
+
+	LAYOUT: goog.getCssName( 'mdl-layout' ),
+	LAYOUT_JS: goog.getCssName( 'mdl-js-layout' ),
+
 	HEADER: goog.getCssName( 'mdl-layout__header' ),
 	DRAWER: goog.getCssName( 'mdl-layout__drawer' ),
 	CONTENT: goog.getCssName( 'mdl-layout__content' ),
@@ -99,9 +103,14 @@ zz.ui.layout.NavigationTransparentHeaderRenderer.CSS = {
 	RIPPLE: goog.getCssName( 'mdl-ripple' ),
 	RIPPLE_IGNORE_EVENTS: goog.getCssName( 'mdl-js-ripple-effect--ignore-events' ),
 
+	HEADER_ROW: goog.getCssName( 'mdl-layout__header-row' ),
 	HEADER_SEAMED: goog.getCssName( 'mdl-layout__header--seamed' ),
 	HEADER_WATERFALL: goog.getCssName( 'mdl-layout__header--waterfall' ),
 	HEADER_SCROLL: goog.getCssName( 'mdl-layout__header--scroll' ),
+
+	TITLE: goog.getCssName( 'mdl-layout-title' ),
+	SPACER: goog.getCssName( 'mdl-layout-spacer' ),
+	NAVIGATION: goog.getCssName( 'mdl-navigation' ),
 
 	FIXED_HEADER: goog.getCssName( 'mdl-layout--fixed-header' ),
 	OBFUSCATOR: goog.getCssName( 'mdl-layout__obfuscator' ),
@@ -133,7 +142,8 @@ zz.ui.layout.NavigationTransparentHeaderRenderer.CSS = {
  * Default CSS class to be applied to the root element of components rendered by this renderer.
  * @type {string}
  */
-zz.ui.layout.NavigationTransparentHeaderRenderer.CSS_CLASS = goog.getCssName( 'zz-transparent-header' );
+zz.ui.layout.NavigationRenderer.CSS_LAYOUT_CLASS = goog.getCssName( 'mdl-layout' );
+zz.ui.layout.NavigationRenderer.CSS_LAYOUT_JS_CLASS = goog.getCssName( 'mdl-js-layout' );
 
 /**********************************************************************************************************************
  * Base renderer methods                                                                                              *
@@ -145,101 +155,129 @@ zz.ui.layout.NavigationTransparentHeaderRenderer.CSS_CLASS = goog.getCssName( 'z
  * same CSS class name.
  * @override
  */
-zz.ui.layout.NavigationTransparentHeaderRenderer.prototype.getCssClass = function( ){
+zz.ui.layout.NavigationRenderer.prototype.getCssClass = function( ){
 
-	return zz.ui.layout.NavigationTransparentHeaderRenderer.CSS_CLASS;
+	return zz.ui.layout.NavigationRenderer.CSS_LAYOUT_CLASS + ' ' +
+		zz.ui.layout.NavigationRenderer.CSS_LAYOUT_JS_CLASS;
 };
 
 /**********************************************************************************************************************
  * Life cycle methods                                                                                                 *
  **********************************************************************************************************************/
 
-/** @override */
-zz.ui.layout.NavigationTransparentHeaderRenderer.prototype.createDom = function( navigation ){
+/**
+ * @override
+ * @param {zz.ui.layout.Navigation} navigation
+ * @returns {HTMLElement}
+ */
+zz.ui.layout.NavigationRenderer.prototype.createDom = function( navigation ){
 
-	var element = checkbox.getDomHelper( ).createDom( goog.dom.TagName.I );
-	//goog.dom.classlist.addAll( element, [
-    //
-	//	this.getCssClass( ),
-	//	goog.getCssName( 'icon' ),
-	//	goog.getCssName( 'check' ),
-	//	goog.getCssName( 'width-5un' ),
-	//	goog.getCssName( 'height-5un' ),
-	//	goog.getCssName( 'line-height-3un' ),
-	//	goog.getCssName( 'padding-top-1un' ),
-	//	goog.getCssName( 'padding-right-1un' ),
-	//	goog.getCssName( 'padding-bottom-1un' ),
-	//	goog.getCssName( 'padding-left-1un' ),
-	//	goog.getCssName( 'font-size-normal' )
-	//] );
-	////noinspection JSUnresolvedFunction
-	//var state = checkbox.getChecked( );
-	//this.setCheckboxState( element, state );
-	return element;
+	this.createHeaderDom_( /** @type {zz.ui.layout.Navigation} */ ( navigation ) );
+
+	// Drawer
+	var drawerElement = navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+
+		'class': zz.ui.layout.NavigationRenderer.CSS.DRAWER
+	} );
+
+	// Body
+	var bodyElement = navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+
+		'class': zz.ui.layout.NavigationRenderer.CSS.CONTENT
+	} );
+
+	// Layout
+	var layoutElement = navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+
+		'class':
+
+			zz.ui.layout.NavigationRenderer.CSS.LAYOUT + ' ' +
+			zz.ui.layout.NavigationRenderer.CSS.LAYOUT_JS
+
+	}, [ navigation.getHeaderElement( ), drawerElement, bodyElement ] );
+
+	return layoutElement;
 };
 
 /** @override */
-zz.ui.layout.NavigationTransparentHeaderRenderer.prototype.decorate = function( navigation, element ){
+zz.ui.layout.NavigationRenderer.prototype.decorate = function( navigation, element ){
 
-	// The superclass implementation takes care of common attributes; we only need to set the checkbox state.
-	//element = zz.ui.CheckboxRenderer.base( this, 'decorate', checkbox, element );
-	//goog.asserts.assert( element );
-	//var classes = goog.dom.classlist.get( element );
-    //
-	//// Update the checked state of the element based on its css classNames with the following order:
-	//// undetermined -> checked -> unchecked.
-    //
-	//var checked = /** @suppress {missingRequire} */ ( goog.ui.Checkbox.State.UNCHECKED );
-	//if( goog.array.contains( classes,
-	//	this.getClassForCheckboxState( /** @suppress {missingRequire} */ goog.ui.Checkbox.State.UNDETERMINED ) ) ){
-    //
-	//	checked = ( /** @suppress {missingRequire} */ goog.ui.Checkbox.State.UNDETERMINED );
-    //
-	//}else if( goog.array.contains( classes,
-	//	this.getClassForCheckboxState( /** @suppress {missingRequire} */ goog.ui.Checkbox.State.CHECKED ) ) ){
-    //
-	//	checked = ( /** @suppress {missingRequire} */ goog.ui.Checkbox.State.CHECKED );
-    //
-	//}else if( goog.array.contains( classes,
-	//	this.getClassForCheckboxState( /** @suppress {missingRequire} */ goog.ui.Checkbox.State.UNCHECKED ) ) ){
-    //
-	//	checked = ( /** @suppress {missingRequire} */ goog.ui.Checkbox.State.UNCHECKED );
-	//}
-	////noinspection JSUnresolvedFunction
-	//checkbox.setCheckedInternal( checked );
-	////noinspection JSCheckFunctionSignatures
-	//goog.asserts.assert( element, 'The element cannot be null.' );
-	//goog.a11y.aria.setState( element, goog.a11y.aria.State.CHECKED, this.ariaStateFromCheckState_( checked ) );
+	//
+
 	return element;
 };
 
 /**********************************************************************************************************************
- * Methods                                                                                                            *
+ * Create DOM-elements methods                                                                                        *
  **********************************************************************************************************************/
 
 /**
- * Update layout root element style.
+ * Create layout header DOM.
+ * @param {zz.ui.layout.Navigation} navigation
+ * @private
+ */
+zz.ui.layout.NavigationRenderer.prototype.createHeaderDom_ = function( navigation ){
+
+	// Title
+	var headerTitleElement = navigation.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
+
+		'class': zz.ui.layout.NavigationRenderer.CSS.TITLE
+	} );
+
+	// Spacer
+	var headerSpacerElement = navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+
+		'class': zz.ui.layout.NavigationRenderer.CSS.SPACER
+	} );
+
+	// Navigation
+	var headerNavigationElement = navigation.getDomHelper( ).createDom( goog.dom.TagName.NAV, {
+
+		'class': zz.ui.layout.NavigationRenderer.CSS.NAVIGATION
+	} );
+
+	// Header row
+	var headerRowElement = navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+
+		'class': zz.ui.layout.NavigationRenderer.CSS.HEADER_ROW
+
+	}, [ headerTitleElement, headerSpacerElement, headerNavigationElement ] );
+
+	// Setting up header.
+	navigation.setHeaderElement( navigation.getDomHelper( ).createDom( goog.dom.TagName.HEADER, {
+
+		'class': zz.ui.layout.NavigationRenderer.CSS.HEADER
+
+	}, [ headerRowElement ] ) );
+};
+
+/**********************************************************************************************************************
+ * Style manipulation methods                                                                                         *
+ **********************************************************************************************************************/
+
+/**
+ * Update styles on window resize event.
  * @param {zz.ui.layout.Navigation} navigation
  */
-zz.ui.layout.NavigationTransparentHeaderRenderer.prototype.updateRootStyle = function( navigation ){
+zz.ui.layout.NavigationRenderer.prototype.setStyleOnResize = function( navigation ){
 
 	var element = navigation.getElement( );
 	var drawer = navigation.getDrawerElement( );
 	var obfuscator = navigation.getObfuscatorElement( );
 	if( navigation.getDomHelper( ).getWindow( ).innerWidth <=
-		zz.ui.layout.NavigationTransparentHeaderRenderer.CONST.MAX_WIDTH ){
+		zz.ui.layout.NavigationRenderer.CONST.MAX_WIDTH ){
 
 		goog.dom.classlist.add(
 
 			element,
-			zz.ui.layout.NavigationTransparentHeaderRenderer.CSS.IS_SMALL_SCREEN );
+			zz.ui.layout.NavigationRenderer.CSS.IS_SMALL_SCREEN );
 
 	}else{
 
 		goog.dom.classlist.remove(
 
 			element,
-			zz.ui.layout.NavigationTransparentHeaderRenderer.CSS.IS_SMALL_SCREEN );
+			zz.ui.layout.NavigationRenderer.CSS.IS_SMALL_SCREEN );
 
 		// Collapse drawer (if any) when moving to a large screen size.
 		if( drawer ){
@@ -247,83 +285,134 @@ zz.ui.layout.NavigationTransparentHeaderRenderer.prototype.updateRootStyle = fun
 			goog.dom.classlist.remove(
 
 				drawer,
-				zz.ui.layout.NavigationTransparentHeaderRenderer.CSS.IS_DRAWER_OPEN );
+				zz.ui.layout.NavigationRenderer.CSS.IS_DRAWER_OPEN );
 
 			goog.dom.classlist.remove(
 
 				obfuscator,
-				zz.ui.layout.NavigationTransparentHeaderRenderer.CSS.IS_DRAWER_OPEN );
+				zz.ui.layout.NavigationRenderer.CSS.IS_DRAWER_OPEN );
 		}
 	}
 };
 
 /**
- * Update layout header style.
+ * Update on scroll event.
  * @param {zz.ui.layout.Navigation} navigation
  */
-zz.ui.layout.NavigationTransparentHeaderRenderer.prototype.updateHeaderStyle = function( navigation ){
+zz.ui.layout.NavigationRenderer.prototype.setStyleOnScroll = function( navigation ){
 
 	var header = navigation.getHeaderElement( );
-	var content = navigation.getContentElement( );
-	if( goog.dom.classlist.contains( header, zz.ui.layout.NavigationTransparentHeaderRenderer.CSS.IS_ANIMATING ) ){
+	var body = navigation.getBodyElement( );
+	if( goog.dom.classlist.contains( header, zz.ui.layout.NavigationRenderer.CSS.IS_ANIMATING ) ){
 
 		return;
 	}
-	if( content.scrollTop > 0 &&
-		!goog.dom.classlist.contains( header, zz.ui.layout.NavigationTransparentHeaderRenderer.CSS.IS_COMPACT ) ){
+	if( body.scrollTop > 0 &&
+		!goog.dom.classlist.contains( header, zz.ui.layout.NavigationRenderer.CSS.IS_COMPACT ) ){
 
 		goog.dom.classlist.add(
 
 			header,
-			zz.ui.layout.NavigationTransparentHeaderRenderer.CSS.CASTING_SHADOW );
+			zz.ui.layout.NavigationRenderer.CSS.CASTING_SHADOW );
 
 		goog.dom.classlist.add(
 
 			header,
-			zz.ui.layout.NavigationTransparentHeaderRenderer.CSS.IS_COMPACT );
+			zz.ui.layout.NavigationRenderer.CSS.IS_COMPACT );
 
 		goog.dom.classlist.add(
 
 			header,
-			zz.ui.layout.NavigationTransparentHeaderRenderer.CSS.IS_ANIMATING );
+			zz.ui.layout.NavigationRenderer.CSS.IS_ANIMATING );
 
-	}else if( content.scrollTop <= 0 &&
-		goog.dom.classlist.contains( header, zz.ui.layout.NavigationTransparentHeaderRenderer.CSS.IS_COMPACT ) ){
+	}else if( body.scrollTop <= 0 &&
+		goog.dom.classlist.contains( header, zz.ui.layout.NavigationRenderer.CSS.IS_COMPACT ) ){
 
-		goog.dom.classlist.remove( header, zz.ui.layout.NavigationTransparentHeaderRenderer.CSS.CASTING_SHADOW );
-		goog.dom.classlist.remove( header, zz.ui.layout.NavigationTransparentHeaderRenderer.CSS.IS_COMPACT );
-		goog.dom.classlist.add( header, zz.ui.layout.NavigationTransparentHeaderRenderer.CSS.IS_ANIMATING );
+		goog.dom.classlist.remove( header, zz.ui.layout.NavigationRenderer.CSS.CASTING_SHADOW );
+		goog.dom.classlist.remove( header, zz.ui.layout.NavigationRenderer.CSS.IS_COMPACT );
+		goog.dom.classlist.add( header, zz.ui.layout.NavigationRenderer.CSS.IS_ANIMATING );
 	}
 };
 
 /**
- * Toggle drawer style.
+ * Update style on header transition end event.
  * @param {zz.ui.layout.Navigation} navigation
  */
-zz.ui.layout.NavigationTransparentHeaderRenderer.prototype.toggleDrawerStyle = function( navigation ){
+zz.ui.layout.NavigationRenderer.prototype.setStyleOnHeaderTransitionEnd = function( navigation ){
+
+	var header = navigation.getHeaderElement( );
+	goog.dom.classlist.remove(
+
+		header,
+		zz.ui.layout.NavigationRenderer.CSS.IS_ANIMATING );
+};
+
+/**
+ * Update style on header click event.
+ * @param {zz.ui.layout.Navigation} navigation
+ */
+zz.ui.layout.NavigationRenderer.prototype.setStyleOnHeaderClick = function( navigation ){
+
+	var header = navigation.getHeaderElement( );
+	if( goog.dom.classlist.contains( header, zz.ui.layout.NavigationRenderer.CSS.IS_COMPACT ) ){
+
+		goog.dom.classlist.remove(
+
+			header,
+			zz.ui.layout.NavigationRenderer.CSS.IS_COMPACT );
+
+		goog.dom.classlist.add(
+
+			header,
+			zz.ui.layout.NavigationRenderer.CSS.IS_ANIMATING );
+	}
+};
+
+/**
+ * Update style on drawer toggle event.
+ * @param {zz.ui.layout.Navigation} navigation
+ */
+zz.ui.layout.NavigationRenderer.prototype.setStyleOnDrawerToggle = function( navigation ){
 
 	var drawer = navigation.getDrawerElement( );
 	var obfuscator = navigation.getObfuscatorElement( );
 	goog.dom.classlist.toggle(
 
 		drawer,
-		zz.ui.layout.NavigationTransparentHeaderRenderer.CSS.IS_DRAWER_OPEN );
+		zz.ui.layout.NavigationRenderer.CSS.IS_DRAWER_OPEN );
 
 	goog.dom.classlist.toggle(
 
 		obfuscator,
-		zz.ui.layout.NavigationTransparentHeaderRenderer.CSS.IS_DRAWER_OPEN );
+		zz.ui.layout.NavigationRenderer.CSS.IS_DRAWER_OPEN );
 };
 
 /**
- * Remove transition style from layout header.
- * @param {zz.ui.layout.Navigation} navigation
+ * Reset tab state, dropping active classes
+ * @param {Array} tabBar
  */
-zz.ui.layout.NavigationTransparentHeaderRenderer.prototype.removeHeaderTransitionStyle = function( navigation ){
+zz.ui.layout.NavigationRenderer.prototype.resetTabState = function( tabBar ){
 
-	var header = navigation.getHeaderElement( );
-	goog.dom.classlist.remove(
+	for(var i = 0; i < tabBar.length; i++ ){
 
-		header,
-		zz.ui.layout.NavigationTransparentHeaderRenderer.CSS.IS_ANIMATING );
+		goog.dom.classlist.remove(
+
+			tabBar[ i ],
+			zz.ui.layout.NavigationRenderer.CSS.IS_ACTIVE );
+	}
+};
+
+/**
+ * Reset panel state, dropping active classes
+ * @param {Array} panels
+ */
+zz.ui.layout.NavigationRenderer.prototype.resetPanelState = function( panels ){
+
+	for( var i = 0; i < panels.length; i++){
+
+		goog.dom.classlist.remove(
+
+			panels[ i ],
+			zz.ui.layout.NavigationRenderer.CSS.IS_ACTIVE );
+	}
 };

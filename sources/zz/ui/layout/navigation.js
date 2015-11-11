@@ -102,37 +102,93 @@ zz.ui.layout.Navigation.prototype.disposeInternal = function( ){
  **********************************************************************************************************************/
 
 /**
- * Return layout drawer element.
- * @returns {Element}
+ * Set layout drawer element.
+ * @param {HTMLElement} element
  */
-zz.ui.layout.Navigation.prototype.getDrawerElement = function( ){
+zz.ui.layout.Navigation.prototype.setDrawerElement = function( element ){
 
-	return this.drawer_;
+	/**
+	 * Layout drawer element.
+	 * @type {HTMLElement}
+	 * @private
+	 */
+	this.drawerElement_ = element;
 };
 
 /**
  * Return layout drawer element.
- * @returns {Element}
+ * @returns {HTMLElement}
+ */
+zz.ui.layout.Navigation.prototype.getDrawerElement = function( ){
+
+	return this.drawerElement_;
+};
+
+/**
+ * Set layout obfuscator element.
+ * @param {HTMLElement} element
+ */
+zz.ui.layout.Navigation.prototype.setObfuscatorElement = function( element ){
+
+	/**
+	 * Layout obfuscator element.
+	 * @type {HTMLElement}
+	 * @private
+	 */
+	this.obfuscatorElement_ = element;
+};
+
+/**
+ * Return layout obfuscator element.
+ * @returns {HTMLElement}
  */
 zz.ui.layout.Navigation.prototype.getObfuscatorElement = function( ){
 
-	return this.obfuscator_;
+	return this.obfuscatorElement_;
+};
+
+/**
+ * Set layout header element.
+ * @param {HTMLElement} element
+ */
+zz.ui.layout.Navigation.prototype.setHeaderElement = function( element ){
+
+	/**
+	 * Layout header element.
+	 * @type {HTMLElement}
+	 * @private
+	 */
+	this.headerElement_ = element;
 };
 
 /**
  * Return layout header element.
- * @returns {Element}
+ * @returns {HTMLElement}
  */
 zz.ui.layout.Navigation.prototype.getHeaderElement = function( ){
 
-	return this.header_;
+	return this.headerElement_;
 };
 
 /**
- * Return layout content element.
- * @returns {Element}
+ * Set layout body element.
+ * @param {HTMLElement} element
  */
-zz.ui.layout.Navigation.prototype.getContentElement = function( ){
+zz.ui.layout.Navigation.prototype.setBodyElement = function( element ){
 
-	return this.content_;
+	/**
+	 * Layout body element.
+	 * @type {HTMLElement}
+	 * @private
+	 */
+	this.bodyElement_ = element;
+};
+
+/**
+ * Return layout body element.
+ * @returns {HTMLElement}
+ */
+zz.ui.layout.Navigation.prototype.getBodyElement = function( ){
+
+	return this.bodyElement_;
 };
