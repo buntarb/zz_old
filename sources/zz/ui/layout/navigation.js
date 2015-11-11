@@ -33,6 +33,7 @@ goog.provide( 'zz.ui.layout.Navigation' );
 
 goog.require( 'goog.ui.Control' );
 goog.require( 'goog.events.EventType' );
+goog.require( 'zz.ui.layout.NavigationRenderer' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -41,14 +42,19 @@ goog.require( 'goog.events.EventType' );
 /**
  * Navigation layout class.
  * @param {goog.ui.ControlContent=} opt_title Text caption or DOM structure to display as the title of the layout.
- * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @param {goog.ui.ControlRenderer=} opt_renderer Renderer used to render or decorate the layout.
+ * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @extends {goog.ui.Control}
  * @constructor
  */
-zz.ui.layout.Navigation = function( opt_title, opt_domHelper, opt_renderer ){
+zz.ui.layout.Navigation = function( opt_title, opt_renderer, opt_domHelper ){
 
-	goog.ui.Control.call( this, opt_title, opt_renderer, opt_domHelper );
+	goog.ui.Control.call(
+
+		this,
+		opt_title,
+		opt_renderer || zz.ui.layout.NavigationRenderer.getInstance( ),
+		opt_domHelper );
 };
 goog.inherits( zz.ui.layout.Navigation, goog.ui.Control );
 goog.tagUnsealableClass( zz.ui.layout.Navigation );
@@ -102,6 +108,88 @@ zz.ui.layout.Navigation.prototype.disposeInternal = function( ){
  **********************************************************************************************************************/
 
 /**
+ * Return navigation list.
+ * @returns {Array.<Object>}
+ */
+zz.ui.layout.Navigation.prototype.getNavigationList = function( ){
+
+	return [ {
+
+		name: 'Link1',
+		href: '/#/link1'
+	},{
+		name: 'Link2',
+		href: '/#/link2'
+	},{
+		name: 'Link3',
+		href: '/#/link3'
+	},{
+		name: 'Link4',
+		href: '/#/link4'
+	} ];
+};
+
+/**
+ * Set layout navigation list DOM array.
+ * @param {Array} elements
+ */
+zz.ui.layout.Navigation.prototype.setNavigationListElements = function( elements ){
+
+	/**
+	 * Navigation list DOM array.
+	 * @type {Array}
+	 * @private
+	 */
+	this.navigationListElements_ = elements;
+};
+
+/**
+ * Return layout navigation list DOM array.
+ * @returns {Array} element
+ */
+zz.ui.layout.Navigation.prototype.getNavigationListElements = function( ){
+
+	/**
+	 * Navigation list DOM array.
+	 * @type {Array}
+	 * @private
+	 */
+	return this.navigationListElements_;
+};
+
+/**
+ * Return layout header element.
+ * @returns {HTMLElement}
+ */
+zz.ui.layout.Navigation.prototype.getHeaderElement = function( ){
+
+	return this.headerElement_;
+};
+
+/**
+ * Set layout header element.
+ * @param {HTMLElement} element
+ */
+zz.ui.layout.Navigation.prototype.setHeaderElement = function( element ){
+
+	/**
+	 * Layout header element.
+	 * @type {HTMLElement}
+	 * @private
+	 */
+	this.headerElement_ = element;
+};
+
+/**
+ * Return layout header element.
+ * @returns {HTMLElement}
+ */
+zz.ui.layout.Navigation.prototype.getHeaderElement = function( ){
+
+	return this.headerElement_;
+};
+
+/**
  * Set layout drawer element.
  * @param {HTMLElement} element
  */
@@ -145,29 +233,6 @@ zz.ui.layout.Navigation.prototype.setObfuscatorElement = function( element ){
 zz.ui.layout.Navigation.prototype.getObfuscatorElement = function( ){
 
 	return this.obfuscatorElement_;
-};
-
-/**
- * Set layout header element.
- * @param {HTMLElement} element
- */
-zz.ui.layout.Navigation.prototype.setHeaderElement = function( element ){
-
-	/**
-	 * Layout header element.
-	 * @type {HTMLElement}
-	 * @private
-	 */
-	this.headerElement_ = element;
-};
-
-/**
- * Return layout header element.
- * @returns {HTMLElement}
- */
-zz.ui.layout.Navigation.prototype.getHeaderElement = function( ){
-
-	return this.headerElement_;
 };
 
 /**

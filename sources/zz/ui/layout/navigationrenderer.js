@@ -111,6 +111,7 @@ zz.ui.layout.NavigationRenderer.CSS = {
 	TITLE: goog.getCssName( 'mdl-layout-title' ),
 	SPACER: goog.getCssName( 'mdl-layout-spacer' ),
 	NAVIGATION: goog.getCssName( 'mdl-navigation' ),
+	NAVIGATION_LINK: goog.getCssName( 'mdl-navigation__link' ),
 
 	FIXED_HEADER: goog.getCssName( 'mdl-layout--fixed-header' ),
 	OBFUSCATOR: goog.getCssName( 'mdl-layout__obfuscator' ),
@@ -142,8 +143,7 @@ zz.ui.layout.NavigationRenderer.CSS = {
  * Default CSS class to be applied to the root element of components rendered by this renderer.
  * @type {string}
  */
-zz.ui.layout.NavigationRenderer.CSS_LAYOUT_CLASS = goog.getCssName( 'mdl-layout' );
-zz.ui.layout.NavigationRenderer.CSS_LAYOUT_JS_CLASS = goog.getCssName( 'mdl-js-layout' );
+zz.ui.layout.NavigationRenderer.CSS_CLASS = goog.getCssName( 'default' );
 
 /**********************************************************************************************************************
  * Base renderer methods                                                                                              *
@@ -157,59 +157,33 @@ zz.ui.layout.NavigationRenderer.CSS_LAYOUT_JS_CLASS = goog.getCssName( 'mdl-js-l
  */
 zz.ui.layout.NavigationRenderer.prototype.getCssClass = function( ){
 
-	return zz.ui.layout.NavigationRenderer.CSS_LAYOUT_CLASS + ' ' +
-		zz.ui.layout.NavigationRenderer.CSS_LAYOUT_JS_CLASS;
-};
-
-/**********************************************************************************************************************
- * Life cycle methods                                                                                                 *
- **********************************************************************************************************************/
-
-/**
- * @override
- * @param {zz.ui.layout.Navigation} navigation
- * @returns {HTMLElement}
- */
-zz.ui.layout.NavigationRenderer.prototype.createDom = function( navigation ){
-
-	this.createHeaderDom_( /** @type {zz.ui.layout.Navigation} */ ( navigation ) );
-
-	// Drawer
-	var drawerElement = navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
-
-		'class': zz.ui.layout.NavigationRenderer.CSS.DRAWER
-	} );
-
-	// Body
-	var bodyElement = navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
-
-		'class': zz.ui.layout.NavigationRenderer.CSS.CONTENT
-	} );
-
-	// Layout
-	var layoutElement = navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
-
-		'class':
-
-			zz.ui.layout.NavigationRenderer.CSS.LAYOUT + ' ' +
-			zz.ui.layout.NavigationRenderer.CSS.LAYOUT_JS
-
-	}, [ navigation.getHeaderElement( ), drawerElement, bodyElement ] );
-
-	return layoutElement;
-};
-
-/** @override */
-zz.ui.layout.NavigationRenderer.prototype.decorate = function( navigation, element ){
-
-	//
-
-	return element;
+	return zz.ui.layout.NavigationRenderer.CSS_CLASS;
 };
 
 /**********************************************************************************************************************
  * Create DOM-elements methods                                                                                        *
  **********************************************************************************************************************/
+
+/**
+ * Generate navigation list.
+ * @param {zz.ui.layout.Navigation} navigation
+ * @private
+ */
+zz.ui.layout.NavigationRenderer.prototype.createNavigationListDom_ = function( navigation ){
+
+	var links = [ ];
+	goog.array.forEach( navigation.getNavigationList( ), function( link ){
+
+		links.push( navigation.getDomHelper( ).createDom( goog.dom.TagName.A, {
+
+			'class': zz.ui.layout.NavigationRenderer.CSS.NAVIGATION_LINK,
+			'href': link.href
+
+		}, link.name ) );
+
+	}, this );
+	navigation.setNavigationListElements( links );
+};
 
 /**
  * Create layout header DOM.
@@ -222,7 +196,8 @@ zz.ui.layout.NavigationRenderer.prototype.createHeaderDom_ = function( navigatio
 	var headerTitleElement = navigation.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
 		'class': zz.ui.layout.NavigationRenderer.CSS.TITLE
-	} );
+
+	}, navigation.getContent( ) );
 
 	// Spacer
 	var headerSpacerElement = navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
@@ -234,7 +209,8 @@ zz.ui.layout.NavigationRenderer.prototype.createHeaderDom_ = function( navigatio
 	var headerNavigationElement = navigation.getDomHelper( ).createDom( goog.dom.TagName.NAV, {
 
 		'class': zz.ui.layout.NavigationRenderer.CSS.NAVIGATION
-	} );
+
+	}, navigation.getNavigationListElements( ) );
 
 	// Header row
 	var headerRowElement = navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
@@ -243,12 +219,57 @@ zz.ui.layout.NavigationRenderer.prototype.createHeaderDom_ = function( navigatio
 
 	}, [ headerTitleElement, headerSpacerElement, headerNavigationElement ] );
 
-	// Setting up header.
-	navigation.setHeaderElement( navigation.getDomHelper( ).createDom( goog.dom.TagName.HEADER, {
+	var headerRootElement = navigation.getDomHelper( ).createDom( goog.dom.TagName.HEADER, {
 
 		'class': zz.ui.layout.NavigationRenderer.CSS.HEADER
 
-	}, [ headerRowElement ] ) );
+	}, headerRowElement );
+
+	// Setting up header.
+	navigation.setHeaderElement( headerRootElement );
+};
+
+/**
+ * Create layout drawer DOM.
+ * @param {zz.ui.layout.Navigation} navigation
+ * @private
+ */
+zz.ui.layout.NavigationRenderer.prototype.createDrawerDom_ = function( navigation ){
+
+	// Title
+	var drawerTitleElement = navigation.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
+
+		'class': zz.ui.layout.NavigationRenderer.CSS.TITLE
+
+	}, navigation.getContent( ) );
+
+	// Navigation
+	var drawerNavigationElement = navigation.getDomHelper( ).createDom( goog.dom.TagName.NAV, {
+
+		'class': zz.ui.layout.NavigationRenderer.CSS.NAVIGATION
+
+	}, navigation.getNavigationListElements( ) );
+
+	// Setting up drawer.
+	navigation.setDrawerElement( navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+
+		'class': zz.ui.layout.NavigationRenderer.CSS.DRAWER
+
+	}, [ drawerTitleElement, drawerNavigationElement ] ) );
+};
+
+/**
+ * Create layout body DOM.
+ * @param {zz.ui.layout.Navigation} navigation
+ * @private
+ */
+zz.ui.layout.NavigationRenderer.prototype.createBodyDom_ = function( navigation ){
+
+	// Setting up body.
+	navigation.setBodyElement( navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+
+		'class': zz.ui.layout.NavigationRenderer.CSS.CONTENT
+	} ) );
 };
 
 /**********************************************************************************************************************
@@ -325,7 +346,9 @@ zz.ui.layout.NavigationRenderer.prototype.setStyleOnScroll = function( navigatio
 			header,
 			zz.ui.layout.NavigationRenderer.CSS.IS_ANIMATING );
 
-	}else if( body.scrollTop <= 0 &&
+	}else if(
+
+		body.scrollTop <= 0 &&
 		goog.dom.classlist.contains( header, zz.ui.layout.NavigationRenderer.CSS.IS_COMPACT ) ){
 
 		goog.dom.classlist.remove( header, zz.ui.layout.NavigationRenderer.CSS.CASTING_SHADOW );
@@ -415,4 +438,38 @@ zz.ui.layout.NavigationRenderer.prototype.resetPanelState = function( panels ){
 			panels[ i ],
 			zz.ui.layout.NavigationRenderer.CSS.IS_ACTIVE );
 	}
+};
+
+/**********************************************************************************************************************
+ * Life cycle methods                                                                                                 *
+ **********************************************************************************************************************/
+
+/**
+ * @override
+ * @param {zz.ui.layout.Navigation} navigation
+ * @returns {Element}
+ */
+zz.ui.layout.NavigationRenderer.prototype.createDom = function( navigation ){
+
+	this.createNavigationListDom_( navigation );
+	this.createHeaderDom_( navigation );
+	this.createDrawerDom_( navigation );
+	this.createBodyDom_( navigation );
+
+	return navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+
+		'class':
+
+			zz.ui.layout.NavigationRenderer.CSS.LAYOUT + ' ' +
+			zz.ui.layout.NavigationRenderer.CSS.LAYOUT_JS
+
+	}, [ navigation.getHeaderElement( ), navigation.getDrawerElement( ), navigation.getBodyElement( ) ] );
+};
+
+/** @override */
+zz.ui.layout.NavigationRenderer.prototype.decorate = function( navigation, element ){
+
+	//
+
+	return element;
 };
