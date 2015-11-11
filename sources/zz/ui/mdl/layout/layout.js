@@ -127,21 +127,23 @@ goog.require( 'zz.ui.mdl.componentHandler' );
 
   /**
    * Handles scrolling on the content.
-   *
+   * /// updateHeaderStyle ///
    * @private
    */
   MaterialLayout.prototype.contentScrollHandler_ = function() {
+
     if (this.header_.classList.contains(this.CssClasses_.IS_ANIMATING)) {
+
       return;
     }
+    if (this.content_.scrollTop > 0 && !this.header_.classList.contains(this.CssClasses_.IS_COMPACT)) {
 
-    if (this.content_.scrollTop > 0 &&
-        !this.header_.classList.contains(this.CssClasses_.IS_COMPACT)) {
       this.header_.classList.add(this.CssClasses_.CASTING_SHADOW);
       this.header_.classList.add(this.CssClasses_.IS_COMPACT);
       this.header_.classList.add(this.CssClasses_.IS_ANIMATING);
-    } else if (this.content_.scrollTop <= 0 &&
-        this.header_.classList.contains(this.CssClasses_.IS_COMPACT)) {
+
+    } else if (this.content_.scrollTop <= 0 && this.header_.classList.contains(this.CssClasses_.IS_COMPACT)) {
+
       this.header_.classList.remove(this.CssClasses_.CASTING_SHADOW);
       this.header_.classList.remove(this.CssClasses_.IS_COMPACT);
       this.header_.classList.add(this.CssClasses_.IS_ANIMATING);
@@ -150,16 +152,21 @@ goog.require( 'zz.ui.mdl.componentHandler' );
 
   /**
    * Handles changes in screen size.
-   *
+   * /// updateRootStyle ///
    * @private
    */
   MaterialLayout.prototype.screenSizeHandler_ = function() {
+
     if (this.screenSizeMediaQuery_.matches) {
+
       this.element_.classList.add(this.CssClasses_.IS_SMALL_SCREEN);
+
     } else {
+
       this.element_.classList.remove(this.CssClasses_.IS_SMALL_SCREEN);
       // Collapse drawer (if any) when moving to a large screen size.
       if (this.drawer_) {
+
         this.drawer_.classList.remove(this.CssClasses_.IS_DRAWER_OPEN);
         this.obfuscator_.classList.remove(this.CssClasses_.IS_DRAWER_OPEN);
       }
@@ -168,12 +175,13 @@ goog.require( 'zz.ui.mdl.componentHandler' );
 
   /**
    * Handles toggling of the drawer.
-   *
+   * /// toggleDrawerStyle ///
    * @private
    */
   MaterialLayout.prototype.drawerToggleHandler_ = function() {
-    this.drawer_.classList.toggle(this.CssClasses_.IS_DRAWER_OPEN);
-    this.obfuscator_.classList.toggle(this.CssClasses_.IS_DRAWER_OPEN);
+
+    this.drawer_.classList.toggle( this.CssClasses_.IS_DRAWER_OPEN );
+    this.obfuscator_.classList.toggle( this.CssClasses_.IS_DRAWER_OPEN );
   };
 
   /**
@@ -182,6 +190,7 @@ goog.require( 'zz.ui.mdl.componentHandler' );
    * @private
    */
   MaterialLayout.prototype.headerTransitionEndHandler_ = function() {
+
     this.header_.classList.remove(this.CssClasses_.IS_ANIMATING);
   };
 
@@ -191,7 +200,9 @@ goog.require( 'zz.ui.mdl.componentHandler' );
    * @private
    */
   MaterialLayout.prototype.headerClickHandler_ = function() {
+
     if (this.header_.classList.contains(this.CssClasses_.IS_COMPACT)) {
+
       this.header_.classList.remove(this.CssClasses_.IS_COMPACT);
       this.header_.classList.add(this.CssClasses_.IS_ANIMATING);
     }
@@ -203,7 +214,9 @@ goog.require( 'zz.ui.mdl.componentHandler' );
    * @private
    */
   MaterialLayout.prototype.resetTabState_ = function(tabBar) {
+
     for (var k = 0; k < tabBar.length; k++) {
+
       tabBar[k].classList.remove(this.CssClasses_.IS_ACTIVE);
     }
   };
@@ -214,7 +227,9 @@ goog.require( 'zz.ui.mdl.componentHandler' );
    * @private
    */
   MaterialLayout.prototype.resetPanelState_ = function(panels) {
+
     for (var j = 0; j < panels.length; j++) {
+
       panels[j].classList.remove(this.CssClasses_.IS_ACTIVE);
     }
   };
@@ -223,7 +238,9 @@ goog.require( 'zz.ui.mdl.componentHandler' );
    * Initialize element.
    */
   MaterialLayout.prototype.init = function() {
+
     if (this.element_) {
+
       var container = document.createElement('div');
       container.classList.add(this.CssClasses_.CONTAINER);
       this.element_.parentElement.insertBefore(container, this.element_);
@@ -233,70 +250,72 @@ goog.require( 'zz.ui.mdl.componentHandler' );
       var directChildren = this.element_.childNodes;
       var numChildren = directChildren.length;
       for (var c = 0; c < numChildren; c++) {
+
         var child = directChildren[c];
-        if (child.classList &&
-            child.classList.contains(this.CssClasses_.HEADER)) {
+        if (child.classList && child.classList.contains(this.CssClasses_.HEADER)) {
+
           this.header_ = child;
         }
+        if (child.classList && child.classList.contains(this.CssClasses_.DRAWER)) {
 
-        if (child.classList &&
-            child.classList.contains(this.CssClasses_.DRAWER)) {
           this.drawer_ = child;
         }
+        if (child.classList && child.classList.contains(this.CssClasses_.CONTENT)) {
 
-        if (child.classList &&
-            child.classList.contains(this.CssClasses_.CONTENT)) {
           this.content_ = child;
         }
       }
-
       if (this.header_) {
+
         this.tabBar_ = this.header_.querySelector('.' + this.CssClasses_.TAB_BAR);
       }
-
       var mode = this.Mode_.STANDARD;
-
       if (this.header_) {
+
         if (this.header_.classList.contains(this.CssClasses_.HEADER_SEAMED)) {
+
           mode = this.Mode_.SEAMED;
-        } else if (this.header_.classList.contains(
-            this.CssClasses_.HEADER_WATERFALL)) {
+
+        } else if (this.header_.classList.contains( this.CssClasses_.HEADER_WATERFALL) ) {
+
           mode = this.Mode_.WATERFALL;
-          this.header_.addEventListener('transitionend',
-            this.headerTransitionEndHandler_.bind(this));
-          this.header_.addEventListener('click',
-            this.headerClickHandler_.bind(this));
-        } else if (this.header_.classList.contains(
-            this.CssClasses_.HEADER_SCROLL)) {
+          this.header_.addEventListener('transitionend', this.headerTransitionEndHandler_.bind(this));
+          this.header_.addEventListener('click', this.headerClickHandler_.bind(this));
+
+        } else if (this.header_.classList.contains( this.CssClasses_.HEADER_SCROLL) ) {
+
           mode = this.Mode_.SCROLL;
           container.classList.add(this.CssClasses_.HAS_SCROLLING_HEADER);
         }
-
         if (mode === this.Mode_.STANDARD) {
+
           this.header_.classList.add(this.CssClasses_.CASTING_SHADOW);
           if (this.tabBar_) {
+
             this.tabBar_.classList.add(this.CssClasses_.CASTING_SHADOW);
           }
         } else if (mode === this.Mode_.SEAMED || mode === this.Mode_.SCROLL) {
+
           this.header_.classList.remove(this.CssClasses_.CASTING_SHADOW);
           if (this.tabBar_) {
+
             this.tabBar_.classList.remove(this.CssClasses_.CASTING_SHADOW);
           }
         } else if (mode === this.Mode_.WATERFALL) {
+
           // Add and remove shadows depending on scroll position.
           // Also add/remove auxiliary class for styling of the compact version of
           // the header.
-          this.content_.addEventListener('scroll',
-              this.contentScrollHandler_.bind(this));
+          this.content_.addEventListener('scroll', this.contentScrollHandler_.bind(this));
           this.contentScrollHandler_();
         }
       }
-
       // Add drawer toggling button to our layout, if we have an openable drawer.
       if (this.drawer_) {
-        var drawerButton = this.element_.querySelector('.' +
-          this.CssClasses_.DRAWER_BTN);
+
+        var drawerButton = this.element_.querySelector('.' + this.CssClasses_.DRAWER_BTN);
         if (!drawerButton) {
+
           drawerButton = document.createElement('div');
           drawerButton.classList.add(this.CssClasses_.DRAWER_BTN);
 
@@ -305,17 +324,17 @@ goog.require( 'zz.ui.mdl.componentHandler' );
           drawerButtonIcon.textContent = this.Constant_.MENU_ICON;
           drawerButton.appendChild(drawerButtonIcon);
         }
-
         if (this.drawer_.classList.contains(this.CssClasses_.ON_LARGE_SCREEN)) {
+
           //If drawer has ON_LARGE_SCREEN class then add it to the drawer toggle button as well.
           drawerButton.classList.add(this.CssClasses_.ON_LARGE_SCREEN);
+
         } else if (this.drawer_.classList.contains(this.CssClasses_.ON_SMALL_SCREEN)) {
+
           //If drawer has ON_SMALL_SCREEN class then add it to the drawer toggle button as well.
           drawerButton.classList.add(this.CssClasses_.ON_SMALL_SCREEN);
         }
-
-        drawerButton.addEventListener('click',
-            this.drawerToggleHandler_.bind(this));
+        drawerButton.addEventListener('click', this.drawerToggleHandler_.bind(this));
 
         // Add a class if the layout has a drawer, for altering the left padding.
         // Adds the HAS_DRAWER to the elements since this.header_ may or may
@@ -325,28 +344,29 @@ goog.require( 'zz.ui.mdl.componentHandler' );
         // If we have a fixed header, add the button to the header rather than
         // the layout.
         if (this.element_.classList.contains(this.CssClasses_.FIXED_HEADER)) {
+
           this.header_.insertBefore(drawerButton, this.header_.firstChild);
+
         } else {
+
           this.element_.insertBefore(drawerButton, this.content_);
         }
-
         var obfuscator = document.createElement('div');
         obfuscator.classList.add(this.CssClasses_.OBFUSCATOR);
         this.element_.appendChild(obfuscator);
-        obfuscator.addEventListener('click',
-            this.drawerToggleHandler_.bind(this));
+        obfuscator.addEventListener('click', this.drawerToggleHandler_.bind(this));
         this.obfuscator_ = obfuscator;
       }
 
       // Keep an eye on screen size, and add/remove auxiliary class for styling
       // of small screens.
-      this.screenSizeMediaQuery_ = window.matchMedia(
-          /** @type {string} */ (this.Constant_.MAX_WIDTH));
+      this.screenSizeMediaQuery_ = window.matchMedia( /** @type {string} */ ( this.Constant_.MAX_WIDTH ) );
       this.screenSizeMediaQuery_.addListener(this.screenSizeHandler_.bind(this));
       this.screenSizeHandler_();
 
       // Initialize tabs, if any.
       if (this.header_ && this.tabBar_) {
+
         this.element_.classList.add(this.CssClasses_.HAS_TABS);
 
         var tabContainer = document.createElement('div');
@@ -361,9 +381,11 @@ goog.require( 'zz.ui.mdl.componentHandler' );
         leftButtonIcon.classList.add(this.CssClasses_.ICON);
         leftButtonIcon.textContent = this.Constant_.CHEVRON_LEFT;
         leftButton.appendChild(leftButtonIcon);
-        leftButton.addEventListener('click', function() {
+        leftButton.addEventListener( 'click', function( ) {
+
           this.tabBar_.scrollLeft -= this.Constant_.TAB_SCROLL_PIXELS;
-        }.bind(this));
+
+        }.bind( this ) );
 
         var rightButton = document.createElement('div');
         rightButton.classList.add(this.CssClasses_.TAB_BAR_BUTTON);
@@ -372,9 +394,11 @@ goog.require( 'zz.ui.mdl.componentHandler' );
         rightButtonIcon.classList.add(this.CssClasses_.ICON);
         rightButtonIcon.textContent = this.Constant_.CHEVRON_RIGHT;
         rightButton.appendChild(rightButtonIcon);
-        rightButton.addEventListener('click', function() {
+        rightButton.addEventListener( 'click', function( ) {
+
           this.tabBar_.scrollLeft += this.Constant_.TAB_SCROLL_PIXELS;
-        }.bind(this));
+
+        }.bind( this ) );
 
         tabContainer.appendChild(leftButton);
         tabContainer.appendChild(this.tabBar_);
@@ -382,24 +406,31 @@ goog.require( 'zz.ui.mdl.componentHandler' );
 
         // Add and remove buttons depending on scroll position.
         var tabScrollHandler = function() {
+
           if (this.tabBar_.scrollLeft > 0) {
+
             leftButton.classList.add(this.CssClasses_.IS_ACTIVE);
+
           } else {
+
             leftButton.classList.remove(this.CssClasses_.IS_ACTIVE);
           }
 
-          if (this.tabBar_.scrollLeft <
-              this.tabBar_.scrollWidth - this.tabBar_.offsetWidth) {
+          if (this.tabBar_.scrollLeft < this.tabBar_.scrollWidth - this.tabBar_.offsetWidth) {
+
             rightButton.classList.add(this.CssClasses_.IS_ACTIVE);
+
           } else {
+
             rightButton.classList.remove(this.CssClasses_.IS_ACTIVE);
           }
-        }.bind(this);
+        }.bind( this );
 
-        this.tabBar_.addEventListener('scroll', tabScrollHandler);
+        this.tabBar_.addEventListener( 'scroll', tabScrollHandler );
         tabScrollHandler();
 
         if (this.tabBar_.classList.contains(this.CssClasses_.JS_RIPPLE_EFFECT)) {
+
           this.tabBar_.classList.add(this.CssClasses_.RIPPLE_IGNORE_EVENTS);
         }
 
@@ -409,6 +440,7 @@ goog.require( 'zz.ui.mdl.componentHandler' );
 
         // Create new tabs for each tab element
         for (var i = 0; i < tabs.length; i++) {
+
           new MaterialLayoutTab(tabs[i], tabs, panels, this);
         }
       }
@@ -427,8 +459,8 @@ goog.require( 'zz.ui.mdl.componentHandler' );
    * @param {MaterialLayout} layout The MaterialLayout object that owns the tab.
    */
   function MaterialLayoutTab(tab, tabs, panels, layout) {
-    if (layout.tabBar_.classList.contains(
-        layout.CssClasses_.JS_RIPPLE_EFFECT)) {
+    if (layout.tabBar_.classList.contains( layout.CssClasses_.JS_RIPPLE_EFFECT) ) {
+
       var rippleContainer = document.createElement('span');
       rippleContainer.classList.add(layout.CssClasses_.RIPPLE_CONTAINER);
       rippleContainer.classList.add(layout.CssClasses_.JS_RIPPLE_EFFECT);
