@@ -382,6 +382,7 @@ goog.require( 'zz.ui.mdl.componentHandler' );
         leftButtonIcon.classList.add(this.CssClasses_.ICON);
         leftButtonIcon.textContent = this.Constant_.CHEVRON_LEFT;
         leftButton.appendChild(leftButtonIcon);
+
         leftButton.addEventListener( 'click', function( ) {
 
           this.tabBar_.scrollLeft -= this.Constant_.TAB_SCROLL_PIXELS;
@@ -395,6 +396,7 @@ goog.require( 'zz.ui.mdl.componentHandler' );
         rightButtonIcon.classList.add(this.CssClasses_.ICON);
         rightButtonIcon.textContent = this.Constant_.CHEVRON_RIGHT;
         rightButton.appendChild(rightButtonIcon);
+
         rightButton.addEventListener( 'click', function( ) {
 
           this.tabBar_.scrollLeft += this.Constant_.TAB_SCROLL_PIXELS;
@@ -460,15 +462,18 @@ goog.require( 'zz.ui.mdl.componentHandler' );
    * @param {MaterialLayout} layout The MaterialLayout object that owns the tab.
    */
   function MaterialLayoutTab(tab, tabs, panels, layout) {
+
     if (layout.tabBar_.classList.contains( layout.CssClasses_.JS_RIPPLE_EFFECT) ) {
 
       var rippleContainer = document.createElement('span');
       rippleContainer.classList.add(layout.CssClasses_.RIPPLE_CONTAINER);
       rippleContainer.classList.add(layout.CssClasses_.JS_RIPPLE_EFFECT);
+
       var ripple = document.createElement('span');
       ripple.classList.add(layout.CssClasses_.RIPPLE);
       rippleContainer.appendChild(ripple);
-      tab.appendChild(rippleContainer);
+
+		tab.appendChild(rippleContainer);
     }
 
     tab.addEventListener('click', function(e) {

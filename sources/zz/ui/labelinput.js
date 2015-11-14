@@ -38,7 +38,7 @@ goog.require( 'zz.mvc.model.Message' );
 goog.require( 'zz.mvc.model.EventType' );
 goog.require( 'zz.mvc.controller.BaseController' );
 goog.require( 'zz.ui.formatter.Default' );
-goog.require( 'zz.ui.mdl.MaterialTextfield' );
+//goog.require( 'zz.ui.mdl.MaterialTextfield' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -182,7 +182,7 @@ zz.ui.LabelInput.prototype.enterDocument = function( ){
 			this.setValue( this.formatter_.format( this.model_.datarow[ this.model_.datafield ] ) );
 		}
 	}, false, this );
-	new zz.ui.mdl.MaterialTextfield( this.wrapperElement_ );
+//	new zz.ui.mdl.MaterialTextfield( this.wrapperElement_ );
 };
 
 /**

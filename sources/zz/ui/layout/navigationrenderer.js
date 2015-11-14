@@ -55,7 +55,7 @@ goog.require( 'goog.dom.classlist' );
  */
 zz.ui.layout.NavigationRenderer = function( ){
 
-	zz.ui.CheckboxRenderer.base( this, 'constructor' );
+	zz.ui.layout.NavigationRenderer.base( this, 'constructor' );
 };
 goog.inherits( zz.ui.layout.NavigationRenderer, goog.ui.ControlRenderer );
 goog.tagUnsealableClass( zz.ui.layout.NavigationRenderer );
@@ -64,6 +64,18 @@ goog.addSingletonGetter( zz.ui.layout.NavigationRenderer );
 /**********************************************************************************************************************
  * Static properties section                                                                                          *
  **********************************************************************************************************************/
+
+/**
+ * Modes.
+ * @enum {number}
+ */
+zz.ui.layout.NavigationRenderer.MODE = {
+
+	STANDARD: 0,
+	SEAMED: 1,
+	WATERFALL: 2,
+	SCROLL: 3
+};
 
 /**
  * Store constants in one place so they can be updated easily.
@@ -143,7 +155,7 @@ zz.ui.layout.NavigationRenderer.CSS = {
  * Default CSS class to be applied to the root element of components rendered by this renderer.
  * @type {string}
  */
-zz.ui.layout.NavigationRenderer.CSS_CLASS = goog.getCssName( 'default' );
+zz.ui.layout.NavigationRenderer.CSS_CLASS = goog.getCssName( '' );
 
 /**********************************************************************************************************************
  * Base renderer methods                                                                                              *
@@ -167,12 +179,13 @@ zz.ui.layout.NavigationRenderer.prototype.getCssClass = function( ){
 /**
  * Generate navigation list.
  * @param {zz.ui.layout.Navigation} navigation
+ * @returns {Array}
  * @private
  */
 zz.ui.layout.NavigationRenderer.prototype.createNavigationListDom_ = function( navigation ){
 
 	var links = [ ];
-	goog.array.forEach( navigation.getNavigationList( ), function( link ){
+	goog.array.forEach( navigation.getList( ), function( link ){
 
 		links.push( navigation.getDomHelper( ).createDom( goog.dom.TagName.A, {
 
@@ -182,7 +195,7 @@ zz.ui.layout.NavigationRenderer.prototype.createNavigationListDom_ = function( n
 		}, link.name ) );
 
 	}, this );
-	navigation.setNavigationListElements( links );
+	return links;
 };
 
 /**
@@ -210,7 +223,7 @@ zz.ui.layout.NavigationRenderer.prototype.createHeaderDom_ = function( navigatio
 
 		'class': zz.ui.layout.NavigationRenderer.CSS.NAVIGATION
 
-	}, navigation.getNavigationListElements( ) );
+	}, this.createNavigationListDom_( navigation ) );
 
 	// Header row
 	var headerRowElement = navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
@@ -248,7 +261,7 @@ zz.ui.layout.NavigationRenderer.prototype.createDrawerDom_ = function( navigatio
 
 		'class': zz.ui.layout.NavigationRenderer.CSS.NAVIGATION
 
-	}, navigation.getNavigationListElements( ) );
+	}, this.createNavigationListDom_( navigation ) );
 
 	// Setting up drawer.
 	navigation.setDrawerElement( navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
@@ -256,6 +269,137 @@ zz.ui.layout.NavigationRenderer.prototype.createDrawerDom_ = function( navigatio
 		'class': zz.ui.layout.NavigationRenderer.CSS.DRAWER
 
 	}, [ drawerTitleElement, drawerNavigationElement ] ) );
+};
+
+/**
+ * Create layout drawer button DOM.
+ * @param {zz.ui.layout.Navigation} navigation
+ * @private
+ */
+zz.ui.layout.NavigationRenderer.prototype.createDrawerButtonDom_ = function( navigation ){
+
+	navigation.setDrawerButtonElement( navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+
+		'class': zz.ui.layout.NavigationRenderer.CSS.DRAWER_BTN
+
+	}, navigation.getDomHelper( ).createDom( goog.dom.TagName.I, {
+
+		'class': zz.ui.layout.NavigationRenderer.CSS.ICON
+
+	}, zz.ui.layout.NavigationRenderer.CONST.MENU_ICON ) ) );
+};
+
+/**
+ * Create layout body DOM.
+ * @param {zz.ui.layout.Navigation} navigation
+ * @private
+ */
+zz.ui.layout.NavigationRenderer.prototype.createObfuscatorDom_ = function( navigation ){
+
+	navigation.setObfuscatorElement( navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+
+		'class': zz.ui.layout.NavigationRenderer.CSS.OBFUSCATOR
+	} ) );
+};
+
+/**
+ * Create layout tab-bar section DOM.
+ * @param {zz.ui.layout.Navigation} navigation
+ * @private
+ */
+zz.ui.layout.NavigationRenderer.prototype.createTabBarDom_ = function( navigation ){
+
+	var container = navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+
+		'class': zz.ui.layout.NavigationRenderer.CSS.TAB_CONTAINER
+
+	} );
+	goog.dom.insertSiblingBefore(
+
+		container,
+		navigation.getTabBarElement( ) );
+
+	goog.dom.removeChildren(
+
+		navigation.getTabBarElement( ) );
+
+	navigation.setTabBarLeftButtonElement(
+
+		navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+
+			'class':
+
+				zz.ui.layout.NavigationRenderer.CSS.TAB_BAR_BUTTON + ' ' +
+				zz.ui.layout.NavigationRenderer.CSS.TAB_BAR_LEFT_BUTTON
+
+		}, navigation.getDomHelper( ).createDom( goog.dom.TagName.I, {
+
+			'class': zz.ui.layout.NavigationRenderer.CSS.ICON
+
+		}, zz.ui.layout.NavigationRenderer.CONST.CHEVRON_LEFT ) ) );
+
+	navigation.setTabBarRightButtonElement(
+
+		navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+
+			'class':
+
+				zz.ui.layout.NavigationRenderer.CSS.TAB_BAR_BUTTON + ' ' +
+				zz.ui.layout.NavigationRenderer.CSS.TAB_BAR_RIGHT_BUTTON
+
+		}, navigation.getDomHelper( ).createDom( goog.dom.TagName.I, {
+
+			'class': zz.ui.layout.NavigationRenderer.CSS.ICON
+
+		}, zz.ui.layout.NavigationRenderer.CONST.CHEVRON_RIGHT ) ) );
+
+	goog.dom.appendChild(
+
+		container,
+		navigation.getTabBarLeftButtonElement( ) );
+
+	goog.dom.appendChild(
+
+		container,
+		navigation.getTabBarElement( ) );
+
+	goog.dom.appendChild(
+
+		container,
+		navigation.getTabBarRightButtonElement( ) );
+
+	if( goog.dom.classlist.contains(
+		navigation.getTabBarElement( ),
+		zz.ui.layout.NavigationRenderer.CSS.JS_RIPPLE_EFFECT ) ){
+
+		goog.dom.classlist.add(
+
+			navigation.getTabBarElement( ),
+			zz.ui.layout.NavigationRenderer.CSS.RIPPLE_IGNORE_EVENTS );
+	}
+	this.setStyleOnTabScroll( navigation );
+
+	// Select element tabs
+	navigation.setTabsElements(
+
+		goog.dom.getElementsByClass(
+
+			zz.ui.layout.NavigationRenderer.CSS.TAB,
+			navigation.getTabBarElement( ) ) );
+
+	// Select document panels
+	navigation.setPanelsElements(
+
+		goog.dom.getElementsByClass(
+
+			zz.ui.layout.NavigationRenderer.CSS.PANEL,
+			navigation.getTabBarElement( ) ) );
+
+	// Create new tabs for each tab element
+//	for (var i = 0; i < tabs.length; i++) {
+//
+//		new MaterialLayoutTab(tabs[i], tabs, panels, this);
+//	}
 };
 
 /**
@@ -279,10 +423,10 @@ zz.ui.layout.NavigationRenderer.prototype.createBodyDom_ = function( navigation 
 /**
  * Update styles on window resize event.
  * @param {zz.ui.layout.Navigation} navigation
+ * @param {Element} element
  */
-zz.ui.layout.NavigationRenderer.prototype.setStyleOnResize = function( navigation ){
+zz.ui.layout.NavigationRenderer.prototype.setStyleOnResize = function( navigation, element ){
 
-	var element = navigation.getElement( );
 	var drawer = navigation.getDrawerElement( );
 	var obfuscator = navigation.getObfuscatorElement( );
 	if( navigation.getDomHelper( ).getWindow( ).innerWidth <=
@@ -346,14 +490,62 @@ zz.ui.layout.NavigationRenderer.prototype.setStyleOnScroll = function( navigatio
 			header,
 			zz.ui.layout.NavigationRenderer.CSS.IS_ANIMATING );
 
-	}else if(
+	}else if( body.scrollTop <= 0 && goog.dom.classlist.contains(
+		header,
+		zz.ui.layout.NavigationRenderer.CSS.IS_COMPACT ) ){
 
-		body.scrollTop <= 0 &&
-		goog.dom.classlist.contains( header, zz.ui.layout.NavigationRenderer.CSS.IS_COMPACT ) ){
+		goog.dom.classlist.remove(
 
-		goog.dom.classlist.remove( header, zz.ui.layout.NavigationRenderer.CSS.CASTING_SHADOW );
-		goog.dom.classlist.remove( header, zz.ui.layout.NavigationRenderer.CSS.IS_COMPACT );
-		goog.dom.classlist.add( header, zz.ui.layout.NavigationRenderer.CSS.IS_ANIMATING );
+			header,
+			zz.ui.layout.NavigationRenderer.CSS.CASTING_SHADOW );
+
+		goog.dom.classlist.remove(
+
+			header,
+			zz.ui.layout.NavigationRenderer.CSS.IS_COMPACT );
+
+		goog.dom.classlist.add(
+
+			header,
+			zz.ui.layout.NavigationRenderer.CSS.IS_ANIMATING );
+	}
+};
+
+/**
+ * Update style on tab scroll event.
+ * @param {zz.ui.layout.Navigation} navigation
+ */
+zz.ui.layout.NavigationRenderer.prototype.setStyleOnTabScroll = function( navigation ){
+
+	if( navigation.getTabBarElement( ).scrollLeft > 0 ){
+
+		goog.dom.classlist.add(
+
+			navigation.getTabBarLeftButtonElement( ),
+			zz.ui.layout.NavigationRenderer.CSS.IS_ACTIVE );
+
+	}else{
+
+		goog.dom.classlist.remove(
+
+			navigation.getTabBarLeftButtonElement( ),
+			zz.ui.layout.NavigationRenderer.CSS.IS_ACTIVE );
+	}
+	if( navigation.getTabBarElement( ).scrollLeft <
+		navigation.getTabBarElement( ).scrollWidth -
+			navigation.getTabBarElement( ).offsetWidth ){
+
+		goog.dom.classlist.add(
+
+			navigation.getTabBarRightButtonElement( ),
+			zz.ui.layout.NavigationRenderer.CSS.IS_ACTIVE );
+
+	}else{
+
+		goog.dom.classlist.remove(
+
+			navigation.getTabBarRightButtonElement( ),
+			zz.ui.layout.NavigationRenderer.CSS.IS_ACTIVE );
 	}
 };
 
@@ -411,6 +603,24 @@ zz.ui.layout.NavigationRenderer.prototype.setStyleOnDrawerToggle = function( nav
 };
 
 /**
+ * Update style on tab-bar left button click event.
+ * @param {zz.ui.layout.Navigation} navigation
+ */
+zz.ui.layout.NavigationRenderer.prototype.setStyleOnTabBarLeftButtonClick = function( navigation ){
+
+	navigation.getTabBarElement( ).scrollLeft -= zz.ui.layout.NavigationRenderer.CONST.TAB_SCROLL_PIXELS;
+};
+
+/**
+ * Update style on tab-bar right button click event.
+ * @param {zz.ui.layout.Navigation} navigation
+ */
+zz.ui.layout.NavigationRenderer.prototype.setStyleOnTabBarRightButtonClick = function( navigation ){
+
+	navigation.getTabBarElement( ).scrollLeft += zz.ui.layout.NavigationRenderer.CONST.TAB_SCROLL_PIXELS;
+};
+
+/**
  * Reset tab state, dropping active classes
  * @param {Array} tabBar
  */
@@ -456,20 +666,202 @@ zz.ui.layout.NavigationRenderer.prototype.createDom = function( navigation ){
 	this.createDrawerDom_( navigation );
 	this.createBodyDom_( navigation );
 
-	return navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+	return this.decorate( navigation, navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 
 		'class':
 
 			zz.ui.layout.NavigationRenderer.CSS.LAYOUT + ' ' +
 			zz.ui.layout.NavigationRenderer.CSS.LAYOUT_JS
 
-	}, [ navigation.getHeaderElement( ), navigation.getDrawerElement( ), navigation.getBodyElement( ) ] );
+	}, [ navigation.getHeaderElement( ), navigation.getDrawerElement( ), navigation.getBodyElement( ) ] ) );
 };
 
-/** @override */
+/**
+ * @override
+ * @param {zz.ui.layout.Navigation} navigation
+ * @param {Element} element
+ * @returns {Element}
+ */
 zz.ui.layout.NavigationRenderer.prototype.decorate = function( navigation, element ){
 
-	//
+	var children = element.childNodes;
+	var container = navigation.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 
-	return element;
+		'class': zz.ui.layout.NavigationRenderer.CSS.CONTAINER
+
+	}, element );
+
+	// Find elements
+	if( !navigation.getHeaderElement( ) ||
+		!navigation.getDrawerElement( ) ||
+		!navigation.getBodyElement( ) ) {
+
+		goog.array.forEach( children, function( child ){
+
+			if( goog.dom.classlist.contains(
+				child,
+				zz.ui.layout.NavigationRenderer.CSS.HEADER ) ){
+
+				navigation.setHeaderElement( child );
+			}
+			if( goog.dom.classlist.contains(
+				child,
+				zz.ui.layout.NavigationRenderer.CSS.DRAWER ) ){
+
+				navigation.setDrawerElement( child );
+			}
+			if( goog.dom.classlist.contains(
+				child,
+				zz.ui.layout.NavigationRenderer.CSS.CONTENT ) ){
+
+				navigation.setBodyElement( child );
+			}
+		}, this );
+	}
+
+	// Patch header
+	if( navigation.getHeaderElement( ) ){
+
+		navigation.setTabBarElement(
+
+			goog.dom.getElementByClass(
+
+				zz.ui.layout.NavigationRenderer.CSS.TAB_BAR,
+				navigation.getHeaderElement( ) ) );
+
+		if( goog.dom.classlist.contains(
+			navigation.getHeaderElement( ),
+			zz.ui.layout.NavigationRenderer.CSS.HEADER_SEAMED ) ){
+
+			navigation.setMode( zz.ui.layout.NavigationRenderer.MODE.SEAMED );
+
+		}else if( goog.dom.classlist.contains(
+			navigation.getHeaderElement( ),
+			zz.ui.layout.NavigationRenderer.CSS.HEADER_WATERFALL ) ){
+
+			navigation.setMode( zz.ui.layout.NavigationRenderer.MODE.WATERFALL );
+
+		}else if( goog.dom.classlist.contains(
+			navigation.getHeaderElement( ),
+			zz.ui.layout.NavigationRenderer.CSS.HEADER_SCROLL ) ){
+
+			navigation.setMode( zz.ui.layout.NavigationRenderer.MODE.SCROLL );
+			goog.dom.classlist.add(
+
+				container,
+				zz.ui.layout.NavigationRenderer.CSS.HAS_SCROLLING_HEADER );
+		}
+		if( navigation.getMode( ) === zz.ui.layout.NavigationRenderer.MODE.STANDARD ){
+
+			goog.dom.classlist.add(
+
+				navigation.getHeaderElement( ),
+				zz.ui.layout.NavigationRenderer.CSS.CASTING_SHADOW );
+
+			if( navigation.getTabBarElement( ) ){
+
+				goog.dom.classlist.add(
+
+					navigation.getTabBarElement( ),
+					zz.ui.layout.NavigationRenderer.CSS.CASTING_SHADOW );
+			}
+		}else if( navigation.getMode( ) === zz.ui.layout.NavigationRenderer.MODE.SEAMED ||
+			navigation.getMode( ) === zz.ui.layout.NavigationRenderer.MODE.SCROLL ){
+
+			goog.dom.classlist.remove(
+
+				navigation.getHeaderElement( ),
+				zz.ui.layout.NavigationRenderer.CSS.CASTING_SHADOW );
+
+			if( navigation.getTabBarElement( ) ){
+
+				goog.dom.classlist.remove(
+
+					navigation.getTabBarElement( ),
+					zz.ui.layout.NavigationRenderer.CSS.CASTING_SHADOW );
+			}
+		}else if( navigation.getMode( ) === zz.ui.layout.NavigationRenderer.MODE.WATERFALL ){
+
+			this.setStyleOnScroll( navigation );
+		}
+	}
+
+	// Patch drawer
+	if( navigation.getDrawerElement( ) ){
+
+		navigation.setDrawerButtonElement(
+
+			goog.dom.getElementByClass(
+
+				zz.ui.layout.NavigationRenderer.CSS.DRAWER_BTN,
+				element ) );
+
+		if( !navigation.getDrawerButtonElement( ) ) {
+
+			this.createDrawerButtonDom_( navigation );
+		}
+		if( goog.dom.classlist.contains(
+			navigation.getDrawerElement( ),
+			zz.ui.layout.NavigationRenderer.CSS.ON_LARGE_SCREEN ) ){
+
+			//If drawer has ON_LARGE_SCREEN class then add it to the drawer toggle button as well.
+			goog.dom.classlist.add(
+
+				navigation.getDrawerButtonElement( ),
+				zz.ui.layout.NavigationRenderer.CSS.ON_LARGE_SCREEN );
+
+		}else if( goog.dom.classlist.contains(
+			navigation.getDrawerElement( ),
+			zz.ui.layout.NavigationRenderer.CSS.ON_SMALL_SCREEN ) ){
+
+			//If drawer has ON_SMALL_SCREEN class then add it to the drawer toggle button as well.
+			goog.dom.classlist.add(
+
+				navigation.getDrawerButtonElement( ),
+				zz.ui.layout.NavigationRenderer.CSS.ON_SMALL_SCREEN );
+		}
+		goog.dom.classlist.add(
+
+			element,
+			zz.ui.layout.NavigationRenderer.CSS.HAS_DRAWER );
+
+		if( goog.dom.classlist.contains(
+			element,
+			zz.ui.layout.NavigationRenderer.CSS.FIXED_HEADER ) ){
+
+			goog.dom.insertChildAt(
+
+				navigation.getHeaderElement( ),
+				navigation.getDrawerButtonElement( ),
+				0 );
+
+		}else{
+
+			goog.dom.insertChildAt(
+
+				element,
+				navigation.getDrawerButtonElement( ),
+				0 );
+		}
+		this.createObfuscatorDom_( navigation );
+		goog.dom.appendChild(
+
+			element,
+			navigation.getObfuscatorElement( ) );
+
+		this.setStyleOnResize( navigation, element );
+	}
+
+	// Patch tabs
+	if( navigation.getHeaderElement( ) && navigation.getTabBarElement( ) ){
+
+		goog.dom.classlist.add(
+
+			element,
+			zz.ui.layout.NavigationRenderer.CSS.HAS_TABS );
+
+		this.createTabBarDom_( navigation );
+	}
+
+	return container;
 };

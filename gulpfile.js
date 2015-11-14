@@ -32,6 +32,12 @@ var express = require('express' );
 var compiler = require( 'gulp-closure-compiler' );
 
 /**********************************************************************************************************************
+ * Variables section                                                                                                  *
+ **********************************************************************************************************************/
+
+var blockGssCompiler = false;
+
+/**********************************************************************************************************************
  * Functions declare section                                                                                          *
  **********************************************************************************************************************/
 
@@ -96,43 +102,62 @@ function compileSass( ){
  */
 function compileGss( ){
 
+	if( blockGssCompiler ){ return; }
+	blockGssCompiler = true;
+	var cmd;
+	var fs = require( 'fs' );
 	var exec = require('child_process').exec;
-	var cmd =
+	fs.readdir( './stylesheets/_gss', function( ){
 
-		'java -jar ./libs/google-closure-stylesheets/index.jar ' +
-
-			//'--allowed-non-standard-function blur ' +
-			//'--allowed-non-standard-function calc ' +
-			//'--allowed-unrecognized-property -webkit-overflow-scrolling ' +
-			'--allow-unrecognized-functions ' +
-			'--allow-unrecognized-properties ' +
-			'--output-file ./stylesheets/_css/zz.css ' +
-			'--output-renaming-map-format CLOSURE_COMPILED ' +
-			'--rename CLOSURE ' +
-			'--output-renaming-map ./sources/zz/_stylesheet/remap.dat ' +
-			'./stylesheets/_gss/zz.css';
-
-	exec( cmd, function( err ){
-
-		if( err ) console.log( err );
-		cmd =
-
-			'cat ./sources/zz/_stylesheet/remap.tpl ' +
-				'./sources/zz/_stylesheet/remap.dat ' +
-				'>./sources/zz/_stylesheet/remap.js';
-
+		cmd = "sed '1d' ./stylesheets/_gss/zz.css > tmpfile; mv tmpfile ./stylesheets/_gss/zz.css";
 		exec( cmd, function( err ){
 
 			if( err ){
 
+				blockGssCompiler = false;
 				console.log( err );
 
 			}else{
 
-				copyResources( );
+				cmd = 'java -jar ./libs/google-closure-stylesheets/index.jar ' +
+
+						'--allow-unrecognized-functions ' +
+						'--allow-unrecognized-properties ' +
+						'--output-file ./stylesheets/_css/zz.css ' +
+						'--output-renaming-map-format CLOSURE_COMPILED ' +
+						'--rename CLOSURE ' +
+						'--output-renaming-map ./sources/zz/_stylesheet/remap.dat ' +
+						'./stylesheets/_gss/zz.css';
+
+				exec( cmd, function( err ){
+
+					if( err ){
+
+						blockGssCompiler = false;
+						console.log( err );
+					}
+					cmd =
+
+						'cat ./sources/zz/_stylesheet/remap.tpl ' +
+							'./sources/zz/_stylesheet/remap.dat ' +
+							'>./sources/zz/_stylesheet/remap.js';
+
+					exec( cmd, function( err ){
+
+						blockGssCompiler = false;
+						if( err ){
+
+							console.log( err );
+
+						}else{
+
+							copyResources( );
+						}
+					} );
+				} );
 			}
 		} );
-	} );
+	} )
 }
 
 /**
@@ -172,7 +197,22 @@ function copyResources( ){
 		cmd = 'cp -r ./resources/* ./stylesheets/_css/resources/';
 		exec( cmd, function( err ){
 
-			if( err ) console.log( err );
+			if( err ){
+
+				console.log( err );
+
+			}else{
+
+				cmd = 'cp -r ./resources/* ./stylesheets/_gss/resources/';
+				exec( cmd, function( err ){
+
+					if( err ){
+
+						console.log( err );
+
+					}
+				} );
+			}
 		} );
 	} );
 }
@@ -184,7 +224,7 @@ function watchFrontendChanges( ){
 
 	gulp.watch( './templates/*', [ 'compile:tpl' ] );
 	gulp.watch( './stylesheets/scss/**/*', [ 'compile:sass' ] );
-	gulp.watch( './stylesheets/_gss/zz.css', [ 'compile:gss', 'copy:resources' ] );
+	gulp.watch( './stylesheets/_gss/zz.css', [ 'compile:gss' ] );
 	gulp.watch( './sources/zz/base.js', [ 'calcDependencies' ] );
 	gulp.watch( './sources/zz/*/*.js', [ 'calcDependencies' ] );
 	gulp.watch( './sources/zz/*/*/*.js', [ 'calcDependencies' ] );
@@ -240,31 +280,6 @@ function compileApplication( ){
 
 	var exec = require('child_process').exec;
 	var cmd = 'rm ./app/zz.js ./app/zz.css';
-	var mdlSrc = [
-		// Component handler
-		'./libs/google-material-design/src/mdlComponentHandler.js',
-		// Polyfills/dependencies
-		'./libs/google-material-design/src/third_party/**/*.js',
-		// Base components
-		'./libs/google-material-design/src/button/button.js',
-		'./libs/google-material-design/src/checkbox/checkbox.js',
-		'./libs/google-material-design/src/icon-toggle/icon-toggle.js',
-		'./libs/google-material-design/src/menu/menu.js',
-		'./libs/google-material-design/src/progress/progress.js',
-		'./libs/google-material-design/src/radio/radio.js',
-		'./libs/google-material-design/src/slider/slider.js',
-		'./libs/google-material-design/src/snackbar/snackbar.js',
-		'./libs/google-material-design/src/spinner/spinner.js',
-		'./libs/google-material-design/src/switch/switch.js',
-		'./libs/google-material-design/src/tabs/tabs.js',
-		'./libs/google-material-design/src/textfield/textfield.js',
-		'./libs/google-material-design/src/tooltip/tooltip.js',
-		// Complex components (which reuse base components)
-		'./libs/google-material-design/src/layout/layout.js',
-		'./libs/google-material-design/src/data-table/data-table.js',
-		// And finally, the ripples
-		'./libs/google-material-design/src/ripple/ripple.js'
-	];
 
 	exec( cmd, function( err ){
 
@@ -295,6 +310,8 @@ function compileApplication( ){
 				'--compiler_flags="--language_out=ECMASCRIPT5_STRICT" ' +
 
 				// Output file
+				'--compiler_flags="--source_map_format=V3" ' +
+				'--compiler_flags="--create_source_map=./app/zz.js.map" ' +
 				'--compiler_flags="--js_output_file=./app/zz.js" ';
 
 		console.log( cmd );
@@ -332,7 +349,6 @@ gulp.task( 'checkApplication', checkApplication );
 gulp.task( 'compileApplication', compileApplication );
 gulp.task( 'watchFrontendChanges', watchFrontendChanges );
 
-gulp.task( 'copy:resources', copyResources );
 gulp.task( 'compile:sass', compileSass );
 gulp.task( 'compile:gss', compileGss );
 gulp.task( 'compile:tpl', compileTemplates );
