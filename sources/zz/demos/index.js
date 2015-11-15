@@ -44,8 +44,8 @@ zz.demos.app.run = function( ){
 	//var usersView = goog.global.userView =  new zz.module.user.view.Users( );
 	//usersView.render( goog.dom.getElement( 'root' ) );
 
-	var layout = new zz.ui.layout.Navigation( 'Test' );
-	layout.render( goog.dom.getElement( 'root' ) );
+	var layout = new zz.ui.layout.Navigation( );
+		layout.render( goog.dom.getElement( 'root' ) );
 
 	/******************************************************************************************************************
 	 * Fast click testing                                                                                             *

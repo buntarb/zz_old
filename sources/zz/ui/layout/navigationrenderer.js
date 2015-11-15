@@ -31,18 +31,12 @@ goog.provide( 'zz.ui.layout.NavigationRenderer' );
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-//goog.require( 'goog.a11y.aria' );
-//goog.require( 'goog.a11y.aria.Role' );
-//goog.require( 'goog.a11y.aria.State' );
-
-goog.require( 'goog.ui.ControlRenderer' );
-
 goog.require( 'goog.array' );
 goog.require( 'goog.object' );
 goog.require( 'goog.asserts' );
-
 goog.require( 'goog.dom.TagName' );
 goog.require( 'goog.dom.classlist' );
+goog.require( 'goog.ui.ControlRenderer' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -178,7 +172,7 @@ zz.ui.layout.NavigationRenderer.prototype.getCssClass = function( ){
 
 /**
  * Generate navigation list.
- * @param {zz.ui.layout.Navigation} navigation
+ * @param {zz.ui.layout.NavigationCtrl} navigation
  * @returns {Array}
  * @private
  */
@@ -200,7 +194,7 @@ zz.ui.layout.NavigationRenderer.prototype.createNavigationListDom_ = function( n
 
 /**
  * Create layout header DOM.
- * @param {zz.ui.layout.Navigation} navigation
+ * @param {zz.ui.layout.NavigationCtrl} navigation
  * @private
  */
 zz.ui.layout.NavigationRenderer.prototype.createHeaderDom_ = function( navigation ){
@@ -244,7 +238,7 @@ zz.ui.layout.NavigationRenderer.prototype.createHeaderDom_ = function( navigatio
 
 /**
  * Create layout drawer DOM.
- * @param {zz.ui.layout.Navigation} navigation
+ * @param {zz.ui.layout.NavigationCtrl} navigation
  * @private
  */
 zz.ui.layout.NavigationRenderer.prototype.createDrawerDom_ = function( navigation ){
@@ -273,7 +267,7 @@ zz.ui.layout.NavigationRenderer.prototype.createDrawerDom_ = function( navigatio
 
 /**
  * Create layout drawer button DOM.
- * @param {zz.ui.layout.Navigation} navigation
+ * @param {zz.ui.layout.NavigationCtrl} navigation
  * @private
  */
 zz.ui.layout.NavigationRenderer.prototype.createDrawerButtonDom_ = function( navigation ){
@@ -291,7 +285,7 @@ zz.ui.layout.NavigationRenderer.prototype.createDrawerButtonDom_ = function( nav
 
 /**
  * Create layout body DOM.
- * @param {zz.ui.layout.Navigation} navigation
+ * @param {zz.ui.layout.NavigationCtrl} navigation
  * @private
  */
 zz.ui.layout.NavigationRenderer.prototype.createObfuscatorDom_ = function( navigation ){
@@ -304,7 +298,7 @@ zz.ui.layout.NavigationRenderer.prototype.createObfuscatorDom_ = function( navig
 
 /**
  * Create layout tab-bar section DOM.
- * @param {zz.ui.layout.Navigation} navigation
+ * @param {zz.ui.layout.NavigationCtrl} navigation
  * @private
  */
 zz.ui.layout.NavigationRenderer.prototype.createTabBarDom_ = function( navigation ){
@@ -396,15 +390,31 @@ zz.ui.layout.NavigationRenderer.prototype.createTabBarDom_ = function( navigatio
 			navigation.getTabBarElement( ) ) );
 
 	// Create new tabs for each tab element
-//	for (var i = 0; i < tabs.length; i++) {
-//
-//		new MaterialLayoutTab(tabs[i], tabs, panels, this);
-//	}
+	goog.array.forEach( navigation.getTabsElements( ), function( tab ){
+
+		if( goog.dom.classlist.contains(
+			navigation.getTabBarElement( ),
+			zz.ui.layout.NavigationRenderer.CSS.JS_RIPPLE_EFFECT ) ){
+
+			goog.dom.appendChild(
+
+				tab,
+				navigation.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
+
+					'class': zz.ui.layout.NavigationRenderer.CSS.RIPPLE_CONTAINER + ' ' +
+						zz.ui.layout.NavigationRenderer.CSS.JS_RIPPLE_EFFECT
+
+				}, navigation.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
+
+					'class': zz.ui.layout.NavigationRenderer.CSS.RIPPLE
+				} ) ) );
+		}
+	} );
 };
 
 /**
  * Create layout body DOM.
- * @param {zz.ui.layout.Navigation} navigation
+ * @param {zz.ui.layout.NavigationCtrl} navigation
  * @private
  */
 zz.ui.layout.NavigationRenderer.prototype.createBodyDom_ = function( navigation ){
@@ -422,7 +432,7 @@ zz.ui.layout.NavigationRenderer.prototype.createBodyDom_ = function( navigation 
 
 /**
  * Update styles on window resize event.
- * @param {zz.ui.layout.Navigation} navigation
+ * @param {zz.ui.layout.NavigationCtrl} navigation
  * @param {Element} element
  */
 zz.ui.layout.NavigationRenderer.prototype.setStyleOnResize = function( navigation, element ){
@@ -462,7 +472,7 @@ zz.ui.layout.NavigationRenderer.prototype.setStyleOnResize = function( navigatio
 
 /**
  * Update on scroll event.
- * @param {zz.ui.layout.Navigation} navigation
+ * @param {zz.ui.layout.NavigationCtrl} navigation
  */
 zz.ui.layout.NavigationRenderer.prototype.setStyleOnScroll = function( navigation ){
 
@@ -513,7 +523,7 @@ zz.ui.layout.NavigationRenderer.prototype.setStyleOnScroll = function( navigatio
 
 /**
  * Update style on tab scroll event.
- * @param {zz.ui.layout.Navigation} navigation
+ * @param {zz.ui.layout.NavigationCtrl} navigation
  */
 zz.ui.layout.NavigationRenderer.prototype.setStyleOnTabScroll = function( navigation ){
 
@@ -551,7 +561,7 @@ zz.ui.layout.NavigationRenderer.prototype.setStyleOnTabScroll = function( naviga
 
 /**
  * Update style on header transition end event.
- * @param {zz.ui.layout.Navigation} navigation
+ * @param {zz.ui.layout.NavigationCtrl} navigation
  */
 zz.ui.layout.NavigationRenderer.prototype.setStyleOnHeaderTransitionEnd = function( navigation ){
 
@@ -564,7 +574,7 @@ zz.ui.layout.NavigationRenderer.prototype.setStyleOnHeaderTransitionEnd = functi
 
 /**
  * Update style on header click event.
- * @param {zz.ui.layout.Navigation} navigation
+ * @param {zz.ui.layout.NavigationCtrl} navigation
  */
 zz.ui.layout.NavigationRenderer.prototype.setStyleOnHeaderClick = function( navigation ){
 
@@ -585,7 +595,7 @@ zz.ui.layout.NavigationRenderer.prototype.setStyleOnHeaderClick = function( navi
 
 /**
  * Update style on drawer toggle event.
- * @param {zz.ui.layout.Navigation} navigation
+ * @param {zz.ui.layout.NavigationCtrl} navigation
  */
 zz.ui.layout.NavigationRenderer.prototype.setStyleOnDrawerToggle = function( navigation ){
 
@@ -604,7 +614,7 @@ zz.ui.layout.NavigationRenderer.prototype.setStyleOnDrawerToggle = function( nav
 
 /**
  * Update style on tab-bar left button click event.
- * @param {zz.ui.layout.Navigation} navigation
+ * @param {zz.ui.layout.NavigationCtrl} navigation
  */
 zz.ui.layout.NavigationRenderer.prototype.setStyleOnTabBarLeftButtonClick = function( navigation ){
 
@@ -613,11 +623,35 @@ zz.ui.layout.NavigationRenderer.prototype.setStyleOnTabBarLeftButtonClick = func
 
 /**
  * Update style on tab-bar right button click event.
- * @param {zz.ui.layout.Navigation} navigation
+ * @param {zz.ui.layout.NavigationCtrl} navigation
  */
 zz.ui.layout.NavigationRenderer.prototype.setStyleOnTabBarRightButtonClick = function( navigation ){
 
 	navigation.getTabBarElement( ).scrollLeft += zz.ui.layout.NavigationRenderer.CONST.TAB_SCROLL_PIXELS;
+};
+
+/**
+ * Set tab active
+ * @param {Element} tab
+ */
+zz.ui.layout.NavigationRenderer.prototype.setTabActive = function( tab ){
+
+	goog.dom.classlist.add(
+
+		tab,
+		zz.ui.layout.NavigationRenderer.CSS.IS_ACTIVE );
+};
+
+/**
+ * Set panel active
+ * @param {Element} panel
+ */
+zz.ui.layout.NavigationRenderer.prototype.setPanelActive = function( panel ){
+
+	goog.dom.classlist.add(
+
+		panel,
+		zz.ui.layout.NavigationRenderer.CSS.IS_ACTIVE );
 };
 
 /**
@@ -656,7 +690,7 @@ zz.ui.layout.NavigationRenderer.prototype.resetPanelState = function( panels ){
 
 /**
  * @override
- * @param {zz.ui.layout.Navigation} navigation
+ * @param {zz.ui.layout.NavigationCtrl} navigation
  * @returns {Element}
  */
 zz.ui.layout.NavigationRenderer.prototype.createDom = function( navigation ){
@@ -678,7 +712,7 @@ zz.ui.layout.NavigationRenderer.prototype.createDom = function( navigation ){
 
 /**
  * @override
- * @param {zz.ui.layout.Navigation} navigation
+ * @param {zz.ui.layout.NavigationCtrl} navigation
  * @param {Element} element
  * @returns {Element}
  */
@@ -862,6 +896,10 @@ zz.ui.layout.NavigationRenderer.prototype.decorate = function( navigation, eleme
 
 		this.createTabBarDom_( navigation );
 	}
+	goog.dom.classlist.add(
+
+		element,
+		zz.ui.layout.NavigationRenderer.CSS.IS_UPGRADED );
 
 	return container;
 };
