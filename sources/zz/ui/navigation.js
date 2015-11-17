@@ -31,7 +31,6 @@ goog.provide( 'zz.ui.Navigation' );
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'soy' );
 goog.require( 'goog.array' );
 goog.require( 'goog.object' );
 goog.require( 'goog.asserts' );
@@ -39,9 +38,7 @@ goog.require( 'goog.dom.TagName' );
 goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.events.EventType' );
 goog.require( 'goog.ui.Component' );
-
 goog.require( 'zz.ui.Ripple' );
-goog.require( 'zz.template.ui.navigation' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -49,7 +46,7 @@ goog.require( 'zz.template.ui.navigation' );
 
 /**
  * Navigation layout class.
- * @param {goog.ui.ControlContent=} opt_title Text caption or DOM structure to display as the title of the layout.
+ * @param {string=} opt_title Text caption or DOM structure to display as the title of the layout.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @extends {goog.ui.Control}
  * @constructor
@@ -60,7 +57,7 @@ zz.ui.Navigation = function( opt_title, opt_domHelper ){
 
 	/**
 	 * Layout navigation title content.
-	 * @type {goog.ui.ControlContent=}
+	 * @type {string}
 	 * @private
 	 */
 	this.title_ = opt_title || '';
@@ -178,14 +175,11 @@ zz.ui.Navigation.prototype.mode_ = zz.ui.Navigation.MODE.STANDARD;
  */
 zz.ui.Navigation.prototype.createDom = function( ){
 
-	var element = soy.renderAsFragment( zz.template.ui.navigation.fixedHeadersAndTabs );
-	return this.decorate( element );
+	goog.base( this, 'createDom' );
 };
 
 /**
  * @override
- * @param {Element} element
- * @returns {Element}
  */
 zz.ui.Navigation.prototype.decorateInternal = function( element ){
 
@@ -194,7 +188,9 @@ zz.ui.Navigation.prototype.decorateInternal = function( element ){
 
 		'class': zz.ui.Navigation.CSS.CONTAINER
 
-	}, element );
+	} );
+	goog.dom.insertSiblingBefore( container, element );
+	goog.dom.appendChild( container, element );
 
 	// Find elements
 	if( !this.headerElement_ ||
@@ -305,9 +301,19 @@ zz.ui.Navigation.prototype.decorateInternal = function( element ){
 		goog.dom.classlist.add( element, zz.ui.Navigation.CSS.HAS_TABS );
 		this.createTabBarDom_( );
 	}
+
+	// Patch ripples
+	this.ripples = [ ];
+	goog.array.forEach( goog.dom.getElementsByClass( zz.ui.Navigation.CSS.RIPPLE_CONTAINER ), function( ripple ){
+
+		this.ripples.push( new zz.ui.Ripple( ) );
+		this.ripples[ this.ripples.length - 1 ].decorate( ripple );
+
+	}, this );
+
+	// Final changes
 	goog.dom.classlist.add( element, zz.ui.Navigation.CSS.IS_UPGRADED );
-	this.setElementInternal( container );
-	return container;
+	return goog.base( this, 'decorateInternal', container );
 };
 
 /**
@@ -420,16 +426,6 @@ zz.ui.Navigation.prototype.enterDocument = function( ){
 				this
 			);
 		}, this );
-
-		var ripples = goog.dom.getElementsByClass( goog.getCssName( zz.ui.Navigation.CSS.RIPPLE_CONTAINER ) );
-		var wrapper = [];
-		console.log( ripples );
-		goog.array.forEach( ripples, function( ripple ){
-
-			wrapper.push( new zz.ui.Ripple( ) );
-			wrapper[ wrapper.length - 1 ].decorate( ripple );
-		} );
-		console.log( wrapper );
 	}
 };
 
@@ -454,6 +450,11 @@ zz.ui.Navigation.prototype.disposeInternal = function( ){
 	this.panelsElements_ = null;
 	this.bodyElement_ = null;
 	this.obfuscatorElement_ = null;
+	goog.array.forEach( this.ripples, function( ripple ){
+
+		ripple.dispose( );
+	} );
+	this.ripples = [ ];
 };
 
 /**********************************************************************************************************************
@@ -494,7 +495,7 @@ zz.ui.Navigation.prototype.setTitle = function( title ){
 
 /**
  * Return layout navigation title.
- * @returns {goog.ui.ControlContent=}
+ * @returns {string}
  */
 zz.ui.Navigation.prototype.getTitle = function( ){
 

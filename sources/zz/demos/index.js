@@ -34,6 +34,9 @@ goog.provide( 'zz.demos.app' );
 goog.require( 'zz.module.user.view.Users' );
 goog.require( 'zz.ui.Navigation' );
 
+goog.require( 'soy' );
+goog.require( 'zz.template.ui.navigation' );
+
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
@@ -44,8 +47,10 @@ zz.demos.app.run = function( ){
 	//var usersView = goog.global.userView =  new zz.module.user.view.Users( );
 	//usersView.render( goog.dom.getElement( 'root' ) );
 
+	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.navigation.fixedHeadersAndTabs );
+
 	var layout = new zz.ui.Navigation( );
-		layout.render( goog.dom.getElement( 'root' ) );
+		layout.decorate( goog.dom.getElementByClass( goog.getCssName( 'mdl-js-layout' ) ) );
 
 	/******************************************************************************************************************
 	 * Fast click testing                                                                                             *
