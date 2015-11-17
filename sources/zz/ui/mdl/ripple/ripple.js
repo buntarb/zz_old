@@ -15,16 +15,6 @@
  * limitations under the License.
  */
 
-/**********************************************************************************************************************
- * Provide section                                                                                                    *
- **********************************************************************************************************************/
-goog.provide( 'zz.ui.mdl.MaterialRipple' );
-
-/**********************************************************************************************************************
- * Dependencies section                                                                                               *
- **********************************************************************************************************************/
-goog.require( 'zz.ui.mdl.componentHandler' );
-
 (function() {
   'use strict';
 
@@ -149,6 +139,7 @@ goog.require( 'zz.ui.mdl.componentHandler' );
       var recentering = this.element_.classList.contains(this.CssClasses_.RIPPLE_CENTER);
       if (!this.element_.classList.contains(
           this.CssClasses_.RIPPLE_EFFECT_IGNORE_EVENTS)) {
+
         this.rippleElement_ = this.element_.querySelector('.' + this.CssClasses_.RIPPLE);
         this.frameCount_ = 0;
         this.rippleSize_ = 0;
@@ -285,10 +276,4 @@ goog.require( 'zz.ui.mdl.componentHandler' );
     cssClass: goog.getCssName( 'mdl-js-ripple-effect' ),
     widget: false
   });
-
-  /********************************************************************************************************************
-   * Definition section                                                                                               *
-   ********************************************************************************************************************/
-  zz.ui.mdl.MaterialRipple = MaterialRipple;
-
 })();

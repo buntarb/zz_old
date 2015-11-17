@@ -39,6 +39,8 @@ goog.require( 'goog.dom.TagName' );
 goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.events.EventType' );
 goog.require( 'goog.ui.Component' );
+
+goog.require( 'zz.ui.Ripple' );
 goog.require( 'zz.template.ui.navigation' );
 
 /**********************************************************************************************************************
@@ -176,7 +178,7 @@ zz.ui.Navigation.prototype.mode_ = zz.ui.Navigation.MODE.STANDARD;
  */
 zz.ui.Navigation.prototype.createDom = function( ){
 
-	var element = soy.renderAsFragment( zz.template.ui.navigation.default );
+	var element = soy.renderAsFragment( zz.template.ui.navigation.fixedHeadersAndTabs );
 	return this.decorate( element );
 };
 
@@ -418,6 +420,16 @@ zz.ui.Navigation.prototype.enterDocument = function( ){
 				this
 			);
 		}, this );
+
+		var ripples = goog.dom.getElementsByClass( goog.getCssName( zz.ui.Navigation.CSS.RIPPLE_CONTAINER ) );
+		var wrapper = [];
+		console.log( ripples );
+		goog.array.forEach( ripples, function( ripple ){
+
+			wrapper.push( new zz.ui.Ripple( ) );
+			wrapper[ wrapper.length - 1 ].decorate( ripple );
+		} );
+		console.log( wrapper );
 	}
 };
 
