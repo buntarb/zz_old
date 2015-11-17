@@ -269,36 +269,11 @@ function checkApplication( ){
 
 /**
  * Compile existing application.
+ * //@ sourceMappingURL=zz.js.map
  */
 function compileApplication( ){
 
 	var cmd = 'rm ./app/zz.js ./app/zz.css';
-	var mdlSrc = [
-		// Component handler
-		'./libs/google-material-design/src/mdlComponentHandler.js',
-		// Polyfills/dependencies
-		'./libs/google-material-design/src/third_party/**/*.js',
-		// Base components
-		'./libs/google-material-design/src/button/button.js',
-		'./libs/google-material-design/src/checkbox/checkbox.js',
-		'./libs/google-material-design/src/icon-toggle/icon-toggle.js',
-		'./libs/google-material-design/src/menu/menu.js',
-		'./libs/google-material-design/src/progress/progress.js',
-		'./libs/google-material-design/src/radio/radio.js',
-		'./libs/google-material-design/src/slider/slider.js',
-		'./libs/google-material-design/src/snackbar/snackbar.js',
-		'./libs/google-material-design/src/spinner/spinner.js',
-		'./libs/google-material-design/src/switch/switch.js',
-		'./libs/google-material-design/src/tabs/tabs.js',
-		'./libs/google-material-design/src/textfield/textfield.js',
-		'./libs/google-material-design/src/tooltip/tooltip.js',
-		// Complex components (which reuse base components)
-		'./libs/google-material-design/src/layout/layout.js',
-		'./libs/google-material-design/src/data-table/data-table.js',
-		// And finally, the ripples
-		'./libs/google-material-design/src/ripple/ripple.js'
-	];
-
 	exec( cmd, function( err ){
 
 		if( err ) console.log( err );
@@ -310,7 +285,6 @@ function compileApplication( ){
 				'--root=./libs/google-closure-library/closure/goog/ ' +
 				'--root=./libs/google-closure-library/third_party/closure/ ' +
 				'--root=./libs/google-closure-templates/ ' +
-				'--root=./libs/google-material-design/src/ ' +
 				'--root=./sources/zz/ ' +
 
 				// Externs
@@ -323,11 +297,13 @@ function compileApplication( ){
 				'--output_mode=compiled ' +
 				'--compiler_jar=./libs/google-closure-compiler/compiler.jar ' +
 
+				'--compiler_flags="--source_map_format=V3" ' +
 				'--compiler_flags="--compilation_level=ADVANCED_OPTIMIZATIONS" ' +
 				'--compiler_flags="--language_in=ECMASCRIPT5_STRICT" ' +
 				'--compiler_flags="--language_out=ECMASCRIPT5_STRICT" ' +
 
 				// Output file
+				'--compiler_flags="--create_source_map=./app/zz.js.map" ' +
 				'--compiler_flags="--js_output_file=./app/zz.js" ';
 
 		exec( cmd, function( error, stdout, stderr ){
