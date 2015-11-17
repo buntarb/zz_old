@@ -193,14 +193,24 @@ function calcDependencies( ){//noinspection JSUnresolvedFunction
  */
 function copyResources( ){
 
-	var cmd = 'rm -r ./stylesheets/_css/resources/*';
+	var cmd = 'rm -r ./stylesheets/_css/resources/';
 	exec( cmd, function( err ){
 
 		if( err ) console.log( err );
-		cmd = 'cp -r ./resources/* ./stylesheets/_css/resources/';
+		cmd = 'cp -r ./resources ./stylesheets/_css/resources';
 		exec( cmd, function( err ){
 
 			if( err ) console.log( err );
+			cmd = 'rm -r ./stylesheets/_gss/resources/';
+			exec( cmd, function( err ){
+
+				if( err ) console.log( err );
+				cmd = 'cp -r ./resources ./stylesheets/_gss/resources';
+				exec( cmd, function( err ){
+
+					if( err ) console.log( err );
+				} );
+			} );
 		} );
 	} );
 }
@@ -212,14 +222,11 @@ function watchFrontendChanges( ){
 
 	gulp.watch( './templates/**/*', [ 'compile:tpl' ] );
 	gulp.watch( './stylesheets/scss/**/*', [ 'compile:sass' ] );
-	gulp.watch( './stylesheets/_gss/zz.css', [ 'compile:gss', 'copy:resources' ] );
+	gulp.watch( './stylesheets/_gss/zz.css', [ 'compile:gss' ] );
 	gulp.watch( './sources/zz/base.js', [ 'calcDependencies' ] );
 	gulp.watch( './sources/zz/*/*.js', [ 'calcDependencies' ] );
 	gulp.watch( './sources/zz/*/*/*.js', [ 'calcDependencies' ] );
 	gulp.watch( './sources/zz/*/*/*/*.js', [ 'calcDependencies' ] );
-
-	//This watcher work with both ./sources/zz/* dir and all of it subdirs.
-	//gulp.watch( './sources/zz/**/*.js', ['calcDependencies'] );
 }
 
 /**
@@ -322,8 +329,6 @@ function compileApplication( ){
 
 				// Output file
 				'--compiler_flags="--js_output_file=./app/zz.js" ';
-
-		console.log( cmd );
 
 		exec( cmd, function( error, stdout, stderr ){
 
