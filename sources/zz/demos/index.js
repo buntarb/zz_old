@@ -32,7 +32,7 @@ goog.provide( 'zz.demos.app' );
  **********************************************************************************************************************/
 
 goog.require( 'zz.module.user.view.Users' );
-goog.require( 'zz.ui.layout.Navigation' );
+goog.require( 'zz.ui.Navigation' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -44,7 +44,7 @@ zz.demos.app.run = function( ){
 	//var usersView = goog.global.userView =  new zz.module.user.view.Users( );
 	//usersView.render( goog.dom.getElement( 'root' ) );
 
-	var layout = new zz.ui.layout.Navigation( );
+	var layout = new zz.ui.Navigation( );
 		layout.render( goog.dom.getElement( 'root' ) );
 
 	/******************************************************************************************************************
