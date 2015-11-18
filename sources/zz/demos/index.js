@@ -35,7 +35,6 @@ goog.require( 'soy' );
 goog.require( 'goog.events' );
 goog.require( 'goog.ui.Component' );
 
-goog.require( 'zz.module.user.view.Users' );
 goog.require( 'zz.ui.Button' );
 goog.require( 'zz.ui.Navigation' );
 goog.require( 'zz.template.ui.button' );

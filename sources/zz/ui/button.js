@@ -43,7 +43,7 @@ goog.require( 'goog.ui.Component' );
 /**
  * Material ripple fx class.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
- * @extends {goog.ui.Control}
+ * @extends {goog.ui.Component}
  * @constructor
  */
 zz.ui.Button = function( opt_domHelper ){
@@ -208,19 +208,10 @@ zz.ui.Button.prototype.getCssClass = function( ){
  **********************************************************************************************************************/
 
 /**
- * Disable button.
- * @public
+ * Enable/disable button.
+ * @param {boolean} enable
  */
-zz.ui.Button.prototype.disable = function( ){
+zz.ui.Button.prototype.setDisable = function( enable ){
 
-	this.getElement( ).disabled = true;
-};
-
-/**
- * Enable button.
- * @public
- */
-zz.ui.Button.prototype.enable = function( ){
-
-	this.getElement( ).disabled = false;
+	this.getElement( ).disabled = enable;
 };
