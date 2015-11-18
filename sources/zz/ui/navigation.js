@@ -187,10 +187,10 @@ zz.ui.Navigation.prototype.decorateInternal = function( element ){
 	var container = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 
 		'class': zz.ui.Navigation.CSS.CONTAINER
-
 	} );
 	goog.dom.insertSiblingBefore( container, element );
 	goog.dom.appendChild( container, element );
+	goog.base( this, 'decorateInternal', container );
 
 	// Find elements
 	if( !this.headerElement_ ||
@@ -302,18 +302,8 @@ zz.ui.Navigation.prototype.decorateInternal = function( element ){
 		this.createTabBarDom_( );
 	}
 
-	// Patch ripples
-	this.ripples = [ ];
-	goog.array.forEach( goog.dom.getElementsByClass( zz.ui.Navigation.CSS.RIPPLE_CONTAINER ), function( ripple ){
-
-		this.ripples.push( new zz.ui.Ripple( ) );
-		this.ripples[ this.ripples.length - 1 ].decorate( ripple );
-
-	}, this );
-
 	// Final changes
 	goog.dom.classlist.add( element, zz.ui.Navigation.CSS.IS_UPGRADED );
-	return goog.base( this, 'decorateInternal', container );
 };
 
 /**
@@ -324,6 +314,7 @@ zz.ui.Navigation.prototype.decorateInternal = function( element ){
 zz.ui.Navigation.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
+
 	if( this.mode_ === zz.ui.Navigation.MODE.WATERFALL ){
 
 		this.getHandler( ).listenWithScope(
@@ -427,6 +418,14 @@ zz.ui.Navigation.prototype.enterDocument = function( ){
 			);
 		}, this );
 	}
+	this.ripples = [ ];
+	goog.array.forEach( goog.dom.getElementsByClass( zz.ui.Navigation.CSS.RIPPLE_CONTAINER ), function( ripple ){
+
+		this.ripples.push( new zz.ui.Ripple( ) );
+		this.addChild( this.ripples[ this.ripples.length - 1 ], false );
+		this.ripples[ this.ripples.length - 1 ].decorate( ripple );
+
+	}, this );
 };
 
 /**

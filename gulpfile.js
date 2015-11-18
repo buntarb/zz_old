@@ -46,7 +46,7 @@ function startWebServer( ){
 	var port = 8080;
 
 	//noinspection JSCheckFunctionSignatures,JSUnresolvedVariable
-	app.use( express.static(__dirname ) );
+	app.use( express.static( __dirname ) );
 	app.listen( port );
 	console.log('Static server started at http://localhost:' + port);
 }
