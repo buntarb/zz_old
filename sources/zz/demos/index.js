@@ -31,11 +31,13 @@ goog.provide( 'zz.demos.app' );
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
+goog.require( 'soy' );
+goog.require( 'goog.events' );
+goog.require( 'goog.ui.Component' );
+
 goog.require( 'zz.module.user.view.Users' );
 goog.require( 'zz.ui.Button' );
 goog.require( 'zz.ui.Navigation' );
-
-goog.require( 'soy' );
 goog.require( 'zz.template.ui.button' );
 goog.require( 'zz.template.ui.navigation' );
 
@@ -94,6 +96,11 @@ zz.demos.app.run = function( ){
 		btn19.decorate( goog.dom.getElement( '19' ) );
 	var btn20 = new zz.ui.Button( );
 		btn20.decorate( goog.dom.getElement( '20' ) );
+
+	goog.events.listen( btn1, goog.ui.Component.EventType.ACTION, function( evt ){
+
+		console.log( evt );
+	} );
 
 
 //	var usersView = goog.global.userView =  new zz.module.user.view.Users( );

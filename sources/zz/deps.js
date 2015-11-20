@@ -16,7 +16,7 @@ goog.addDependency("../../../../sources/zz/mvc/model/model.js", ['zz.mvc.model']
 goog.addDependency("../../../../sources/zz/mvc/model/datarowupdateevent.js", ['zz.mvc.model.DatarowUpdateEvent'], ['goog.events.Event', 'zz.mvc.model.EventType']);
 goog.addDependency("../../../../sources/zz/_stylesheet/remap.js", ['zz._stylesheet.remap'], []);
 goog.addDependency("../../../../sources/zz/events/events.js", ['zz.events'], []);
-goog.addDependency("../../../../sources/zz/demos/index.js", ['zz.demos.app'], ['zz.module.user.view.Users', 'zz.ui.Button', 'zz.ui.Navigation', 'soy', 'zz.template.ui.button', 'zz.template.ui.navigation']);
+goog.addDependency("../../../../sources/zz/demos/index.js", ['zz.demos.app'], ['soy', 'goog.events', 'goog.ui.Component', 'zz.module.user.view.Users', 'zz.ui.Button', 'zz.ui.Navigation', 'zz.template.ui.button', 'zz.template.ui.navigation']);
 goog.addDependency("../../../../sources/zz/ui/checkboxrenderer.js", ['zz.ui.CheckboxRenderer'], ['goog.a11y.aria', 'goog.a11y.aria.Role', 'goog.a11y.aria.State', 'goog.array', 'goog.asserts', 'goog.dom.TagName', 'goog.dom.classlist', 'goog.object', 'goog.ui.ControlRenderer']);
 goog.addDependency("../../../../sources/zz/ui/navigation.js", ['zz.ui.Navigation'], ['goog.array', 'goog.object', 'goog.asserts', 'goog.dom.TagName', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'zz.ui.Ripple']);
 goog.addDependency("../../../../sources/zz/ui/button.js", ['zz.ui.Button'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component']);

@@ -233,10 +233,9 @@ zz.ui.Ripple.prototype.animationFrameHandler = function( ){
  */
 zz.ui.Ripple.prototype.downHandler_ = function( event ){
 
-	if( !goog.style.getSize( this.rippleElement_ ).width &&
-		!goog.style.getSize( this.rippleElement_ ).height ){
+	if( !goog.style.getStyle( this.rippleElement_ ).width &&
+		!goog.style.getStyle( this.rippleElement_ ).height ){
 
-		//var rect = this.element_.getBoundingClientRect( );
 		var rect = goog.style.getBounds( this.element_ );
 		this.boundHeight = rect.height;
 		this.boundWidth = rect.width;
