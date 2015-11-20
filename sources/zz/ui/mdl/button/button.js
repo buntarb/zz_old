@@ -89,6 +89,7 @@ goog.require( 'zz.ui.mdl.componentHandler' );
   MaterialButton.prototype.disable = function() {
     this.element_.disabled = true;
   };
+
   MaterialButton.prototype['disable'] = MaterialButton.prototype.disable;
 
   /**
@@ -99,6 +100,7 @@ goog.require( 'zz.ui.mdl.componentHandler' );
   MaterialButton.prototype.enable = function() {
     this.element_.disabled = false;
   };
+
   MaterialButton.prototype['enable'] = MaterialButton.prototype.enable;
 
   /**

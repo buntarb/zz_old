@@ -102,23 +102,10 @@ zz.ui.Ripple.prototype.createDom = function( ){
 
 /**
  * @override
- * @param {Element} element
- * @returns {Element}
  */
 zz.ui.Ripple.prototype.decorateInternal = function( element ){
 
 	goog.base( this, 'decorateInternal', element );
-	return element;
-};
-
-/**
- * Called when the component's element is known to be in the document. Anything using document.getElementById etc.
- * should be done at this stage. If the component contains child components, this call is propagated to its children.
- * @override
- */
-zz.ui.Ripple.prototype.enterDocument = function( ){
-
-	goog.base( this, 'enterDocument' );
 
 	/**
 	 * Centering flag.
@@ -168,6 +155,16 @@ zz.ui.Ripple.prototype.enterDocument = function( ){
 	 * @private
 	 */
 	this.ignoringMouseDown_ = false;
+};
+
+/**
+ * Called when the component's element is known to be in the document. Anything using document.getElementById etc.
+ * should be done at this stage. If the component contains child components, this call is propagated to its children.
+ * @override
+ */
+zz.ui.Ripple.prototype.enterDocument = function( ){
+
+	goog.base( this, 'enterDocument' );
 
 	// Dispose object if find ignore class.
 	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.Ripple.CSS.RIPPLE_EFFECT_IGNORE_EVENTS ) ){

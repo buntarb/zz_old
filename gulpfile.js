@@ -104,7 +104,7 @@ function compileTemplates( ){
 			'--cssHandlingScheme goog ' +
 			'--shouldGenerateJsdoc ' +
 			'--outputPathFormat ./sources/zz/_template/{INPUT_FILE_NAME_NO_EXT}.js ' +
-			'--srcs ' + results.join( ', ' );
+			'--srcs ' + results.join( ',' );
 
 		exec( cmd, function( err ){
 
