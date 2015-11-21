@@ -276,15 +276,15 @@ zz.module.user.view.User.prototype.setInputControlStyle = function( ctrl ){
 
 	goog.dom.classlist.addAll( ctrl.getElement( ), [
 
-		goog.getCssName( 'width-23un' ),
-		goog.getCssName( 'height-5un' ),
-		goog.getCssName( 'margin-right-1un' ),
-		goog.getCssName( 'margin-left-1un' ),
-		goog.getCssName( 'padding-top-1un' ),
-		goog.getCssName( 'padding-right-1un' ),
-		goog.getCssName( 'padding-bottom-1un' ),
-		goog.getCssName( 'padding-left-1un' ),
-		goog.getCssName( 'line-height-3un' ),
-		goog.getCssName( 'font-size-normal' )
+		//goog.getCssName( 'width-23un' ),
+		//goog.getCssName( 'height-5un' ),
+		//goog.getCssName( 'margin-right-1un' ),
+		//goog.getCssName( 'margin-left-1un' ),
+		//goog.getCssName( 'padding-top-1un' ),
+		//goog.getCssName( 'padding-right-1un' ),
+		//goog.getCssName( 'padding-bottom-1un' ),
+		//goog.getCssName( 'padding-left-1un' ),
+		//goog.getCssName( 'line-height-3un' ),
+		//goog.getCssName( 'font-size-normal' )
 	] );
 };

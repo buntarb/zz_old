@@ -1,0 +1,267 @@
+{namespace zz.template.ui.navigation}
+
+/**
+ * Default simple layout.
+ */
+{template .default}
+    <div class="{css mdl-layout} {css mdl-js-layout}">
+        <header class="{css mdl-layout__header}">
+            <div class="{css mdl-layout__header-row}">
+                <span class="{css mdl-layout-title}">Default simple layout</span>
+                <div class="{css mdl-layout-spacer}"></div>
+                <nav class="{css mdl-navigation}">
+                    <a class="{css mdl-navigation__link}" href="">Link</a>
+                    <a class="{css mdl-navigation__link}" href="">Link</a>
+                    <a class="{css mdl-navigation__link}" href="">Link</a>
+                    <a class="{css mdl-navigation__link}" href="">Link</a>
+                </nav>
+            </div>
+        </header>
+        <div class="{css mdl-layout__drawer}">
+            <span class="{css mdl-layout-title}">Title</span>
+            <nav class="{css mdl-navigation}">
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+            </nav>
+        </div>
+        <main class="{css mdl-layout__content}"></main>
+    </div>
+{/template}
+
+/**
+ * No header, fixed drawer.
+ */
+{template .noHeader}
+    <div class="{css mdl-layout} {css mdl-js-layout} {css mdl-layout--fixed-drawer}">
+        <div class="{css mdl-layout__drawer}">
+            <span class="{css mdl-layout-title}">No header</span>
+            <nav class="{css mdl-navigation}">
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+            </nav>
+        </div>
+        <main class="{css mdl-layout__content}">
+            <div class="{css page-content}"></div>
+        </main>
+    </div>
+{/template}
+
+/**
+ * Fixed header.
+ */
+{template .fixedHeader}
+    <div class="{css mdl-layout} {css mdl-js-layout} {css mdl-layout--fixed-header}">
+        <header class="{css mdl-layout__header}">
+        <div class="{css mdl-layout__header-row}">
+            <span class="{css mdl-layout-title}">Fixed header</span>
+            <div class="{css mdl-layout-spacer}"></div>
+            <nav class="{css mdl-navigation} {css mdl-layout--large-screen-only}">
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+            </nav>
+        </div>
+        </header>
+        <div class="{css mdl-layout__drawer}">
+            <span class="{css mdl-layout-title}">Title</span>
+            <nav class="{css mdl-navigation}">
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+            </nav>
+        </div>
+        <main class="{css mdl-layout__content}">
+            <div class="{css page-content}"></div>
+        </main>
+    </div>
+{/template}
+
+/**
+ * Fixed header and drawer
+ */
+{template .fixedHeaderAndDrawer}
+    <div class="{css mdl-layout} {css mdl-js-layout} {css mdl-layout--fixed-drawer} {css mdl-layout--fixed-header}">
+        <header class="{css mdl-layout__header}">
+            <div class="{css mdl-layout__header-row}">
+                <div class="{css mdl-layout-spacer}"></div>
+                <div class="{css mdl-textfield} {css mdl-js-textfield} {css mdl-textfield--expandable} {css mdl-textfield--floating-label} {css mdl-textfield--align-right}">
+                    <label class="{css mdl-button} {css mdl-js-button} {css mdl-button--icon}" for="fixed-header-drawer-exp">
+                        <i class="{css material-icons}">search</i>
+                    </label>
+                    <div class="{css mdl-textfield__expandable-holder}">
+                        <input class="{css mdl-textfield__input}" type="text" name="sample" id="fixed-header-drawer-exp">
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="{css mdl-layout__drawer}">
+            <span class="{css mdl-layout-title}">Title</span>
+            <nav class="{css mdl-navigation}">
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+            </nav>
+        </div>
+        <main class="{css mdl-layout__content}">
+            <div class="{css page-content}"></div>
+        </main>
+    </div>
+{/template}
+
+/**
+ * Scrolling header.
+ */
+{template .scrollingHeader}
+    <div class="{css mdl-layout} {css mdl-js-layout}">
+        <header class="{css mdl-layout__header} {css mdl-layout__header--scroll}">
+            <div class="{css mdl-layout__header-row}">
+                <span class="{css mdl-layout-title}">Scrolling header</span>
+                <div class="{css mdl-layout-spacer}"></div>
+                <nav class="{css mdl-navigation}">
+                    <a class="{css mdl-navigation__link}" href="">Link</a>
+                    <a class="{css mdl-navigation__link}" href="">Link</a>
+                    <a class="{css mdl-navigation__link}" href="">Link</a>
+                    <a class="{css mdl-navigation__link}" href="">Link</a>
+                </nav>
+            </div>
+        </header>
+        <div class="{css mdl-layout__drawer}">
+            <span class="{css mdl-layout-title}">Title</span>
+            <nav class="{css mdl-navigation}">
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+            </nav>
+        </div>
+        <main class="{css mdl-layout__content}">
+            <div class="{css page-content}"></div>
+        </main>
+    </div>
+{/template}
+
+/**
+ * Waterfall header.
+ */
+{template .waterfallHeader}
+    <div class="{css demo-layout-waterfall} {css mdl-layout} {css mdl-js-layout}">
+        <header class="{css mdl-layout__header} {css mdl-layout__header--waterfall}">
+            <div class="{css mdl-layout__header-row}">
+                <span class="{css mdl-layout-title}">Title</span>
+                <div class="{css mdl-layout-spacer}"></div>
+                <div class="{css mdl-textfield} {css mdl-js-textfield} {css mdl-textfield--expandable} {css mdl-textfield--floating-label} {css mdl-textfield--align-right}">
+                    <label class="{css mdl-button} {css mdl-js-button} {css mdl-button--icon}" for="waterfall-exp">
+                        <i class="{css material-icons}">search</i>
+                    </label>
+                    <div class="{css mdl-textfield__expandable-holder}">
+                        <input class="{css mdl-textfield__input}" type="text" name="sample" id="waterfall-exp">
+                    </div>
+                </div>
+            </div>
+            <div class="{css mdl-layout__header-row}">
+                <div class="{css mdl-layout-spacer}"></div>
+                <nav class="{css mdl-navigation}">
+                    <a class="{css mdl-navigation__link}" href="">Link</a>
+                    <a class="{css mdl-navigation__link}" href="">Link</a>
+                    <a class="{css mdl-navigation__link}" href="">Link</a>
+                    <a class="{css mdl-navigation__link}" href="">Link</a>
+                </nav>
+            </div>
+        </header>
+        <div class="{css mdl-layout__drawer}">
+            <span class="{css mdl-layout-title}">Title</span>
+            <nav class="{css mdl-navigation}">
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+            </nav>
+        </div>
+        <main class="{css mdl-layout__content}">
+            <div class="{css page-content}"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></div>
+        </main>
+    </div>
+{/template}
+
+/**
+ * Scrollable tabs.
+ */
+{template .scrollableTabs}
+    <div class="{css mdl-layout} {css mdl-js-layout} {css mdl-layout--fixed-header}">
+        <header class="{css mdl-layout__header}">
+            <div class="{css mdl-layout__header-row}">
+                <span class="{css mdl-layout-title}">Scrollable tabs</span>
+            </div>
+            <div class="{css mdl-layout__tab-bar} {css mdl-js-ripple-effect}">
+                <a href="#scroll-tab-1" class="{css mdl-layout__tab} {css is-active}">Tab 1</a>
+                <a href="#scroll-tab-2" class="{css mdl-layout__tab}">Tab 2</a>
+                <a href="#scroll-tab-3" class="{css mdl-layout__tab}">Tab 3</a>
+                <a href="#scroll-tab-4" class="{css mdl-layout__tab}">Tab 4</a>
+                <a href="#scroll-tab-5" class="{css mdl-layout__tab}">Tab 5</a>
+                <a href="#scroll-tab-6" class="{css mdl-layout__tab}">Tab 6</a>
+            </div>
+        </header>
+        <div class="{css mdl-layout__drawer}">
+            <span class="{css mdl-layout-title}">Scrollable tabs</span>
+        </div>
+        <main class="{css mdl-layout__content}">
+            <section class="{css mdl-layout__tab-panel} {css is-active}" id="scroll-tab-1">
+                <div class="{css page-content}"></div>
+            </section>
+            <section class="{css mdl-layout__tab-panel}" id="scroll-tab-2">
+                <div class="{css page-content}"></div>
+            </section>
+            <section class="{css mdl-layout__tab-panel}" id="scroll-tab-3">
+                <div class="{css page-content}"></div>
+            </section>
+            <section class="{css mdl-layout__tab-panel}" id="scroll-tab-4">
+                <div class="{css page-content}"></div>
+            </section>
+            <section class="{css mdl-layout__tab-panel}" id="scroll-tab-5">
+                <div class="{css page-content}"></div>
+            </section>
+            <section class="{css mdl-layout__tab-panel}" id="scroll-tab-6">
+                <div class="{css page-content}"></div>
+            </section>
+        </main>
+    </div>
+{/template}
+
+/**
+ * Simple header with fixed tabs.
+ */
+{template .fixedHeadersAndTabs}
+    <div class="{css mdl-layout} {css mdl-js-layout} {css mdl-layout--fixed-header} {css mdl-layout--fixed-tabs}">
+        <header class="{css mdl-layout__header}">
+            <div class="{css mdl-layout__header-row}">
+                <span class="{css mdl-layout-title}">Simple header with fixed tabs</span>
+            </div>
+            <div class="{css mdl-layout__tab-bar} {css mdl-js-ripple-effect}">
+                <a href="#fixed-tab-1" class="{css mdl-layout__tab} {css is-active}">Tab 1</a>
+                <a href="#fixed-tab-2" class="{css mdl-layout__tab}">Tab 2</a>
+                <a href="#fixed-tab-3" class="{css mdl-layout__tab}">Tab 3</a>
+            </div>
+        </header>
+        <div class="{css mdl-layout__drawer}">
+            <span class="{css mdl-layout-title}">Title</span>
+        </div>
+        <main class="{css mdl-layout__content}">
+            <section class="{css mdl-layout__tab-panel} {css is-active}" id="fixed-tab-1">
+                <div class="{css page-content}"></div>
+            </section>
+            <section class="{css mdl-layout__tab-panel}" id="fixed-tab-2">
+                <div class="{css page-content}"></div>
+            </section>
+            <section class="{css mdl-layout__tab-panel}" id="fixed-tab-3">
+                <div class="{css page-content}"></div>
+            </section>
+        </main>
+    </div>
+{/template}

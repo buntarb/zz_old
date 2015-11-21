@@ -38,6 +38,7 @@ goog.require( 'zz.mvc.model.Message' );
 goog.require( 'zz.mvc.model.EventType' );
 goog.require( 'zz.mvc.controller.BaseController' );
 goog.require( 'zz.ui.formatter.Default' );
+//goog.require( 'zz.ui.mdl.MaterialTextfield' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -114,11 +115,31 @@ zz.ui.LabelInput.prototype.labelCssClassName = goog.getCssName( 'zz-input-label'
  */
 zz.ui.LabelInput.prototype.createDom = function( ){
 
-	this.setElementInternal( this.getDomHelper( ).createDom( goog.dom.TagName.INPUT, {
+	this.labelElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.LABEL, {
 
-		'class': this.getCssClass( ),
-		'type': this.isPassword_ ? goog.dom.InputType.PASSWORD : goog.dom.InputType.TEXT
-	} ) );
+		'class': goog.getCssName( 'mdl-textfield__label' )
+	} );
+	this.inputElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.INPUT, {
+
+		'type': this.isPassword_ ?
+
+			goog.dom.InputType.PASSWORD :
+			goog.dom.InputType.TEXT,
+
+		'class': goog.getCssName( 'mdl-textfield__input' )
+	} );
+	this.wrapperElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+
+		'class':
+
+			goog.getCssName( 'mdl-textfield' ) + ' ' +
+			goog.getCssName( 'mdl-js-textfield' ) + ' ' +
+			goog.getCssName( 'mdl-textfield--floating-label' )
+	}, [
+		this.inputElement_,
+		this.labelElement_
+	] );
+	this.setElementInternal( this.wrapperElement_ );
 };
 
 /**
@@ -141,7 +162,7 @@ zz.ui.LabelInput.prototype.enterDocument = function( ){
 			this.model_.datarow[ this.model_.datafield ]
 		) );
 	}
-	this.getHandler( ).listenWithScope( this.getContentElement( ), [
+	this.getHandler( ).listenWithScope( this.inputElement_, [
 
 		goog.events.EventType.INPUT,
 		goog.events.EventType.CHANGE
@@ -161,6 +182,7 @@ zz.ui.LabelInput.prototype.enterDocument = function( ){
 			this.setValue( this.formatter_.format( this.model_.datarow[ this.model_.datafield ] ) );
 		}
 	}, false, this );
+//	new zz.ui.mdl.MaterialTextfield( this.wrapperElement_ );
 };
 
 /**
