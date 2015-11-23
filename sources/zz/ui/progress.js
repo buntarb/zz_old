@@ -69,7 +69,7 @@ zz.ui.Button.CONST = { };
  * it in one place should we decide to modify at a later date.
  * @enum {string}
  */
-zz.ui.Button.CSS = {
+zz.ui.Progress.CSS = {
 	INDETERMINATE_CLASS: goog.getCssName( 'mdl-progress__indeterminate' )
 };
 
@@ -100,7 +100,7 @@ zz.ui.Progress.prototype.setProgress = function( p ) {
 		return;
 	}
 
-	this.progressbar_.style.width = p + '%';
+	this.progressbar.style.width = p + '%';
 };
 
 /**
@@ -110,8 +110,8 @@ zz.ui.Progress.prototype.setProgress = function( p ) {
  * @public
  */
 zz.ui.Progress.prototype.setBuffer = function( p ) {
-	this.bufferbar_.style.width = p + '%';
-	this.auxbar_.style.width = (100 - p) + '%';
+	this.bufferbar.style.width = p + '%';
+	this.auxbar.style.width = (100 - p) + '%';
 };
 
 /**
@@ -149,9 +149,9 @@ zz.ui.Progress.prototype.decorateInternal = function( element ){
 		goog.dom.appendChild( element, el );
 		this.auxbar = el;
 
-		this.progressbar_.style.width = '0%';
-		this.bufferbar_.style.width = '100%';
-		this.auxbar_.style.width = '0%';
+		this.progressbar.style.width = '0%';
+		this.bufferbar.style.width = '100%';
+		this.auxbar.style.width = '0%';
 
 		this.getElement( ).classList.add( goog.getCssName( 'is-upgraded' ) );
 	}
