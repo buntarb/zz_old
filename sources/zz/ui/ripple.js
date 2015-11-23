@@ -31,6 +31,7 @@ goog.provide( 'zz.ui.Ripple' );
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
+goog.require( 'goog.Timer' );
 goog.require( 'goog.style' );
 goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.events.EventType' );
@@ -246,7 +247,7 @@ zz.ui.Ripple.prototype.downHandler_ = function( event ){
 			'height': this.rippleSize_ + 'px'
 		} );
 	}
-	this.rippleElement_.classList.add( zz.ui.Ripple.CSS.IS_VISIBLE ); //noinspection JSValidateTypes
+	//noinspection JSValidateTypes
 	goog.dom.classlist.add( this.rippleElement_, zz.ui.Ripple.CSS.IS_VISIBLE );
 	if( event.type === goog.events.EventType.MOUSEDOWN && this.ignoringMouseDown_ ){
 
