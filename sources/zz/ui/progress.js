@@ -62,7 +62,7 @@ goog.tagUnsealableClass( zz.ui.Progress );
  * Store constants in one place so they can be updated easily.
  * @enum {string | number}
  */
-zz.ui.Button.CONST = { };
+zz.ui.Progress.CONST = { };
 
 /**
  * Store strings for class names defined by this component that are used in JavaScript. This allows us to simply change

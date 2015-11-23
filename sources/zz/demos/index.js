@@ -61,7 +61,7 @@ zz.demos.app.run = function( ){
 //		layout.decorate( goog.dom.getElementByClass( goog.getCssName( 'mdl-js-layout' ) ) );
 
 //	Progress
-	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.Progress.default );
+	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.progress.default );
 
 	var prg1 = new zz.ui.Progress( );
 		prg1.decorate( goog.dom.getElement( '1' ) );
