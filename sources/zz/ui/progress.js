@@ -111,7 +111,7 @@ zz.ui.Progress.prototype.setProgress = function( p ) {
  */
 zz.ui.Progress.prototype.setBuffer = function( p ) {
 	this.bufferbar.style.width = p + '%';
-	this.auxbar.style.width = (100 - p) + '%';
+	this.auxbar.style.width = ( 100 - p ) + '%';
 };
 
 /**
@@ -141,7 +141,7 @@ zz.ui.Progress.prototype.decorateInternal = function( element ){
 		goog.dom.appendChild( element, el );
 		this.bufferbar = el;
 
-		el = getDomHelper( ).createDom( goog.dom.TagName.DIV);
+		el = getDomHelper( ).createDom( goog.dom.TagName.DIV );
 		el.className =
 			goog.getCssName( 'auxbar' ) + ' ' +
 			goog.getCssName( 'bar' ) + ' ' +
@@ -163,9 +163,9 @@ zz.ui.Progress.prototype.decorateInternal = function( element ){
  *
  * @private
  */
-zz.ui.Progress.prototype.mdlDowngrade = function() {
-	while (this.getElement( ).firstChild) {
-		this.getElement( ).removeChild(this.getElement( ).firstChild);
+zz.ui.Progress.prototype.mdlDowngrade = function( ) {
+	while ( this.getElement( ).firstChild ) {
+		this.getElement( ).removeChild( this.getElement( ).firstChild );
 	}
 };
 
@@ -174,9 +174,9 @@ zz.ui.Progress.prototype.mdlDowngrade = function() {
  *
  * @private
  */
-zz.ui.Progress.prototype.mdlDowngrade = function() {
-	while (this.getElement.firstChild) {
-		this.getElement.removeChild(this.getElement.firstChild);
+zz.ui.Progress.prototype.mdlDowngrade = function( ) {
+	while ( this.getElement.firstChild ) {
+		this.getElement.removeChild( this.getElement.firstChild );
 	}
 };
 /**
