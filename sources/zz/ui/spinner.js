@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.ui.Button class.
+ * @fileoverview Provide zz.ui.Spinner class.
  * @author aleksander.popkov@gmail.com (Alexander Popkov)
  */
 
@@ -35,8 +35,6 @@ goog.require( 'goog.style' );
 goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.events.EventType' );
 goog.require( 'goog.ui.Component' );
-
-goog.require( 'zz.ui.mdl.componentHandler' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -76,11 +74,16 @@ zz.ui.Spinner.CONST = {
 zz.ui.Spinner.CSS = {
 
 	MDL_SPINNER_LAYER: goog.getCssName( 'mdl-spinner__layer' ),
+	MDL_SPINNER_LAYER_1: goog.getCssName( 'mdl-spinner__layer-1' ),
+	MDL_SPINNER_LAYER_2: goog.getCssName( 'mdl-spinner__layer-2' ),
+	MDL_SPINNER_LAYER_3: goog.getCssName( 'mdl-spinner__layer-3' ),
+	MDL_SPINNER_LAYER_4: goog.getCssName( 'mdl-spinner__layer-4' ),
 	MDL_SPINNER_CIRCLE_CLIPPER: goog.getCssName( 'mdl-spinner__circle-clipper' ),
 	MDL_SPINNER_CIRCLE: goog.getCssName( 'mdl-spinner__circle' ),
 	MDL_SPINNER_GAP_PATCH: goog.getCssName( 'mdl-spinner__gap-patch' ),
 	MDL_SPINNER_LEFT: goog.getCssName( 'mdl-spinner__left' ),
-	MDL_SPINNER_RIGHT: goog.getCssName( 'mdl-spinner__right' )
+	MDL_SPINNER_RIGHT: goog.getCssName( 'mdl-spinner__right' ),
+	MDL_SPINNER_IS_ACTIVE: goog.getCssName( 'is-active' )
 };
 
 /**********************************************************************************************************************
@@ -95,63 +98,85 @@ zz.ui.Spinner.CSS = {
  * @override
  */
 zz.ui.Spinner.prototype.createDom = function( ){
+
 	goog.base( this, 'createDom' );
 };
 
 /**
  * @override
  */
-zz.ui.Spinner.prototype.decorateInternal = function( element, index ){
+zz.ui.Spinner.prototype.decorateInternal = function( element ){
 
 	goog.base( this, 'decorateInternal', element );
 
-	var layer =  this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
-	layer.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_LAYER );
-	layer.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_LAYER + '-' + index );
-	goog.dom.appendChild( element, layer );
+	var i;
+	var j;
+	var layer;
+	var leftClipper;
+	var gapPatch;
+	var rightClipper;
+	var circleOwners;
+	var circle;
 
-	var leftClipper = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
-	leftClipper.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_CIRCLE_CLIPPER );
-	leftClipper.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_LEFT );
+	if( element ){
 
-	var gapPatch = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
-	gapPatch.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_GAP_PATCH );
+		for( i = 1; i <= zz.ui.Spinner.CONST.MDL_SPINNER_LAYER_COUNT; i++ ){
 
-	var rightClipper = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
-	rightClipper.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_CIRCLE_CLIPPER );
-	rightClipper.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_RIGHT );
+			layer =  this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
+			layer.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_LAYER );
+			switch ( i ){
 
-	goog.dom.appendChild( layer, leftClipper );
-	goog.dom.appendChild( layer, gapPatch );
-	goog.dom.appendChild( layer, rightClipper );
+				case 1:
 
-	var circleOwners = [leftClipper, gapPatch, rightClipper];
-	for ( var i = 0; i < circleOwners.length; i++ ) {
-		var circle = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
-		circle.classList.add(zz.ui.Spinner.CSS.MDL_SPINNER_CIRCLE);
-		goog.dom.appendChild( circleOwners[i], circle );
+					layer.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_LAYER_1 );
+					break;
+
+				case 2:
+
+					layer.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_LAYER_2 );
+					break;
+
+				case 3:
+
+					layer.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_LAYER_3 );
+					break;
+
+				case 4:
+
+					layer.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_LAYER_4 );
+					break;
+
+				default:
+
+					break;
+			}
+			goog.dom.appendChild( element, layer );
+
+			leftClipper = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
+			leftClipper.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_CIRCLE_CLIPPER );
+			leftClipper.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_LEFT );
+
+			gapPatch = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
+			gapPatch.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_GAP_PATCH );
+
+			rightClipper = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
+			rightClipper.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_CIRCLE_CLIPPER );
+			rightClipper.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_RIGHT );
+
+			goog.dom.appendChild( layer, leftClipper );
+			goog.dom.appendChild( layer, gapPatch );
+			goog.dom.appendChild( layer, rightClipper );
+
+			circleOwners = [ leftClipper, gapPatch, rightClipper ];
+			for( j = 0; j < circleOwners.length; j++ ){
+
+				circle = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
+				circle.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_CIRCLE );
+				goog.dom.appendChild( circleOwners[ j ], circle );
+			}
+		}
+		goog.dom.classlist.add( element, zz.ui.Navigation.CSS.IS_UPGRADED );
 	}
-};
-
-/**
- * Stops the spinner animation.
- * Public method for users who need to stop the spinner for any reason.
- *
- * @public
- */
-zz.ui.Spinner.prototype.stop = function() {
-	this.getElement( ).classList.remove( goog.getCssName( 'is-active' ) );
-};
-
-/**
- * Starts the spinner animation.
- * Public method for users who need to manually start the spinner for any reason
- * (instead of just adding the 'is-active' class to their markup).
- *
- * @public
- */
-zz.ui.Spinner.prototype.start = function() {
-	this.getElement( ).classList.add( goog.getCssName( 'is-active' ) );
 };
 
 /**
@@ -162,14 +187,6 @@ zz.ui.Spinner.prototype.start = function() {
 zz.ui.Spinner.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
-
-	if( this.getElement( ) ){
-		for ( var i = 1; i <= zz.ui.Spinner.CONST.MDL_SPINNER_LAYER_COUNT; i++ ) {
-			this.decorateInternal( this.getElement( ), i );
-		}
-
-		this.getElement( ).classList.add( goog.getCssName( 'is-upgraded' ) );
-	}
 };
 
 /**
@@ -179,28 +196,15 @@ zz.ui.Spinner.prototype.enterDocument = function( ){
  * be used.
  * @inheritDoc
  **/
-//zz.ui.Button.prototype.disposeInternal = function( ){
-//
-//	goog.base( this, 'disposeInternal' );
-//
-//	this.getHandler( ).dispose( );
-//};
+zz.ui.Spinner.prototype.disposeInternal = function( ){
 
-/**********************************************************************************************************************
- * Event listeners/handlers section                                                                                   *
- **********************************************************************************************************************/
+	goog.base( this, 'disposeInternal' );
+};
 
 /**********************************************************************************************************************
  * Style manipulation methods                                                                                         *
  **********************************************************************************************************************/
-// The component registers itself. It can assume componentHandler is available
-// in the global scope.
-componentHandler.register({
-	constructor: zz.ui.Spinner,
-	classAsString: 'ZZUISpinner',
-	cssClass: goog.getCssName( 'mdl-js-spinner' ),
-	widget: true
-});
+
 /**
  * Returns the CSS class name to be applied to the root element of all sub-views rendered or decorated using this view.
  * The class name is expected to uniquely identify the view class, i.e. no two view classes are expected to share the
@@ -215,3 +219,24 @@ zz.ui.Spinner.prototype.getCssClass = function( ){
 /**********************************************************************************************************************
  * Helpers methods                                                                                                    *
  **********************************************************************************************************************/
+
+/**
+ * Stops the spinner animation.
+ * Public method for users who need to stop the spinner for any reason.
+ * @public
+ */
+zz.ui.Spinner.prototype.stop = function( ){
+
+	this.getElement( ).classList.remove( zz.ui.Spinner.CSS.MDL_SPINNER_IS_ACTIVE );
+};
+
+/**
+ * Starts the spinner animation.
+ * Public method for users who need to manually start the spinner for any reason
+ * (instead of just adding the 'is-active' class to their markup).
+ * @public
+ */
+zz.ui.Spinner.prototype.start = function( ){
+
+	this.getElement( ).classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_IS_ACTIVE );
+};
