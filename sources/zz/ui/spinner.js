@@ -36,6 +36,8 @@ goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.events.EventType' );
 goog.require( 'goog.ui.Component' );
 
+goog.require( 'zz.ui.mdl.componentHandler' );
+
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
@@ -104,20 +106,20 @@ zz.ui.Spinner.prototype.decorateInternal = function( element, index ){
 	goog.base( this, 'decorateInternal', element );
 
 	var layer =  this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
-	layer.classList.add( this.Css.MDL_SPINNER_LAYER );
-	layer.classList.add( this.Css.MDL_SPINNER_LAYER + '-' + index );
+	layer.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_LAYER );
+	layer.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_LAYER + '-' + index );
 	goog.dom.appendChild( element, layer );
 
 	var leftClipper = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
-	leftClipper.classList.add( this.Css.MDL_SPINNER_CIRCLE_CLIPPER );
-	leftClipper.classList.add( this.Css.MDL_SPINNER_LEFT );
+	leftClipper.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_CIRCLE_CLIPPER );
+	leftClipper.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_LEFT );
 
 	var gapPatch = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
-	gapPatch.classList.add( this.Css.MDL_SPINNER_GAP_PATCH );
+	gapPatch.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_GAP_PATCH );
 
 	var rightClipper = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
-	rightClipper.classList.add( this.Css.MDL_SPINNER_CIRCLE_CLIPPER );
-	rightClipper.classList.add( this.Css.MDL_SPINNER_RIGHT );
+	rightClipper.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_CIRCLE_CLIPPER );
+	rightClipper.classList.add( zz.ui.Spinner.CSS.MDL_SPINNER_RIGHT );
 
 	goog.dom.appendChild( layer, leftClipper );
 	goog.dom.appendChild( layer, gapPatch );
@@ -126,7 +128,7 @@ zz.ui.Spinner.prototype.decorateInternal = function( element, index ){
 	var circleOwners = [leftClipper, gapPatch, rightClipper];
 	for ( var i = 0; i < circleOwners.length; i++ ) {
 		var circle = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
-		circle.classList.add(this.Css.MDL_SPINNER_CIRCLE);
+		circle.classList.add(zz.ui.Spinner.CSS.MDL_SPINNER_CIRCLE);
 		goog.dom.appendChild( circleOwners[i], circle );
 	}
 };
@@ -162,8 +164,8 @@ zz.ui.Spinner.prototype.enterDocument = function( ){
 	goog.base( this, 'enterDocument' );
 
 	if( this.getElement( ) ){
-		for ( var i = 1; i <= this.CONST.MDL_SPINNER_LAYER_COUNT; i++ ) {
-			this.decorateInternal( element, i );
+		for ( var i = 1; i <= zz.ui.Spinner.CONST.MDL_SPINNER_LAYER_COUNT; i++ ) {
+			this.decorateInternal( this.getElement( ), i );
 		}
 
 		this.getElement( ).classList.add( goog.getCssName( 'is-upgraded' ) );

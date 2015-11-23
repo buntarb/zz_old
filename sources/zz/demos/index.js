@@ -34,6 +34,7 @@ goog.provide( 'zz.demos.app' );
 goog.require( 'zz.module.user.view.Users' );
 goog.require( 'zz.ui.Button' );
 goog.require( 'zz.ui.Spinner' );
+
 goog.require( 'zz.ui.Navigation' );
 
 goog.require( 'soy' );
@@ -48,11 +49,7 @@ goog.require( 'zz.template.ui.navigation' );
 zz.demos.app = {};
 zz.demos.app.run = function( ){
 
-//	Navigation
-//	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.navigation.fixedHeadersAndTabs );
-//
-//	var layout = new zz.ui.Navigation( );
-//		layout.decorate( goog.dom.getElementByClass( goog.getCssName( 'mdl-js-layout' ) ) );
+
 
 	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.spinner.default );
 
@@ -60,19 +57,11 @@ zz.demos.app.run = function( ){
 		spn1.decorate( goog.dom.getElement( '1' ) );
 	var spn2 = new zz.ui.Spinner( );
 		spn2.decorate( goog.dom.getElement( '2' ) );
-	
-
-
-
-//	var usersView = goog.global.userView =  new zz.module.user.view.Users( );
-//		usersView.render( goog.dom.getElement( 'root' ) );
 
 	/******************************************************************************************************************
 	 * Fast click testing                                                                                             *
 	 ******************************************************************************************************************/
 
-//	var customClickEvent = zz.events.getMouseEvent( goog.events.EventType.CLICK, 1, 10, 10, 10, 10 );
-//	button_reset.getElement( ).dispatchEvent( customClickEvent );
 };
 
 /**********************************************************************************************************************
