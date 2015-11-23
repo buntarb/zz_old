@@ -17,15 +17,15 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.ui.Button class.
- * @author buntarb@gmail.com (Artem Lytvynov)
+ * @fileoverview Provide zz.ui.Progress class.
+ * @author aleksander.popkov@gmail.com (Alexander Popkov)
  */
 
 /**********************************************************************************************************************
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.ui.Tpl' );
+goog.provide( 'zz.ui.Progress' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -35,6 +35,7 @@ goog.require( 'goog.style' );
 goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.events.EventType' );
 goog.require( 'goog.ui.Component' );
+goog.require( 'zz.ui.mdl.componentHandler' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -46,12 +47,12 @@ goog.require( 'goog.ui.Component' );
  * @extends {goog.ui.Control}
  * @constructor
  */
-zz.ui.Button = function( opt_domHelper ){
+zz.ui.Progress = function( opt_domHelper ){
 
 	goog.ui.Component.call( this, opt_domHelper );
 };
-goog.inherits( zz.ui.Button, goog.ui.Component );
-goog.tagUnsealableClass( zz.ui.Button );
+goog.inherits( zz.ui.Progress, goog.ui.Component );
+goog.tagUnsealableClass( zz.ui.Progress );
 
 /**********************************************************************************************************************
  * Static properties section                                                                                          *
@@ -68,7 +69,9 @@ zz.ui.Button.CONST = { };
  * it in one place should we decide to modify at a later date.
  * @enum {string}
  */
-zz.ui.Button.CSS = { };
+zz.ui.Button.CSS = {
+	INDETERMINATE_CLASS: goog.getCssName( 'mdl-progress__indeterminate' )
+};
 
 /**********************************************************************************************************************
  * Properties section                                                                                                 *
@@ -81,16 +84,101 @@ zz.ui.Button.CSS = { };
 /**
  * @override
  */
-zz.ui.Button.prototype.createDom = function( ){ };
+zz.ui.Progress.prototype.createDom = function( ){
+
+	goog.base( this, 'createDom' );
+};
+
+/**
+ * Set the current progress of the progressbar.
+ *
+ * @param {number} p Percentage of the progress (0-100)
+ * @public
+ */
+zz.ui.Progress.prototype.setProgress = function( p ) {
+	if ( this.getElement( ).classList.contains( this.CSS.INDETERMINATE_CLASS ) ) {
+		return;
+	}
+
+	this.progressbar_.style.width = p + '%';
+};
+
+/**
+ * Set the current progress of the buffer.
+ *
+ * @param {number} p Percentage of the buffer (0-100)
+ * @public
+ */
+zz.ui.Progress.prototype.setBuffer = function( p ) {
+	this.bufferbar_.style.width = p + '%';
+	this.auxbar_.style.width = (100 - p) + '%';
+};
 
 /**
  * @override
  */
-zz.ui.Button.prototype.decorateInternal = function( element ){
+zz.ui.Progress.prototype.decorateInternal = function( element ){
 
 	goog.base( this, 'decorateInternal', element );
+
+
+
+
+	if (element) {
+		var el = getDomHelper( ).createDom( goog.dom.TagName.DIV);
+		el.className =
+			goog.getCssName( 'progressbar' ) + ' ' +
+			goog.getCssName( 'bar' ) + ' ' +
+			goog.getCssName( 'bar1' );
+		goog.dom.appendChild( element, el );
+		this.progressbar = el;
+
+		el = getDomHelper( ).createDom( goog.dom.TagName.DIV);
+		el.className =
+			goog.getCssName( 'bufferbar' ) + ' ' +
+			goog.getCssName( 'bar' ) + ' ' +
+			goog.getCssName( 'bar2' );
+		goog.dom.appendChild( element, el );
+		this.bufferbar = el;
+
+		el = getDomHelper( ).createDom( goog.dom.TagName.DIV);
+		el.className =
+			goog.getCssName( 'auxbar' ) + ' ' +
+			goog.getCssName( 'bar' ) + ' ' +
+			goog.getCssName( 'bar3' );
+		goog.dom.appendChild( element, el );
+		this.auxbar = el;
+
+		this.progressbar_.style.width = '0%';
+		this.bufferbar_.style.width = '100%';
+		this.auxbar_.style.width = '0%';
+
+		this.getElement( ).classList.add( goog.getCssName( 'is-upgraded' ) );
+	}
+
 };
 
+/**
+ * Downgrade the component
+ *
+ * @private
+ */
+zz.ui.Progress.prototype.mdlDowngrade = function() {
+	while (this.getElement( ).firstChild) {
+		this.getElement( ).removeChild(this.getElement( ).firstChild);
+	}
+};
+
+/**
+ * Downgrade the component
+ *
+ * @private
+ */
+zz.ui.Progress.prototype.mdlDowngrade = function() {
+	while (this.getElement.firstChild) {
+		this.getElement.removeChild(this.getElement.firstChild);
+	}
+};
 /**
  * Called when the component's element is known to be in the document. Anything using document.getElementById etc.
  * should be done at this stage. If the component contains child components, this call is propagated to its children.
@@ -108,12 +196,12 @@ zz.ui.Button.prototype.enterDocument = function( ){
  * be used.
  * @inheritDoc
  **/
-zz.ui.Button.prototype.disposeInternal = function( ){
-
-	goog.base( this, 'disposeInternal' );
-
-	this.getHandler( ).dispose( );
-};
+//zz.ui.Button.prototype.disposeInternal = function( ){
+//
+//	goog.base( this, 'disposeInternal' );
+//
+//	this.getHandler( ).dispose( );
+//};
 
 /**********************************************************************************************************************
  * Event listeners/handlers section                                                                                   *
@@ -124,14 +212,30 @@ zz.ui.Button.prototype.disposeInternal = function( ){
  **********************************************************************************************************************/
 
 /**
+ * Public alias for the downgrade method.
+ *
+ * @public
+ */
+
+// The component registers itself. It can assume componentHandler is available
+// in the global scope.
+componentHandler.register({
+	constructor: zz.ui.Progress,
+	classAsString: 'ZZUIProgress',
+	cssClass: goog.getCssName( 'mdl-js-progress' ),
+	widget: true
+});
+
+
+/**
  * Returns the CSS class name to be applied to the root element of all sub-views rendered or decorated using this view.
  * The class name is expected to uniquely identify the view class, i.e. no two view classes are expected to share the
  * same CSS class name.
  * @override
  */
-zz.ui.Button.prototype.getCssClass = function( ){
+zz.ui.Progress.prototype.getCssClass = function( ){
 
-	return zz.ui.Button.CSS_CLASS;
+	return zz.ui.Progress.CSS_CLASS;
 };
 
 /**********************************************************************************************************************
