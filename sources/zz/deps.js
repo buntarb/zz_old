@@ -46,7 +46,6 @@ goog.addDependency("../../../../sources/zz/ui/formatter/default.js", ['zz.ui.for
 goog.addDependency("../../../../sources/zz/_polyfill/animationframe.js", ['zz._polyfill.animationframe'], []);
 goog.addDependency("../../../../sources/zz/_template/navigation.js", ['zz.template.ui.navigation'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/_template/button.js", ['zz.template.ui.button'], ['soy', 'soydata']);
-goog.addDependency("../../../../sources/zz/_template/spinner.js", ['zz.template.ui.spinner'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/module/user/model/users.js", ['zz.module.user.model.User', 'zz.module.user.model.Users'], ['zz.mvc.model.Datarow', 'zz.mvc.model.Dataset', 'zz.mvc.model.FieldTypes', 'zz.module.user.model.UserPhoneSet']);
 goog.addDependency("../../../../sources/zz/module/user/model/userphone.js", ['zz.module.user.model.UserPhone', 'zz.module.user.model.UserPhoneSet'], ['zz.mvc.model.Datarow', 'zz.mvc.model.Dataset', 'zz.mvc.model.FieldTypes']);
 goog.addDependency("../../../../sources/zz/module/user/controller/users.js", ['zz.module.user.controller.Users'], ['zz.mvc.controller.BaseController', 'zz.module.user.model.Users']);
