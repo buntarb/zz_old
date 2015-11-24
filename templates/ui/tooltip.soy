@@ -1,0 +1,29 @@
+{namespace zz.templates.ui.tooltip}
+
+/**
+ * Default tooltips.
+ */
+{template .default}
+
+
+    <div id="1" class="{css icon} {css material-icons}">add</div>
+    <div class="{css mdl-tooltip}" for="1">
+        Follow
+    </div>
+
+    <div id="2" class="{css icon} {css material-icons}">print</div>
+    <div class="{css mdl-tooltip} {css mdl-tooltip--large}" for="2">
+        Print
+    </div>
+
+    <div id="3" class="{css icon} {css material-icons}">cloud_upload</div>
+    <div class="{css mdl-tooltip}" for="3">
+        Upload <strong>file.zip</strong>
+    </div>
+
+    <div id="4" class="{css icon} {css material-icons}">share</div>
+    <div class="{css mdl-tooltip}" for="4">
+        Share your content<br>via social media
+    </div>
+
+{/template}
