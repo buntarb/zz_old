@@ -35,7 +35,6 @@ goog.require( 'goog.style' );
 goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.events.EventType' );
 goog.require( 'goog.ui.Component' );
-goog.require( 'zz.ui.mdl.componentHandler' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -121,11 +120,10 @@ zz.ui.Progress.prototype.decorateInternal = function( element ){
 
 	goog.base( this, 'decorateInternal', element );
 
-
-
+	var el;
 
 	if (element) {
-		var el = getDomHelper( ).createDom( goog.dom.TagName.DIV);
+		el = this.getDomHelper( ).createDom( goog.dom.TagName.DIV);
 		el.className =
 			goog.getCssName( 'progressbar' ) + ' ' +
 			goog.getCssName( 'bar' ) + ' ' +
@@ -133,7 +131,7 @@ zz.ui.Progress.prototype.decorateInternal = function( element ){
 		goog.dom.appendChild( element, el );
 		this.progressbar = el;
 
-		el = getDomHelper( ).createDom( goog.dom.TagName.DIV);
+		el = this.getDomHelper( ).createDom( goog.dom.TagName.DIV);
 		el.className =
 			goog.getCssName( 'bufferbar' ) + ' ' +
 			goog.getCssName( 'bar' ) + ' ' +
@@ -141,7 +139,7 @@ zz.ui.Progress.prototype.decorateInternal = function( element ){
 		goog.dom.appendChild( element, el );
 		this.bufferbar = el;
 
-		el = getDomHelper( ).createDom( goog.dom.TagName.DIV );
+		el = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
 		el.className =
 			goog.getCssName( 'auxbar' ) + ' ' +
 			goog.getCssName( 'bar' ) + ' ' +
@@ -159,27 +157,6 @@ zz.ui.Progress.prototype.decorateInternal = function( element ){
 };
 
 /**
- * Downgrade the component
- *
- * @private
- */
-zz.ui.Progress.prototype.mdlDowngrade = function( ) {
-	while ( this.getElement( ).firstChild ) {
-		this.getElement( ).removeChild( this.getElement( ).firstChild );
-	}
-};
-
-/**
- * Downgrade the component
- *
- * @private
- */
-zz.ui.Progress.prototype.mdlDowngrade = function( ) {
-	while ( this.getElement.firstChild ) {
-		this.getElement.removeChild( this.getElement.firstChild );
-	}
-};
-/**
  * Called when the component's element is known to be in the document. Anything using document.getElementById etc.
  * should be done at this stage. If the component contains child components, this call is propagated to its children.
  * @override
@@ -196,12 +173,22 @@ zz.ui.Button.prototype.enterDocument = function( ){
  * be used.
  * @inheritDoc
  **/
-//zz.ui.Button.prototype.disposeInternal = function( ){
-//
-//	goog.base( this, 'disposeInternal' );
-//
-//	this.getHandler( ).dispose( );
-//};
+zz.ui.Progress.prototype.disposeInternal = function( ){
+
+	goog.base( this, 'disposeInternal' );
+
+	this.getHandler( ).dispose( );
+};
+
+/**
+ * Downgrade the component
+ *
+ * @private
+ */
+zz.ui.Progress.prototype.mdlDowngrade = function( ) {
+	this.dispose( );
+};
+
 
 /**********************************************************************************************************************
  * Event listeners/handlers section                                                                                   *
@@ -210,22 +197,6 @@ zz.ui.Button.prototype.enterDocument = function( ){
 /**********************************************************************************************************************
  * Style manipulation methods                                                                                         *
  **********************************************************************************************************************/
-
-/**
- * Public alias for the downgrade method.
- *
- * @public
- */
-
-// The component registers itself. It can assume componentHandler is available
-// in the global scope.
-componentHandler.register({
-	constructor: zz.ui.Progress,
-	classAsString: 'ZZUIProgress',
-	cssClass: goog.getCssName( 'mdl-js-progress' ),
-	widget: true
-});
-
 
 /**
  * Returns the CSS class name to be applied to the root element of all sub-views rendered or decorated using this view.

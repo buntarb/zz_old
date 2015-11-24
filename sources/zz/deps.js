@@ -20,7 +20,7 @@ goog.addDependency("../../../../sources/zz/ui/__tpl.js", ['zz.ui.Tpl'], ['goog.s
 goog.addDependency("../../../../sources/zz/ui/navigation.js", ['zz.ui.Navigation'], ['goog.array', 'goog.object', 'goog.asserts', 'goog.dom.TagName', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'zz.ui.Ripple']);
 goog.addDependency("../../../../sources/zz/ui/ripple.js", ['zz.ui.Ripple'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component']);
 goog.addDependency("../../../../sources/zz/ui/labelinput.js", ['zz.ui.LabelInput'], ['goog.ui.LabelInput', 'goog.dom.InputType', 'goog.events.EventType', 'zz.mvc.model.Message', 'zz.mvc.model.EventType', 'zz.mvc.controller.BaseController', 'zz.ui.formatter.Default']);
-goog.addDependency("../../../../sources/zz/ui/progress.js", ['zz.ui.Progress'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'zz.ui.mdl.componentHandler']);
+goog.addDependency("../../../../sources/zz/ui/progress.js", ['zz.ui.Progress'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component']);
 goog.addDependency("../../../../sources/zz/ui/button.js", ['zz.ui.Button'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component']);
 goog.addDependency("../../../../sources/zz/ui/spinner.js", ['zz.ui.Spinner'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component']);
 goog.addDependency("../../../../sources/zz/ui/checkboxrenderer.js", ['zz.ui.CheckboxRenderer'], ['goog.a11y.aria', 'goog.a11y.aria.Role', 'goog.a11y.aria.State', 'goog.array', 'goog.asserts', 'goog.dom.TagName', 'goog.dom.classlist', 'goog.object', 'goog.ui.ControlRenderer']);
@@ -47,6 +47,7 @@ goog.addDependency("../../../../sources/zz/ui/formatter/decimal.js", ['zz.ui.for
 goog.addDependency("../../../../sources/zz/ui/formatter/default.js", ['zz.ui.formatter.Default'], []);
 goog.addDependency("../../../../sources/zz/_polyfill/animationframe.js", ['zz._polyfill.animationframe'], []);
 goog.addDependency("../../../../sources/zz/_template/navigation.js", ['zz.template.ui.navigation'], ['soy', 'soydata']);
+goog.addDependency("../../../../sources/zz/_template/progress.js", ['zz.template.ui.progress'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/_template/button.js", ['zz.template.ui.button'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/_template/spinner.js", ['zz.template.ui.spinner'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/module/user/model/users.js", ['zz.module.user.model.User', 'zz.module.user.model.Users'], ['zz.mvc.model.Datarow', 'zz.mvc.model.Dataset', 'zz.mvc.model.FieldTypes', 'zz.module.user.model.UserPhoneSet']);
