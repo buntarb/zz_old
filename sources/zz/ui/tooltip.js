@@ -130,7 +130,7 @@ zz.ui.Tooltip.prototype.enterDocument = function( ){
 			goog.events.EventType.CLICK,
 			goog.events.EventType.TOUCHSTART
 		],
-		this.boundMouseEnterHandler_,
+		this.handleMouseEnter_,
 		false,
 		this
 	);
@@ -142,7 +142,7 @@ zz.ui.Tooltip.prototype.enterDocument = function( ){
 			goog.events.EventType.MOUSELEAVE,
 			goog.events.EventType.BLUR
 		],
-		this.boundMouseLeaveHandler_,
+		this.handleMouseLeave_,
 		false,
 		this
 	);
@@ -195,7 +195,7 @@ zz.ui.Tooltip.prototype.handleMouseEnter_ = function( event ) {
 	}
 
 	this.getElement( ).style.top = props.top + props.height + 10 + 'px';
-	this.getElement( ).classList.add( this.CSS.IS_ACTIVE );
+	this.getElement( ).classList.add( zz.ui.Tooltip.CSS.IS_ACTIVE );
 	window.addEventListener( 'scroll', this.boundMouseLeaveHandler, false );
 	window.addEventListener( 'touchmove', this.boundMouseLeaveHandler, false );
 };
@@ -208,7 +208,7 @@ zz.ui.Tooltip.prototype.handleMouseEnter_ = function( event ) {
  */
 zz.ui.Tooltip.prototype.handleMouseLeave_ = function( event ) {
 	event.stopPropagation( );
-	this.getElement( ).classList.remove( this.CSS.IS_ACTIVE );
+	this.getElement( ).classList.remove( zz.ui.Tooltip.CSS.IS_ACTIVE );
 	window.removeEventListener( 'scroll', this.boundMouseLeaveHandler );
 	window.removeEventListener( 'touchmove', this.boundMouseLeaveHandler, false );
 };
