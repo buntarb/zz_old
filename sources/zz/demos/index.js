@@ -65,6 +65,7 @@ zz.demos.app.run = function( ){
 
 	var prg1 = new zz.ui.Progress( );
 		prg1.decorate( goog.dom.getElement( '1' ) );
+		prg1.setProgress( 10 );
 	var prg2 = new zz.ui.Progress( );
 		prg2.decorate( goog.dom.getElement( '2' ) );
 	var prg3 = new zz.ui.Progress( );
