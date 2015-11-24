@@ -96,9 +96,6 @@ zz.ui.Tooltip.prototype.decorateInternal = function( element ){
 
 	goog.base( this, 'decorateInternal', element );
 
-
-
-
 	if ( element ) {
 		var forElId = element.getAttribute( 'for' );
 		if ( forElId ) {
@@ -181,10 +178,15 @@ zz.ui.Tooltip.prototype.mdlDowngrade = function( ){
  * @private
  */
 zz.ui.Tooltip.prototype.handleMouseEnter_ = function( event ) {
+
+	var props;
+	var left;
+	var marginLeft;
+
 	event.stopPropagation( );
-	var props = event.target.getBoundingClientRect( );
-	var left = props.left + ( props.width / 2 );
-	var marginLeft = -1 * ( this.element_.offsetWidth / 2 );
+	props = event.target.getBoundingClientRect( );
+	left = props.left + ( props.width / 2 );
+	marginLeft = -1 * ( this.getElement( ).offsetWidth / 2 );
 
 	if ( left + marginLeft < 0 ) {
 		this.getElement( ).style.left = 0;
@@ -222,6 +224,7 @@ zz.ui.Tooltip.prototype.handleMouseLeave_ = function( event ) {
  * same CSS class name.
  * @override
  */
+
 zz.ui.Tooltip.prototype.getCssClass = function( ){
 
 	return zz.ui.Tooltip.CSS_CLASS;
