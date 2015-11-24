@@ -69,6 +69,7 @@ zz.ui.Progress.CONST = { };
  * @enum {string}
  */
 zz.ui.Progress.CSS = {
+
 	INDETERMINATE_CLASS: goog.getCssName( 'mdl-progress__indeterminate' )
 };
 
@@ -89,71 +90,52 @@ zz.ui.Progress.prototype.createDom = function( ){
 };
 
 /**
- * Set the current progress of the progressbar.
- *
- * @param {number} p Percentage of the progress (0-100)
- * @public
- */
-zz.ui.Progress.prototype.setProgress = function( p ) {
-	if ( this.getElement( ).classList.contains( this.CSS.INDETERMINATE_CLASS ) ) {
-		return;
-	}
-
-	this.progressbar.style.width = p + '%';
-};
-
-/**
- * Set the current progress of the buffer.
- *
- * @param {number} p Percentage of the buffer (0-100)
- * @public
- */
-zz.ui.Progress.prototype.setBuffer = function( p ) {
-	this.bufferbar.style.width = p + '%';
-	this.auxbar.style.width = ( 100 - p ) + '%';
-};
-
-/**
  * @override
  */
 zz.ui.Progress.prototype.decorateInternal = function( element ){
 
 	goog.base( this, 'decorateInternal', element );
 
-	var el;
+	if( element ){
 
-	if (element) {
-		el = this.getDomHelper( ).createDom( goog.dom.TagName.DIV);
-		el.className =
-			goog.getCssName( 'progressbar' ) + ' ' +
-			goog.getCssName( 'bar' ) + ' ' +
-			goog.getCssName( 'bar1' );
-		goog.dom.appendChild( element, el );
-		this.progressbar = el;
+		this.progressbar_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
+		this.bufferbar_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
+		this.auxbar_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
+		goog.dom.classlist.addAll( this.progressbar_, [
 
-		el = this.getDomHelper( ).createDom( goog.dom.TagName.DIV);
-		el.className =
-			goog.getCssName( 'bufferbar' ) + ' ' +
-			goog.getCssName( 'bar' ) + ' ' +
-			goog.getCssName( 'bar2' );
-		goog.dom.appendChild( element, el );
-		this.bufferbar = el;
+			goog.getCssName( 'progressbar' ),
+			goog.getCssName( 'bar' ),
+			goog.getCssName( 'bar1' )
+		] );
+		goog.dom.classlist.addAll( this.bufferbar_, [
 
-		el = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
-		el.className =
-			goog.getCssName( 'auxbar' ) + ' ' +
-			goog.getCssName( 'bar' ) + ' ' +
-			goog.getCssName( 'bar3' );
-		goog.dom.appendChild( element, el );
-		this.auxbar = el;
+			goog.getCssName( 'bufferbar' ),
+			goog.getCssName( 'bar' ),
+			goog.getCssName( 'bar2' )
+		] );
+		goog.dom.classlist.addAll( this.auxbar_, [
 
-		this.progressbar.style.width = '0%';
-		this.bufferbar.style.width = '100%';
-		this.auxbar.style.width = '0%';
+			goog.getCssName( 'auxbar' ),
+			goog.getCssName( 'bar' ),
+			goog.getCssName( 'bar3' )
+		] );
+		goog.style.setStyle( this.progressbar_, {
 
-		this.getElement( ).classList.add( goog.getCssName( 'is-upgraded' ) );
+			width: '0'
+		} );
+		goog.style.setStyle( this.bufferbar_, {
+
+			width: '100%'
+		} );
+		goog.style.setStyle( this.auxbar_, {
+
+			width: '0'
+		} );
+		goog.dom.appendChild( element, this.progressbar_ );
+		goog.dom.appendChild( element, this.bufferbar_ );
+		goog.dom.appendChild( element, this.auxbar_ );
+		goog.dom.classlist.add( this.getElement( ), goog.getCssName( 'is-upgraded' ) );
 	}
-
 };
 
 /**
@@ -185,7 +167,8 @@ zz.ui.Progress.prototype.disposeInternal = function( ){
  *
  * @private
  */
-zz.ui.Progress.prototype.mdlDowngrade = function( ) {
+zz.ui.Progress.prototype.mdlDowngrade = function( ){
+
 	this.dispose( );
 };
 
@@ -212,3 +195,37 @@ zz.ui.Progress.prototype.getCssClass = function( ){
 /**********************************************************************************************************************
  * Helpers methods                                                                                                    *
  **********************************************************************************************************************/
+
+/**
+ * Set the current progress of the progressbar.
+ * @param {number} p Percentage of the progress (0-100)
+ * @public
+ */
+zz.ui.Progress.prototype.setProgress = function( p ){
+
+	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.Progress.CSS.INDETERMINATE_CLASS ) ){
+
+		return;
+	}
+	goog.style.setStyle( this.progressbar_, {
+
+		width: p + '%'
+	} );
+};
+
+/**
+ * Set the current progress of the buffer.
+ * @param {number} p Percentage of the buffer (0-100)
+ * @public
+ */
+zz.ui.Progress.prototype.setBuffer = function( p ){
+
+	goog.style.setStyle( this.bufferbar_, {
+
+		width: p + '%'
+	} );
+	goog.style.setStyle( this.auxbar_, {
+
+		width: ( 100 - p ) + '%'
+	} );
+};
