@@ -187,15 +187,15 @@ zz.ui.Tooltip.prototype.handleMouseEnter_ = function( event ) {
 	var marginLeft = -1 * ( this.element_.offsetWidth / 2 );
 
 	if ( left + marginLeft < 0 ) {
-		this.getElement.style.left = 0;
-		this.getElement.style.marginLeft = 0;
+		this.getElement( ).style.left = 0;
+		this.getElement( ).style.marginLeft = 0;
 	} else {
-		this.getElement.style.left = left + 'px';
-		this.getElement.style.marginLeft = marginLeft + 'px';
+		this.getElement( ).style.left = left + 'px';
+		this.getElement( ).style.marginLeft = marginLeft + 'px';
 	}
 
-	this.getElement.style.top = props.top + props.height + 10 + 'px';
-	this.getElement.classList.add( this.CSS.IS_ACTIVE );
+	this.getElement( ).style.top = props.top + props.height + 10 + 'px';
+	this.getElement( ).classList.add( this.CSS.IS_ACTIVE );
 	window.addEventListener( 'scroll', this.boundMouseLeaveHandler, false );
 	window.addEventListener( 'touchmove', this.boundMouseLeaveHandler, false );
 };
@@ -208,7 +208,7 @@ zz.ui.Tooltip.prototype.handleMouseEnter_ = function( event ) {
  */
 zz.ui.Tooltip.prototype.handleMouseLeave_ = function( event ) {
 	event.stopPropagation( );
-	this.getElement.classList.remove( this.CSS.IS_ACTIVE );
+	this.getElement( ).classList.remove( this.CSS.IS_ACTIVE );
 	window.removeEventListener( 'scroll', this.boundMouseLeaveHandler );
 	window.removeEventListener( 'touchmove', this.boundMouseLeaveHandler, false );
 };
