@@ -96,61 +96,61 @@ zz.ui.Tooltip.prototype.decorateInternal = function( element ){
 
 	goog.base( this, 'decorateInternal', element );
 
-	if ( element ) {
+	if( element ){
+
 		var forElId = element.getAttribute( 'for' );
-		if ( forElId ) {
-			this.forElement = goog.dom.getElement( forElId );
+		if( forElId ){
+
+			this.forElement_ = goog.dom.getElement( forElId );
 		}
-		if ( this.forElement ) {
+		if( this.forElement_ ){
+
 			// Tabindex needs to be set for `blur` events to be emitted
-			if ( !this.forElement.hasAttribute( 'tabindex' ) ) {
-				this.forElement.setAttribute( 'tabindex', '0' );
+			if( !this.forElement_.hasAttribute( 'tabindex' ) ){
+
+				this.forElement_.setAttribute( 'tabindex', '0' );
 			}
 		}
 	}
 };
 
 /**
- * Called when the component's element is known to be in the document. Anything using document.getElementById etc.
- * should be done at this stage. If the component contains child components, this call is propagated to its children.
  * @override
  */
 zz.ui.Tooltip.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
 
-	this.getHandler( ).listenWithScope(
+	if( this.forElement_ ){
 
-		this.getElement( ), [
+		this.getHandler( ).listenWithScope(
 
-			goog.events.EventType.MOUSEENTER,
-			goog.events.EventType.CLICK,
-			goog.events.EventType.TOUCHSTART
-		],
-		this.handleMouseEnter_,
-		false,
-		this
-	);
+			this.forElement_, [
 
-	this.getHandler( ).listenWithScope(
+				goog.events.EventType.MOUSEENTER,
+				goog.events.EventType.CLICK,
+				goog.events.EventType.TOUCHSTART
+			],
+			this.handleMouseEnter_,
+			false,
+			this
+		);
+		this.getHandler( ).listenWithScope(
 
-		this.getElement( ), [
+			this.forElement_, [
 
-			goog.events.EventType.MOUSELEAVE,
-			goog.events.EventType.BLUR
-		],
-		this.handleMouseLeave_,
-		false,
-		this
-	);
+				goog.events.EventType.MOUSELEAVE,
+				goog.events.EventType.BLUR
+			],
+			this.handleMouseLeave_,
+			false,
+			this
+		);
+	}
 };
 
 /**
- * Deletes or nulls out any references to COM objects, DOM nodes, or other disposable objects. Classes that extend
- * {@code goog.Disposable} should override this method. Not reentrant. To avoid calling it twice, it must only be
- * called from the subclass' {@code disposeInternal} method. Everywhere else the public {@code dispose} method must
- * be used.
- * @inheritDoc
+ * @override
  **/
 zz.ui.Tooltip.prototype.disposeInternal = function( ){
 
@@ -173,46 +173,68 @@ zz.ui.Tooltip.prototype.mdlDowngrade = function( ){
  **********************************************************************************************************************/
 /**
  * Handle mouseenter for tooltip.
- *
- * @param {Event} event The event that fired.
+ * @param {goog.events.BrowserEvent} event
  * @private
  */
 zz.ui.Tooltip.prototype.handleMouseEnter_ = function( event ) {
 
-	var props;
-	var left;
-	var marginLeft;
+	console.log( '!' );
 
 	event.stopPropagation( );
-	props = event.target.getBoundingClientRect( );
-	left = props.left + ( props.width / 2 );
-	marginLeft = -1 * ( this.getElement( ).offsetWidth / 2 );
 
-	if ( left + marginLeft < 0 ) {
+	var props = event.target.getBoundingClientRect( );
+	var left = props.left + ( props.width / 2 );
+	var marginLeft = -1 * ( this.getElement( ).offsetWidth / 2 );
+
+	if( left + marginLeft < 0 ){
+
 		this.getElement( ).style.left = 0;
 		this.getElement( ).style.marginLeft = 0;
-	} else {
+
+	}else{
+
 		this.getElement( ).style.left = left + 'px';
 		this.getElement( ).style.marginLeft = marginLeft + 'px';
 	}
-
 	this.getElement( ).style.top = props.top + props.height + 10 + 'px';
 	this.getElement( ).classList.add( zz.ui.Tooltip.CSS.IS_ACTIVE );
-	window.addEventListener( 'scroll', this.boundMouseLeaveHandler, false );
-	window.addEventListener( 'touchmove', this.boundMouseLeaveHandler, false );
+	this.getHandler( ).listenWithScope(
+
+		this.getDomHelper( ).getWindow( ), [
+
+			goog.events.EventType.SCROLL,
+			goog.events.EventType.TOUCHMOVE
+		],
+		this.handleMouseLeave_,
+		false,
+		this
+	);
 };
 
 /**
  * Handle mouseleave for tooltip.
- *
- * @param {Event} event The event that fired.
+ * @param {goog.events.BrowserEvent} event
  * @private
  */
 zz.ui.Tooltip.prototype.handleMouseLeave_ = function( event ) {
+
+	console.log( '!!' );
+
 	event.stopPropagation( );
+
 	this.getElement( ).classList.remove( zz.ui.Tooltip.CSS.IS_ACTIVE );
-	window.removeEventListener( 'scroll', this.boundMouseLeaveHandler );
-	window.removeEventListener( 'touchmove', this.boundMouseLeaveHandler, false );
+
+	this.getHandler( ).unlisten(
+
+		this.getDomHelper( ).getWindow( ), [
+
+			goog.events.EventType.SCROLL,
+			goog.events.EventType.TOUCHMOVE
+		],
+		this.handleMouseLeave_,
+		false,
+		this
+	);
 };
 /**********************************************************************************************************************
  * Style manipulation methods                                                                                         *

@@ -64,13 +64,13 @@ zz.demos.app.run = function( ){
 	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.tooltip.default );
 
 	var tt1 = new zz.ui.Tooltip( );
-		tt1.decorate( goog.dom.getElement( '1' ) );
+		tt1.decorate( goog.dom.getElement( 'tt-1' ) );
 	var tt2 = new zz.ui.Tooltip( );
-		tt2.decorate( goog.dom.getElement( '2' ) );
+		tt2.decorate( goog.dom.getElement( 'tt-2' ) );
 	var tt3 = new zz.ui.Tooltip( );
-		tt3.decorate( goog.dom.getElement( '3' ) );
+		tt3.decorate( goog.dom.getElement( 'tt-3' ) );
 	var tt4 = new zz.ui.Tooltip( );
-		tt4.decorate( goog.dom.getElement( '4' ) );
+		tt4.decorate( goog.dom.getElement( 'tt-4' ) );
 
 //	Progress
 //	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.progress.default );
