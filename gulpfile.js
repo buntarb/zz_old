@@ -29,7 +29,6 @@ var gulp = require( 'gulp' );
 var http = require( 'http' );
 var sass = require( 'gulp-sass' );
 var express = require('express' );
-var compiler = require( 'gulp-closure-compiler' );
 var fs = require( 'fs' );
 var exec = require( 'child_process' ).exec;
 
