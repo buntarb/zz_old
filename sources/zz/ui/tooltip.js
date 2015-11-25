@@ -171,14 +171,13 @@ zz.ui.Tooltip.prototype.mdlDowngrade = function( ){
 /**********************************************************************************************************************
  * Event listeners/handlers section                                                                                   *
  **********************************************************************************************************************/
+
 /**
  * Handle mouseenter for tooltip.
  * @param {goog.events.BrowserEvent} event
  * @private
  */
-zz.ui.Tooltip.prototype.handleMouseEnter_ = function( event ) {
-
-	//console.log( '!' );
+zz.ui.Tooltip.prototype.handleMouseEnter_ = function( event ){
 
 	event.stopPropagation( );
 
@@ -226,8 +225,6 @@ zz.ui.Tooltip.prototype.handleMouseEnter_ = function( event ) {
  * @private
  */
 zz.ui.Tooltip.prototype.handleMouseLeave_ = function( event ) {
-
-	//console.log( '!!' );
 
 	event.stopPropagation( );
 
