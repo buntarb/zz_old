@@ -178,7 +178,7 @@ zz.ui.Tooltip.prototype.mdlDowngrade = function( ){
  */
 zz.ui.Tooltip.prototype.handleMouseEnter_ = function( event ) {
 
-	console.log( '!' );
+	//console.log( '!' );
 
 	event.stopPropagation( );
 
@@ -188,16 +188,25 @@ zz.ui.Tooltip.prototype.handleMouseEnter_ = function( event ) {
 
 	if( left + marginLeft < 0 ){
 
-		this.getElement( ).style.left = 0;
-		this.getElement( ).style.marginLeft = 0;
+		goog.style.setStyle( this.getElement( ), {
+
+			left: '0',
+			marginLeft: '0'
+		} );
 
 	}else{
 
-		this.getElement( ).style.left = left + 'px';
-		this.getElement( ).style.marginLeft = marginLeft + 'px';
+		goog.style.setStyle( this.getElement( ), {
+
+			left: left + 'px',
+			marginLeft: marginLeft + 'px'
+		} );
 	}
-	this.getElement( ).style.top = props.top + props.height + 10 + 'px';
-	this.getElement( ).classList.add( zz.ui.Tooltip.CSS.IS_ACTIVE );
+	goog.style.setStyle( this.getElement( ), {
+
+		top: props.top + props.height + 10 + 'px'
+	} );
+	goog.dom.classlist.add( this.getElement( ), zz.ui.Tooltip.CSS.IS_ACTIVE );
 	this.getHandler( ).listenWithScope(
 
 		this.getDomHelper( ).getWindow( ), [
@@ -218,11 +227,11 @@ zz.ui.Tooltip.prototype.handleMouseEnter_ = function( event ) {
  */
 zz.ui.Tooltip.prototype.handleMouseLeave_ = function( event ) {
 
-	console.log( '!!' );
+	//console.log( '!!' );
 
 	event.stopPropagation( );
 
-	this.getElement( ).classList.remove( zz.ui.Tooltip.CSS.IS_ACTIVE );
+	goog.dom.classlist.remove( this.getElement( ), zz.ui.Tooltip.CSS.IS_ACTIVE );
 
 	this.getHandler( ).unlisten(
 
