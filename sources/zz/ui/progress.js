@@ -143,7 +143,7 @@ zz.ui.Progress.prototype.decorateInternal = function( element ){
  * should be done at this stage. If the component contains child components, this call is propagated to its children.
  * @override
  */
-zz.ui.Button.prototype.enterDocument = function( ){
+zz.ui.Progress.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
 };

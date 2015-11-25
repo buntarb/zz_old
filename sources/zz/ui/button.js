@@ -26,6 +26,7 @@
  **********************************************************************************************************************/
 
 goog.provide( 'zz.ui.Button' );
+goog.provide( 'zz.ui.ButtonRenderer' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -35,22 +36,25 @@ goog.require( 'goog.style' );
 goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.events.EventType' );
 goog.require( 'goog.ui.Component' );
+goog.require( 'zz.ui.MdlControl' );
+goog.require( 'zz.ui.MdlControlRenderer' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * Material ripple fx class.
- * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
- * @extends {goog.ui.Component}
+ * @param {goog.ui.ControlContent=} opt_content Text caption or DOM structure to display as the content of the control.
+ * @param {zz.ui.MdlControlRenderer=} opt_renderer Renderer used to render or decorate the component.
+ * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper, used for document interaction.
+ * @extends {zz.ui.MdlControl}
  * @constructor
  */
-zz.ui.Button = function( opt_domHelper ){
+zz.ui.Button = function( opt_content, opt_renderer, opt_domHelper ){
 
-	goog.ui.Component.call( this, opt_domHelper );
+	zz.ui.MdlControl.call( this, opt_content, opt_renderer, opt_domHelper );
 };
-goog.inherits( zz.ui.Button, goog.ui.Component );
+goog.inherits( zz.ui.Button, zz.ui.MdlControl );
 goog.tagUnsealableClass( zz.ui.Button );
 
 /**********************************************************************************************************************
@@ -179,15 +183,6 @@ zz.ui.Button.prototype.blurListener_ = function( event ){
 	}
 };
 
-/**
- * Downgrade the component.
- * @private
- */
-zz.ui.Button.prototype.mdlDowngrade = function( ){
-
-	this.dispose( );
-};
-
 /**********************************************************************************************************************
  * Style manipulation methods                                                                                         *
  **********************************************************************************************************************/
@@ -215,3 +210,38 @@ zz.ui.Button.prototype.setDisable = function( enable ){
 
 	this.getElement( ).disabled = enable;
 };
+
+/**********************************************************************************************************************
+ * Renderer definition section                                                                                        *
+ **********************************************************************************************************************/
+
+/**
+ * Default renderer for {@link zz.ui.Button}s. Extends the superclass to support buttons states.
+ * @constructor
+ * @extends {goog.ui.MdlControlRenderer}
+ */
+zz.ui.ButtonRenderer = function( ){
+
+	zz.ui.ButtonRenderer.base( this, 'constructor' );
+};
+goog.inherits( zz.ui.ButtonRenderer, zz.ui.MdlControlRenderer );
+goog.addSingletonGetter( zz.ui.ButtonRenderer );
+
+/**********************************************************************************************************************
+ * Prototype properties section                                                                                       *
+ **********************************************************************************************************************/
+
+/**
+ * Default CSS class to be applied to the root element of components rendered by this renderer.
+ * @type {string}
+ */
+zz.ui.ButtonRenderer.CSS_CLASS = goog.getCssName( 'mdl-button' );
+
+/**********************************************************************************************************************
+ * Register a decorator factory function for goog.ui.Buttons.                                                         *
+ **********************************************************************************************************************/
+
+goog.ui.registry.setDecoratorByClassName( zz.ui.ButtonRenderer.CSS_CLASS, function( ){
+
+	return new zz.ui.Button( );
+} );
