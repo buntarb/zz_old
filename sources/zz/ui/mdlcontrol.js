@@ -232,6 +232,11 @@ zz.ui.MdlControl.prototype.handleKeyEventInternal = function( e ){
 };
 
 /**********************************************************************************************************************
+ **********************************************************************************************************************
+ **********************************************************************************************************************
+ **********************************************************************************************************************/
+
+/**********************************************************************************************************************
  * Renderer definition section                                                                                        *
  **********************************************************************************************************************/
 
@@ -269,7 +274,7 @@ zz.ui.MdlControlRenderer.CSS_CLASS = goog.getCssName( 'zz-mdl-control' );
  */
 zz.ui.MdlControlRenderer.prototype.getCssClass = function( ){
 
-	return ''; //zz.ui.MdlControlRenderer.CSS_CLASS;
+	return '';
 };
 
 /**
@@ -279,12 +284,4 @@ zz.ui.MdlControlRenderer.prototype.getCssClass = function( ){
  * @param {string} className CSS class name to add or remove.
  * @param {boolean} enable Whether to add or remove the class name.
  */
-zz.ui.MdlControlRenderer.prototype.enableClassName = function( control, className, enable ){
-
-	var element = /** @type {Element} */ ( control.getElement ? control.getElement( ) : control );
-	if( element ){
-
-		var classNames = [ className ];
-		//goog.dom.classlist.enableAll( element, classNames, enable );
-	}
-};
+zz.ui.MdlControlRenderer.prototype.enableClassName = function( control, className, enable ){ };

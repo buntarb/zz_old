@@ -98,6 +98,7 @@ zz.demos.app.run = function( ){
 		btn1.decorate( goog.dom.getElement( '1' ) );
 
 	var btn2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+
 	var btn3 = goog.ui.decorate( goog.dom.getElement( '3' ) );
 	var btn4 = goog.ui.decorate( goog.dom.getElement( '4' ) );
 	var btn5 = goog.ui.decorate( goog.dom.getElement( '5' ) );
@@ -117,9 +118,27 @@ zz.demos.app.run = function( ){
 	var btn19 = goog.ui.decorate( goog.dom.getElement( '19' ) );
 	var btn20 = goog.ui.decorate( goog.dom.getElement( '20' ) );
 
+	goog.events.listen( btn2, goog.ui.Component.EventType.ACTION, function( evt ){
+
+		console.log( evt );
+		btn2.setEnabled( false );
+		btn6.setContent( 'Content' );
+		var elm = goog.dom.createDom( goog.dom.TagName.I, {
+
+			'class': goog.getCssName( 'material-icons' )
+
+		}, 'add' );
+		btn7.setContent( elm );
+	} );
 	goog.events.listen( btn4, goog.ui.Component.EventType.ACTION, function( evt ){
 
 		console.log( evt );
+		btn2.setEnabled( true );
+	} );
+	goog.events.listen( btn5, goog.ui.Component.EventType.ACTION, function( evt ){
+
+		console.log( evt );
+		btn2.setEnabled( true );
 	} );
 
 	/******************************************************************************************************************

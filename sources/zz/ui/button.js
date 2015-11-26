@@ -45,14 +45,14 @@ goog.require( 'zz.ui.MdlControlRenderer' );
 
 /**
  * @param {goog.ui.ControlContent=} opt_content Text caption or DOM structure to display as the content of the control.
- * @param {zz.ui.MdlControlRenderer=} opt_renderer Renderer used to render or decorate the component.
+ * @param {goog.ui.ControlRenderer=} opt_renderer Renderer used to render or decorate the button.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper, used for document interaction.
  * @extends {zz.ui.MdlControl}
  * @constructor
  */
 zz.ui.Button = function( opt_content, opt_renderer, opt_domHelper ){
 
-	zz.ui.MdlControl.call( this, opt_content, opt_renderer, opt_domHelper );
+	zz.ui.MdlControl.call( this, opt_content, opt_renderer || zz.ui.ButtonRenderer.getInstance( ), opt_domHelper );
 };
 goog.inherits( zz.ui.Button, zz.ui.MdlControl );
 goog.tagUnsealableClass( zz.ui.Button );
@@ -80,40 +80,8 @@ zz.ui.Button.CSS = {
 };
 
 /**********************************************************************************************************************
- * Properties section                                                                                                 *
- **********************************************************************************************************************/
-
-/**********************************************************************************************************************
  * Life cycle methods                                                                                                 *
  **********************************************************************************************************************/
-
-/**
- * @override
- */
-zz.ui.Button.prototype.createDom = function( ){
-
-	goog.base( this, 'createDom' );
-};
-
-/**
- * @override
- */
-zz.ui.Button.prototype.decorateInternal = function( element ){
-
-	goog.base( this, 'decorateInternal', element );
-
-	if( goog.dom.classlist.contains( element, zz.ui.Button.CSS.RIPPLE_EFFECT ) ){
-
-		goog.dom.appendChild( element, this.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
-
-			'class': zz.ui.Button.CSS.RIPPLE_CONTAINER
-
-		}, this.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
-
-			'class': zz.ui.Button.CSS.RIPPLE
-		} ) ) );
-	}
-};
 
 /**
  * Called when the component's element is known to be in the document. Anything using document.getElementById etc.
@@ -206,10 +174,16 @@ zz.ui.Button.prototype.getCssClass = function( ){
  * Enable/disable button.
  * @param {boolean} enable
  */
-zz.ui.Button.prototype.setDisable = function( enable ){
+zz.ui.Button.prototype.setEnabled = function( enable ){
 
-	this.getElement( ).disabled = enable;
+	zz.ui.Button.superClass_.setEnabled.call( this, enable );
+	this.getElement( ).disabled = !enable;
 };
+
+/**********************************************************************************************************************
+ **********************************************************************************************************************
+ **********************************************************************************************************************
+ **********************************************************************************************************************/
 
 /**********************************************************************************************************************
  * Renderer definition section                                                                                        *
@@ -236,6 +210,49 @@ goog.addSingletonGetter( zz.ui.ButtonRenderer );
  * @type {string}
  */
 zz.ui.ButtonRenderer.CSS_CLASS = goog.getCssName( 'mdl-button' );
+
+/**********************************************************************************************************************
+ * Life cycle methods                                                                                                 *
+ **********************************************************************************************************************/
+
+/**
+ * @override
+ */
+zz.ui.ButtonRenderer.prototype.createDom = function( ){
+
+	goog.base( this, 'createDom' );
+};
+
+/**
+ * @override
+ */
+zz.ui.ButtonRenderer.prototype.canDecorate = function( element ){
+
+	return element.tagName == goog.dom.TagName.BUTTON || ( element.tagName == goog.dom.TagName.INPUT && (
+
+		element.type == goog.dom.InputType.BUTTON ||
+		element.type == goog.dom.InputType.SUBMIT ||
+		element.type == goog.dom.InputType.RESET ) );
+};
+
+/**
+ * @override
+ */
+zz.ui.ButtonRenderer.prototype.decorate = function( control, element ){
+
+	if( goog.dom.classlist.contains( element, zz.ui.Button.CSS.RIPPLE_EFFECT ) ){
+
+		goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
+
+			'class': zz.ui.Button.CSS.RIPPLE_CONTAINER
+
+		}, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
+
+			'class': zz.ui.Button.CSS.RIPPLE
+		} ) ) );
+	}
+	return goog.base( this, 'decorate', control, element );
+};
 
 /**********************************************************************************************************************
  * Register a decorator factory function for goog.ui.Buttons.                                                         *
