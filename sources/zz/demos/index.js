@@ -36,11 +36,11 @@ goog.require( 'goog.events' );
 goog.require( 'goog.ui.decorate' );
 goog.require( 'goog.ui.Component' );
 
-goog.require( 'zz.ui.Button' );
-goog.require( 'zz.ui.Tooltip' );
-goog.require( 'zz.ui.Navigation' );
-goog.require( 'zz.ui.Spinner' );
-goog.require( 'zz.ui.Progress' );
+goog.require( 'zz.ui.mdl.Button' );
+goog.require( 'zz.ui.mdl.Tooltip' );
+goog.require( 'zz.ui.mdl.Navigation' );
+goog.require( 'zz.ui.mdl.Spinner' );
+goog.require( 'zz.ui.mdl.Progress' );
 
 goog.require( 'zz.template.ui.button' );
 goog.require( 'zz.template.ui.spinner' );
@@ -56,49 +56,49 @@ zz.demos.app = {};
 zz.demos.app.run = function( ){
 
 //	Navigation
+
 //	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.navigation.fixedHeadersAndTabs );
 //
-//	var layout = new zz.ui.Navigation( );
+//	var layout = new zz.ui.mdl.Navigation( );
 //		layout.decorate( goog.dom.getElementByClass( goog.getCssName( 'mdl-js-layout' ) ) );
 
 //	Tooltip
+
 //	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.tooltip.default );
-//
-//	var tt1 = new zz.ui.Tooltip( );
+//	var tt1 = new zz.ui.mdl.Tooltip( );
 //		tt1.decorate( goog.dom.getElement( 'tt-1' ) );
-//	var tt2 = new zz.ui.Tooltip( );
+//	var tt2 = new zz.ui.mdl.Tooltip( );
 //		tt2.decorate( goog.dom.getElement( 'tt-2' ) );
-//	var tt3 = new zz.ui.Tooltip( );
+//	var tt3 = new zz.ui.mdl.Tooltip( );
 //		tt3.decorate( goog.dom.getElement( 'tt-3' ) );
-//	var tt4 = new zz.ui.Tooltip( );
+//	var tt4 = new zz.ui.mdl.Tooltip( );
 //		tt4.decorate( goog.dom.getElement( 'tt-4' ) );
 
 //	Progress
+
 //	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.progress.default );
-//
-//	var prg1 = new zz.ui.Progress( );
+//	var prg1 = new zz.ui.mdl.Progress( );
 //		prg1.decorate( goog.dom.getElement( '1' ) );
 //		prg1.setProgress( 10 );
-//	var prg2 = new zz.ui.Progress( );
+//	var prg2 = new zz.ui.mdl.Progress( );
 //		prg2.decorate( goog.dom.getElement( '2' ) );
-//	var prg3 = new zz.ui.Progress( );
+//	var prg3 = new zz.ui.mdl.Progress( );
 //		prg3.decorate( goog.dom.getElement( '3' ) );
 
 //	Spinner
+
 //	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.spinner.default );
 //
-//	var spn1 = new zz.ui.Spinner( );
+//	var spn1 = new zz.ui.mdl.Spinner( );
 //		spn1.decorate( goog.dom.getElement( '1' ) );
-//	var spn2 = new zz.ui.Spinner( );
+//	var spn2 = new zz.ui.mdl.Spinner( );
 //		spn2.decorate( goog.dom.getElement( '2' ) );
 
 //	Buttons
+
 	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.button.default );
-	var btn1 = new zz.ui.Button( );
-		btn1.decorate( goog.dom.getElement( '1' ) );
-
+	var btn1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
 	var btn2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
-
 	var btn3 = goog.ui.decorate( goog.dom.getElement( '3' ) );
 	var btn4 = goog.ui.decorate( goog.dom.getElement( '4' ) );
 	var btn5 = goog.ui.decorate( goog.dom.getElement( '5' ) );
@@ -117,18 +117,24 @@ zz.demos.app.run = function( ){
 	var btn18 = goog.ui.decorate( goog.dom.getElement( '18' ) );
 	var btn19 = goog.ui.decorate( goog.dom.getElement( '19' ) );
 	var btn20 = goog.ui.decorate( goog.dom.getElement( '20' ) );
-
+	var ttp1 = goog.ui.decorate( goog.dom.getElement( 'ttp-1' ) );
+	var ttp2 = goog.ui.decorate( goog.dom.getElement( 'ttp-2' ) );
 	goog.events.listen( btn2, goog.ui.Component.EventType.ACTION, function( evt ){
 
 		console.log( evt );
 		btn2.setEnabled( false );
 		btn6.setContent( 'Content' );
-		var elm = goog.dom.createDom( goog.dom.TagName.I, {
+		var elm1 = goog.dom.createDom( goog.dom.TagName.I, {
 
 			'class': goog.getCssName( 'material-icons' )
 
 		}, 'add' );
-		btn7.setContent( elm );
+		var elm2 = goog.dom.createDom( goog.dom.TagName.I, {
+
+			'class': goog.getCssName( 'material-icons' )
+
+		}, 'add' );
+		btn7.setContent( elm1 );
 	} );
 	goog.events.listen( btn4, goog.ui.Component.EventType.ACTION, function( evt ){
 

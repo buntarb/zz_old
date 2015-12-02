@@ -1,279 +1,413 @@
+// Copyright 2005 The ZZ Library Authors. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS-IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/**********************************************************************************************************************
+ * File overview section                                                                                              *
+ **********************************************************************************************************************/
+
 /**
- * @license
- * Copyright 2015 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @fileoverview Provide zz.ui.mdl.Ripple class.
+ * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
-(function() {
-  'use strict';
+/**********************************************************************************************************************
+ * Provide section                                                                                                    *
+ **********************************************************************************************************************/
 
-  /**
-   * Class constructor for Ripple MDL component.
-   * Implements MDL component design pattern defined at:
-   * https://github.com/jasonmayes/mdl-component-design-pattern
-   *
-   * @constructor
-   * @param {HTMLElement} element The element that will be upgraded.
-   */
-  var MaterialRipple = function MaterialRipple(element) {
-    this.element_ = element;
+goog.provide( 'zz.ui.mdl.Ripple' );
 
-    // Initialize instance.
-    this.init();
-  };
-  window['MaterialRipple'] = MaterialRipple;
+/**********************************************************************************************************************
+ * Dependencies section                                                                                               *
+ **********************************************************************************************************************/
 
-  /**
-   * Store constants in one place so they can be updated easily.
-   *
-   * @enum {string | number}
-   * @private
-   */
-  MaterialRipple.prototype.Constant_ = {
-    INITIAL_SCALE: 'scale(0.0001, 0.0001)',
-    INITIAL_SIZE: '1px',
-    INITIAL_OPACITY: '0.4',
-    FINAL_OPACITY: '0',
-    FINAL_SCALE: ''
-  };
+goog.require( 'goog.Timer' );
+goog.require( 'goog.style' );
+goog.require( 'goog.dom.classlist' );
+goog.require( 'goog.events.EventType' );
+goog.require( 'goog.ui.Component' );
 
-  /**
-   * Store strings for class names defined by this component that are used in
-   * JavaScript. This allows us to simply change it in one place should we
-   * decide to modify at a later date.
-   *
-   * @enum {string}
-   * @private
-   */
-  MaterialRipple.prototype.CssClasses_ = {
-    RIPPLE_CENTER: goog.getCssName( 'mdl-ripple--center' ),
-    RIPPLE_EFFECT_IGNORE_EVENTS: goog.getCssName( 'mdl-js-ripple-effect--ignore-events' ),
-    RIPPLE: goog.getCssName( 'mdl-ripple' ),
-    IS_ANIMATING: goog.getCssName( 'is-animating' ),
-    IS_VISIBLE: goog.getCssName( 'is-visible' )
-  };
+/**********************************************************************************************************************
+ * Definition section                                                                                                 *
+ **********************************************************************************************************************/
 
-  /**
-   * Handle mouse / finger down on element.
-   *
-   * @param {Event} event The event that fired.
-   * @private
-   */
-  MaterialRipple.prototype.downHandler_ = function(event) {
-    if (!this.rippleElement_.style.width && !this.rippleElement_.style.height) {
-      var rect = this.element_.getBoundingClientRect();
-      this.boundHeight = rect.height;
-      this.boundWidth = rect.width;
-      this.rippleSize_ = Math.sqrt(rect.width * rect.width + rect.height * rect.height) * 2 + 2;
-      this.rippleElement_.style.width = this.rippleSize_ + 'px';
-      this.rippleElement_.style.height = this.rippleSize_ + 'px';
-    }
+/**
+ * Material ripple fx class.
+ * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+ * @extends {goog.ui.Control}
+ * @constructor
+ */
+zz.ui.mdl.Ripple = function( opt_domHelper ){
 
-    this.rippleElement_.classList.add(this.CssClasses_.IS_VISIBLE);
+	goog.ui.Component.call( this, opt_domHelper );
+};
+goog.inherits( zz.ui.mdl.Ripple, goog.ui.Component );
+goog.tagUnsealableClass( zz.ui.mdl.Ripple );
 
-    if (event.type === 'mousedown' && this.ignoringMouseDown_) {
-      this.ignoringMouseDown_ = false;
-    } else {
-      if (event.type === 'touchstart') {
-        this.ignoringMouseDown_ = true;
-      }
-      var frameCount = this.getFrameCount();
-      if (frameCount > 0) {
-        return;
-      }
-      this.setFrameCount(1);
-      var bound = event.currentTarget.getBoundingClientRect();
-      var x;
-      var y;
-      // Check if we are handling a keyboard click.
-      if (event.clientX === 0 && event.clientY === 0) {
-        x = Math.round(bound.width / 2);
-        y = Math.round(bound.height / 2);
-      } else {
-        var clientX = event.clientX ? event.clientX : event.touches[0].clientX;
-        var clientY = event.clientY ? event.clientY : event.touches[0].clientY;
-        x = Math.round(clientX - bound.left);
-        y = Math.round(clientY - bound.top);
-      }
-      this.setRippleXY(x, y);
-      this.setRippleStyles(true);
-      window.requestAnimationFrame(this.animFrameHandler.bind(this));
-    }
-  };
+/**********************************************************************************************************************
+ * Static properties section                                                                                          *
+ **********************************************************************************************************************/
 
-  /**
-   * Handle mouse / finger up on element.
-   *
-   * @param {Event} event The event that fired.
-   * @private
-   */
-  MaterialRipple.prototype.upHandler_ = function(event) {
-    // Don't fire for the artificial "mouseup" generated by a double-click.
-    if (event && event.detail !== 2) {
-      this.rippleElement_.classList.remove(this.CssClasses_.IS_VISIBLE);
-    }
-    // Allow a repaint to occur before removing this class, so the animation
-    // shows for tap events, which seem to trigger a mouseup too soon after
-    // mousedown.
-    window.setTimeout(function() {
-      this.rippleElement_.classList.remove(this.CssClasses_.IS_VISIBLE);
-    }.bind(this), 0);
-  };
+/**
+ * Store constants in one place so they can be updated easily.
+ * @enum {string | number}
+ */
+zz.ui.mdl.Ripple.CONST = {
 
-  /**
-   * Initialize element.
-   */
-  MaterialRipple.prototype.init = function() {
-    if (this.element_) {
-      var recentering = this.element_.classList.contains(this.CssClasses_.RIPPLE_CENTER);
-      if (!this.element_.classList.contains(
-          this.CssClasses_.RIPPLE_EFFECT_IGNORE_EVENTS)) {
+	INITIAL_SCALE: 'scale(0.0001, 0.0001)',
+	INITIAL_SIZE: '1px',
+	INITIAL_OPACITY: '0.4',
+	FINAL_OPACITY: '0',
+	FINAL_SCALE: ''
+};
 
-        this.rippleElement_ = this.element_.querySelector('.' + this.CssClasses_.RIPPLE);
-        this.frameCount_ = 0;
-        this.rippleSize_ = 0;
-        this.x_ = 0;
-        this.y_ = 0;
+/**
+ * Store strings for class names defined by this component that are used in JavaScript. This allows us to simply change
+ * it in one place should we decide to modify at a later date.
+ * @enum {string}
+ */
+zz.ui.mdl.Ripple.CSS = {
 
-        // Touch start produces a compat mouse down event, which would cause a
-        // second ripples. To avoid that, we use this property to ignore the first
-        // mouse down after a touch start.
-        this.ignoringMouseDown_ = false;
+	RIPPLE_CENTER: goog.getCssName( 'mdl-ripple--center' ),
+	RIPPLE_EFFECT_IGNORE_EVENTS: goog.getCssName( 'mdl-js-ripple-effect--ignore-events' ),
+	RIPPLE: goog.getCssName( 'mdl-ripple' ),
+	IS_ANIMATING: goog.getCssName( 'is-animating' ),
+	IS_VISIBLE: goog.getCssName( 'is-visible' )
+};
 
-        this.boundDownHandler = this.downHandler_.bind(this);
-        this.element_.addEventListener('mousedown', this.boundDownHandler);
-        this.element_.addEventListener('touchstart', this.boundDownHandler);
+/**********************************************************************************************************************
+ * Properties section                                                                                                 *
+ **********************************************************************************************************************/
 
-        this.boundUpHandler = this.upHandler_.bind(this);
-        this.element_.addEventListener('mouseup', this.boundUpHandler);
-        this.element_.addEventListener('mouseleave', this.boundUpHandler);
-        this.element_.addEventListener('touchend', this.boundUpHandler);
-        this.element_.addEventListener('blur', this.boundUpHandler);
+/**********************************************************************************************************************
+ * Life cycle methods                                                                                                 *
+ **********************************************************************************************************************/
 
-        /**
-         * Getter for frameCount_.
-         * @return {number} the frame count.
-         */
-        this.getFrameCount = function() {
-          return this.frameCount_;
-        };
+/**
+ * @override
+ */
+zz.ui.mdl.Ripple.prototype.createDom = function( ){
 
-        /**
-         * Setter for frameCount_.
-         * @param {number} fC the frame count.
-         */
-        this.setFrameCount = function(fC) {
-          this.frameCount_ = fC;
-        };
+	// TODO (buntarb): Maybe throw exception here?
+};
 
-        /**
-         * Getter for rippleElement_.
-         * @return {Element} the ripple element.
-         */
-        this.getRippleElement = function() {
-          return this.rippleElement_;
-        };
+/**
+ * @override
+ */
+zz.ui.mdl.Ripple.prototype.decorateInternal = function( element ){
 
-        /**
-         * Sets the ripple X and Y coordinates.
-         * @param  {number} newX the new X coordinate
-         * @param  {number} newY the new Y coordinate
-         */
-        this.setRippleXY = function(newX, newY) {
-          this.x_ = newX;
-          this.y_ = newY;
-        };
+	goog.base( this, 'decorateInternal', element );
 
-        /**
-         * Sets the ripple styles.
-         * @param  {boolean} start whether or not this is the start frame.
-         */
-        this.setRippleStyles = function(start) {
-          if (this.rippleElement_ !== null) {
-            var transformString;
-            var scale;
-            var size;
-            var offset = 'translate(' + this.x_ + 'px, ' + this.y_ + 'px)';
+	/**
+	 * Centering flag.
+	 * @type {boolean}
+	 * @private
+	 */
+	this.centeringFlag_ = goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Ripple.CSS.RIPPLE_CENTER );
 
-            if (start) {
-              scale = this.Constant_.INITIAL_SCALE;
-              size = this.Constant_.INITIAL_SIZE;
-            } else {
-              scale = this.Constant_.FINAL_SCALE;
-              size = this.rippleSize_ + 'px';
-              if (recentering) {
-                offset = 'translate(' + this.boundWidth / 2 + 'px, ' +
-                  this.boundHeight / 2 + 'px)';
-              }
-            }
+	/**
+	 * Ripple element.
+	 * @type {Element}
+	 * @private
+	 */
+	this.rippleElement_ = goog.dom.getElementByClass( zz.ui.mdl.Ripple.CSS.RIPPLE, this.getElement( ) );
 
-            transformString = 'translate(-50%, -50%) ' + offset + scale;
+	/**
+	 * Frame count.
+	 * @type {number}
+	 * @private
+	 */
+	this.frameCount_ = 0;
 
-            this.rippleElement_.style.webkitTransform = transformString;
-            this.rippleElement_.style.msTransform = transformString;
-            this.rippleElement_.style.transform = transformString;
+	/**
+	 * Ripple size.
+	 * @type {number}
+	 * @private
+	 */
+	this.rippleSize_ = 0;
 
-            if (start) {
-              this.rippleElement_.classList.remove(this.CssClasses_.IS_ANIMATING);
-            } else {
-              this.rippleElement_.classList.add(this.CssClasses_.IS_ANIMATING);
-            }
-          }
-        };
+	/**
+	 * X-coordinate.
+	 * @type {number}
+	 * @private
+	 */
+	this.x_ = 0;
 
-        /**
-         * Handles an animation frame.
-         */
-        this.animFrameHandler = function() {
-          if (this.frameCount_-- > 0) {
-            window.requestAnimationFrame(this.animFrameHandler.bind(this));
-          } else {
-            this.setRippleStyles(false);
-          }
-        };
-      }
-    }
-  };
+	/**
+	 * Y-coordinate.
+	 * @type {number}
+	 * @private
+	 */
+	this.y_ = 0;
 
-  /**
-   * Downgrade the component
-   *
-   * @private
-   */
-  MaterialRipple.prototype.mdlDowngrade_ = function() {
-    this.element_.removeEventListener('mousedown', this.boundDownHandler);
-    this.element_.removeEventListener('touchstart', this.boundDownHandler);
-    this.element_.removeEventListener('mouseup', this.boundUpHandler);
-    this.element_.removeEventListener('mouseleave', this.boundUpHandler);
-    this.element_.removeEventListener('touchend', this.boundUpHandler);
-    this.element_.removeEventListener('blur', this.boundUpHandler);
-  };
+	/**
+	 * Ignoring mouse event for touch devices.
+	 * @type {boolean}
+	 * @private
+	 */
+	this.ignoringMouseDown_ = false;
+};
 
-  /**
-   * Public alias for the downgrade method.
-   *
-   * @public
-   */
-  MaterialRipple.prototype.mdlDowngrade = MaterialRipple.prototype.mdlDowngrade_;
-  MaterialRipple.prototype['mdlDowngrade'] = MaterialRipple.prototype.mdlDowngrade;
+/**
+ * Called when the component's element is known to be in the document. Anything using document.getElementById etc.
+ * should be done at this stage. If the component contains child components, this call is propagated to its children.
+ * @override
+ */
+zz.ui.mdl.Ripple.prototype.enterDocument = function( ){
 
-  // The component registers itself. It can assume componentHandler is available
-  // in the global scope.
-  componentHandler.register({
-    constructor: MaterialRipple,
-    classAsString: 'MaterialRipple',
-    cssClass: goog.getCssName( 'mdl-js-ripple-effect' ),
-    widget: false
-  });
-})();
+	goog.base( this, 'enterDocument' );
+
+	// Dispose object if find ignore class.
+	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Ripple.CSS.RIPPLE_EFFECT_IGNORE_EVENTS ) ){
+
+		this.dispose( );
+
+	}else{
+
+		this.getHandler( ).listenWithScope( this.getElement( ), [
+			goog.events.EventType.MOUSEDOWN,
+			goog.events.EventType.TOUCHSTART ],
+			this.downHandler_,
+			false,
+			this
+		);
+		this.getHandler( ).listenWithScope( this.getElement( ), [
+			goog.events.EventType.MOUSEUP,
+			goog.events.EventType.MOUSELEAVE,
+			goog.events.EventType.TOUCHEND,
+			goog.events.EventType.BLUR ],
+			this.upHandler_,
+			false,
+			this
+		);
+	}
+};
+
+/**
+ * Deletes or nulls out any references to COM objects, DOM nodes, or other disposable objects. Classes that extend
+ * {@code goog.Disposable} should override this method. Not reentrant. To avoid calling it twice, it must only be
+ * called from the subclass' {@code disposeInternal} method. Everywhere else the public {@code dispose} method must
+ * be used.
+ * @inheritDoc
+ **/
+zz.ui.mdl.Ripple.prototype.disposeInternal = function( ){
+
+	goog.base( this, 'disposeInternal' );
+
+	this.getHandler( ).dispose( );
+	this.rippleElement_ = null;
+};
+
+/**********************************************************************************************************************
+ * Event listeners/handlers section                                                                                   *
+ **********************************************************************************************************************/
+
+/**
+ * Handles an animation frame.
+ */
+zz.ui.mdl.Ripple.prototype.animationFrameHandler = function( ){
+
+	if( this.frameCount_-- > 0 ){
+
+		window.requestAnimationFrame( goog.bind( this.animationFrameHandler, this ) );
+
+	}else{
+
+		this.setRippleStyles( false );
+	}
+};
+
+/**
+ * Handle mouse/finger down on element.
+ * @param {goog.events.BrowserEvent} event
+ * @private
+ */
+zz.ui.mdl.Ripple.prototype.downHandler_ = function( event ){
+
+	if( !goog.style.getStyle( this.rippleElement_ ).width &&
+		!goog.style.getStyle( this.rippleElement_ ).height ){
+
+		var rect = goog.style.getBounds( this.element_ );
+		this.boundHeight = rect.height;
+		this.boundWidth = rect.width;
+		this.rippleSize_ = Math.sqrt( rect.width * rect.width + rect.height * rect.height ) * 2 + 2;
+		goog.style.setStyle( this.rippleElement_, {
+
+			'width': this.rippleSize_ + 'px',
+			'height': this.rippleSize_ + 'px'
+		} );
+	}
+	//noinspection JSValidateTypes
+	goog.dom.classlist.add( this.rippleElement_, zz.ui.mdl.Ripple.CSS.IS_VISIBLE );
+	if( event.type === goog.events.EventType.MOUSEDOWN && this.ignoringMouseDown_ ){
+
+		this.ignoringMouseDown_ = false;
+
+	}else{
+
+		if( event.type === goog.events.EventType.TOUCHSTART ){
+
+			this.ignoringMouseDown_ = true;
+		}
+		var frameCount = this.getFrameCount( );
+		if( frameCount > 0 ){
+
+			return;
+		}
+		this.setFrameCount( 1 );
+		//var bound = event.currentTarget.getBoundingClientRect( );
+		var bound = goog.style.getBounds( event.currentTarget );
+		var x;
+		var y;
+		// Check if we are handling a keyboard click.
+		if( event.clientX === 0 && event.clientY === 0 ){
+
+			x = Math.round( bound.width / 2 );
+			y = Math.round( bound.height / 2 );
+
+		}else{
+
+			// TODO (buntarb): Test this code.
+			var clientX = event.clientX ? event.clientX : event.getBrowserEvent( ).touches[ 0 ].clientX;
+			var clientY = event.clientY ? event.clientY : event.getBrowserEvent( ).touches[ 0 ].clientY;
+			x = Math.round( clientX - bound.left );
+			y = Math.round( clientY - bound.top );
+		}
+		this.setRippleXY( x, y );
+		this.setRippleStyles( true );
+		window.requestAnimationFrame( goog.bind( this.animationFrameHandler, this ) );
+	}
+};
+
+/**
+ * Handle mouse / finger up on element.
+ * @param {goog.events.BrowserEvent} event
+ * @private
+ */
+zz.ui.mdl.Ripple.prototype.upHandler_ = function( event ){
+
+	// Don't fire for the artificial "mouseup" generated by a double-click.
+	if( event && event.getBrowserEvent( ).detail !== 2 ){
+
+		//noinspection JSValidateTypes
+		goog.dom.classlist.remove( this.rippleElement_, zz.ui.mdl.Ripple.CSS.IS_VISIBLE );
+	}
+	// Allow a repaint to occur before removing this class, so the animation
+	// shows for tap events, which seem to trigger a mouseup too soon after
+	// mousedown.
+	goog.Timer.callOnce( function( ){
+
+		//noinspection JSPotentiallyInvalidUsageOfThis,JSValidateTypes
+		goog.dom.classlist.remove( this.rippleElement_, zz.ui.mdl.Ripple.CSS.IS_VISIBLE );
+
+	}, 0, this );
+};
+
+/**
+ * Downgrade the component.
+ * @private
+ */
+zz.ui.mdl.Ripple.prototype.mdlDowngrade = function( ){
+
+	this.dispose( );
+};
+
+/**********************************************************************************************************************
+ * Style manipulation methods                                                                                         *
+ **********************************************************************************************************************/
+
+/**
+ * Returns the CSS class name to be applied to the root element of all sub-views rendered or decorated using this view.
+ * The class name is expected to uniquely identify the view class, i.e. no two view classes are expected to share the
+ * same CSS class name.
+ * @override
+ */
+zz.ui.mdl.Ripple.prototype.getCssClass = function( ){
+
+	return zz.ui.mdl.Ripple.CSS_CLASS;
+};
+
+/**
+ * Sets the ripple styles.
+ * @param  {boolean} start whether or not this is the start frame.
+ */
+zz.ui.mdl.Ripple.prototype.setRippleStyles = function( start ){
+
+	if( this.rippleElement_ !== null ){
+
+		var transformString;
+		var scale;
+		var offset = 'translate(' + this.x_ + 'px, ' + this.y_ + 'px)';
+		if( start ){
+
+			scale = zz.ui.mdl.Ripple.CONST.INITIAL_SCALE;
+
+		}else{
+
+			scale = zz.ui.mdl.Ripple.CONST.FINAL_SCALE;
+			if( this.centeringFlag_ ){
+
+				offset = 'translate(' + this.boundWidth / 2 + 'px, ' + this.boundHeight / 2 + 'px)';
+			}
+		}
+		transformString = 'translate(-50%, -50%) ' + offset + scale;
+		goog.style.setStyle( this.rippleElement_, {
+
+			'webkitTransform': transformString,
+			'msTransform': transformString,
+			'transform': transformString
+		} );
+		if( start ){
+
+			goog.dom.classlist.remove( /** @type {Element} */( this.rippleElement_ ), zz.ui.mdl.Ripple.CSS.IS_ANIMATING );
+
+		}else{
+
+			this.rippleElement_.classList.add(zz.ui.mdl.Ripple.CSS.IS_ANIMATING);
+		}
+	}
+};
+
+/**********************************************************************************************************************
+ * Helpers methods                                                                                                    *
+ **********************************************************************************************************************/
+
+/**
+ * Getter for frame count.
+ * @return {number}.
+ * @private
+ */
+zz.ui.mdl.Ripple.prototype.getFrameCount = function( ){
+
+	return this.frameCount_;
+};
+
+/**
+ * Setter for frame count.
+ * @param {number} fc
+ */
+zz.ui.mdl.Ripple.prototype.setFrameCount = function( fc ){
+
+	this.frameCount_ = fc;
+};
+
+/**
+ * Sets the ripple X and Y coordinates.
+ * @param  {number} newX
+ * @param  {number} newY
+ */
+zz.ui.mdl.Ripple.prototype.setRippleXY = function( newX, newY ){
+
+	this.x_ = newX;
+	this.y_ = newY;
+};

@@ -1,162 +1,243 @@
+// Copyright 2005 The ZZ Library Authors. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS-IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/**********************************************************************************************************************
+ * File overview section                                                                                              *
+ **********************************************************************************************************************/
+
 /**
- * @license
- * Copyright 2015 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @fileoverview Provide zz.ui.mdl.Spinner class.
+ * @author aleksander.popkov@gmail.com (Alexander Popkov)
  */
 
 /**********************************************************************************************************************
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
-goog.provide( 'zz.ui.mdl.MaterialSpinner' );
+
+goog.provide( 'zz.ui.mdl.Spinner' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
-goog.require( 'zz.ui.mdl.componentHandler' );
 
-(function() {
-  'use strict';
+goog.require( 'goog.style' );
+goog.require( 'goog.dom.classlist' );
+goog.require( 'goog.events.EventType' );
+goog.require( 'goog.ui.Component' );
 
-  /**
-   * Class constructor for Spinner MDL component.
-   * Implements MDL component design pattern defined at:
-   * https://github.com/jasonmayes/mdl-component-design-pattern
-   *
-   * @param {HTMLElement} element The element that will be upgraded.
-   * @constructor
-   */
-  var MaterialSpinner = function MaterialSpinner(element) {
-    this.element_ = element;
+/**********************************************************************************************************************
+ * Definition section                                                                                                 *
+ **********************************************************************************************************************/
 
-    // Initialize instance.
-    this.init();
-  };
-  window['MaterialSpinner'] = MaterialSpinner;
+/**
+ * Material ripple fx class.
+ * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+ * @extends {goog.ui.Control}
+ * @constructor
+ */
+zz.ui.mdl.Spinner = function( opt_domHelper ){
 
-  /**
-   * Store constants in one place so they can be updated easily.
-   *
-   * @enum {string | number}
-   * @private
-   */
-  MaterialSpinner.prototype.Constant_ = {
-    MDL_SPINNER_LAYER_COUNT: 4
-  };
+	goog.ui.Component.call( this, opt_domHelper );
+};
+goog.inherits( zz.ui.mdl.Spinner, goog.ui.Component );
+goog.tagUnsealableClass( zz.ui.mdl.Spinner );
 
-  /**
-   * Store strings for class names defined by this component that are used in
-   * JavaScript. This allows us to simply change it in one place should we
-   * decide to modify at a later date.
-   *
-   * @enum {string}
-   * @private
-   */
-  MaterialSpinner.prototype.CssClasses_ = {
-    MDL_SPINNER_LAYER: goog.getCssName( 'mdl-spinner__layer' ),
-    MDL_SPINNER_CIRCLE_CLIPPER: goog.getCssName( 'mdl-spinner__circle-clipper' ),
-    MDL_SPINNER_CIRCLE: goog.getCssName( 'mdl-spinner__circle' ),
-    MDL_SPINNER_GAP_PATCH: goog.getCssName( 'mdl-spinner__gap-patch' ),
-    MDL_SPINNER_LEFT: goog.getCssName( 'mdl-spinner__left' ),
-    MDL_SPINNER_RIGHT: goog.getCssName( 'mdl-spinner__right' )
-  };
+/**********************************************************************************************************************
+ * Static properties section                                                                                          *
+ **********************************************************************************************************************/
 
-  /**
-   * Auxiliary method to create a spinner layer.
-   *
-   * @param {number} index Index of the layer to be created.
-   * @public
-   */
-  MaterialSpinner.prototype.createLayer = function(index) {
-    var layer = document.createElement('div');
-    layer.classList.add(this.CssClasses_.MDL_SPINNER_LAYER);
-    layer.classList.add(this.CssClasses_.MDL_SPINNER_LAYER + '-' + index);
+/**
+ * Store constants in one place so they can be updated easily.
+ * @enum {string | number}
+ */
+zz.ui.mdl.Spinner.CONST = {
 
-    var leftClipper = document.createElement('div');
-    leftClipper.classList.add(this.CssClasses_.MDL_SPINNER_CIRCLE_CLIPPER);
-    leftClipper.classList.add(this.CssClasses_.MDL_SPINNER_LEFT);
+	MDL_SPINNER_LAYER_COUNT: 4
+};
 
-    var gapPatch = document.createElement('div');
-    gapPatch.classList.add(this.CssClasses_.MDL_SPINNER_GAP_PATCH);
+/**
+ * Store strings for class names defined by this component that are used in JavaScript. This allows us to simply change
+ * it in one place should we decide to modify at a later date.
+ * @enum {string}
+ */
+zz.ui.mdl.Spinner.CSS = {
 
-    var rightClipper = document.createElement('div');
-    rightClipper.classList.add(this.CssClasses_.MDL_SPINNER_CIRCLE_CLIPPER);
-    rightClipper.classList.add(this.CssClasses_.MDL_SPINNER_RIGHT);
+	MDL_SPINNER_LAYER: goog.getCssName( 'mdl-spinner__layer' ),
+	MDL_SPINNER_LAYER_1: goog.getCssName( 'mdl-spinner__layer-1' ),
+	MDL_SPINNER_LAYER_2: goog.getCssName( 'mdl-spinner__layer-2' ),
+	MDL_SPINNER_LAYER_3: goog.getCssName( 'mdl-spinner__layer-3' ),
+	MDL_SPINNER_LAYER_4: goog.getCssName( 'mdl-spinner__layer-4' ),
+	MDL_SPINNER_CIRCLE_CLIPPER: goog.getCssName( 'mdl-spinner__circle-clipper' ),
+	MDL_SPINNER_CIRCLE: goog.getCssName( 'mdl-spinner__circle' ),
+	MDL_SPINNER_GAP_PATCH: goog.getCssName( 'mdl-spinner__gap-patch' ),
+	MDL_SPINNER_LEFT: goog.getCssName( 'mdl-spinner__left' ),
+	MDL_SPINNER_RIGHT: goog.getCssName( 'mdl-spinner__right' ),
+	MDL_SPINNER_IS_ACTIVE: goog.getCssName( 'is-active' ),
+	MDL_SPINNER_IS_UPGRADED: goog.getCssName( 'is-upgraded' )
+};
 
-    var circleOwners = [leftClipper, gapPatch, rightClipper];
+/**********************************************************************************************************************
+ * Properties section                                                                                                 *
+ **********************************************************************************************************************/
 
-    for (var i = 0; i < circleOwners.length; i++) {
-      var circle = document.createElement('div');
-      circle.classList.add(this.CssClasses_.MDL_SPINNER_CIRCLE);
-      circleOwners[i].appendChild(circle);
-    }
+/**********************************************************************************************************************
+ * Life cycle methods                                                                                                 *
+ **********************************************************************************************************************/
 
-    layer.appendChild(leftClipper);
-    layer.appendChild(gapPatch);
-    layer.appendChild(rightClipper);
+/**
+ * @override
+ */
+zz.ui.mdl.Spinner.prototype.createDom = function( ){
 
-    this.element_.appendChild(layer);
-  };
-  MaterialSpinner.prototype['createLayer'] = MaterialSpinner.prototype.createLayer;
+	goog.base( this, 'createDom' );
+};
 
-  /**
-   * Stops the spinner animation.
-   * Public method for users who need to stop the spinner for any reason.
-   *
-   * @public
-   */
-  MaterialSpinner.prototype.stop = function() {
-    this.element_.classList.remove( goog.getCssName( 'is-active' ) );
-  };
-  MaterialSpinner.prototype['stop'] = MaterialSpinner.prototype.stop;
+/**
+ * @override
+ */
+zz.ui.mdl.Spinner.prototype.decorateInternal = function( element ){
 
-  /**
-   * Starts the spinner animation.
-   * Public method for users who need to manually start the spinner for any reason
-   * (instead of just adding the 'is-active' class to their markup).
-   *
-   * @public
-   */
-  MaterialSpinner.prototype.start = function() {
-    this.element_.classList.add( goog.getCssName( 'is-active' ) );
-  };
-  MaterialSpinner.prototype['start'] = MaterialSpinner.prototype.start;
+	goog.base( this, 'decorateInternal', element );
 
-  /**
-   * Initialize element.
-   */
-  MaterialSpinner.prototype.init = function() {
-    if (this.element_) {
-      for (var i = 1; i <= this.Constant_.MDL_SPINNER_LAYER_COUNT; i++) {
-        this.createLayer(i);
-      }
+	var i;
+	var j;
+	var layer;
+	var leftClipper;
+	var gapPatch;
+	var rightClipper;
+	var circleOwners;
+	var circle;
 
-      this.element_.classList.add( goog.getCssName( 'is-upgraded' ) );
-    }
-  };
+	if( element ){
 
-  // The component registers itself. It can assume componentHandler is available
-  // in the global scope.
-  componentHandler.register({
-    constructor: MaterialSpinner,
-    classAsString: 'MaterialSpinner',
-    cssClass: goog.getCssName( 'mdl-js-spinner' ),
-    widget: true
-  });
+		for( i = 1; i <= zz.ui.mdl.Spinner.CONST.MDL_SPINNER_LAYER_COUNT; i++ ){
 
-  /********************************************************************************************************************
-   * Definition section                                                                                               *
-   ********************************************************************************************************************/
-  zz.ui.mdl.MaterialSpinner = MaterialSpinner;
+			layer =  this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
+			layer.classList.add( zz.ui.mdl.Spinner.CSS.MDL_SPINNER_LAYER );
+			switch ( i ){
 
-})();
+				case 1:
+
+					layer.classList.add( zz.ui.mdl.Spinner.CSS.MDL_SPINNER_LAYER_1 );
+					break;
+
+				case 2:
+
+					layer.classList.add( zz.ui.mdl.Spinner.CSS.MDL_SPINNER_LAYER_2 );
+					break;
+
+				case 3:
+
+					layer.classList.add( zz.ui.mdl.Spinner.CSS.MDL_SPINNER_LAYER_3 );
+					break;
+
+				case 4:
+
+					layer.classList.add( zz.ui.mdl.Spinner.CSS.MDL_SPINNER_LAYER_4 );
+					break;
+
+				default:
+
+					break;
+			}
+			goog.dom.appendChild( element, layer );
+
+			leftClipper = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
+			leftClipper.classList.add( zz.ui.mdl.Spinner.CSS.MDL_SPINNER_CIRCLE_CLIPPER );
+			leftClipper.classList.add( zz.ui.mdl.Spinner.CSS.MDL_SPINNER_LEFT );
+
+			gapPatch = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
+			gapPatch.classList.add( zz.ui.mdl.Spinner.CSS.MDL_SPINNER_GAP_PATCH );
+
+			rightClipper = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
+			rightClipper.classList.add( zz.ui.mdl.Spinner.CSS.MDL_SPINNER_CIRCLE_CLIPPER );
+			rightClipper.classList.add( zz.ui.mdl.Spinner.CSS.MDL_SPINNER_RIGHT );
+
+			goog.dom.appendChild( layer, leftClipper );
+			goog.dom.appendChild( layer, gapPatch );
+			goog.dom.appendChild( layer, rightClipper );
+
+			circleOwners = [ leftClipper, gapPatch, rightClipper ];
+			for( j = 0; j < circleOwners.length; j++ ){
+
+				circle = this.getDomHelper( ).createDom( goog.dom.TagName.DIV );
+				circle.classList.add( zz.ui.mdl.Spinner.CSS.MDL_SPINNER_CIRCLE );
+				goog.dom.appendChild( circleOwners[ j ], circle );
+			}
+		}
+		goog.dom.classlist.add( element, zz.ui.mdl.Spinner.CSS.MDL_SPINNER_IS_UPGRADED );
+	}
+};
+
+/**
+ * Called when the component's element is known to be in the document. Anything using document.getElementById etc.
+ * should be done at this stage. If the component contains child components, this call is propagated to its children.
+ * @override
+ */
+zz.ui.mdl.Spinner.prototype.enterDocument = function( ){
+
+	goog.base( this, 'enterDocument' );
+};
+
+/**
+ * Deletes or nulls out any references to COM objects, DOM nodes, or other disposable objects. Classes that extend
+ * {@code goog.Disposable} should override this method. Not reentrant. To avoid calling it twice, it must only be
+ * called from the subclass' {@code disposeInternal} method. Everywhere else the public {@code dispose} method must
+ * be used.
+ * @inheritDoc
+ **/
+zz.ui.mdl.Spinner.prototype.disposeInternal = function( ){
+
+	goog.base( this, 'disposeInternal' );
+};
+
+/**********************************************************************************************************************
+ * Style manipulation methods                                                                                         *
+ **********************************************************************************************************************/
+
+/**
+ * Returns the CSS class name to be applied to the root element of all sub-views rendered or decorated using this view.
+ * The class name is expected to uniquely identify the view class, i.e. no two view classes are expected to share the
+ * same CSS class name.
+ * @override
+ */
+zz.ui.mdl.Spinner.prototype.getCssClass = function( ){
+
+	return zz.ui.mdl.Spinner.CSS_CLASS;
+};
+
+/**********************************************************************************************************************
+ * Helpers methods                                                                                                    *
+ **********************************************************************************************************************/
+
+/**
+ * Stops the spinner animation.
+ * Public method for users who need to stop the spinner for any reason.
+ * @public
+ */
+zz.ui.mdl.Spinner.prototype.stop = function( ){
+
+	this.getElement( ).classList.remove( zz.ui.mdl.Spinner.CSS.MDL_SPINNER_IS_ACTIVE );
+};
+
+/**
+ * Starts the spinner animation.
+ * Public method for users who need to manually start the spinner for any reason
+ * (instead of just adding the 'is-active' class to their markup).
+ * @public
+ */
+zz.ui.mdl.Spinner.prototype.start = function( ){
+
+	this.getElement( ).classList.add( zz.ui.mdl.Spinner.CSS.MDL_SPINNER_IS_ACTIVE );
+};
