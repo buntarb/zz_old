@@ -18,7 +18,7 @@
 
 /**
  * @fileoverview Provide zz.ui.mdl.CheckboxRenderer class.
- * @author buntarb@gmail.com (Artem Lytvynov)
+ * @author popkov.aleksander@gmail.com (Alexander Popkov)
  */
 
 /**********************************************************************************************************************
@@ -33,23 +33,23 @@ goog.provide( 'zz.ui.mdl.CheckboxRenderer' );
 
 goog.require( 'goog.dom.classlist' );
 goog.require( 'zz.ui.mdl.ControlRenderer' );
-goog.require( 'zz.ui.mdl.Button' );
+goog.require( 'zz.ui.mdl.Checkbox' );
 
 /**********************************************************************************************************************
  * Renderer definition section                                                                                        *
  **********************************************************************************************************************/
 
 /**
- * Default renderer for {@link zz.ui.mdl.Button}s. Extends the superclass to support buttons states.
+ * Default renderer for {@link zz.ui.mdl.Checkbox}s. Extends the superclass to support buttons states.
  * @constructor
  * @extends {zz.ui.mdl.ControlRenderer}
  */
-zz.ui.mdl.ButtonRenderer = function( ){
+zz.ui.mdl.CheckboxRenderer = function( ){
 
-	zz.ui.mdl.ButtonRenderer.base( this, 'constructor' );
+	zz.ui.mdl.CheckboxRenderer.base( this, 'constructor' );
 };
-goog.inherits( zz.ui.mdl.ButtonRenderer, zz.ui.mdl.ControlRenderer );
-goog.addSingletonGetter( zz.ui.mdl.ButtonRenderer );
+goog.inherits( zz.ui.mdl.CheckboxRenderer, zz.ui.mdl.ControlRenderer );
+goog.addSingletonGetter( zz.ui.mdl.CheckboxRenderer );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -59,7 +59,7 @@ goog.addSingletonGetter( zz.ui.mdl.ButtonRenderer );
  * Default CSS class to be applied to the root element of components rendered by this renderer.
  * @type {string}
  */
-zz.ui.mdl.ButtonRenderer.CSS_CLASS = goog.getCssName( 'mdl-button' );
+zz.ui.mdl.CheckboxRenderer.CSS_CLASS = goog.getCssName( 'mdl-checkbox' );
 
 /**********************************************************************************************************************
  * Life cycle methods                                                                                                 *
@@ -68,7 +68,7 @@ zz.ui.mdl.ButtonRenderer.CSS_CLASS = goog.getCssName( 'mdl-button' );
 /**
  * @override
  */
-zz.ui.mdl.ButtonRenderer.prototype.createDom = function( ){
+zz.ui.mdl.CheckboxRenderer.prototype.createDom = function( ){
 
 	goog.base( this, 'createDom' );
 };
@@ -76,31 +76,50 @@ zz.ui.mdl.ButtonRenderer.prototype.createDom = function( ){
 /**
  * @override
  */
-zz.ui.mdl.ButtonRenderer.prototype.canDecorate = function( element ){
+zz.ui.mdl.CheckboxRenderer.prototype.canDecorate = function( element ){
 
-	return element.tagName == goog.dom.TagName.BUTTON || ( element.tagName == goog.dom.TagName.INPUT && (
-
-		element.type == goog.dom.InputType.BUTTON ||
-		element.type == goog.dom.InputType.SUBMIT ||
-		element.type == goog.dom.InputType.RESET ) );
+	return true;
+	//TODO: add check of the element
 };
 
 /**
  * @override
  */
-zz.ui.mdl.ButtonRenderer.prototype.decorate = function( control, element ){
+zz.ui.mdl.CheckboxRenderer.prototype.decorate = function( control, element ){
 
-	if( goog.dom.classlist.contains( element, zz.ui.mdl.Button.CSS.RIPPLE_EFFECT ) ){
+	if( goog.dom.classlist.contains( element, zz.ui.mdl.Checkbox.CSS.RIPPLE_EFFECT ) ){
 
 		goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
-			'class': zz.ui.mdl.Button.CSS.RIPPLE_CONTAINER
+			'class': zz.ui.mdl.Checkbox.CSS.RIPPLE_CONTAINER
 
 		}, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
-			'class': zz.ui.mdl.Button.CSS.RIPPLE
+			'class': zz.ui.mdl.Checkbox.CSS.RIPPLE
 		} ) ) );
 	}
+
+	//TODO: add code for create DOM
+
+
+	//<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
+	//	<input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" checked>
+	//	<span class="mdl-checkbox__label">Checkbox</span>
+	//</label>
+	//
+    //
+	//goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.INPUT, {
+    //
+	//	'class': zz.ui.mdl.Checkbox.CSS.INPUT,
+	//	'id': 'checkbox-1',
+	//	'type': 'checkbox'
+    //
+	//}, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
+    //
+	//	'class': zz.ui.mdl.Checkbox.CSS.RIPPLE
+	//} ) ) );
+
+
 	return goog.base( this, 'decorate', control, element );
 };
 
@@ -111,16 +130,16 @@ zz.ui.mdl.ButtonRenderer.prototype.decorate = function( control, element ){
 /**
  * @override
  */
-zz.ui.mdl.ButtonRenderer.prototype.getCssClass = function( ){
+zz.ui.mdl.CheckboxRenderer.prototype.getCssClass = function( ){
 
-	return zz.ui.mdl.ButtonRenderer.CSS_CLASS;
+	return zz.ui.mdl.CheckboxRenderer.CSS_CLASS;
 };
 
 /**********************************************************************************************************************
  * Register a decorator factory function for goog.ui.Buttons.                                                         *
  **********************************************************************************************************************/
 
-goog.ui.registry.setDecoratorByClassName( zz.ui.mdl.ButtonRenderer.CSS_CLASS, function( ){
+goog.ui.registry.setDecoratorByClassName( zz.ui.mdl.CheckboxRenderer.CSS_CLASS, function( ){
 
-	return new zz.ui.mdl.Button( );
+	return new zz.ui.mdl.Checkbox( );
 } );
