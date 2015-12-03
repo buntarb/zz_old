@@ -18,7 +18,7 @@
 
 /**
  * @fileoverview Provide zz.ui.mdl.Checkbox class.
- * @author buntarb@gmail.com (Artem Lytvynov)
+ * @author popkov.aleksander@gmail.com (Alexander Popkov)
  */
 
 /**********************************************************************************************************************
@@ -49,13 +49,13 @@ goog.require( 'zz.ui.mdl.CheckboxRenderer' );
  * @extends {zz.ui.mdl.Control}
  * @constructor
  */
-zz.ui.mdl.Button = function( opt_content, opt_renderer, opt_domHelper ){
+zz.ui.mdl.Checkbox = function( opt_content, opt_renderer, opt_domHelper ){
 
-	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.ButtonRenderer.getInstance( ), opt_domHelper );
+	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.CheckboxRenderer.getInstance( ), opt_domHelper );
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
 };
-goog.inherits( zz.ui.mdl.Button, zz.ui.mdl.Control );
-goog.tagUnsealableClass( zz.ui.mdl.Button );
+goog.inherits( zz.ui.mdl.Checkbox, zz.ui.mdl.Control );
+goog.tagUnsealableClass( zz.ui.mdl.Checkbox );
 
 /**********************************************************************************************************************
  * Static properties section                                                                                          *
@@ -65,18 +65,31 @@ goog.tagUnsealableClass( zz.ui.mdl.Button );
  * Store constants in one place so they can be updated easily.
  * @enum {string | number}
  */
-zz.ui.mdl.Button.CONST = { };
+zz.ui.mdl.Checkbox.CONST = {
+
+	TINY_TIMEOUT: 0.001
+};
 
 /**
  * Store strings for class names defined by this component that are used in JavaScript. This allows us to simply change
  * it in one place should we decide to modify at a later date.
  * @enum {string}
  */
-zz.ui.mdl.Button.CSS = {
+zz.ui.mdl.Checkbox.CSS = {
 
+	INPUT: goog.getCssName( 'mdl-checkbox__input' ),
+	BOX_OUTLINE: goog.getCssName( 'mdl-checkbox__box-outline' ),
+	FOCUS_HELPER: goog.getCssName( 'mdl-checkbox__focus-helper' ),
+	TICK_OUTLINE: goog.getCssName( 'mdl-checkbox__tick-outline' ),
 	RIPPLE_EFFECT: goog.getCssName( 'mdl-js-ripple-effect' ),
-	RIPPLE_CONTAINER: goog.getCssName( 'mdl-button__ripple-container' ),
-	RIPPLE: goog.getCssName( 'mdl-ripple' )
+	RIPPLE_IGNORE_EVENTS: goog.getCssName( 'mdl-js-ripple-effect--ignore-events' ),
+	RIPPLE_CONTAINER: goog.getCssName( 'mdl-checkbox__ripple-container' ),
+	RIPPLE_CENTER: goog.getCssName( 'mdl-ripple--center' ),
+	RIPPLE: goog.getCssName( 'mdl-ripple' ),
+	IS_FOCUSED: goog.getCssName( 'is-focused' ),
+	IS_DISABLED: goog.getCssName( 'is-disabled' ),
+	IS_CHECKED: goog.getCssName( 'is-checked' ),
+	IS_UPGRADED: goog.getCssName( 'is-upgraded' )
 };
 
 /**********************************************************************************************************************
@@ -88,7 +101,7 @@ zz.ui.mdl.Button.CSS = {
  * should be done at this stage. If the component contains child components, this call is propagated to its children.
  * @override
  */
-zz.ui.mdl.Button.prototype.enterDocument = function( ){
+zz.ui.mdl.Checkbox.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
 
@@ -103,11 +116,11 @@ zz.ui.mdl.Button.prototype.enterDocument = function( ){
 		false,
 		this
 	);
-	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Button.CSS.RIPPLE_EFFECT ) ){
+	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Checkbox.CSS.RIPPLE_EFFECT ) ){
 
 		this.getHandler( ).listenWithScope(
 
-			goog.dom.getElementByClass( zz.ui.mdl.Button.CSS.RIPPLE, this.getElement( ) ),
+			goog.dom.getElementByClass( zz.ui.mdl.Checkbox.CSS.RIPPLE, this.getElement( ) ),
 			goog.events.EventType.MOUSEUP,
 			this.blurListener_,
 			false,
@@ -115,7 +128,7 @@ zz.ui.mdl.Button.prototype.enterDocument = function( ){
 		);
 		var  ripple = new zz.ui.mdl.Ripple( );
 		this.addChild( ripple, false );
-		ripple.decorate( goog.dom.getElementByClass( zz.ui.mdl.Button.CSS.RIPPLE_CONTAINER, this.getElement( ) ) );
+		ripple.decorate( goog.dom.getElementByClass( zz.ui.mdl.Checkbox.CSS.RIPPLE_CONTAINER, this.getElement( ) ) );
 	}
 };
 
@@ -126,7 +139,7 @@ zz.ui.mdl.Button.prototype.enterDocument = function( ){
  * be used.
  * @inheritDoc
  **/
-zz.ui.mdl.Button.prototype.disposeInternal = function( ){
+zz.ui.mdl.Checkbox.prototype.disposeInternal = function( ){
 
 	goog.base( this, 'disposeInternal' );
 
@@ -140,10 +153,10 @@ zz.ui.mdl.Button.prototype.disposeInternal = function( ){
 /**
  * Listener for element blur event.
  * @param {goog.events.BrowserEvent} event
- * @this {zz.ui.mdl.Button}
+ * @this {zz.ui.mdl.Checkbox}
  * @private
  */
-zz.ui.mdl.Button.prototype.blurListener_ = function( event ){
+zz.ui.mdl.Checkbox.prototype.blurListener_ = function( event ){
 
 	if( event ){
 
@@ -156,11 +169,11 @@ zz.ui.mdl.Button.prototype.blurListener_ = function( event ){
  **********************************************************************************************************************/
 
 /**
- * Enable/disable button.
+ * Enable/disable checkbox.
  * @param {boolean} enable
  */
-zz.ui.mdl.Button.prototype.setEnabled = function( enable ){
+zz.ui.mdl.Checkbox.prototype.setEnabled = function( enable ){
 
-	zz.ui.mdl.Button.superClass_.setEnabled.call( this, enable );
+	zz.ui.mdl.Checkbox.superClass_.setEnabled.call( this, enable );
 	this.getElement( ).disabled = !enable;
 };
