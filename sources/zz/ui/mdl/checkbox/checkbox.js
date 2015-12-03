@@ -1,311 +1,166 @@
+// Copyright 2005 The ZZ Library Authors. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS-IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/**********************************************************************************************************************
+ * File overview section                                                                                              *
+ **********************************************************************************************************************/
+
 /**
- * @license
- * Copyright 2015 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @fileoverview Provide zz.ui.mdl.Checkbox class.
+ * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
 /**********************************************************************************************************************
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
-goog.provide( 'zz.ui.mdl.MaterialCheckbox' );
+
+goog.provide( 'zz.ui.mdl.Checkbox' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
-goog.require( 'zz.ui.mdl.componentHandler' );
 
-(function() {
-  'use strict';
+goog.require( 'goog.style' );
+goog.require( 'goog.dom.classlist' );
+goog.require( 'goog.events.EventType' );
+goog.require( 'goog.ui.Component' );
+goog.require( 'zz.ui.mdl.Control' );
+goog.require( 'zz.ui.mdl.CheckboxRenderer' );
 
-  /**
-   * Class constructor for Checkbox MDL component.
-   * Implements MDL component design pattern defined at:
-   * https://github.com/jasonmayes/mdl-component-design-pattern
-   *
-   * @constructor
-   * @param {HTMLElement} element The element that will be upgraded.
-   */
-  var MaterialCheckbox = function MaterialCheckbox(element) {
-    this.element_ = element;
+/**********************************************************************************************************************
+ * Definition section                                                                                                 *
+ **********************************************************************************************************************/
 
-    // Initialize instance.
-    this.init();
-  };
-  window['MaterialCheckbox'] = MaterialCheckbox;
+/**
+ * @param {goog.ui.ControlContent=} opt_content Text caption or DOM structure to display as the content of the control.
+ * @param {goog.ui.ControlRenderer=} opt_renderer Renderer used to render or decorate the button.
+ * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper, used for document interaction.
+ * @extends {zz.ui.mdl.Control}
+ * @constructor
+ */
+zz.ui.mdl.Button = function( opt_content, opt_renderer, opt_domHelper ){
 
-  /**
-   * Store constants in one place so they can be updated easily.
-   *
-   * @enum {string | number}
-   * @private
-   */
-  MaterialCheckbox.prototype.Constant_ = {
-    TINY_TIMEOUT: 0.001
-  };
+	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.ButtonRenderer.getInstance( ), opt_domHelper );
+	this.setAutoStates( goog.ui.Component.State.ALL, false );
+};
+goog.inherits( zz.ui.mdl.Button, zz.ui.mdl.Control );
+goog.tagUnsealableClass( zz.ui.mdl.Button );
 
-  /**
-   * Store strings for class names defined by this component that are used in
-   * JavaScript. This allows us to simply change it in one place should we
-   * decide to modify at a later date.
-   *
-   * @enum {string}
-   * @private
-   */
-  MaterialCheckbox.prototype.CssClasses_ = {
-    INPUT: goog.getCssName( 'mdl-checkbox__input' ),
-    BOX_OUTLINE: goog.getCssName( 'mdl-checkbox__box-outline' ),
-    FOCUS_HELPER: goog.getCssName( 'mdl-checkbox__focus-helper' ),
-    TICK_OUTLINE: goog.getCssName( 'mdl-checkbox__tick-outline' ),
-    RIPPLE_EFFECT: goog.getCssName( 'mdl-js-ripple-effect' ),
-    RIPPLE_IGNORE_EVENTS: goog.getCssName( 'mdl-js-ripple-effect--ignore-events' ),
-    RIPPLE_CONTAINER: goog.getCssName( 'mdl-checkbox__ripple-container' ),
-    RIPPLE_CENTER: goog.getCssName( 'mdl-ripple--center' ),
-    RIPPLE: goog.getCssName( 'mdl-ripple' ),
-    IS_FOCUSED: goog.getCssName( 'is-focused' ),
-    IS_DISABLED: goog.getCssName( 'is-disabled' ),
-    IS_CHECKED: goog.getCssName( 'is-checked' ),
-    IS_UPGRADED: goog.getCssName( 'is-upgraded' )
-  };
+/**********************************************************************************************************************
+ * Static properties section                                                                                          *
+ **********************************************************************************************************************/
 
-  /**
-   * Handle change of state.
-   *
-   * @param {Event} event The event that fired.
-   * @private
-   */
-  MaterialCheckbox.prototype.onChange_ = function(event) {
-    this.updateClasses_();
-  };
+/**
+ * Store constants in one place so they can be updated easily.
+ * @enum {string | number}
+ */
+zz.ui.mdl.Button.CONST = { };
 
-  /**
-   * Handle focus of element.
-   *
-   * @param {Event} event The event that fired.
-   * @private
-   */
-  MaterialCheckbox.prototype.onFocus_ = function(event) {
-    this.element_.classList.add(this.CssClasses_.IS_FOCUSED);
-  };
+/**
+ * Store strings for class names defined by this component that are used in JavaScript. This allows us to simply change
+ * it in one place should we decide to modify at a later date.
+ * @enum {string}
+ */
+zz.ui.mdl.Button.CSS = {
 
-  /**
-   * Handle lost focus of element.
-   *
-   * @param {Event} event The event that fired.
-   * @private
-   */
-  MaterialCheckbox.prototype.onBlur_ = function(event) {
-    this.element_.classList.remove(this.CssClasses_.IS_FOCUSED);
-  };
+	RIPPLE_EFFECT: goog.getCssName( 'mdl-js-ripple-effect' ),
+	RIPPLE_CONTAINER: goog.getCssName( 'mdl-button__ripple-container' ),
+	RIPPLE: goog.getCssName( 'mdl-ripple' )
+};
 
-  /**
-   * Handle mouseup.
-   *
-   * @param {Event} event The event that fired.
-   * @private
-   */
-  MaterialCheckbox.prototype.onMouseUp_ = function(event) {
-    this.blur_();
-  };
+/**********************************************************************************************************************
+ * Life cycle methods                                                                                                 *
+ **********************************************************************************************************************/
 
-  /**
-   * Handle class updates.
-   *
-   * @private
-   */
-  MaterialCheckbox.prototype.updateClasses_ = function() {
-    this.checkDisabled();
-    this.checkToggleState();
-  };
+/**
+ * Called when the component's element is known to be in the document. Anything using document.getElementById etc.
+ * should be done at this stage. If the component contains child components, this call is propagated to its children.
+ * @override
+ */
+zz.ui.mdl.Button.prototype.enterDocument = function( ){
 
-  /**
-   * Add blur.
-   *
-   * @private
-   */
-  MaterialCheckbox.prototype.blur_ = function() {
-    // TODO: figure out why there's a focus event being fired after our blur,
-    // so that we can avoid this hack.
-    window.setTimeout(function() {
-      this.inputElement_.blur();
-    }.bind(this), /** @type {number} */ (this.Constant_.TINY_TIMEOUT));
-  };
+	goog.base( this, 'enterDocument' );
 
-  // Public methods.
+	this.getHandler( ).listenWithScope(
 
-  /**
-   * Check the inputs toggle state and update display.
-   *
-   * @public
-   */
-  MaterialCheckbox.prototype.checkToggleState = function() {
-    if (this.inputElement_.checked) {
-      this.element_.classList.add(this.CssClasses_.IS_CHECKED);
-    } else {
-      this.element_.classList.remove(this.CssClasses_.IS_CHECKED);
-    }
-  };
-  MaterialCheckbox.prototype['checkToggleState'] =
-      MaterialCheckbox.prototype.checkToggleState;
+		this.getElement( ), [
 
-  /**
-   * Check the inputs disabled state and update display.
-   *
-   * @public
-   */
-  MaterialCheckbox.prototype.checkDisabled = function() {
-    if (this.inputElement_.disabled) {
-      this.element_.classList.add(this.CssClasses_.IS_DISABLED);
-    } else {
-      this.element_.classList.remove(this.CssClasses_.IS_DISABLED);
-    }
-  };
-  MaterialCheckbox.prototype['checkDisabled'] =
-      MaterialCheckbox.prototype.checkDisabled;
+			goog.events.EventType.MOUSEUP,
+			goog.events.EventType.MOUSELEAVE
+		],
+		this.blurListener_,
+		false,
+		this
+	);
+	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Button.CSS.RIPPLE_EFFECT ) ){
 
-  /**
-   * Disable checkbox.
-   *
-   * @public
-   */
-  MaterialCheckbox.prototype.disable = function() {
-    this.inputElement_.disabled = true;
-    this.updateClasses_();
-  };
-  MaterialCheckbox.prototype['disable'] = MaterialCheckbox.prototype.disable;
+		this.getHandler( ).listenWithScope(
 
-  /**
-   * Enable checkbox.
-   *
-   * @public
-   */
-  MaterialCheckbox.prototype.enable = function() {
-    this.inputElement_.disabled = false;
-    this.updateClasses_();
-  };
-  MaterialCheckbox.prototype['enable'] = MaterialCheckbox.prototype.enable;
+			goog.dom.getElementByClass( zz.ui.mdl.Button.CSS.RIPPLE, this.getElement( ) ),
+			goog.events.EventType.MOUSEUP,
+			this.blurListener_,
+			false,
+			this
+		);
+		var  ripple = new zz.ui.mdl.Ripple( );
+		this.addChild( ripple, false );
+		ripple.decorate( goog.dom.getElementByClass( zz.ui.mdl.Button.CSS.RIPPLE_CONTAINER, this.getElement( ) ) );
+	}
+};
 
-  /**
-   * Check checkbox.
-   *
-   * @public
-   */
-  MaterialCheckbox.prototype.check = function() {
-    this.inputElement_.checked = true;
-    this.updateClasses_();
-  };
-  MaterialCheckbox.prototype['check'] = MaterialCheckbox.prototype.check;
+/**
+ * Deletes or nulls out any references to COM objects, DOM nodes, or other disposable objects. Classes that extend
+ * {@code goog.Disposable} should override this method. Not reentrant. To avoid calling it twice, it must only be
+ * called from the subclass' {@code disposeInternal} method. Everywhere else the public {@code dispose} method must
+ * be used.
+ * @inheritDoc
+ **/
+zz.ui.mdl.Button.prototype.disposeInternal = function( ){
 
-  /**
-   * Uncheck checkbox.
-   *
-   * @public
-   */
-  MaterialCheckbox.prototype.uncheck = function() {
-    this.inputElement_.checked = false;
-    this.updateClasses_();
-  };
-  MaterialCheckbox.prototype['uncheck'] = MaterialCheckbox.prototype.uncheck;
+	goog.base( this, 'disposeInternal' );
 
-  /**
-   * Initialize element.
-   */
-  MaterialCheckbox.prototype.init = function() {
-    if (this.element_) {
-      this.inputElement_ = this.element_.querySelector('.' +
-          this.CssClasses_.INPUT);
+	this.getHandler( ).dispose( );
+};
 
-      var boxOutline = document.createElement('span');
-      boxOutline.classList.add(this.CssClasses_.BOX_OUTLINE);
+/**********************************************************************************************************************
+ * Event listeners/handlers section                                                                                   *
+ **********************************************************************************************************************/
 
-      var tickContainer = document.createElement('span');
-      tickContainer.classList.add(this.CssClasses_.FOCUS_HELPER);
+/**
+ * Listener for element blur event.
+ * @param {goog.events.BrowserEvent} event
+ * @this {zz.ui.mdl.Button}
+ * @private
+ */
+zz.ui.mdl.Button.prototype.blurListener_ = function( event ){
 
-      var tickOutline = document.createElement('span');
-      tickOutline.classList.add(this.CssClasses_.TICK_OUTLINE);
+	if( event ){
 
-      boxOutline.appendChild(tickOutline);
+		this.getElement( ).blur( );
+	}
+};
 
-      this.element_.appendChild(tickContainer);
-      this.element_.appendChild(boxOutline);
+/**********************************************************************************************************************
+ * Helpers methods                                                                                                    *
+ **********************************************************************************************************************/
 
-      if (this.element_.classList.contains(this.CssClasses_.RIPPLE_EFFECT)) {
-        this.element_.classList.add(this.CssClasses_.RIPPLE_IGNORE_EVENTS);
-        this.rippleContainerElement_ = document.createElement('span');
-        this.rippleContainerElement_.classList.add(this.CssClasses_.RIPPLE_CONTAINER);
-        this.rippleContainerElement_.classList.add(this.CssClasses_.RIPPLE_EFFECT);
-        this.rippleContainerElement_.classList.add(this.CssClasses_.RIPPLE_CENTER);
-        this.boundRippleMouseUp = this.onMouseUp_.bind(this);
-        this.rippleContainerElement_.addEventListener('mouseup', this.boundRippleMouseUp);
+/**
+ * Enable/disable button.
+ * @param {boolean} enable
+ */
+zz.ui.mdl.Button.prototype.setEnabled = function( enable ){
 
-        var ripple = document.createElement('span');
-        ripple.classList.add(this.CssClasses_.RIPPLE);
-
-        this.rippleContainerElement_.appendChild(ripple);
-        this.element_.appendChild(this.rippleContainerElement_);
-      }
-      this.boundInputOnChange = this.onChange_.bind(this);
-      this.boundInputOnFocus = this.onFocus_.bind(this);
-      this.boundInputOnBlur = this.onBlur_.bind(this);
-      this.boundElementMouseUp = this.onMouseUp_.bind(this);
-      this.inputElement_.addEventListener('change', this.boundInputOnChange);
-      this.inputElement_.addEventListener('focus', this.boundInputOnFocus);
-      this.inputElement_.addEventListener('blur', this.boundInputOnBlur);
-      this.element_.addEventListener('mouseup', this.boundElementMouseUp);
-
-      this.updateClasses_();
-      this.element_.classList.add(this.CssClasses_.IS_UPGRADED);
-    }
-  };
-
-  /**
-   * Downgrade the component.
-   *
-   * @private
-   */
-  MaterialCheckbox.prototype.mdlDowngrade_ = function() {
-    if (this.rippleContainerElement_) {
-      this.rippleContainerElement_.removeEventListener('mouseup', this.boundRippleMouseUp);
-    }
-    this.inputElement_.removeEventListener('change', this.boundInputOnChange);
-    this.inputElement_.removeEventListener('focus', this.boundInputOnFocus);
-    this.inputElement_.removeEventListener('blur', this.boundInputOnBlur);
-    this.element_.removeEventListener('mouseup', this.boundElementMouseUp);
-  };
-
-  /**
-   * Public alias for the downgrade method.
-   *
-   * @public
-   */
-  MaterialCheckbox.prototype.mdlDowngrade =
-      MaterialCheckbox.prototype.mdlDowngrade_;
-
-  MaterialCheckbox.prototype['mdlDowngrade'] =
-      MaterialCheckbox.prototype.mdlDowngrade;
-
-  // The component registers itself. It can assume componentHandler is available
-  // in the global scope.
-  componentHandler.register({
-    constructor: MaterialCheckbox,
-    classAsString: 'MaterialCheckbox',
-    cssClass: goog.getCssName( 'mdl-js-checkbox' ),
-    widget: true
-  });
-
-  /********************************************************************************************************************
-   * Definition section                                                                                               *
-   ********************************************************************************************************************/
-  zz.ui.mdl.MaterialCheckbox = MaterialCheckbox;
-
-})();
+	zz.ui.mdl.Button.superClass_.setEnabled.call( this, enable );
+	this.getElement( ).disabled = !enable;
+};

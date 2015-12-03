@@ -33,19 +33,20 @@ goog.provide( 'zz.demos.app' );
 
 goog.require( 'soy' );
 goog.require( 'goog.events' );
+goog.require( 'goog.ui.decorate' );
 goog.require( 'goog.ui.Component' );
 
-goog.require( 'soy' );
-
-goog.require( 'zz.ui.Navigation' );
-goog.require( 'zz.ui.Button' );
-goog.require( 'zz.ui.Spinner' );
-goog.require( 'zz.ui.Progress' );
+goog.require( 'zz.ui.mdl.Button' );
+goog.require( 'zz.ui.mdl.Tooltip' );
+goog.require( 'zz.ui.mdl.Navigation' );
+goog.require( 'zz.ui.mdl.Spinner' );
+goog.require( 'zz.ui.mdl.Progress' );
 
 goog.require( 'zz.template.ui.button' );
 goog.require( 'zz.template.ui.spinner' );
 goog.require( 'zz.template.ui.navigation' );
 goog.require( 'zz.template.ui.progress' );
+goog.require( 'zz.template.ui.tooltip' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -55,75 +56,96 @@ zz.demos.app = {};
 zz.demos.app.run = function( ){
 
 //	Navigation
+
 //	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.navigation.fixedHeadersAndTabs );
 //
-//	var layout = new zz.ui.Navigation( );
+//	var layout = new zz.ui.mdl.Navigation( );
 //		layout.decorate( goog.dom.getElementByClass( goog.getCssName( 'mdl-js-layout' ) ) );
 
-//	Progress
-	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.progress.default );
+//	Tooltip
 
-	var prg1 = new zz.ui.Progress( );
-		prg1.decorate( goog.dom.getElement( '1' ) );
-		prg1.setProgress( 10 );
-	var prg2 = new zz.ui.Progress( );
-		prg2.decorate( goog.dom.getElement( '2' ) );
-	var prg3 = new zz.ui.Progress( );
-		prg3.decorate( goog.dom.getElement( '3' ) );
+//	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.tooltip.default );
+//	var tt1 = new zz.ui.mdl.Tooltip( );
+//		tt1.decorate( goog.dom.getElement( 'tt-1' ) );
+//	var tt2 = new zz.ui.mdl.Tooltip( );
+//		tt2.decorate( goog.dom.getElement( 'tt-2' ) );
+//	var tt3 = new zz.ui.mdl.Tooltip( );
+//		tt3.decorate( goog.dom.getElement( 'tt-3' ) );
+//	var tt4 = new zz.ui.mdl.Tooltip( );
+//		tt4.decorate( goog.dom.getElement( 'tt-4' ) );
+
+//	Progress
+
+//	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.progress.default );
+//	var prg1 = new zz.ui.mdl.Progress( );
+//		prg1.decorate( goog.dom.getElement( '1' ) );
+//		prg1.setProgress( 10 );
+//	var prg2 = new zz.ui.mdl.Progress( );
+//		prg2.decorate( goog.dom.getElement( '2' ) );
+//	var prg3 = new zz.ui.mdl.Progress( );
+//		prg3.decorate( goog.dom.getElement( '3' ) );
 
 //	Spinner
+
 //	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.spinner.default );
 //
-//	var spn1 = new zz.ui.Spinner( );
+//	var spn1 = new zz.ui.mdl.Spinner( );
 //		spn1.decorate( goog.dom.getElement( '1' ) );
-//	var spn2 = new zz.ui.Spinner( );
+//	var spn2 = new zz.ui.mdl.Spinner( );
 //		spn2.decorate( goog.dom.getElement( '2' ) );
 
-//	var usersView = goog.global.userView =  new zz.module.user.view.Users( );
-//		usersView.render( goog.dom.getElement( 'root' ) );
-
 //	Buttons
-//	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.button.default );
-//	var btn1 = new zz.ui.Button( );
-//		btn1.decorate( goog.dom.getElement( '1' ) );
-//	var btn2 = new zz.ui.Button( );
-//		btn2.decorate( goog.dom.getElement( '2' ) );
-//	var btn3 = new zz.ui.Button( );
-//		btn3.decorate( goog.dom.getElement( '3' ) );
-//	var btn4 = new zz.ui.Button( );
-//		btn4.decorate( goog.dom.getElement( '4' ) );
-//	var btn5 = new zz.ui.Button( );
-//		btn5.decorate( goog.dom.getElement( '5' ) );
-//	var btn6 = new zz.ui.Button( );
-//		btn6.decorate( goog.dom.getElement( '6' ) );
-//	var btn7 = new zz.ui.Button( );
-//		btn7.decorate( goog.dom.getElement( '7' ) );
-//	var btn8 = new zz.ui.Button( );
-//		btn8.decorate( goog.dom.getElement( '8' ) );
-//	var btn9 = new zz.ui.Button( );
-//		btn9.decorate( goog.dom.getElement( '9' ) );
-//	var btn10 = new zz.ui.Button( );
-//		btn10.decorate( goog.dom.getElement( '10' ) );
-//	var btn11 = new zz.ui.Button( );
-//		btn11.decorate( goog.dom.getElement( '11' ) );
-//	var btn12 = new zz.ui.Button( );
-//		btn12.decorate( goog.dom.getElement( '12' ) );
-//	var btn13 = new zz.ui.Button( );
-//		btn13.decorate( goog.dom.getElement( '13' ) );
-//	var btn14 = new zz.ui.Button( );
-//		btn14.decorate( goog.dom.getElement( '14' ) );
-//	var btn15 = new zz.ui.Button( );
-//		btn15.decorate( goog.dom.getElement( '15' ) );
-//	var btn16 = new zz.ui.Button( );
-//		btn16.decorate( goog.dom.getElement( '16' ) );
-//	var btn17 = new zz.ui.Button( );
-//		btn17.decorate( goog.dom.getElement( '17' ) );
-//	var btn18 = new zz.ui.Button( );
-//		btn18.decorate( goog.dom.getElement( '18' ) );
-//	var btn19 = new zz.ui.Button( );
-//		btn19.decorate( goog.dom.getElement( '19' ) );
-//	var btn20 = new zz.ui.Button( );
-//		btn20.decorate( goog.dom.getElement( '20' ) );
+
+	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.button.default );
+	var btn1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+	var btn2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+	var btn3 = goog.ui.decorate( goog.dom.getElement( '3' ) );
+	var btn4 = goog.ui.decorate( goog.dom.getElement( '4' ) );
+	var btn5 = goog.ui.decorate( goog.dom.getElement( '5' ) );
+	var btn6 = goog.ui.decorate( goog.dom.getElement( '6' ) );
+	var btn7 = goog.ui.decorate( goog.dom.getElement( '7' ) );
+	var btn8 = goog.ui.decorate( goog.dom.getElement( '8' ) );
+	var btn9 = goog.ui.decorate( goog.dom.getElement( '9' ) );
+	var btn10 = goog.ui.decorate( goog.dom.getElement( '10' ) );
+	var btn11 = goog.ui.decorate( goog.dom.getElement( '11' ) );
+	var btn12 = goog.ui.decorate( goog.dom.getElement( '12' ) );
+	var btn13 = goog.ui.decorate( goog.dom.getElement( '13' ) );
+	var btn14 = goog.ui.decorate( goog.dom.getElement( '14' ) );
+	var btn15 = goog.ui.decorate( goog.dom.getElement( '15' ) );
+	var btn16 = goog.ui.decorate( goog.dom.getElement( '16' ) );
+	var btn17 = goog.ui.decorate( goog.dom.getElement( '17' ) );
+	var btn18 = goog.ui.decorate( goog.dom.getElement( '18' ) );
+	var btn19 = goog.ui.decorate( goog.dom.getElement( '19' ) );
+	var btn20 = goog.ui.decorate( goog.dom.getElement( '20' ) );
+	var ttp1 = goog.ui.decorate( goog.dom.getElement( 'ttp-1' ) );
+	var ttp2 = goog.ui.decorate( goog.dom.getElement( 'ttp-2' ) );
+	goog.events.listen( btn2, goog.ui.Component.EventType.ACTION, function( evt ){
+
+		console.log( evt );
+		btn2.setEnabled( false );
+		btn6.setContent( 'Content' );
+		var elm1 = goog.dom.createDom( goog.dom.TagName.I, {
+
+			'class': goog.getCssName( 'material-icons' )
+
+		}, 'add' );
+		var elm2 = goog.dom.createDom( goog.dom.TagName.I, {
+
+			'class': goog.getCssName( 'material-icons' )
+
+		}, 'add' );
+		btn7.setContent( elm1 );
+	} );
+	goog.events.listen( btn4, goog.ui.Component.EventType.ACTION, function( evt ){
+
+		console.log( evt );
+		btn2.setEnabled( true );
+	} );
+	goog.events.listen( btn5, goog.ui.Component.EventType.ACTION, function( evt ){
+
+		console.log( evt );
+		btn2.setEnabled( true );
+	} );
 
 	/******************************************************************************************************************
 	 * Fast click testing                                                                                             *

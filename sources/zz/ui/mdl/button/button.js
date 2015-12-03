@@ -1,165 +1,167 @@
+// Copyright 2005 The ZZ Library Authors. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS-IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/**********************************************************************************************************************
+ * File overview section                                                                                              *
+ **********************************************************************************************************************/
+
 /**
- * @license
- * Copyright 2015 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * @fileoverview Provide zz.ui.mdl.Button class.
+ * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
 /**********************************************************************************************************************
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
-goog.provide( 'zz.ui.mdl.MaterialButton' );
+
+goog.provide( 'zz.ui.mdl.Button' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
-goog.require( 'zz.ui.mdl.componentHandler' );
 
-(function() {
-  'use strict';
+goog.require( 'goog.style' );
+goog.require( 'goog.dom.classlist' );
+goog.require( 'goog.events.EventType' );
+goog.require( 'goog.ui.Component' );
+goog.require( 'zz.ui.mdl.Control' );
+goog.require( 'zz.ui.mdl.ButtonRenderer' );
+goog.require( 'zz.ui.mdl.Ripple' );
 
-  /**
-   * Class constructor for Button MDL component.
-   * Implements MDL component design pattern defined at:
-   * https://github.com/jasonmayes/mdl-component-design-pattern
-   *
-   * @param {HTMLElement} element The element that will be upgraded.
-   */
-  var MaterialButton = function MaterialButton(element) {
-    this.element_ = element;
+/**********************************************************************************************************************
+ * Definition section                                                                                                 *
+ **********************************************************************************************************************/
 
-    // Initialize instance.
-    this.init();
-  };
-  window['MaterialButton'] = MaterialButton;
+/**
+ * @param {goog.ui.ControlContent=} opt_content Text caption or DOM structure to display as the content of the control.
+ * @param {goog.ui.ControlRenderer=} opt_renderer Renderer used to render or decorate the button.
+ * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper, used for document interaction.
+ * @extends {zz.ui.mdl.Control}
+ * @constructor
+ */
+zz.ui.mdl.Button = function( opt_content, opt_renderer, opt_domHelper ){
 
-  /**
-   * Store constants in one place so they can be updated easily.
-   *
-   * @enum {string | number}
-   * @private
-   */
-  MaterialButton.prototype.Constant_ = {
-    // None for now.
-  };
+	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.ButtonRenderer.getInstance( ), opt_domHelper );
+	this.setAutoStates( goog.ui.Component.State.ALL, false );
+};
+goog.inherits( zz.ui.mdl.Button, zz.ui.mdl.Control );
+goog.tagUnsealableClass( zz.ui.mdl.Button );
 
-  /**
-   * Store strings for class names defined by this component that are used in
-   * JavaScript. This allows us to simply change it in one place should we
-   * decide to modify at a later date.
-   *
-   * @enum {string}
-   * @private
-   */
-  MaterialButton.prototype.CssClasses_ = {
-    RIPPLE_EFFECT: goog.getCssName( 'mdl-js-ripple-effect' ),
-    RIPPLE_CONTAINER: goog.getCssName( 'mdl-button__ripple-container' ),
-    RIPPLE: goog.getCssName( 'mdl-ripple' )
-  };
+/**********************************************************************************************************************
+ * Static properties section                                                                                          *
+ **********************************************************************************************************************/
 
-  /**
-   * Handle blur of element.
-   *
-   * @param {Event} event The event that fired.
-   * @private
-   */
-  MaterialButton.prototype.blurHandler_ = function(event) {
-    if (event) {
-      this.element_.blur();
-    }
-  };
+/**
+ * Store constants in one place so they can be updated easily.
+ * @enum {string | number}
+ */
+zz.ui.mdl.Button.CONST = { };
 
-  // Public methods.
+/**
+ * Store strings for class names defined by this component that are used in JavaScript. This allows us to simply change
+ * it in one place should we decide to modify at a later date.
+ * @enum {string}
+ */
+zz.ui.mdl.Button.CSS = {
 
-  /**
-   * Disable button.
-   *
-   * @public
-   */
-  MaterialButton.prototype.disable = function() {
-    this.element_.disabled = true;
-  };
+	RIPPLE_EFFECT: goog.getCssName( 'mdl-js-ripple-effect' ),
+	RIPPLE_CONTAINER: goog.getCssName( 'mdl-button__ripple-container' ),
+	RIPPLE: goog.getCssName( 'mdl-ripple' )
+};
 
-  MaterialButton.prototype['disable'] = MaterialButton.prototype.disable;
+/**********************************************************************************************************************
+ * Life cycle methods                                                                                                 *
+ **********************************************************************************************************************/
 
-  /**
-   * Enable button.
-   *
-   * @public
-   */
-  MaterialButton.prototype.enable = function() {
-    this.element_.disabled = false;
-  };
+/**
+ * Called when the component's element is known to be in the document. Anything using document.getElementById etc.
+ * should be done at this stage. If the component contains child components, this call is propagated to its children.
+ * @override
+ */
+zz.ui.mdl.Button.prototype.enterDocument = function( ){
 
-  MaterialButton.prototype['enable'] = MaterialButton.prototype.enable;
+	goog.base( this, 'enterDocument' );
 
-  /**
-   * Initialize element.
-   */
-  MaterialButton.prototype.init = function() {
-    if (this.element_) {
-      if (this.element_.classList.contains(this.CssClasses_.RIPPLE_EFFECT)) {
-        var rippleContainer = document.createElement('span');
-        rippleContainer.classList.add(this.CssClasses_.RIPPLE_CONTAINER);
-        this.rippleElement_ = document.createElement('span');
-        this.rippleElement_.classList.add(this.CssClasses_.RIPPLE);
-        rippleContainer.appendChild(this.rippleElement_);
-        this.boundRippleBlurHandler = this.blurHandler_.bind(this);
-        this.rippleElement_.addEventListener('mouseup', this.boundRippleBlurHandler);
-        this.element_.appendChild(rippleContainer);
-      }
-      this.boundButtonBlurHandler = this.blurHandler_.bind(this);
-      this.element_.addEventListener('mouseup', this.boundButtonBlurHandler);
-      this.element_.addEventListener('mouseleave', this.boundButtonBlurHandler);
-    }
-  };
+	this.getHandler( ).listenWithScope(
 
-  /**
-   * Downgrade the element.
-   *
-   * @private
-   */
-  MaterialButton.prototype.mdlDowngrade_ = function() {
-    if (this.rippleElement_) {
-      this.rippleElement_.removeEventListener('mouseup', this.boundRippleBlurHandler);
-    }
-    this.element_.removeEventListener('mouseup', this.boundButtonBlurHandler);
-    this.element_.removeEventListener('mouseleave', this.boundButtonBlurHandler);
-  };
+		this.getElement( ), [
 
-  /**
-   * Public alias for the downgrade method.
-   *
-   * @public
-   */
-  MaterialButton.prototype.mdlDowngrade =
-      MaterialButton.prototype.mdlDowngrade_;
+			goog.events.EventType.MOUSEUP,
+			goog.events.EventType.MOUSELEAVE
+		],
+		this.blurListener_,
+		false,
+		this
+	);
+	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Button.CSS.RIPPLE_EFFECT ) ){
 
-  MaterialButton.prototype['mdlDowngrade'] =
-      MaterialButton.prototype.mdlDowngrade;
+		this.getHandler( ).listenWithScope(
 
-  // The component registers itself. It can assume componentHandler is available
-  // in the global scope.
-  componentHandler.register({
-    constructor: MaterialButton,
-    classAsString: 'MaterialButton',
-    cssClass: goog.getCssName( 'mdl-js-button' ),
-    widget: true
-  });
+			goog.dom.getElementByClass( zz.ui.mdl.Button.CSS.RIPPLE, this.getElement( ) ),
+			goog.events.EventType.MOUSEUP,
+			this.blurListener_,
+			false,
+			this
+		);
+		var  ripple = new zz.ui.mdl.Ripple( );
+		this.addChild( ripple, false );
+		ripple.decorate( goog.dom.getElementByClass( zz.ui.mdl.Button.CSS.RIPPLE_CONTAINER, this.getElement( ) ) );
+	}
+};
 
-  /********************************************************************************************************************
-   * Definition section                                                                                               *
-   ********************************************************************************************************************/
-  zz.ui.mdl.MaterialButton = MaterialButton;
+/**
+ * Deletes or nulls out any references to COM objects, DOM nodes, or other disposable objects. Classes that extend
+ * {@code goog.Disposable} should override this method. Not reentrant. To avoid calling it twice, it must only be
+ * called from the subclass' {@code disposeInternal} method. Everywhere else the public {@code dispose} method must
+ * be used.
+ * @inheritDoc
+ **/
+zz.ui.mdl.Button.prototype.disposeInternal = function( ){
 
-})();
+	goog.base( this, 'disposeInternal' );
+
+	this.getHandler( ).dispose( );
+};
+
+/**********************************************************************************************************************
+ * Event listeners/handlers section                                                                                   *
+ **********************************************************************************************************************/
+
+/**
+ * Listener for element blur event.
+ * @param {goog.events.BrowserEvent} event
+ * @this {zz.ui.mdl.Button}
+ * @private
+ */
+zz.ui.mdl.Button.prototype.blurListener_ = function( event ){
+
+	if( event ){
+
+		this.getElement( ).blur( );
+	}
+};
+
+/**********************************************************************************************************************
+ * Helpers methods                                                                                                    *
+ **********************************************************************************************************************/
+
+/**
+ * Enable/disable button.
+ * @param {boolean} enable
+ */
+zz.ui.mdl.Button.prototype.setEnabled = function( enable ){
+
+	zz.ui.mdl.Button.superClass_.setEnabled.call( this, enable );
+	this.getElement( ).disabled = !enable;
+};

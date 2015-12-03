@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.ui.Navigation class.
+ * @fileoverview Provide zz.ui.mdl.Navigation class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.ui.Navigation' );
+goog.provide( 'zz.ui.mdl.Navigation' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -38,7 +38,7 @@ goog.require( 'goog.dom.TagName' );
 goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.events.EventType' );
 goog.require( 'goog.ui.Component' );
-goog.require( 'zz.ui.Ripple' );
+goog.require( 'zz.ui.mdl.Ripple' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -51,7 +51,7 @@ goog.require( 'zz.ui.Ripple' );
  * @extends {goog.ui.Control}
  * @constructor
  */
-zz.ui.Navigation = function( opt_title, opt_domHelper ){
+zz.ui.mdl.Navigation = function( opt_title, opt_domHelper ){
 
 	goog.ui.Component.call( this, opt_domHelper );
 
@@ -62,8 +62,8 @@ zz.ui.Navigation = function( opt_title, opt_domHelper ){
 	 */
 	this.title_ = opt_title || '';
 };
-goog.inherits( zz.ui.Navigation, goog.ui.Component );
-goog.tagUnsealableClass( zz.ui.Navigation );
+goog.inherits( zz.ui.mdl.Navigation, goog.ui.Component );
+goog.tagUnsealableClass( zz.ui.mdl.Navigation );
 
 /**********************************************************************************************************************
  * Static properties section                                                                                          *
@@ -73,7 +73,7 @@ goog.tagUnsealableClass( zz.ui.Navigation );
  * Modes.
  * @enum {number}
  */
-zz.ui.Navigation.MODE = {
+zz.ui.mdl.Navigation.MODE = {
 
 	STANDARD: 0,
 	SEAMED: 1,
@@ -85,7 +85,7 @@ zz.ui.Navigation.MODE = {
  * Store constants in one place so they can be updated easily.
  * @enum {string | number}
  */
-zz.ui.Navigation.CONST = {
+zz.ui.mdl.Navigation.CONST = {
 
 	MAX_WIDTH: 1024,
 	MAX_WIDTH_MEDIA: '(max-width: 1024px)',
@@ -100,7 +100,7 @@ zz.ui.Navigation.CONST = {
  * it in one place should we decide to modify at a later date.
  * @enum {string}
  */
-zz.ui.Navigation.CSS = {
+zz.ui.mdl.Navigation.CSS = {
 
 	CONTAINER: goog.getCssName( 'mdl-layout__container' ),
 
@@ -164,7 +164,7 @@ zz.ui.Navigation.CSS = {
  * @type {number}
  * @private
  */
-zz.ui.Navigation.prototype.mode_ = zz.ui.Navigation.MODE.STANDARD;
+zz.ui.mdl.Navigation.prototype.mode_ = zz.ui.mdl.Navigation.MODE.STANDARD;
 
 /**********************************************************************************************************************
  * Life cycle methods                                                                                                 *
@@ -173,7 +173,7 @@ zz.ui.Navigation.prototype.mode_ = zz.ui.Navigation.MODE.STANDARD;
 /**
  * @override
  */
-zz.ui.Navigation.prototype.createDom = function( ){
+zz.ui.mdl.Navigation.prototype.createDom = function( ){
 
 	goog.base( this, 'createDom' );
 };
@@ -181,12 +181,12 @@ zz.ui.Navigation.prototype.createDom = function( ){
 /**
  * @override
  */
-zz.ui.Navigation.prototype.decorateInternal = function( element ){
+zz.ui.mdl.Navigation.prototype.decorateInternal = function( element ){
 
 	var children = element.childNodes;
 	var container = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 
-		'class': zz.ui.Navigation.CSS.CONTAINER
+		'class': zz.ui.mdl.Navigation.CSS.CONTAINER
 	} );
 	goog.dom.insertSiblingBefore( container, element );
 	goog.dom.appendChild( container, element );
@@ -199,15 +199,15 @@ zz.ui.Navigation.prototype.decorateInternal = function( element ){
 
 		goog.array.forEach( children, function( child ){
 
-			if( goog.dom.classlist.contains( child, zz.ui.Navigation.CSS.HEADER ) ){
+			if( goog.dom.classlist.contains( child, zz.ui.mdl.Navigation.CSS.HEADER ) ){
 
 				this.headerElement_ = child;
 			}
-			if( goog.dom.classlist.contains( child, zz.ui.Navigation.CSS.DRAWER ) ){
+			if( goog.dom.classlist.contains( child, zz.ui.mdl.Navigation.CSS.DRAWER ) ){
 
 				this.drawerElement_ = child;
 			}
-			if( goog.dom.classlist.contains( child, zz.ui.Navigation.CSS.CONTENT ) ){
+			if( goog.dom.classlist.contains( child, zz.ui.mdl.Navigation.CSS.CONTENT ) ){
 
 				this.bodyElement_ = child;
 			}
@@ -219,44 +219,44 @@ zz.ui.Navigation.prototype.decorateInternal = function( element ){
 
 		this.tabBarElement_ = goog.dom.getElementByClass(
 
-			zz.ui.Navigation.CSS.TAB_BAR,
+			zz.ui.mdl.Navigation.CSS.TAB_BAR,
 			this.headerElement_ );
 
 		if( goog.dom.classlist.contains(
 			this.headerElement_,
-			zz.ui.Navigation.CSS.HEADER_SEAMED ) ){
+			zz.ui.mdl.Navigation.CSS.HEADER_SEAMED ) ){
 
-			this.setMode( zz.ui.Navigation.MODE.SEAMED );
-
-		}else if( goog.dom.classlist.contains(
-			this.headerElement_,
-			zz.ui.Navigation.CSS.HEADER_WATERFALL ) ){
-
-			this.setMode( zz.ui.Navigation.MODE.WATERFALL );
+			this.setMode( zz.ui.mdl.Navigation.MODE.SEAMED );
 
 		}else if( goog.dom.classlist.contains(
 			this.headerElement_,
-			zz.ui.Navigation.CSS.HEADER_SCROLL ) ){
+			zz.ui.mdl.Navigation.CSS.HEADER_WATERFALL ) ){
 
-			this.setMode( zz.ui.Navigation.MODE.SCROLL );
-			goog.dom.classlist.add( container, zz.ui.Navigation.CSS.HAS_SCROLLING_HEADER );
+			this.setMode( zz.ui.mdl.Navigation.MODE.WATERFALL );
+
+		}else if( goog.dom.classlist.contains(
+			this.headerElement_,
+			zz.ui.mdl.Navigation.CSS.HEADER_SCROLL ) ){
+
+			this.setMode( zz.ui.mdl.Navigation.MODE.SCROLL );
+			goog.dom.classlist.add( container, zz.ui.mdl.Navigation.CSS.HAS_SCROLLING_HEADER );
 		}
-		if( this.getMode( ) === zz.ui.Navigation.MODE.STANDARD ){
+		if( this.getMode( ) === zz.ui.mdl.Navigation.MODE.STANDARD ){
 
-			goog.dom.classlist.add( this.headerElement_, zz.ui.Navigation.CSS.CASTING_SHADOW );
+			goog.dom.classlist.add( this.headerElement_, zz.ui.mdl.Navigation.CSS.CASTING_SHADOW );
 			if( this.tabBarElement_ ){
 
-				goog.dom.classlist.add( this.tabBarElement_, zz.ui.Navigation.CSS.CASTING_SHADOW );
+				goog.dom.classlist.add( this.tabBarElement_, zz.ui.mdl.Navigation.CSS.CASTING_SHADOW );
 			}
-		}else if( this.getMode( ) === zz.ui.Navigation.MODE.SEAMED ||
-			this.getMode( ) === zz.ui.Navigation.MODE.SCROLL ){
+		}else if( this.getMode( ) === zz.ui.mdl.Navigation.MODE.SEAMED ||
+			this.getMode( ) === zz.ui.mdl.Navigation.MODE.SCROLL ){
 
-			goog.dom.classlist.remove( this.headerElement_, zz.ui.Navigation.CSS.CASTING_SHADOW );
+			goog.dom.classlist.remove( this.headerElement_, zz.ui.mdl.Navigation.CSS.CASTING_SHADOW );
 			if( this.tabBarElement_ ){
 
-				goog.dom.classlist.remove( this.tabBarElement_, zz.ui.Navigation.CSS.CASTING_SHADOW );
+				goog.dom.classlist.remove( this.tabBarElement_, zz.ui.mdl.Navigation.CSS.CASTING_SHADOW );
 			}
-		}else if( this.getMode( ) === zz.ui.Navigation.MODE.WATERFALL ){
+		}else if( this.getMode( ) === zz.ui.mdl.Navigation.MODE.WATERFALL ){
 
 			this.setStyleOnScroll( );
 		}
@@ -265,24 +265,24 @@ zz.ui.Navigation.prototype.decorateInternal = function( element ){
 	// Patch drawer
 	if( this.drawerElement_ ){
 
-		this.drawerButtonElement_ = goog.dom.getElementByClass( zz.ui.Navigation.CSS.DRAWER_BTN, element );
+		this.drawerButtonElement_ = goog.dom.getElementByClass( zz.ui.mdl.Navigation.CSS.DRAWER_BTN, element );
 		if( !this.drawerButtonElement_ ) {
 
 			this.createDrawerButtonDom_( );
 		}
-		if( goog.dom.classlist.contains( this.drawerElement_, zz.ui.Navigation.CSS.ON_LARGE_SCREEN ) ){
+		if( goog.dom.classlist.contains( this.drawerElement_, zz.ui.mdl.Navigation.CSS.ON_LARGE_SCREEN ) ){
 
 			//If drawer has ON_LARGE_SCREEN class then add it to the drawer toggle button as well.
-			goog.dom.classlist.add( this.drawerButtonElement_, zz.ui.Navigation.CSS.ON_LARGE_SCREEN );
+			goog.dom.classlist.add( this.drawerButtonElement_, zz.ui.mdl.Navigation.CSS.ON_LARGE_SCREEN );
 
-		}else if( goog.dom.classlist.contains( this.drawerElement_, zz.ui.Navigation.CSS.ON_SMALL_SCREEN ) ){
+		}else if( goog.dom.classlist.contains( this.drawerElement_, zz.ui.mdl.Navigation.CSS.ON_SMALL_SCREEN ) ){
 
 			//If drawer has ON_SMALL_SCREEN class then add it to the drawer toggle button as well.
-			goog.dom.classlist.add( this.drawerButtonElement_, zz.ui.Navigation.CSS.ON_SMALL_SCREEN );
+			goog.dom.classlist.add( this.drawerButtonElement_, zz.ui.mdl.Navigation.CSS.ON_SMALL_SCREEN );
 		}
-		goog.dom.classlist.add( element, zz.ui.Navigation.CSS.HAS_DRAWER );
+		goog.dom.classlist.add( element, zz.ui.mdl.Navigation.CSS.HAS_DRAWER );
 
-		if( goog.dom.classlist.contains( element, zz.ui.Navigation.CSS.FIXED_HEADER ) ){
+		if( goog.dom.classlist.contains( element, zz.ui.mdl.Navigation.CSS.FIXED_HEADER ) ){
 
 			goog.dom.insertChildAt( this.headerElement_, this.drawerButtonElement_, 0 );
 
@@ -298,12 +298,12 @@ zz.ui.Navigation.prototype.decorateInternal = function( element ){
 	// Patch tabs
 	if( this.headerElement_ && this.tabBarElement_ ){
 
-		goog.dom.classlist.add( element, zz.ui.Navigation.CSS.HAS_TABS );
+		goog.dom.classlist.add( element, zz.ui.mdl.Navigation.CSS.HAS_TABS );
 		this.createTabBarDom_( );
 	}
 
 	// Final changes
-	goog.dom.classlist.add( element, zz.ui.Navigation.CSS.IS_UPGRADED );
+	goog.dom.classlist.add( element, zz.ui.mdl.Navigation.CSS.IS_UPGRADED );
 };
 
 /**
@@ -311,11 +311,11 @@ zz.ui.Navigation.prototype.decorateInternal = function( element ){
  * should be done at this stage. If the component contains child components, this call is propagated to its children.
  * @override
  */
-zz.ui.Navigation.prototype.enterDocument = function( ){
+zz.ui.mdl.Navigation.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
 
-	if( this.mode_ === zz.ui.Navigation.MODE.WATERFALL ){
+	if( this.mode_ === zz.ui.mdl.Navigation.MODE.WATERFALL ){
 
 		this.getHandler( ).listenWithScope(
 
@@ -401,7 +401,7 @@ zz.ui.Navigation.prototype.enterDocument = function( ){
 
 				tab,
 				goog.events.EventType.CLICK,
-				/** @this {zz.ui.Navigation} */
+				/** @this {zz.ui.mdl.Navigation} */
 				function( evt ){
 
 					evt.preventDefault( );
@@ -419,9 +419,9 @@ zz.ui.Navigation.prototype.enterDocument = function( ){
 		}, this );
 	}
 	this.ripples = [ ];
-	goog.array.forEach( goog.dom.getElementsByClass( zz.ui.Navigation.CSS.RIPPLE_CONTAINER ), function( ripple ){
+	goog.array.forEach( goog.dom.getElementsByClass( zz.ui.mdl.Navigation.CSS.RIPPLE_CONTAINER ), function( ripple ){
 
-		this.ripples.push( new zz.ui.Ripple( ) );
+		this.ripples.push( new zz.ui.mdl.Ripple( ) );
 		this.addChild( this.ripples[ this.ripples.length - 1 ], false );
 		this.ripples[ this.ripples.length - 1 ].decorate( ripple );
 
@@ -435,7 +435,7 @@ zz.ui.Navigation.prototype.enterDocument = function( ){
  * be used.
  * @inheritDoc
  **/
-zz.ui.Navigation.prototype.disposeInternal = function( ){
+zz.ui.mdl.Navigation.prototype.disposeInternal = function( ){
 
 	goog.base( this, 'disposeInternal' );
 	this.getHandler( ).dispose( );
@@ -464,7 +464,7 @@ zz.ui.Navigation.prototype.disposeInternal = function( ){
  * Set navigation mode.
  * @param {number} mode
  */
-zz.ui.Navigation.prototype.setMode = function( mode ){
+zz.ui.mdl.Navigation.prototype.setMode = function( mode ){
 
 	/**
 	 * Navigation mode.
@@ -478,7 +478,7 @@ zz.ui.Navigation.prototype.setMode = function( mode ){
  * Return navigation mode.
  * @returns {number}
  */
-zz.ui.Navigation.prototype.getMode = function( ){
+zz.ui.mdl.Navigation.prototype.getMode = function( ){
 
 	return this.mode_;
 };
@@ -487,7 +487,7 @@ zz.ui.Navigation.prototype.getMode = function( ){
  * Set layout navigation title.
  * @param {goog.ui.ControlContent} title
  */
-zz.ui.Navigation.prototype.setTitle = function( title ){
+zz.ui.mdl.Navigation.prototype.setTitle = function( title ){
 
 	this.title_ = title;
 };
@@ -496,7 +496,7 @@ zz.ui.Navigation.prototype.setTitle = function( title ){
  * Return layout navigation title.
  * @returns {string}
  */
-zz.ui.Navigation.prototype.getTitle = function( ){
+zz.ui.mdl.Navigation.prototype.getTitle = function( ){
 
 	return this.title_;
 };
@@ -510,14 +510,14 @@ zz.ui.Navigation.prototype.getTitle = function( ){
 // * @returns {Array}
 // * @private
 // */
-//zz.ui.Navigation.prototype.createNavigationListDom_ = function( ){
+//zz.ui.mdl.Navigation.prototype.createNavigationListDom_ = function( ){
 //
 //	var links = [ ];
 //	goog.array.forEach( this.getList( ), function( link ){
 //
 //		links.push( this.getDomHelper( ).createDom( goog.dom.TagName.A, {
 //
-//			'class': zz.ui.Navigation.CSS.NAVIGATION_LINK,
+//			'class': zz.ui.mdl.Navigation.CSS.NAVIGATION_LINK,
 //			'href': link.href
 //
 //		}, link.name ) );
@@ -529,38 +529,38 @@ zz.ui.Navigation.prototype.getTitle = function( ){
 // * Create layout header DOM.
 // * @private
 // */
-//zz.ui.Navigation.prototype.createHeaderDom_ = function( ){
+//zz.ui.mdl.Navigation.prototype.createHeaderDom_ = function( ){
 //
 //	// Title
 //	var headerTitleElement = this.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 //
-//		'class': zz.ui.Navigation.CSS.TITLE
+//		'class': zz.ui.mdl.Navigation.CSS.TITLE
 //
 //	}, this.getTitle( ) );
 //
 //	// Spacer
 //	var headerSpacerElement = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 //
-//		'class': zz.ui.Navigation.CSS.SPACER
+//		'class': zz.ui.mdl.Navigation.CSS.SPACER
 //	} );
 //
 //	// Navigation
 //	var headerNavigationElement = this.getDomHelper( ).createDom( goog.dom.TagName.NAV, {
 //
-//		'class': zz.ui.Navigation.CSS.NAVIGATION
+//		'class': zz.ui.mdl.Navigation.CSS.NAVIGATION
 //
 //	}, this.createNavigationListDom_( ) );
 //
 //	// Header row
 //	var headerRowElement = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 //
-//		'class': zz.ui.Navigation.CSS.HEADER_ROW
+//		'class': zz.ui.mdl.Navigation.CSS.HEADER_ROW
 //
 //	}, [ headerTitleElement, headerSpacerElement, headerNavigationElement ] );
 //
 //	this.headerElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.HEADER, {
 //
-//		'class': zz.ui.Navigation.CSS.HEADER
+//		'class': zz.ui.mdl.Navigation.CSS.HEADER
 //
 //	}, headerRowElement );
 //};
@@ -568,26 +568,26 @@ zz.ui.Navigation.prototype.getTitle = function( ){
 // * Create layout drawer DOM.
 // * @private
 // */
-//zz.ui.Navigation.prototype.createDrawerDom_ = function( ){
+//zz.ui.mdl.Navigation.prototype.createDrawerDom_ = function( ){
 //
 //	// Title
 //	var drawerTitleElement = this.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 //
-//		'class': zz.ui.Navigation.CSS.TITLE
+//		'class': zz.ui.mdl.Navigation.CSS.TITLE
 //
 //	}, this.getTitle( ) );
 //
 //	// Navigation
 //	var drawerNavigationElement = this.getDomHelper( ).createDom( goog.dom.TagName.NAV, {
 //
-//		'class': zz.ui.Navigation.CSS.NAVIGATION
+//		'class': zz.ui.mdl.Navigation.CSS.NAVIGATION
 //
 //	}, this.createNavigationListDom_( ) );
 //
 //	// Setting up drawer.
 //	this.drawerElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 //
-//		'class': zz.ui.Navigation.CSS.DRAWER
+//		'class': zz.ui.mdl.Navigation.CSS.DRAWER
 //
 //	}, [ drawerTitleElement, drawerNavigationElement ] );
 //};
@@ -595,12 +595,12 @@ zz.ui.Navigation.prototype.getTitle = function( ){
 // * Create layout body DOM.
 // * @private
 // */
-//zz.ui.Navigation.prototype.createBodyDom_ = function( ){
+//zz.ui.mdl.Navigation.prototype.createBodyDom_ = function( ){
 //
 //	// Setting up body.
 //	this.bodyElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 //
-//		'class': zz.ui.Navigation.CSS.CONTENT
+//		'class': zz.ui.mdl.Navigation.CSS.CONTENT
 //	} );
 //};
 
@@ -608,28 +608,28 @@ zz.ui.Navigation.prototype.getTitle = function( ){
 * Create layout drawer button DOM.
 * @private
 */
-zz.ui.Navigation.prototype.createDrawerButtonDom_ = function( ){
+zz.ui.mdl.Navigation.prototype.createDrawerButtonDom_ = function( ){
 
 	this.drawerButtonElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 
-		'class': zz.ui.Navigation.CSS.DRAWER_BTN
+		'class': zz.ui.mdl.Navigation.CSS.DRAWER_BTN
 
 	}, this.getDomHelper( ).createDom( goog.dom.TagName.I, {
 
-		'class': zz.ui.Navigation.CSS.ICON
+		'class': zz.ui.mdl.Navigation.CSS.ICON
 
-	}, zz.ui.Navigation.CONST.MENU_ICON ) );
+	}, zz.ui.mdl.Navigation.CONST.MENU_ICON ) );
 };
 
 /**
 * Create layout body DOM.
 * @private
 */
-zz.ui.Navigation.prototype.createObfuscatorDom_ = function( ){
+zz.ui.mdl.Navigation.prototype.createObfuscatorDom_ = function( ){
 
 	this.obfuscatorElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 
-		'class': zz.ui.Navigation.CSS.OBFUSCATOR
+		'class': zz.ui.mdl.Navigation.CSS.OBFUSCATOR
 	} );
 };
 
@@ -637,11 +637,11 @@ zz.ui.Navigation.prototype.createObfuscatorDom_ = function( ){
 * Create layout tab-bar section DOM.
 * @private
 */
-zz.ui.Navigation.prototype.createTabBarDom_ = function( ){
+zz.ui.mdl.Navigation.prototype.createTabBarDom_ = function( ){
 
 	var container = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 
-		'class': zz.ui.Navigation.CSS.TAB_CONTAINER
+		'class': zz.ui.mdl.Navigation.CSS.TAB_CONTAINER
 
 	} );
 	goog.dom.insertSiblingBefore( container, this.tabBarElement_ );
@@ -649,56 +649,56 @@ zz.ui.Navigation.prototype.createTabBarDom_ = function( ){
 
 		.createDom( goog.dom.TagName.DIV, {
 
-			'class': zz.ui.Navigation.CSS.TAB_BAR_BUTTON + ' ' +
-				zz.ui.Navigation.CSS.TAB_BAR_LEFT_BUTTON
+			'class': zz.ui.mdl.Navigation.CSS.TAB_BAR_BUTTON + ' ' +
+				zz.ui.mdl.Navigation.CSS.TAB_BAR_LEFT_BUTTON
 
 		}, this.getDomHelper( ).createDom( goog.dom.TagName.I, {
 
-			'class': zz.ui.Navigation.CSS.ICON
+			'class': zz.ui.mdl.Navigation.CSS.ICON
 
-		}, zz.ui.Navigation.CONST.CHEVRON_LEFT ) );
+		}, zz.ui.mdl.Navigation.CONST.CHEVRON_LEFT ) );
 
 	this.tabBarRightButtonElement_ = this.getDomHelper( )
 
 		.createDom( goog.dom.TagName.DIV, {
 
-			'class': zz.ui.Navigation.CSS.TAB_BAR_BUTTON + ' ' +
-				zz.ui.Navigation.CSS.TAB_BAR_RIGHT_BUTTON
+			'class': zz.ui.mdl.Navigation.CSS.TAB_BAR_BUTTON + ' ' +
+				zz.ui.mdl.Navigation.CSS.TAB_BAR_RIGHT_BUTTON
 
 		}, this.getDomHelper( ).createDom( goog.dom.TagName.I, {
 
-			'class': zz.ui.Navigation.CSS.ICON
+			'class': zz.ui.mdl.Navigation.CSS.ICON
 
-		}, zz.ui.Navigation.CONST.CHEVRON_RIGHT ) );
+		}, zz.ui.mdl.Navigation.CONST.CHEVRON_RIGHT ) );
 
 	goog.dom.appendChild( container, this.tabBarLeftButtonElement_ );
 	goog.dom.appendChild( container, this.tabBarElement_ );
 	goog.dom.appendChild( container, this.tabBarRightButtonElement_ );
-	if( goog.dom.classlist.contains( this.tabBarElement_, zz.ui.Navigation.CSS.JS_RIPPLE_EFFECT ) ){
+	if( goog.dom.classlist.contains( this.tabBarElement_, zz.ui.mdl.Navigation.CSS.JS_RIPPLE_EFFECT ) ){
 
-		goog.dom.classlist.add( this.tabBarElement_, zz.ui.Navigation.CSS.RIPPLE_IGNORE_EVENTS );
+		goog.dom.classlist.add( this.tabBarElement_, zz.ui.mdl.Navigation.CSS.RIPPLE_IGNORE_EVENTS );
 	}
 	this.setStyleOnTabScroll( );
 
 	// Select element tabs
-	this.tabsElements_ = goog.dom.getElementsByClass( zz.ui.Navigation.CSS.TAB, this.tabBarElement_ );
+	this.tabsElements_ = goog.dom.getElementsByClass( zz.ui.mdl.Navigation.CSS.TAB, this.tabBarElement_ );
 
 	// Select document panels
-	this.panelsElements_ = goog.dom.getElementsByClass( zz.ui.Navigation.CSS.PANEL, this.tabBarElement_ );
+	this.panelsElements_ = goog.dom.getElementsByClass( zz.ui.mdl.Navigation.CSS.PANEL, this.tabBarElement_ );
 
 	// Create new tabs for each tab element
 	goog.array.forEach( this.tabsElements_, function( tab ){
 
-		if( goog.dom.classlist.contains( this.tabBarElement_, zz.ui.Navigation.CSS.JS_RIPPLE_EFFECT ) ){
+		if( goog.dom.classlist.contains( this.tabBarElement_, zz.ui.mdl.Navigation.CSS.JS_RIPPLE_EFFECT ) ){
 
 			goog.dom.appendChild( tab, this.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
-				'class': zz.ui.Navigation.CSS.RIPPLE_CONTAINER + ' ' +
-					zz.ui.Navigation.CSS.JS_RIPPLE_EFFECT
+				'class': zz.ui.mdl.Navigation.CSS.RIPPLE_CONTAINER + ' ' +
+					zz.ui.mdl.Navigation.CSS.JS_RIPPLE_EFFECT
 
 			}, this.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
-				'class': zz.ui.Navigation.CSS.RIPPLE
+				'class': zz.ui.mdl.Navigation.CSS.RIPPLE
 			} ) ) );
 		}
 	}, this );
@@ -709,73 +709,73 @@ zz.ui.Navigation.prototype.createTabBarDom_ = function( ){
  **********************************************************************************************************************/
 
 /**
- * @this {zz.ui.Navigation}
+ * @this {zz.ui.mdl.Navigation}
  * @private
  */
-zz.ui.Navigation.prototype.headerClickListener_ = function( ){
+zz.ui.mdl.Navigation.prototype.headerClickListener_ = function( ){
 
 	this.setStyleOnHeaderClick( );
 };
 
 /**
- * @this {zz.ui.Navigation}
+ * @this {zz.ui.mdl.Navigation}
  * @private
  */
-zz.ui.Navigation.prototype.headerTransitionEndListener_ = function( ){
+zz.ui.mdl.Navigation.prototype.headerTransitionEndListener_ = function( ){
 
 	this.setStyleOnHeaderTransitionEnd( );
 };
 
 /**
- * @this {zz.ui.Navigation}
+ * @this {zz.ui.mdl.Navigation}
  * @private
  */
-zz.ui.Navigation.prototype.drawerToggleListener_ = function( ){
+zz.ui.mdl.Navigation.prototype.drawerToggleListener_ = function( ){
 
 	this.setStyleOnDrawerToggle( );
 };
 
 /**
- * @this {zz.ui.Navigation}
+ * @this {zz.ui.mdl.Navigation}
  * @private
  */
-zz.ui.Navigation.prototype.bodyScrollListener_ = function( ){
+zz.ui.mdl.Navigation.prototype.bodyScrollListener_ = function( ){
 
 	this.setStyleOnScroll( );
 };
 
 /**
- * @this {zz.ui.Navigation}
+ * @this {zz.ui.mdl.Navigation}
  * @private
  */
-zz.ui.Navigation.prototype.windowResizeListener_ = function( ){
+zz.ui.mdl.Navigation.prototype.windowResizeListener_ = function( ){
 
 	this.setStyleOnResize( goog.dom.getChildren( this.getElement( ) )[ 0 ] );
 };
 
 /**
- * @this {zz.ui.Navigation}
+ * @this {zz.ui.mdl.Navigation}
  * @private
  */
-zz.ui.Navigation.prototype.tabBarLeftButtonClickListener_ = function( ){
+zz.ui.mdl.Navigation.prototype.tabBarLeftButtonClickListener_ = function( ){
 
 	this.setStyleOnTabBarLeftButtonClick( );
 };
 
 /**
- * @this {zz.ui.Navigation}
+ * @this {zz.ui.mdl.Navigation}
  * @private
  */
-zz.ui.Navigation.prototype.tabBarRightButtonClickListener_ = function( ){
+zz.ui.mdl.Navigation.prototype.tabBarRightButtonClickListener_ = function( ){
 
 	this.setStyleOnTabBarRightButtonClick( );
 };
 
 /**
- * @this {zz.ui.Navigation}
+ * @this {zz.ui.mdl.Navigation}
  * @private
  */
-zz.ui.Navigation.prototype.tabBarScrollListener_ = function( ){
+zz.ui.mdl.Navigation.prototype.tabBarScrollListener_ = function( ){
 
 	this.setStyleOnTabScroll( );
 };
@@ -790,31 +790,31 @@ zz.ui.Navigation.prototype.tabBarScrollListener_ = function( ){
  * same CSS class name.
  * @override
  */
-zz.ui.Navigation.prototype.getCssClass = function( ){
+zz.ui.mdl.Navigation.prototype.getCssClass = function( ){
 
-	return zz.ui.Navigation.CSS_CLASS;
+	return zz.ui.mdl.Navigation.CSS_CLASS;
 };
 
 /**
  * Update styles on window resize event.
  * @param {Element} element
  */
-zz.ui.Navigation.prototype.setStyleOnResize = function( element ){
+zz.ui.mdl.Navigation.prototype.setStyleOnResize = function( element ){
 
 	//noinspection JSUnresolvedVariable
-	if( this.getDomHelper( ).getWindow( ).innerWidth <= zz.ui.Navigation.CONST.MAX_WIDTH ){
+	if( this.getDomHelper( ).getWindow( ).innerWidth <= zz.ui.mdl.Navigation.CONST.MAX_WIDTH ){
 
-		goog.dom.classlist.add( element, zz.ui.Navigation.CSS.IS_SMALL_SCREEN );
+		goog.dom.classlist.add( element, zz.ui.mdl.Navigation.CSS.IS_SMALL_SCREEN );
 
 	}else{
 
-		goog.dom.classlist.remove( element, zz.ui.Navigation.CSS.IS_SMALL_SCREEN );
+		goog.dom.classlist.remove( element, zz.ui.mdl.Navigation.CSS.IS_SMALL_SCREEN );
 
 		// Collapse drawer (if any) when moving to a large screen size.
 		if( this.drawerElement_ ){
 
-			goog.dom.classlist.remove( this.drawerElement_, zz.ui.Navigation.CSS.IS_DRAWER_OPEN );
-			goog.dom.classlist.remove( this.obfuscatorElement_, zz.ui.Navigation.CSS.IS_DRAWER_OPEN );
+			goog.dom.classlist.remove( this.drawerElement_, zz.ui.mdl.Navigation.CSS.IS_DRAWER_OPEN );
+			goog.dom.classlist.remove( this.obfuscatorElement_, zz.ui.mdl.Navigation.CSS.IS_DRAWER_OPEN );
 		}
 	}
 };
@@ -822,132 +822,132 @@ zz.ui.Navigation.prototype.setStyleOnResize = function( element ){
 /**
  * Update on scroll event.
  */
-zz.ui.Navigation.prototype.setStyleOnScroll = function( ){
+zz.ui.mdl.Navigation.prototype.setStyleOnScroll = function( ){
 
-	if( goog.dom.classlist.contains( this.headerElement_, zz.ui.Navigation.CSS.IS_ANIMATING ) ){
+	if( goog.dom.classlist.contains( this.headerElement_, zz.ui.mdl.Navigation.CSS.IS_ANIMATING ) ){
 
 		return;
 	}
 	if( this.bodyElement_.scrollTop > 0 &&
-		!goog.dom.classlist.contains( this.headerElement_, zz.ui.Navigation.CSS.IS_COMPACT ) ){
+		!goog.dom.classlist.contains( this.headerElement_, zz.ui.mdl.Navigation.CSS.IS_COMPACT ) ){
 
-		goog.dom.classlist.add( this.headerElement_, zz.ui.Navigation.CSS.CASTING_SHADOW );
-		goog.dom.classlist.add( this.headerElement_, zz.ui.Navigation.CSS.IS_COMPACT );
-		goog.dom.classlist.add( this.headerElement_, zz.ui.Navigation.CSS.IS_ANIMATING );
+		goog.dom.classlist.add( this.headerElement_, zz.ui.mdl.Navigation.CSS.CASTING_SHADOW );
+		goog.dom.classlist.add( this.headerElement_, zz.ui.mdl.Navigation.CSS.IS_COMPACT );
+		goog.dom.classlist.add( this.headerElement_, zz.ui.mdl.Navigation.CSS.IS_ANIMATING );
 
 	}else if( this.bodyElement_.scrollTop <= 0 && goog.dom.classlist.contains(
-		this.headerElement_, zz.ui.Navigation.CSS.IS_COMPACT ) ){
+		this.headerElement_, zz.ui.mdl.Navigation.CSS.IS_COMPACT ) ){
 
-		goog.dom.classlist.remove( this.headerElement_, zz.ui.Navigation.CSS.CASTING_SHADOW );
-		goog.dom.classlist.remove( this.headerElement_, zz.ui.Navigation.CSS.IS_COMPACT );
-		goog.dom.classlist.add( this.headerElement_, zz.ui.Navigation.CSS.IS_ANIMATING );
+		goog.dom.classlist.remove( this.headerElement_, zz.ui.mdl.Navigation.CSS.CASTING_SHADOW );
+		goog.dom.classlist.remove( this.headerElement_, zz.ui.mdl.Navigation.CSS.IS_COMPACT );
+		goog.dom.classlist.add( this.headerElement_, zz.ui.mdl.Navigation.CSS.IS_ANIMATING );
 	}
 };
 
 /**
  * Update style on tab scroll event.
  */
-zz.ui.Navigation.prototype.setStyleOnTabScroll = function( ){
+zz.ui.mdl.Navigation.prototype.setStyleOnTabScroll = function( ){
 
 	if( this.tabBarElement_.scrollLeft > 0 ){
 
-		goog.dom.classlist.add( this.tabBarLeftButtonElement_, zz.ui.Navigation.CSS.IS_ACTIVE );
+		goog.dom.classlist.add( this.tabBarLeftButtonElement_, zz.ui.mdl.Navigation.CSS.IS_ACTIVE );
 
 	}else{
 
-		goog.dom.classlist.remove( this.tabBarLeftButtonElement_, zz.ui.Navigation.CSS.IS_ACTIVE );
+		goog.dom.classlist.remove( this.tabBarLeftButtonElement_, zz.ui.mdl.Navigation.CSS.IS_ACTIVE );
 	}
 	if( this.tabBarElement_.scrollLeft < this.tabBarElement_.scrollWidth - this.tabBarElement_.offsetWidth ){
 
-		goog.dom.classlist.add( this.tabBarRightButtonElement_, zz.ui.Navigation.CSS.IS_ACTIVE );
+		goog.dom.classlist.add( this.tabBarRightButtonElement_, zz.ui.mdl.Navigation.CSS.IS_ACTIVE );
 
 	}else{
 
-		goog.dom.classlist.remove( this.tabBarRightButtonElement_, zz.ui.Navigation.CSS.IS_ACTIVE );
+		goog.dom.classlist.remove( this.tabBarRightButtonElement_, zz.ui.mdl.Navigation.CSS.IS_ACTIVE );
 	}
 };
 
 /**
  * Update style on header transition end event.
  */
-zz.ui.Navigation.prototype.setStyleOnHeaderTransitionEnd = function( ){
+zz.ui.mdl.Navigation.prototype.setStyleOnHeaderTransitionEnd = function( ){
 
-	goog.dom.classlist.remove( this.headerElement_, zz.ui.Navigation.CSS.IS_ANIMATING );
+	goog.dom.classlist.remove( this.headerElement_, zz.ui.mdl.Navigation.CSS.IS_ANIMATING );
 };
 
 /**
  * Update style on header click event.
  */
-zz.ui.Navigation.prototype.setStyleOnHeaderClick = function( ){
+zz.ui.mdl.Navigation.prototype.setStyleOnHeaderClick = function( ){
 
-	if( goog.dom.classlist.contains( this.headerElement_, zz.ui.Navigation.CSS.IS_COMPACT ) ){
+	if( goog.dom.classlist.contains( this.headerElement_, zz.ui.mdl.Navigation.CSS.IS_COMPACT ) ){
 
-		goog.dom.classlist.remove( this.headerElement_, zz.ui.Navigation.CSS.IS_COMPACT );
-		goog.dom.classlist.add( this.headerElement_, zz.ui.Navigation.CSS.IS_ANIMATING );
+		goog.dom.classlist.remove( this.headerElement_, zz.ui.mdl.Navigation.CSS.IS_COMPACT );
+		goog.dom.classlist.add( this.headerElement_, zz.ui.mdl.Navigation.CSS.IS_ANIMATING );
 	}
 };
 
 /**
  * Update style on drawer toggle event.
  */
-zz.ui.Navigation.prototype.setStyleOnDrawerToggle = function( ){
+zz.ui.mdl.Navigation.prototype.setStyleOnDrawerToggle = function( ){
 
-	goog.dom.classlist.toggle( this.drawerElement_, zz.ui.Navigation.CSS.IS_DRAWER_OPEN );
-	goog.dom.classlist.toggle( this.obfuscatorElement_, zz.ui.Navigation.CSS.IS_DRAWER_OPEN );
+	goog.dom.classlist.toggle( this.drawerElement_, zz.ui.mdl.Navigation.CSS.IS_DRAWER_OPEN );
+	goog.dom.classlist.toggle( this.obfuscatorElement_, zz.ui.mdl.Navigation.CSS.IS_DRAWER_OPEN );
 };
 
 /**
  * Update style on tab-bar left button click event.
  */
-zz.ui.Navigation.prototype.setStyleOnTabBarLeftButtonClick = function( ){
+zz.ui.mdl.Navigation.prototype.setStyleOnTabBarLeftButtonClick = function( ){
 
-	this.tabBarElement_.scrollLeft -= zz.ui.Navigation.CONST.TAB_SCROLL_PIXELS;
+	this.tabBarElement_.scrollLeft -= zz.ui.mdl.Navigation.CONST.TAB_SCROLL_PIXELS;
 };
 
 /**
  * Update style on tab-bar right button click event.
  */
-zz.ui.Navigation.prototype.setStyleOnTabBarRightButtonClick = function( ){
+zz.ui.mdl.Navigation.prototype.setStyleOnTabBarRightButtonClick = function( ){
 
-	this.tabBarElement_.scrollLeft += zz.ui.Navigation.CONST.TAB_SCROLL_PIXELS;
+	this.tabBarElement_.scrollLeft += zz.ui.mdl.Navigation.CONST.TAB_SCROLL_PIXELS;
 };
 
 /**
  * Set tab active
  * @param {Element} tab
  */
-zz.ui.Navigation.prototype.setTabActive = function( tab ){
+zz.ui.mdl.Navigation.prototype.setTabActive = function( tab ){
 
 	goog.dom.classlist.add(
 
 		tab,
-		zz.ui.Navigation.CSS.IS_ACTIVE );
+		zz.ui.mdl.Navigation.CSS.IS_ACTIVE );
 };
 
 /**
  * Set panel active
  * @param {Element} panel
  */
-zz.ui.Navigation.prototype.setPanelActive = function( panel ){
+zz.ui.mdl.Navigation.prototype.setPanelActive = function( panel ){
 
 	goog.dom.classlist.add(
 
 		panel,
-		zz.ui.Navigation.CSS.IS_ACTIVE );
+		zz.ui.mdl.Navigation.CSS.IS_ACTIVE );
 };
 
 /**
  * Reset tab state, dropping active classes
  * @param {Array} tabBar
  */
-zz.ui.Navigation.prototype.resetTabState = function( tabBar ){
+zz.ui.mdl.Navigation.prototype.resetTabState = function( tabBar ){
 
 	for(var i = 0; i < tabBar.length; i++ ){
 
 		goog.dom.classlist.remove(
 
 			tabBar[ i ],
-			zz.ui.Navigation.CSS.IS_ACTIVE );
+			zz.ui.mdl.Navigation.CSS.IS_ACTIVE );
 	}
 };
 
@@ -955,13 +955,13 @@ zz.ui.Navigation.prototype.resetTabState = function( tabBar ){
  * Reset panel state, dropping active classes
  * @param {Array} panels
  */
-zz.ui.Navigation.prototype.resetPanelState = function( panels ){
+zz.ui.mdl.Navigation.prototype.resetPanelState = function( panels ){
 
 	for( var i = 0; i < panels.length; i++){
 
 		goog.dom.classlist.remove(
 
 			panels[ i ],
-			zz.ui.Navigation.CSS.IS_ACTIVE );
+			zz.ui.mdl.Navigation.CSS.IS_ACTIVE );
 	}
 };
