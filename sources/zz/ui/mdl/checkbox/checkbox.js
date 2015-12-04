@@ -37,6 +37,7 @@ goog.require( 'goog.events.EventType' );
 goog.require( 'goog.ui.Component' );
 goog.require( 'zz.ui.mdl.Control' );
 goog.require( 'zz.ui.mdl.CheckboxRenderer' );
+goog.require( 'zz.ui.mdl.Ripple' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -89,7 +90,9 @@ zz.ui.mdl.Checkbox.CSS = {
 	IS_FOCUSED: goog.getCssName( 'is-focused' ),
 	IS_DISABLED: goog.getCssName( 'is-disabled' ),
 	IS_CHECKED: goog.getCssName( 'is-checked' ),
-	IS_UPGRADED: goog.getCssName( 'is-upgraded' )
+	IS_UPGRADED: goog.getCssName( 'is-upgraded' ),
+	LABEL: goog.getCssName( 'mdl-checkbox__label' )
+
 };
 
 /**********************************************************************************************************************

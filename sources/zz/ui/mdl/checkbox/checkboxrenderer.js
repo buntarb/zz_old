@@ -101,23 +101,22 @@ zz.ui.mdl.CheckboxRenderer.prototype.decorate = function( control, element ){
 
 	//TODO: add code for create DOM
 
-
+    //
 	//<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
 	//	<input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" checked>
 	//	<span class="mdl-checkbox__label">Checkbox</span>
 	//</label>
-	//
-    //
-	//goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.INPUT, {
-    //
-	//	'class': zz.ui.mdl.Checkbox.CSS.INPUT,
-	//	'id': 'checkbox-1',
-	//	'type': 'checkbox'
-    //
-	//}, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
-    //
-	//	'class': zz.ui.mdl.Checkbox.CSS.RIPPLE
-	//} ) ) );
+
+
+	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.INPUT, {
+
+		'class': zz.ui.mdl.Checkbox.CSS.INPUT,
+		'type': 'checkbox'
+	} ) );
+	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
+
+		'class': zz.ui.mdl.Checkbox.CSS.LABEL
+	}, 'checkbox' ) );
 
 
 	return goog.base( this, 'decorate', control, element );

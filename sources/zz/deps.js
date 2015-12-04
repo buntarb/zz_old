@@ -14,7 +14,7 @@ goog.addDependency("../../../../sources/zz/mvc/model/eventtype.js", ['zz.mvc.mod
 goog.addDependency("../../../../sources/zz/mvc/controller/basecontroller.js", ['zz.mvc.controller.BaseController'], []);
 goog.addDependency("../../../../sources/zz/mvc/view/baseview.js", ['zz.mvc.view.BaseView'], ['goog.dom', 'goog.ui.Component', 'goog.json', 'goog.format.JsonPrettyPrinter', 'goog.format.JsonPrettyPrinter.TextDelimiters', 'zz.mvc.model.Message', 'zz.mvc.model.EventType']);
 goog.addDependency("../../../../sources/zz/mvc/view/error.js", ['zz.mvc.view.Error'], []);
-goog.addDependency("../../../../sources/zz/demos/index.js", ['zz.demos.app'], ['soy', 'goog.events', 'goog.ui.decorate', 'goog.ui.Component', 'zz.ui.mdl.Button', 'zz.ui.mdl.Tooltip', 'zz.ui.mdl.Navigation', 'zz.ui.mdl.Spinner', 'zz.ui.mdl.Progress', 'zz.template.ui.button', 'zz.template.ui.spinner', 'zz.template.ui.navigation', 'zz.template.ui.progress', 'zz.template.ui.tooltip']);
+goog.addDependency("../../../../sources/zz/demos/index.js", ['zz.demos.app'], ['soy', 'goog.events', 'goog.ui.decorate', 'goog.ui.Component', 'zz.ui.mdl.Button', 'zz.ui.mdl.Tooltip', 'zz.ui.mdl.Navigation', 'zz.ui.mdl.Spinner', 'zz.ui.mdl.Progress', 'zz.ui.mdl.Checkbox', 'zz.template.ui.button', 'zz.template.ui.spinner', 'zz.template.ui.navigation', 'zz.template.ui.progress', 'zz.template.ui.tooltip', 'zz.template.ui.checkbox']);
 goog.addDependency("../../../../sources/zz/_stylesheet/remap.js", ['zz._stylesheet.remap'], []);
 goog.addDependency("../../../../sources/zz/ui/_mdl/mdlComponentHandler.js", ['zz.ui.mdl.componentHandler'], ['zz.ui.mdl.requestAnimationFrame', 'zz.ui.mdl.cancelAnimationFrame']);
 goog.addDependency("../../../../sources/zz/ui/_mdl/rAF.js", ['zz.ui.mdl.requestAnimationFrame', 'zz.ui.mdl.cancelAnimationFrame'], []);
@@ -42,8 +42,8 @@ goog.addDependency("../../../../sources/zz/ui/mdl/tooltip/tooltip.js", ['zz.ui.m
 goog.addDependency("../../../../sources/zz/ui/mdl/button/buttonrenderer.js", ['zz.ui.mdl.ButtonRenderer'], ['goog.dom.classlist', 'zz.ui.mdl.ControlRenderer', 'zz.ui.mdl.Button']);
 goog.addDependency("../../../../sources/zz/ui/mdl/button/button.js", ['zz.ui.mdl.Button'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'zz.ui.mdl.Control', 'zz.ui.mdl.ButtonRenderer', 'zz.ui.mdl.Ripple']);
 goog.addDependency("../../../../sources/zz/ui/mdl/spinner/spinner.js", ['zz.ui.mdl.Spinner'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component']);
-goog.addDependency("../../../../sources/zz/ui/mdl/checkbox/buttonrenderer.js", ['zz.ui.mdl.ButtonRenderer'], ['goog.dom.classlist', 'zz.ui.mdl.ControlRenderer', 'zz.ui.mdl.Button']);
-goog.addDependency("../../../../sources/zz/ui/mdl/checkbox/button.js", ['zz.ui.mdl.Button'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'zz.ui.mdl.Control', 'zz.ui.mdl.ButtonRenderer', 'zz.ui.mdl.Ripple']);
+goog.addDependency("../../../../sources/zz/ui/mdl/checkbox/checkboxrenderer.js", ['zz.ui.mdl.CheckboxRenderer'], ['goog.dom.classlist', 'zz.ui.mdl.ControlRenderer', 'zz.ui.mdl.Checkbox']);
+goog.addDependency("../../../../sources/zz/ui/mdl/checkbox/checkbox.js", ['zz.ui.mdl.Checkbox'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'zz.ui.mdl.Control', 'zz.ui.mdl.CheckboxRenderer', 'zz.ui.mdl.Ripple']);
 goog.addDependency("../../../../sources/zz/ui/mdl/progress/progress.js", ['zz.ui.mdl.Progress'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component']);
 goog.addDependency("../../../../sources/zz/ui/formatter/decimal.js", ['zz.ui.formatter.Decimal'], ['goog.i18n.NumberFormat', 'goog.i18n.NumberFormat.Format']);
 goog.addDependency("../../../../sources/zz/ui/formatter/default.js", ['zz.ui.formatter.Default'], []);
@@ -53,6 +53,7 @@ goog.addDependency("../../../../sources/zz/_template/tooltip.js", ['zz.template.
 goog.addDependency("../../../../sources/zz/_template/progress.js", ['zz.template.ui.progress'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/_template/button.js", ['zz.template.ui.button'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/_template/spinner.js", ['zz.template.ui.spinner'], ['soy', 'soydata']);
+goog.addDependency("../../../../sources/zz/_template/checkbox.js", ['zz.template.ui.checkbox'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/module/user/model/users.js", ['zz.module.user.model.User', 'zz.module.user.model.Users'], ['zz.mvc.model.Datarow', 'zz.mvc.model.Dataset', 'zz.mvc.model.FieldTypes', 'zz.module.user.model.UserPhoneSet']);
 goog.addDependency("../../../../sources/zz/module/user/model/userphone.js", ['zz.module.user.model.UserPhone', 'zz.module.user.model.UserPhoneSet'], ['zz.mvc.model.Datarow', 'zz.mvc.model.Dataset', 'zz.mvc.model.FieldTypes']);
 goog.addDependency("../../../../sources/zz/module/user/controller/users.js", ['zz.module.user.controller.Users'], ['zz.mvc.controller.BaseController', 'zz.module.user.model.Users']);

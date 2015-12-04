@@ -41,12 +41,14 @@ goog.require( 'zz.ui.mdl.Tooltip' );
 goog.require( 'zz.ui.mdl.Navigation' );
 goog.require( 'zz.ui.mdl.Spinner' );
 goog.require( 'zz.ui.mdl.Progress' );
+goog.require( 'zz.ui.mdl.Checkbox' );
 
 goog.require( 'zz.template.ui.button' );
 goog.require( 'zz.template.ui.spinner' );
 goog.require( 'zz.template.ui.navigation' );
 goog.require( 'zz.template.ui.progress' );
 goog.require( 'zz.template.ui.tooltip' );
+goog.require( 'zz.template.ui.checkbox' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -96,56 +98,61 @@ zz.demos.app.run = function( ){
 
 //	Buttons
 
-	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.button.default );
-	var btn1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
-	var btn2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
-	var btn3 = goog.ui.decorate( goog.dom.getElement( '3' ) );
-	var btn4 = goog.ui.decorate( goog.dom.getElement( '4' ) );
-	var btn5 = goog.ui.decorate( goog.dom.getElement( '5' ) );
-	var btn6 = goog.ui.decorate( goog.dom.getElement( '6' ) );
-	var btn7 = goog.ui.decorate( goog.dom.getElement( '7' ) );
-	var btn8 = goog.ui.decorate( goog.dom.getElement( '8' ) );
-	var btn9 = goog.ui.decorate( goog.dom.getElement( '9' ) );
-	var btn10 = goog.ui.decorate( goog.dom.getElement( '10' ) );
-	var btn11 = goog.ui.decorate( goog.dom.getElement( '11' ) );
-	var btn12 = goog.ui.decorate( goog.dom.getElement( '12' ) );
-	var btn13 = goog.ui.decorate( goog.dom.getElement( '13' ) );
-	var btn14 = goog.ui.decorate( goog.dom.getElement( '14' ) );
-	var btn15 = goog.ui.decorate( goog.dom.getElement( '15' ) );
-	var btn16 = goog.ui.decorate( goog.dom.getElement( '16' ) );
-	var btn17 = goog.ui.decorate( goog.dom.getElement( '17' ) );
-	var btn18 = goog.ui.decorate( goog.dom.getElement( '18' ) );
-	var btn19 = goog.ui.decorate( goog.dom.getElement( '19' ) );
-	var btn20 = goog.ui.decorate( goog.dom.getElement( '20' ) );
-	var ttp1 = goog.ui.decorate( goog.dom.getElement( 'ttp-1' ) );
-	var ttp2 = goog.ui.decorate( goog.dom.getElement( 'ttp-2' ) );
-	goog.events.listen( btn2, goog.ui.Component.EventType.ACTION, function( evt ){
+	//soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.button.default );
+	//var btn1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+	//var btn2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+	//var btn3 = goog.ui.decorate( goog.dom.getElement( '3' ) );
+	//var btn4 = goog.ui.decorate( goog.dom.getElement( '4' ) );
+	//var btn5 = goog.ui.decorate( goog.dom.getElement( '5' ) );
+	//var btn6 = goog.ui.decorate( goog.dom.getElement( '6' ) );
+	//var btn7 = goog.ui.decorate( goog.dom.getElement( '7' ) );
+	//var btn8 = goog.ui.decorate( goog.dom.getElement( '8' ) );
+	//var btn9 = goog.ui.decorate( goog.dom.getElement( '9' ) );
+	//var btn10 = goog.ui.decorate( goog.dom.getElement( '10' ) );
+	//var btn11 = goog.ui.decorate( goog.dom.getElement( '11' ) );
+	//var btn12 = goog.ui.decorate( goog.dom.getElement( '12' ) );
+	//var btn13 = goog.ui.decorate( goog.dom.getElement( '13' ) );
+	//var btn14 = goog.ui.decorate( goog.dom.getElement( '14' ) );
+	//var btn15 = goog.ui.decorate( goog.dom.getElement( '15' ) );
+	//var btn16 = goog.ui.decorate( goog.dom.getElement( '16' ) );
+	//var btn17 = goog.ui.decorate( goog.dom.getElement( '17' ) );
+	//var btn18 = goog.ui.decorate( goog.dom.getElement( '18' ) );
+	//var btn19 = goog.ui.decorate( goog.dom.getElement( '19' ) );
+	//var btn20 = goog.ui.decorate( goog.dom.getElement( '20' ) );
+	//var ttp1 = goog.ui.decorate( goog.dom.getElement( 'ttp-1' ) );
+	//var ttp2 = goog.ui.decorate( goog.dom.getElement( 'ttp-2' ) );
+	//goog.events.listen( btn2, goog.ui.Component.EventType.ACTION, function( evt ){
+    //
+	//	console.log( evt );
+	//	btn2.setEnabled( false );
+	//	btn6.setContent( 'Content' );
+	//	var elm1 = goog.dom.createDom( goog.dom.TagName.I, {
+    //
+	//		'class': goog.getCssName( 'material-icons' )
+    //
+	//	}, 'add' );
+	//	var elm2 = goog.dom.createDom( goog.dom.TagName.I, {
+    //
+	//		'class': goog.getCssName( 'material-icons' )
+    //
+	//	}, 'add' );
+	//	btn7.setContent( elm1 );
+	//} );
+	//goog.events.listen( btn4, goog.ui.Component.EventType.ACTION, function( evt ){
+    //
+	//	console.log( evt );
+	//	btn2.setEnabled( true );
+	//} );
+	//goog.events.listen( btn5, goog.ui.Component.EventType.ACTION, function( evt ){
+    //
+	//	console.log( evt );
+	//	btn2.setEnabled( true );
+	//} );
 
-		console.log( evt );
-		btn2.setEnabled( false );
-		btn6.setContent( 'Content' );
-		var elm1 = goog.dom.createDom( goog.dom.TagName.I, {
 
-			'class': goog.getCssName( 'material-icons' )
-
-		}, 'add' );
-		var elm2 = goog.dom.createDom( goog.dom.TagName.I, {
-
-			'class': goog.getCssName( 'material-icons' )
-
-		}, 'add' );
-		btn7.setContent( elm1 );
-	} );
-	goog.events.listen( btn4, goog.ui.Component.EventType.ACTION, function( evt ){
-
-		console.log( evt );
-		btn2.setEnabled( true );
-	} );
-	goog.events.listen( btn5, goog.ui.Component.EventType.ACTION, function( evt ){
-
-		console.log( evt );
-		btn2.setEnabled( true );
-	} );
+	//Checkbox
+	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.checkbox.default );
+	var chckbx1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
 
 	/******************************************************************************************************************
 	 * Fast click testing                                                                                             *
