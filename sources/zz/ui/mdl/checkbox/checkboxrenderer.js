@@ -111,7 +111,8 @@ zz.ui.mdl.CheckboxRenderer.prototype.decorate = function( control, element ){
 	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.INPUT, {
 
 		'class': zz.ui.mdl.Checkbox.CSS.INPUT,
-		'type': 'checkbox'
+		'type': 'checkbox',
+		'id': 'checkbox-1'
 	} ) );
 	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
