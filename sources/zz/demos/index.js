@@ -152,7 +152,11 @@ zz.demos.app.run = function( ){
 
 	//Checkbox
 	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.checkbox.default );
+
 	var chckbx1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+	var chckbx2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+
+	chckbx2.setEnabled( false );
 
 	/******************************************************************************************************************
 	 * Fast click testing                                                                                             *

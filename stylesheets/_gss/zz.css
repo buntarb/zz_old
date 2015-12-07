@@ -4442,17 +4442,17 @@ input.mdl-button[type="submit"] {
   left: 0;
   height: 100%;
   width: 100%;
-  mask: url("/images/tick-mask.svg?embed");
+  mask: url("/resources/images/tick-mask.svg?embed");
   background: transparent;
   transition-duration: 0.28s;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-property: background; }
 
 .mdl-checkbox.is-checked .mdl-checkbox__tick-outline {
-  background: #3f51b5 url("/images/tick.svg?embed"); }
+  background: #3f51b5 url("/resources/images/tick.svg?embed"); }
 
 .mdl-checkbox.is-checked.is-disabled .mdl-checkbox__tick-outline {
-  background: rgba(0, 0, 0, 0.26) url("/images/tick.svg?embed"); }
+  background: rgba(0, 0, 0, 0.26) url("/resources/images/tick.svg?embed"); }
 
 .mdl-checkbox__label {
   position: relative;

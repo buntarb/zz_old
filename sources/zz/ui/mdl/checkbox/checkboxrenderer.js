@@ -76,17 +76,33 @@ zz.ui.mdl.CheckboxRenderer.prototype.createDom = function( ){
 /**
  * @override
  */
-zz.ui.mdl.CheckboxRenderer.prototype.canDecorate = function( element ){
+zz.ui.mdl.CheckboxRenderer.prototype.canDecorate = function( ){
 
-	return true;
 	//TODO: add check of the element
+	return true;
 };
 
 /**
+ * @param {zz.ui.mdl.Checkbox} control
+ * @param {Element} element
  * @override
  */
 zz.ui.mdl.CheckboxRenderer.prototype.decorate = function( control, element ){
 
+	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
+
+		'class': zz.ui.mdl.Checkbox.CSS.FOCUS_HELPER
+	} ) );
+	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
+
+		'class': zz.ui.mdl.Checkbox.CSS.BOX_OUTLINE
+
+	}, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
+
+		'class': zz.ui.mdl.Checkbox.CSS.TICK_OUTLINE
+
+	} ) ) );
+	// Ripple dom.
 	if( goog.dom.classlist.contains( element, zz.ui.mdl.Checkbox.CSS.RIPPLE_EFFECT ) ){
 
 		goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
@@ -98,28 +114,14 @@ zz.ui.mdl.CheckboxRenderer.prototype.decorate = function( control, element ){
 			'class': zz.ui.mdl.Checkbox.CSS.RIPPLE
 		} ) ) );
 	}
+	// Input element.
+	control.setCheckboxElement( control.getDomHelper( ).getElementsByTagNameAndClass(
 
-	//TODO: add code for create DOM
-
-    //
-	//<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
-	//	<input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" checked>
-	//	<span class="mdl-checkbox__label">Checkbox</span>
-	//</label>
-
-
-	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.INPUT, {
-
-		'class': zz.ui.mdl.Checkbox.CSS.INPUT,
-		'type': 'checkbox',
-		'id': 'checkbox-1'
-	} ) );
-	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
-
-		'class': zz.ui.mdl.Checkbox.CSS.LABEL
-	}, 'checkbox' ) );
-
-
+		goog.dom.TagName.INPUT,
+		zz.ui.mdl.Checkbox.CSS.INPUT,
+		element )[ 0 ]
+	);
+	goog.dom.classlist.add( element, zz.ui.mdl.Checkbox.CSS.IS_UPGRADED );
 	return goog.base( this, 'decorate', control, element );
 };
 
@@ -133,6 +135,35 @@ zz.ui.mdl.CheckboxRenderer.prototype.decorate = function( control, element ){
 zz.ui.mdl.CheckboxRenderer.prototype.getCssClass = function( ){
 
 	return zz.ui.mdl.CheckboxRenderer.CSS_CLASS;
+};
+
+/**********************************************************************************************************************
+ * Helpers methods                                                                                                    *
+ **********************************************************************************************************************/
+
+/**
+ * @param {zz.ui.mdl.Checkbox} control
+ */
+zz.ui.mdl.CheckboxRenderer.prototype.updateClasses = function( control ){
+
+	//noinspection JSUnresolvedFunction
+	if( control.isEnabled( ) ){
+
+		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.Checkbox.CSS.IS_DISABLED );
+
+	} else {
+
+		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.Checkbox.CSS.IS_DISABLED );
+	}
+	//noinspection JSUnresolvedFunction
+	if( control.isChecked( ) ){
+
+		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.Checkbox.CSS.IS_CHECKED );
+
+	}else{
+
+		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.Checkbox.CSS.IS_CHECKED );
+	}
 };
 
 /**********************************************************************************************************************
