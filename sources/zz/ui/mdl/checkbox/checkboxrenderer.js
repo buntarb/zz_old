@@ -40,7 +40,7 @@ goog.require( 'zz.ui.mdl.Checkbox' );
  **********************************************************************************************************************/
 
 /**
- * Default renderer for {@link zz.ui.mdl.Checkbox}s. Extends the superclass to support buttons states.
+ * Default renderer for {@link zz.ui.mdl.Checkbox}s. Extends the superclass to support checkboxes states.
  * @constructor
  * @extends {zz.ui.mdl.ControlRenderer}
  */

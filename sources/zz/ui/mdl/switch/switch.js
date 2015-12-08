@@ -91,7 +91,9 @@ zz.ui.mdl.Switch.CSS = {
 	RIPPLE: goog.getCssName( 'mdl-ripple' ),
 	IS_FOCUSED: goog.getCssName( 'is-focused' ),
 	IS_DISABLED: goog.getCssName( 'is-disabled' ),
-	IS_CHECKED: goog.getCssName( 'is-checked' )
+	IS_CHECKED: goog.getCssName( 'is-checked' ),
+	IS_UPGRADED: goog.getCssName( 'is-upgraded' ),
+	IS_ANIMATING: goog.getCssName( 'is-animating' )
 };
 
 /**********************************************************************************************************************
@@ -143,14 +145,6 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
 	// Ripple effect.
 	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT ) ){
 
-		//this.getHandler( ).listenWithScope(
-        //
-		//	this.getElement( ),
-		//	goog.events.EventType.MOUSEUP,
-		//	this.blurListener_,
-		//	false,
-		//	this
-		//);
 		var  ripple = new zz.ui.mdl.Ripple( );
 		this.addChild( ripple, false );
 		ripple.decorate( goog.dom.getElementByClass( zz.ui.mdl.Switch.CSS.RIPPLE_CONTAINER, this.getElement( ) ) );

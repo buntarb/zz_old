@@ -42,6 +42,7 @@ goog.require( 'zz.ui.mdl.Navigation' );
 goog.require( 'zz.ui.mdl.Spinner' );
 goog.require( 'zz.ui.mdl.Progress' );
 goog.require( 'zz.ui.mdl.Checkbox' );
+goog.require( 'zz.ui.mdl.Switch' );
 
 goog.require( 'zz.template.ui.button' );
 goog.require( 'zz.template.ui.spinner' );
@@ -49,6 +50,7 @@ goog.require( 'zz.template.ui.navigation' );
 goog.require( 'zz.template.ui.progress' );
 goog.require( 'zz.template.ui.tooltip' );
 goog.require( 'zz.template.ui.checkbox' );
+goog.require( 'zz.template.ui.switch' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -149,12 +151,21 @@ zz.demos.app.run = function( ){
 //	} );
 
 //	Checkbox
-	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.checkbox.default );
+//	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.checkbox.default );
+//
+//	var chckbx1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+//	var chckbx2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+//
+//	chckbx2.setEnabled( false );
 
-	var chckbx1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
-	var chckbx2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
 
-	chckbx2.setEnabled( false );
+//	Switch
+	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.switch.default );
+
+	var swtch1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+	var swtch2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+
+	swtch2.setEnabled( false );
 
 	/******************************************************************************************************************
 	 * Fast click testing                                                                                             *

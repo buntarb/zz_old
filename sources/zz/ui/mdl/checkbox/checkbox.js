@@ -146,14 +146,6 @@ zz.ui.mdl.Checkbox.prototype.enterDocument = function( ){
 	// Ripple effect.
 	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Checkbox.CSS.RIPPLE_EFFECT ) ){
 
-		//this.getHandler( ).listenWithScope(
-        //
-		//	this.getElement( ),
-		//	goog.events.EventType.MOUSEUP,
-		//	this.blurListener_,
-		//	false,
-		//	this
-		//);
 		var  ripple = new zz.ui.mdl.Ripple( );
 		this.addChild( ripple, false );
 		ripple.decorate( goog.dom.getElementByClass( zz.ui.mdl.Checkbox.CSS.RIPPLE_CONTAINER, this.getElement( ) ) );

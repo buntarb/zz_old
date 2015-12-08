@@ -40,7 +40,7 @@ goog.require( 'zz.ui.mdl.Switch' );
  **********************************************************************************************************************/
 
 /**
- * Default renderer for {@link zz.ui.mdl.Switch}s. Extends the superclass to support buttons states.
+ * Default renderer for {@link zz.ui.mdl.Switch}s. Extends the superclass to support switches states.
  * @constructor
  * @extends {zz.ui.mdl.ControlRenderer}
  */
@@ -89,36 +89,36 @@ zz.ui.mdl.SwitchRenderer.prototype.canDecorate = function( ){
  */
 zz.ui.mdl.SwitchRenderer.prototype.decorate = function( control, element ){
 
-	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
+	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 
-		'class': zz.ui.mdl.Checkbox.CSS.FOCUS_HELPER
+		'class': zz.ui.mdl.Switch.CSS.TRACK
 	} ) );
-	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
+	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 
-		'class': zz.ui.mdl.Checkbox.CSS.BOX_OUTLINE
+		'class': zz.ui.mdl.Switch.CSS.THUMB
 
 	}, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
-		'class': zz.ui.mdl.Checkbox.CSS.TICK_OUTLINE
+		'class': zz.ui.mdl.Switch.CSS.FOCUS_HELPER
 
 	} ) ) );
 	// Ripple dom.
-	if( goog.dom.classlist.contains( element, zz.ui.mdl.Checkbox.CSS.RIPPLE_EFFECT ) ){
+	if( goog.dom.classlist.contains( element, zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT ) ){
 
 		goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
-			'class': zz.ui.mdl.Checkbox.CSS.RIPPLE_CONTAINER
+			'class': zz.ui.mdl.Switch.CSS.RIPPLE_CONTAINER + ' ' + zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT + ' ' + zz.ui.mdl.Switch.CSS.RIPPLE_CENTER
 
 		}, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
-			'class': zz.ui.mdl.Checkbox.CSS.RIPPLE
+			'class': zz.ui.mdl.Switch.CSS.RIPPLE + ' ' + zz.ui.mdl.Switch.CSS.IS_ANIMATING
 		} ) ) );
 	}
 	// Input element.
-	control.setCheckboxElement( control.getDomHelper( ).getElementsByTagNameAndClass(
+	control.setSwitchElement( control.getDomHelper( ).getElementsByTagNameAndClass(
 
 		goog.dom.TagName.INPUT,
-		zz.ui.mdl.Checkbox.CSS.INPUT,
+		zz.ui.mdl.Switch.CSS.INPUT,
 		element )[ 0 ]
 	);
 	goog.dom.classlist.add( element, zz.ui.mdl.Switch.CSS.IS_UPGRADED );
