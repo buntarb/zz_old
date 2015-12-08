@@ -40,16 +40,16 @@ goog.require( 'zz.ui.mdl.Switch' );
  **********************************************************************************************************************/
 
 /**
- * Default renderer for {@link zz.ui.mdl.Checkbox}s. Extends the superclass to support buttons states.
+ * Default renderer for {@link zz.ui.mdl.Switch}s. Extends the superclass to support buttons states.
  * @constructor
  * @extends {zz.ui.mdl.ControlRenderer}
  */
-zz.ui.mdl.CheckboxRenderer = function( ){
+zz.ui.mdl.SwitchRenderer = function( ){
 
-	zz.ui.mdl.CheckboxRenderer.base( this, 'constructor' );
+	zz.ui.mdl.SwitchRenderer.base( this, 'constructor' );
 };
-goog.inherits( zz.ui.mdl.CheckboxRenderer, zz.ui.mdl.ControlRenderer );
-goog.addSingletonGetter( zz.ui.mdl.CheckboxRenderer );
+goog.inherits( zz.ui.mdl.SwitchRenderer, zz.ui.mdl.ControlRenderer );
+goog.addSingletonGetter( zz.ui.mdl.SwitchRenderer );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -59,7 +59,7 @@ goog.addSingletonGetter( zz.ui.mdl.CheckboxRenderer );
  * Default CSS class to be applied to the root element of components rendered by this renderer.
  * @type {string}
  */
-zz.ui.mdl.CheckboxRenderer.CSS_CLASS = goog.getCssName( 'mdl-checkbox' );
+zz.ui.mdl.SwitchRenderer.CSS_CLASS = goog.getCssName( 'mdl-switch' );
 
 /**********************************************************************************************************************
  * Life cycle methods                                                                                                 *
@@ -68,7 +68,7 @@ zz.ui.mdl.CheckboxRenderer.CSS_CLASS = goog.getCssName( 'mdl-checkbox' );
 /**
  * @override
  */
-zz.ui.mdl.CheckboxRenderer.prototype.createDom = function( ){
+zz.ui.mdl.SwitchRenderer.prototype.createDom = function( ){
 
 	goog.base( this, 'createDom' );
 };
@@ -76,18 +76,18 @@ zz.ui.mdl.CheckboxRenderer.prototype.createDom = function( ){
 /**
  * @override
  */
-zz.ui.mdl.CheckboxRenderer.prototype.canDecorate = function( ){
+zz.ui.mdl.SwitchRenderer.prototype.canDecorate = function( ){
 
 	//TODO: add check of the element
 	return true;
 };
 
 /**
- * @param {zz.ui.mdl.Checkbox} control
+ * @param {zz.ui.mdl.Switch} control
  * @param {Element} element
  * @override
  */
-zz.ui.mdl.CheckboxRenderer.prototype.decorate = function( control, element ){
+zz.ui.mdl.SwitchRenderer.prototype.decorate = function( control, element ){
 
 	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
@@ -121,7 +121,7 @@ zz.ui.mdl.CheckboxRenderer.prototype.decorate = function( control, element ){
 		zz.ui.mdl.Checkbox.CSS.INPUT,
 		element )[ 0 ]
 	);
-	goog.dom.classlist.add( element, zz.ui.mdl.Checkbox.CSS.IS_UPGRADED );
+	goog.dom.classlist.add( element, zz.ui.mdl.Switch.CSS.IS_UPGRADED );
 	return goog.base( this, 'decorate', control, element );
 };
 
@@ -132,9 +132,9 @@ zz.ui.mdl.CheckboxRenderer.prototype.decorate = function( control, element ){
 /**
  * @override
  */
-zz.ui.mdl.CheckboxRenderer.prototype.getCssClass = function( ){
+zz.ui.mdl.SwitchRenderer.prototype.getCssClass = function( ){
 
-	return zz.ui.mdl.CheckboxRenderer.CSS_CLASS;
+	return zz.ui.mdl.SwitchRenderer.CSS_CLASS;
 };
 
 /**********************************************************************************************************************
@@ -142,35 +142,35 @@ zz.ui.mdl.CheckboxRenderer.prototype.getCssClass = function( ){
  **********************************************************************************************************************/
 
 /**
- * @param {zz.ui.mdl.Checkbox} control
+ * @param {zz.ui.mdl.Switch} control
  */
-zz.ui.mdl.CheckboxRenderer.prototype.updateClasses = function( control ){
+zz.ui.mdl.SwitchRenderer.prototype.updateClasses = function( control ){
 
 	//noinspection JSUnresolvedFunction
 	if( control.isEnabled( ) ){
 
-		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.Checkbox.CSS.IS_DISABLED );
+		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.Switch.CSS.IS_DISABLED );
 
 	} else {
 
-		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.Checkbox.CSS.IS_DISABLED );
+		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.Switch.CSS.IS_DISABLED );
 	}
 	//noinspection JSUnresolvedFunction
 	if( control.isChecked( ) ){
 
-		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.Checkbox.CSS.IS_CHECKED );
+		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.Switch.CSS.IS_CHECKED );
 
 	}else{
 
-		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.Checkbox.CSS.IS_CHECKED );
+		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.Switch.CSS.IS_CHECKED );
 	}
 };
 
 /**********************************************************************************************************************
- * Register a decorator factory function for goog.ui.Buttons.                                                         *
+ * Register a decorator factory function for zz.ui.mdl.Switches.                                                         *
  **********************************************************************************************************************/
 
-goog.ui.registry.setDecoratorByClassName( zz.ui.mdl.CheckboxRenderer.CSS_CLASS, function( ){
+goog.ui.registry.setDecoratorByClassName( zz.ui.mdl.SwitchRenderer.CSS_CLASS, function( ){
 
-	return new zz.ui.mdl.Checkbox( );
+	return new zz.ui.mdl.Switch( );
 } );

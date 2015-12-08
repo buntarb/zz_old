@@ -167,7 +167,7 @@ zz.ui.mdl.CheckboxRenderer.prototype.updateClasses = function( control ){
 };
 
 /**********************************************************************************************************************
- * Register a decorator factory function for goog.ui.Buttons.                                                         *
+ * Register a decorator factory function for zz.ui.mdl.Checkboxes.                                                         *
  **********************************************************************************************************************/
 
 goog.ui.registry.setDecoratorByClassName( zz.ui.mdl.CheckboxRenderer.CSS_CLASS, function( ){
