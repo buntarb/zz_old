@@ -78,7 +78,7 @@ goog.require( 'zz.ui.mdl.componentHandler' );
   };
 
   /**
-   * Handle change of state.
+   Handle change of state.
    *
    * @param {Event} event The event that fired.
    * @private
