@@ -66,23 +66,6 @@ zz.ui.mdl.SwitchRenderer.CSS_CLASS = goog.getCssName( 'mdl-switch' );
  **********************************************************************************************************************/
 
 /**
- * @override
- */
-zz.ui.mdl.SwitchRenderer.prototype.createDom = function( ){
-
-	goog.base( this, 'createDom' );
-};
-
-/**
- * @override
- */
-zz.ui.mdl.SwitchRenderer.prototype.canDecorate = function( ){
-
-	//TODO: add check of the element
-	return true;
-};
-
-/**
  * @param {zz.ui.mdl.Switch} control
  * @param {Element} element
  * @override
@@ -107,15 +90,22 @@ zz.ui.mdl.SwitchRenderer.prototype.decorate = function( control, element ){
 
 		goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
-			'class': zz.ui.mdl.Switch.CSS.RIPPLE_CONTAINER + ' ' + zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT + ' ' + zz.ui.mdl.Switch.CSS.RIPPLE_CENTER
+			'class':
+
+				zz.ui.mdl.Switch.CSS.RIPPLE_CONTAINER + ' ' +
+				zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT + ' ' +
+				zz.ui.mdl.Switch.CSS.RIPPLE_CENTER
 
 		}, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
-			'class': zz.ui.mdl.Switch.CSS.RIPPLE + ' ' + zz.ui.mdl.Switch.CSS.IS_ANIMATING
+			'class':
+
+				zz.ui.mdl.Switch.CSS.RIPPLE + ' ' +
+				zz.ui.mdl.Switch.CSS.IS_ANIMATING
 		} ) ) );
 	}
 	// Input element.
-	control.setSwitchElement( control.getDomHelper( ).getElementsByTagNameAndClass(
+	control.setInputElement( control.getDomHelper( ).getElementsByTagNameAndClass(
 
 		goog.dom.TagName.INPUT,
 		zz.ui.mdl.Switch.CSS.INPUT,
@@ -140,6 +130,28 @@ zz.ui.mdl.SwitchRenderer.prototype.getCssClass = function( ){
 /**********************************************************************************************************************
  * Helpers methods                                                                                                    *
  **********************************************************************************************************************/
+
+/**
+ * Set control input element value.
+ * @param {zz.ui.mdl.Switch} control
+ * @param {*} value
+ */
+zz.ui.mdl.SwitchRenderer.prototype.setValue = function( control, value ){
+
+	control.setChecked( value );
+	control.getInputElement( ).checked = value;
+	this.updateClasses( control );
+};
+
+/**
+ * Return control input element value.
+ * @param {zz.ui.mdl.Switch} control
+ * @returns {*} value
+ */
+zz.ui.mdl.SwitchRenderer.prototype.getValue = function( control ){
+
+	return control.getInputElement( ).checked;
+};
 
 /**
  * @param {zz.ui.mdl.Switch} control

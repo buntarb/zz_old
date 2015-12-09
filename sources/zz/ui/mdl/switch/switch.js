@@ -119,7 +119,7 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
 	);
 	this.getHandler( ).listenWithScope(
 
-		this.getSwitchElement( ),
+		this.getInputElement( ),
 		goog.events.EventType.FOCUS,
 		this.focusSwitchListener_,
 		false,
@@ -127,7 +127,7 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
 	);
 	this.getHandler( ).listenWithScope(
 
-		this.getSwitchElement( ),
+		this.getInputElement( ),
 		goog.events.EventType.BLUR,
 		this.blurSwitchListener_,
 		false,
@@ -135,7 +135,7 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
 	);
 	this.getHandler( ).listenWithScope(
 
-		this.getSwitchElement( ),
+		this.getInputElement( ),
 		goog.events.EventType.CHANGE,
 		this.changeSwitchListener_,
 		false,
@@ -165,9 +165,6 @@ zz.ui.mdl.Switch.prototype.disposeInternal = function( ){
 	goog.base( this, 'disposeInternal' );
 
 	this.getHandler( ).dispose( );
-
-	this.switchElement_ = null;
-	delete this.switchElement_;
 };
 
 /**********************************************************************************************************************
@@ -184,7 +181,7 @@ zz.ui.mdl.Switch.prototype.blurListener_ = function( ){
 	goog.Timer.callOnce( /** @this {zz.ui.mdl.Switch} */ function( ){
 
 		//noinspection JSPotentiallyInvalidUsageOfThis
-		this.getSwitchElement( ).blur( );
+		this.getInputElement( ).blur( );
 
 	}, zz.ui.mdl.Switch.CONST.TINY_TIMEOUT, this );
 };
@@ -213,35 +210,8 @@ zz.ui.mdl.Switch.prototype.blurSwitchListener_ = function( ){
  */
 zz.ui.mdl.Switch.prototype.changeSwitchListener_ = function( ){
 
-	this.setChecked( this.getSwitchElement( ).checked );
+	this.setInputValue( this.getInputValue( ) );
 	this.getRenderer( ).updateClasses( this );
-};
-
-/**********************************************************************************************************************
- * Dom helpers section                                                                                                *
- **********************************************************************************************************************/
-
-/**
- * Switch input element setter (for renderer).
- * @param {Element} element
- */
-zz.ui.mdl.Switch.prototype.setSwitchElement = function( element ){
-
-	/**
-	 * Switch input element.
-	 * @type {Element}
-	 * @private
-	 */
-	this.SwitchElement_ = element;
-};
-
-/**
- * Switch input element getter (for renderer).
- * @returns {Element}
- */
-zz.ui.mdl.Switch.prototype.getSwitchElement = function( ){
-
-	return /** @type {Element} */ ( this.SwitchElement_ );
 };
 
 /**********************************************************************************************************************
@@ -255,16 +225,6 @@ zz.ui.mdl.Switch.prototype.getSwitchElement = function( ){
 zz.ui.mdl.Switch.prototype.setEnabled = function( enable ){
 
 	zz.ui.mdl.Switch.superClass_.setEnabled.call( this, enable );
-	this.getSwitchElement( ).disabled = !enable;
+	this.getInputElement( ).disabled = !enable;
 	this.getRenderer( ).updateClasses( this );
-};
-
-/**
- * Check/uncheck switch.
- * @param {boolean} check
- */
-zz.ui.mdl.Switch.prototype.setChecked = function( check ){
-
-	zz.ui.mdl.Switch.superClass_.setChecked.call( this, check );
-	this.getSwitchElement( ).checked = check;
 };

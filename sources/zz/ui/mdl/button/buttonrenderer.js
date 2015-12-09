@@ -33,7 +33,6 @@ goog.provide( 'zz.ui.mdl.ButtonRenderer' );
 
 goog.require( 'goog.dom.classlist' );
 goog.require( 'zz.ui.mdl.ControlRenderer' );
-goog.require( 'zz.ui.mdl.Button' );
 
 /**********************************************************************************************************************
  * Renderer definition section                                                                                        *
