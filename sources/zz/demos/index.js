@@ -164,17 +164,27 @@ zz.demos.app.run = function( ){
 
 //	Switch
 
-	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.switch.default );
+	//soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.switch.default );
+    //
+	//var swtch1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+	//var swtch2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+    //
+	//swtch2.setEnabled( false );
+    //
+	//var users = goog.global.users = new zz.module.user.model.Users( );
+	//var user = goog.global.user = users.createFirst( );
+    //
+	//swtch1.setModel( users, user, users.datafield.userVerifiedFlag );
 
-	var swtch1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
-	var swtch2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+	//	Icon Toggle
 
-	swtch2.setEnabled( false );
+	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.icontoggle.default );
 
-	var users = goog.global.users = new zz.module.user.model.Users( );
-	var user = goog.global.user = users.createFirst( );
+	var tggl1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+	var tggl2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
 
-	swtch1.setModel( users, user, users.datafield.userVerifiedFlag );
+	tggl2.setEnabled( false );
+
 
 	/******************************************************************************************************************
 	 * Fast click testing                                                                                             *
