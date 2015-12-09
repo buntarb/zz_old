@@ -36,12 +36,15 @@ goog.require( 'goog.events' );
 goog.require( 'goog.ui.decorate' );
 goog.require( 'goog.ui.Component' );
 
+goog.require( 'zz.module.user.controller.Users' );
+
 goog.require( 'zz.ui.mdl.Button' );
 goog.require( 'zz.ui.mdl.Tooltip' );
 goog.require( 'zz.ui.mdl.Navigation' );
 goog.require( 'zz.ui.mdl.Spinner' );
 goog.require( 'zz.ui.mdl.Progress' );
 goog.require( 'zz.ui.mdl.Checkbox' );
+goog.require( 'zz.ui.mdl.Switch' );
 
 goog.require( 'zz.template.ui.button' );
 goog.require( 'zz.template.ui.spinner' );
@@ -49,6 +52,7 @@ goog.require( 'zz.template.ui.navigation' );
 goog.require( 'zz.template.ui.progress' );
 goog.require( 'zz.template.ui.tooltip' );
 goog.require( 'zz.template.ui.checkbox' );
+goog.require( 'zz.template.ui.switch' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -97,6 +101,7 @@ zz.demos.app.run = function( ){
 //		spn2.decorate( goog.dom.getElement( '2' ) );
 
 //	Buttons
+
 //	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.button.default );
 //	var btn1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
 //	var btn2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
@@ -149,17 +154,31 @@ zz.demos.app.run = function( ){
 //	} );
 
 //	Checkbox
-	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.checkbox.default );
 
-	var chckbx1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
-	var chckbx2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+//	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.checkbox.default );
+//
+//	var chckbx1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+//	var chckbx2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+//
+//	chckbx2.setEnabled( false );
 
-	chckbx2.setEnabled( false );
+//	Switch
+
+	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.switch.default );
+
+	var swtch1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+	var swtch2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+
+	swtch2.setEnabled( false );
+
+	var users = goog.global.users = new zz.module.user.model.Users( );
+	var user = goog.global.user = users.createFirst( );
+
+	swtch1.setModel( users, user, users.datafield.userVerifiedFlag );
 
 	/******************************************************************************************************************
 	 * Fast click testing                                                                                             *
 	 ******************************************************************************************************************/
-
 };
 
 /**********************************************************************************************************************

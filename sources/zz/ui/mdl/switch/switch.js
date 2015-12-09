@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.ui.mdl.Checkbox class.
+ * @fileoverview Provide zz.ui.mdl.Switch class.
  * @author popkov.aleksander@gmail.com (Alexander Popkov)
  */
 
@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.ui.mdl.Checkbox' );
+goog.provide( 'zz.ui.mdl.Switch' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -36,7 +36,7 @@ goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.events.EventType' );
 goog.require( 'goog.ui.Component' );
 goog.require( 'zz.ui.mdl.Control' );
-goog.require( 'zz.ui.mdl.CheckboxRenderer' );
+goog.require( 'zz.ui.mdl.SwitchRenderer' );
 goog.require( 'zz.ui.mdl.Ripple' );
 
 /**********************************************************************************************************************
@@ -50,15 +50,15 @@ goog.require( 'zz.ui.mdl.Ripple' );
  * @extends {zz.ui.mdl.Control}
  * @constructor
  */
-zz.ui.mdl.Checkbox = function( opt_content, opt_renderer, opt_domHelper ){
+zz.ui.mdl.Switch = function( opt_content, opt_renderer, opt_domHelper ){
 
-	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.CheckboxRenderer.getInstance( ), opt_domHelper );
+	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.SwitchRenderer.getInstance( ), opt_domHelper );
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
 	this.setSupportedState( goog.ui.Component.State.CHECKED, true );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
 };
-goog.inherits( zz.ui.mdl.Checkbox, zz.ui.mdl.Control );
-goog.tagUnsealableClass( zz.ui.mdl.Checkbox );
+goog.inherits( zz.ui.mdl.Switch, zz.ui.mdl.Control );
+goog.tagUnsealableClass( zz.ui.mdl.Switch );
 
 /**********************************************************************************************************************
  * Static properties section                                                                                          *
@@ -68,7 +68,7 @@ goog.tagUnsealableClass( zz.ui.mdl.Checkbox );
  * Store constants in one place so they can be updated easily.
  * @enum {string | number}
  */
-zz.ui.mdl.Checkbox.CONST = {
+zz.ui.mdl.Switch.CONST = {
 
 	TINY_TIMEOUT: 10
 };
@@ -78,22 +78,22 @@ zz.ui.mdl.Checkbox.CONST = {
  * it in one place should we decide to modify at a later date.
  * @enum {string}
  */
-zz.ui.mdl.Checkbox.CSS = {
+zz.ui.mdl.Switch.CSS = {
 
-	INPUT: goog.getCssName( 'mdl-checkbox__input' ),
-	BOX_OUTLINE: goog.getCssName( 'mdl-checkbox__box-outline' ),
-	FOCUS_HELPER: goog.getCssName( 'mdl-checkbox__focus-helper' ),
-	TICK_OUTLINE: goog.getCssName( 'mdl-checkbox__tick-outline' ),
+	INPUT: goog.getCssName( 'mdl-switch__input' ),
+	TRACK: goog.getCssName( 'mdl-switch__track' ),
+	THUMB: goog.getCssName( 'mdl-switch__thumb' ),
+	FOCUS_HELPER: goog.getCssName( 'mdl-switch__focus-helper' ),
 	RIPPLE_EFFECT: goog.getCssName( 'mdl-js-ripple-effect' ),
 	RIPPLE_IGNORE_EVENTS: goog.getCssName( 'mdl-js-ripple-effect--ignore-events' ),
-	RIPPLE_CONTAINER: goog.getCssName( 'mdl-checkbox__ripple-container' ),
+	RIPPLE_CONTAINER: goog.getCssName( 'mdl-switch__ripple-container' ),
 	RIPPLE_CENTER: goog.getCssName( 'mdl-ripple--center' ),
 	RIPPLE: goog.getCssName( 'mdl-ripple' ),
 	IS_FOCUSED: goog.getCssName( 'is-focused' ),
 	IS_DISABLED: goog.getCssName( 'is-disabled' ),
 	IS_CHECKED: goog.getCssName( 'is-checked' ),
 	IS_UPGRADED: goog.getCssName( 'is-upgraded' ),
-	LABEL: goog.getCssName( 'mdl-checkbox__label' )
+	IS_ANIMATING: goog.getCssName( 'is-animating' )
 };
 
 /**********************************************************************************************************************
@@ -105,7 +105,7 @@ zz.ui.mdl.Checkbox.CSS = {
  * should be done at this stage. If the component contains child components, this call is propagated to its children.
  * @override
  */
-zz.ui.mdl.Checkbox.prototype.enterDocument = function( ){
+zz.ui.mdl.Switch.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
 
@@ -121,7 +121,7 @@ zz.ui.mdl.Checkbox.prototype.enterDocument = function( ){
 
 		this.getInputElement( ),
 		goog.events.EventType.FOCUS,
-		this.focusCheckboxListener_,
+		this.focusSwitchListener_,
 		false,
 		this
 	);
@@ -129,7 +129,7 @@ zz.ui.mdl.Checkbox.prototype.enterDocument = function( ){
 
 		this.getInputElement( ),
 		goog.events.EventType.BLUR,
-		this.blurCheckboxListener_,
+		this.blurSwitchListener_,
 		false,
 		this
 	);
@@ -137,20 +137,20 @@ zz.ui.mdl.Checkbox.prototype.enterDocument = function( ){
 
 		this.getInputElement( ),
 		goog.events.EventType.CHANGE,
-		this.changeCheckboxListener_,
+		this.changeSwitchListener_,
 		false,
 		this
 	);
 
 	// Ripple effect.
-	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Checkbox.CSS.RIPPLE_EFFECT ) ){
+	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT ) ){
 
 		var  ripple = new zz.ui.mdl.Ripple( );
 		this.addChild( ripple, false );
-		ripple.decorate( goog.dom.getElementByClass( zz.ui.mdl.Checkbox.CSS.RIPPLE_CONTAINER, this.getElement( ) ) );
+		ripple.decorate( goog.dom.getElementByClass( zz.ui.mdl.Switch.CSS.RIPPLE_CONTAINER, this.getElement( ) ) );
 	}
 
-	this.changeCheckboxListener_( );
+	this.changeSwitchListener_( );
 };
 
 /**
@@ -160,7 +160,7 @@ zz.ui.mdl.Checkbox.prototype.enterDocument = function( ){
  * be used.
  * @inheritDoc
  **/
-zz.ui.mdl.Checkbox.prototype.disposeInternal = function( ){
+zz.ui.mdl.Switch.prototype.disposeInternal = function( ){
 
 	goog.base( this, 'disposeInternal' );
 
@@ -173,42 +173,42 @@ zz.ui.mdl.Checkbox.prototype.disposeInternal = function( ){
 
 /**
  * Listener for element blur event.
- * @this {zz.ui.mdl.Checkbox}
+ * @this {zz.ui.mdl.Switch}
  * @private
  */
-zz.ui.mdl.Checkbox.prototype.blurListener_ = function( ){
+zz.ui.mdl.Switch.prototype.blurListener_ = function( ){
 
-	goog.Timer.callOnce( /** @this {zz.ui.mdl.Checkbox} */ function( ){
+	goog.Timer.callOnce( /** @this {zz.ui.mdl.Switch} */ function( ){
 
 		//noinspection JSPotentiallyInvalidUsageOfThis
 		this.getInputElement( ).blur( );
 
-	}, zz.ui.mdl.Checkbox.CONST.TINY_TIMEOUT, this );
+	}, zz.ui.mdl.Switch.CONST.TINY_TIMEOUT, this );
 };
 
 /**
- * Listener for checkbox element focus event.
+ * Listener for Switch element focus event.
  * @private
  */
-zz.ui.mdl.Checkbox.prototype.focusCheckboxListener_ = function( ){
+zz.ui.mdl.Switch.prototype.focusSwitchListener_ = function( ){
 
-	goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Checkbox.CSS.IS_FOCUSED );
+	goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Switch.CSS.IS_FOCUSED );
 };
 
 /**
- * Listener for checkbox element blur event.
+ * Listener for Switch element blur event.
  * @private
  */
-zz.ui.mdl.Checkbox.prototype.blurCheckboxListener_ = function( ){
+zz.ui.mdl.Switch.prototype.blurSwitchListener_ = function( ){
 
-	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Checkbox.CSS.IS_FOCUSED );
+	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Switch.CSS.IS_FOCUSED );
 };
 
 /**
- * Listener for checkbox element change event.
+ * Listener for Switch element change event.
  * @private
  */
-zz.ui.mdl.Checkbox.prototype.changeCheckboxListener_ = function( ){
+zz.ui.mdl.Switch.prototype.changeSwitchListener_ = function( ){
 
 	this.setInputValue( this.getInputValue( ) );
 	this.getRenderer( ).updateClasses( this );
@@ -219,12 +219,12 @@ zz.ui.mdl.Checkbox.prototype.changeCheckboxListener_ = function( ){
  **********************************************************************************************************************/
 
 /**
- * Enable/disable checkbox.
+ * Enable/disable switch.
  * @param {boolean} enable
  */
-zz.ui.mdl.Checkbox.prototype.setEnabled = function( enable ){
+zz.ui.mdl.Switch.prototype.setEnabled = function( enable ){
 
-	zz.ui.mdl.Checkbox.superClass_.setEnabled.call( this, enable );
+	zz.ui.mdl.Switch.superClass_.setEnabled.call( this, enable );
 	this.getInputElement( ).disabled = !enable;
 	this.getRenderer( ).updateClasses( this );
 };

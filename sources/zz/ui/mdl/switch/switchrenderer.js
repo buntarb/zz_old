@@ -17,15 +17,15 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.ui.mdl.ButtonRenderer class.
- * @author buntarb@gmail.com (Artem Lytvynov)
+ * @fileoverview Provide zz.ui.mdl.SwitchRenderer class.
+ * @author popkov.aleksander@gmail.com (Alexander Popkov)
  */
 
 /**********************************************************************************************************************
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.ui.mdl.ButtonRenderer' );
+goog.provide( 'zz.ui.mdl.SwitchRenderer' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -33,22 +33,23 @@ goog.provide( 'zz.ui.mdl.ButtonRenderer' );
 
 goog.require( 'goog.dom.classlist' );
 goog.require( 'zz.ui.mdl.ControlRenderer' );
+goog.require( 'zz.ui.mdl.Switch' );
 
 /**********************************************************************************************************************
  * Renderer definition section                                                                                        *
  **********************************************************************************************************************/
 
 /**
- * Default renderer for {@link zz.ui.mdl.Button}s. Extends the superclass to support buttons states.
+ * Default renderer for {@link zz.ui.mdl.Switch}s. Extends the superclass to support switches states.
  * @constructor
  * @extends {zz.ui.mdl.ControlRenderer}
  */
-zz.ui.mdl.ButtonRenderer = function( ){
+zz.ui.mdl.SwitchRenderer = function( ){
 
-	zz.ui.mdl.ButtonRenderer.base( this, 'constructor' );
+	zz.ui.mdl.SwitchRenderer.base( this, 'constructor' );
 };
-goog.inherits( zz.ui.mdl.ButtonRenderer, zz.ui.mdl.ControlRenderer );
-goog.addSingletonGetter( zz.ui.mdl.ButtonRenderer );
+goog.inherits( zz.ui.mdl.SwitchRenderer, zz.ui.mdl.ControlRenderer );
+goog.addSingletonGetter( zz.ui.mdl.SwitchRenderer );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -58,48 +59,59 @@ goog.addSingletonGetter( zz.ui.mdl.ButtonRenderer );
  * Default CSS class to be applied to the root element of components rendered by this renderer.
  * @type {string}
  */
-zz.ui.mdl.ButtonRenderer.CSS_CLASS = goog.getCssName( 'mdl-button' );
+zz.ui.mdl.SwitchRenderer.CSS_CLASS = goog.getCssName( 'mdl-switch' );
 
 /**********************************************************************************************************************
  * Life cycle methods                                                                                                 *
  **********************************************************************************************************************/
 
 /**
+ * @param {zz.ui.mdl.Switch} control
+ * @param {Element} element
  * @override
  */
-zz.ui.mdl.ButtonRenderer.prototype.createDom = function( ){
+zz.ui.mdl.SwitchRenderer.prototype.decorate = function( control, element ){
 
-	goog.base( this, 'createDom' );
-};
+	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 
-/**
- * @override
- */
-zz.ui.mdl.ButtonRenderer.prototype.canDecorate = function( element ){
+		'class': zz.ui.mdl.Switch.CSS.TRACK
+	} ) );
+	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 
-	return element.tagName == goog.dom.TagName.BUTTON || ( element.tagName == goog.dom.TagName.INPUT && (
+		'class': zz.ui.mdl.Switch.CSS.THUMB
 
-		element.type == goog.dom.InputType.BUTTON ||
-		element.type == goog.dom.InputType.SUBMIT ||
-		element.type == goog.dom.InputType.RESET ) );
-};
+	}, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
-/**
- * @override
- */
-zz.ui.mdl.ButtonRenderer.prototype.decorate = function( control, element ){
+		'class': zz.ui.mdl.Switch.CSS.FOCUS_HELPER
 
-	if( goog.dom.classlist.contains( element, zz.ui.mdl.Button.CSS.RIPPLE_EFFECT ) ){
+	} ) ) );
+	// Ripple dom.
+	if( goog.dom.classlist.contains( element, zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT ) ){
 
 		goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
-			'class': zz.ui.mdl.Button.CSS.RIPPLE_CONTAINER
+			'class':
+
+				zz.ui.mdl.Switch.CSS.RIPPLE_CONTAINER + ' ' +
+				zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT + ' ' +
+				zz.ui.mdl.Switch.CSS.RIPPLE_CENTER
 
 		}, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
-			'class': zz.ui.mdl.Button.CSS.RIPPLE
+			'class':
+
+				zz.ui.mdl.Switch.CSS.RIPPLE + ' ' +
+				zz.ui.mdl.Switch.CSS.IS_ANIMATING
 		} ) ) );
 	}
+	// Input element.
+	control.setInputElement( control.getDomHelper( ).getElementsByTagNameAndClass(
+
+		goog.dom.TagName.INPUT,
+		zz.ui.mdl.Switch.CSS.INPUT,
+		element )[ 0 ]
+	);
+	goog.dom.classlist.add( element, zz.ui.mdl.Switch.CSS.IS_UPGRADED );
 	return goog.base( this, 'decorate', control, element );
 };
 
@@ -110,16 +122,67 @@ zz.ui.mdl.ButtonRenderer.prototype.decorate = function( control, element ){
 /**
  * @override
  */
-zz.ui.mdl.ButtonRenderer.prototype.getCssClass = function( ){
+zz.ui.mdl.SwitchRenderer.prototype.getCssClass = function( ){
 
-	return zz.ui.mdl.ButtonRenderer.CSS_CLASS;
+	return zz.ui.mdl.SwitchRenderer.CSS_CLASS;
 };
 
 /**********************************************************************************************************************
- * Register a decorator factory function for goog.ui.Buttons.                                                         *
+ * Helpers methods                                                                                                    *
  **********************************************************************************************************************/
 
-goog.ui.registry.setDecoratorByClassName( zz.ui.mdl.ButtonRenderer.CSS_CLASS, function( ){
+/**
+ * Set control input element value.
+ * @param {zz.ui.mdl.Switch} control
+ * @param {*} value
+ */
+zz.ui.mdl.SwitchRenderer.prototype.setValue = function( control, value ){
 
-	return new zz.ui.mdl.Button( );
+	control.setChecked( value );
+	control.getInputElement( ).checked = value;
+	this.updateClasses( control );
+};
+
+/**
+ * Return control input element value.
+ * @param {zz.ui.mdl.Switch} control
+ * @returns {*} value
+ */
+zz.ui.mdl.SwitchRenderer.prototype.getValue = function( control ){
+
+	return control.getInputElement( ).checked;
+};
+
+/**
+ * @param {zz.ui.mdl.Switch} control
+ */
+zz.ui.mdl.SwitchRenderer.prototype.updateClasses = function( control ){
+
+	//noinspection JSUnresolvedFunction
+	if( control.isEnabled( ) ){
+
+		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.Switch.CSS.IS_DISABLED );
+
+	} else {
+
+		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.Switch.CSS.IS_DISABLED );
+	}
+	//noinspection JSUnresolvedFunction
+	if( control.isChecked( ) ){
+
+		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.Switch.CSS.IS_CHECKED );
+
+	}else{
+
+		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.Switch.CSS.IS_CHECKED );
+	}
+};
+
+/**********************************************************************************************************************
+ * Register a decorator factory function for zz.ui.mdl.Switches.                                                         *
+ **********************************************************************************************************************/
+
+goog.ui.registry.setDecoratorByClassName( zz.ui.mdl.SwitchRenderer.CSS_CLASS, function( ){
+
+	return new zz.ui.mdl.Switch( );
 } );

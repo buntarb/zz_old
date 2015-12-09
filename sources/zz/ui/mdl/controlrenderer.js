@@ -44,3 +44,65 @@ zz.ui.mdl.ControlRenderer = function( ){
 };
 goog.inherits( zz.ui.mdl.ControlRenderer, goog.ui.ControlRenderer );
 goog.addSingletonGetter( zz.ui.mdl.ControlRenderer );
+
+/**********************************************************************************************************************
+ * Life cycle methods                                                                                                 *
+ **********************************************************************************************************************/
+
+/**
+ * @override
+ */
+zz.ui.mdl.ControlRenderer.prototype.createDom = function( ){
+
+	goog.base( this, 'createDom' );
+};
+
+/**
+ * @override
+ */
+zz.ui.mdl.ControlRenderer.prototype.canDecorate = function( ){
+
+	//TODO: add check of the element
+	return true;
+};
+
+/**
+ * @param {zz.ui.mdl.Control} control
+ * @param {Element} element
+ * @override
+ */
+zz.ui.mdl.ControlRenderer.prototype.decorate = function( control, element ){
+
+	// Input element.
+	control.setInputElement( control.getDomHelper( ).getElementsByTagNameAndClass(
+
+		goog.dom.TagName.INPUT,
+		undefined,
+		element )[ 0 ]
+	);
+	return goog.base( this, 'decorate', control, element );
+};
+
+/**********************************************************************************************************************
+ * Helpers methods                                                                                                    *
+ **********************************************************************************************************************/
+
+/**
+ * Set control input element value.
+ * @param {zz.ui.mdl.Control} control
+ * @param {*} value
+ */
+zz.ui.mdl.ControlRenderer.prototype.setValue = function( control, value ){
+
+	control.getInputElement( ).value = value;
+};
+
+/**
+ * Return control input element value.
+ * @param {zz.ui.mdl.Control} control
+ * @returns {*} value
+ */
+zz.ui.mdl.ControlRenderer.prototype.getValue = function( control ){
+
+	return control.getInputElement( ).value;
+};

@@ -74,6 +74,7 @@ goog.require( 'zz.ui.mdl.componentHandler' );
     RIPPLE: goog.getCssName( 'mdl-ripple' ),
     IS_FOCUSED: goog.getCssName( 'is-focused' ),
     IS_DISABLED: goog.getCssName( 'is-disabled' ),
+    IS_UPGRADED: goog.getCssName( 'is-upgraded' ),
     IS_CHECKED: goog.getCssName( 'is-checked' )
   };
 
