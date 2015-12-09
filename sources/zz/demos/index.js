@@ -45,6 +45,7 @@ goog.require( 'zz.ui.mdl.Spinner' );
 goog.require( 'zz.ui.mdl.Progress' );
 goog.require( 'zz.ui.mdl.Checkbox' );
 goog.require( 'zz.ui.mdl.Switch' );
+goog.require( 'zz.ui.mdl.IconToggle' );
 
 goog.require( 'zz.template.ui.button' );
 goog.require( 'zz.template.ui.spinner' );
@@ -53,6 +54,8 @@ goog.require( 'zz.template.ui.progress' );
 goog.require( 'zz.template.ui.tooltip' );
 goog.require( 'zz.template.ui.checkbox' );
 goog.require( 'zz.template.ui.switch' );
+goog.require( 'zz.template.ui.icontoggle' );
+
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *

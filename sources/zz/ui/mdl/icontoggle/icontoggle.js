@@ -68,7 +68,7 @@ goog.tagUnsealableClass( zz.ui.mdl.IconToggle );
  * Store constants in one place so they can be updated easily.
  * @enum {string | number}
  */
-zz.ui.mdl.IconTogglee.CONST = {
+zz.ui.mdl.IconToggle.CONST = {
 
 	TINY_TIMEOUT: 10
 };
@@ -119,7 +119,7 @@ zz.ui.mdl.IconToggle.prototype.enterDocument = function( ){
 
 		this.getInputElement( ),
 		goog.events.EventType.FOCUS,
-		this.focusSwitchListener_,
+		this.focusIconToggleListener_,
 		false,
 		this
 	);
@@ -127,7 +127,7 @@ zz.ui.mdl.IconToggle.prototype.enterDocument = function( ){
 
 		this.getInputElement( ),
 		goog.events.EventType.BLUR,
-		this.blurSwitchListener_,
+		this.blurIconToggleListener_,
 		false,
 		this
 	);
@@ -135,7 +135,7 @@ zz.ui.mdl.IconToggle.prototype.enterDocument = function( ){
 
 		this.getInputElement( ),
 		goog.events.EventType.CHANGE,
-		this.changeSwitchListener_,
+		this.changeIconToggleListener_,
 		false,
 		this
 	);
@@ -171,7 +171,7 @@ zz.ui.mdl.IconToggle.prototype.disposeInternal = function( ){
 
 /**
  * Listener for element blur event.
- * @this {zz.ui.mdl.Switch}
+ * @this {zz.ui.mdl.IconToggle}
  * @private
  */
 zz.ui.mdl.IconToggle.prototype.blurListener_ = function( ){
@@ -197,16 +197,16 @@ zz.ui.mdl.IconToggle.prototype.focusIconToggleListener_ = function( ){
  * Listener for IconToggle element blur event.
  * @private
  */
-zz.ui.mdl.IconToggle.prototype.blurSwitchListener_ = function( ){
+zz.ui.mdl.IconToggle.prototype.blurIconToggleListener_ = function( ){
 
 	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.IconToggle.CSS.IS_FOCUSED );
 };
 
 /**
- * Listener for Switch element change event.
+ * Listener for IconToggle element change event.
  * @private
  */
-zz.ui.mdl.IconToggle.prototype.changeSwitchListener_ = function( ){
+zz.ui.mdl.IconToggle.prototype.changeIconToggleListener_ = function( ){
 
 	this.setInputValue( this.getInputValue( ) );
 	this.getRenderer( ).updateClasses( this );

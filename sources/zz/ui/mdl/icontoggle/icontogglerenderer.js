@@ -46,7 +46,7 @@ goog.require( 'zz.ui.mdl.IconToggle' );
  */
 zz.ui.mdl.IconToggleRenderer = function( ){
 
-	zz.ui.mdl.IconTogglehRenderer.base( this, 'constructor' );
+	zz.ui.mdl.IconToggleRenderer.base( this, 'constructor' );
 };
 goog.inherits( zz.ui.mdl.IconToggleRenderer, zz.ui.mdl.ControlRenderer );
 goog.addSingletonGetter( zz.ui.mdl.IconToggleRenderer );
