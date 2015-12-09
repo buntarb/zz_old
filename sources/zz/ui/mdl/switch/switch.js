@@ -121,7 +121,7 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
 
 		this.getSwitchElement( ),
 		goog.events.EventType.FOCUS,
-		this.focusCheckboxListener_,
+		this.focusSwitchListener_,
 		false,
 		this
 	);
