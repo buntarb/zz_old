@@ -45,6 +45,7 @@ goog.require( 'zz.ui.mdl.Spinner' );
 goog.require( 'zz.ui.mdl.Progress' );
 goog.require( 'zz.ui.mdl.Checkbox' );
 goog.require( 'zz.ui.mdl.Switch' );
+goog.require( 'zz.ui.mdl.Radio' );
 
 goog.require( 'zz.template.ui.button' );
 goog.require( 'zz.template.ui.spinner' );
@@ -53,6 +54,7 @@ goog.require( 'zz.template.ui.progress' );
 goog.require( 'zz.template.ui.tooltip' );
 goog.require( 'zz.template.ui.checkbox' );
 goog.require( 'zz.template.ui.switch' );
+goog.require( 'zz.template.ui.radio' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -164,17 +166,27 @@ zz.demos.app.run = function( ){
 
 //	Switch
 
-	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.switch.default );
+	//soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.switch.default );
+    //
+	//var swtch1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+	//var swtch2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+    //
+	//swtch2.setEnabled( false );
+    //
+	//var users = goog.global.users = new zz.module.user.model.Users( );
+	//var user = goog.global.user = users.createFirst( );
+    //
+	//swtch1.setModel( users, user, users.datafield.userVerifiedFlag );
 
-	var swtch1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
-	var swtch2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
 
-	swtch2.setEnabled( false );
+//Radio
+	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.radio.default );
 
-	var users = goog.global.users = new zz.module.user.model.Users( );
-	var user = goog.global.user = users.createFirst( );
+	var radio1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+	var radio2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
 
-	swtch1.setModel( users, user, users.datafield.userVerifiedFlag );
+	radio2.setEnabled( false );
+	
 
 	/******************************************************************************************************************
 	 * Fast click testing                                                                                             *

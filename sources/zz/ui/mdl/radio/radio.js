@@ -50,15 +50,15 @@ goog.require( 'zz.ui.mdl.Ripple' );
  * @extends {zz.ui.mdl.Control}
  * @constructor
  */
-zz.ui.mdl.Switch = function( opt_content, opt_renderer, opt_domHelper ){
+zz.ui.mdl.Radio = function( opt_content, opt_renderer, opt_domHelper ){
 
-	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.SwitchRenderer.getInstance( ), opt_domHelper );
+	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.RadioRenderer.getInstance( ), opt_domHelper );
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
 	this.setSupportedState( goog.ui.Component.State.CHECKED, true );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
 };
-goog.inherits( zz.ui.mdl.Switch, zz.ui.mdl.Control );
-goog.tagUnsealableClass( zz.ui.mdl.Switch );
+goog.inherits( zz.ui.mdl.Radio, zz.ui.mdl.Control );
+goog.tagUnsealableClass( zz.ui.mdl.Radio );
 
 /**********************************************************************************************************************
  * Static properties section                                                                                          *
@@ -68,7 +68,7 @@ goog.tagUnsealableClass( zz.ui.mdl.Switch );
  * Store constants in one place so they can be updated easily.
  * @enum {string | number}
  */
-zz.ui.mdl.Switch.CONST = {
+zz.ui.mdl.Radio.CONST = {
 
 	TINY_TIMEOUT: 10
 };
@@ -78,21 +78,21 @@ zz.ui.mdl.Switch.CONST = {
  * it in one place should we decide to modify at a later date.
  * @enum {string}
  */
-zz.ui.mdl.Switch.CSS = {
+zz.ui.mdl.Radio.CSS = {
 
-	INPUT: goog.getCssName( 'mdl-switch__input' ),
-	TRACK: goog.getCssName( 'mdl-switch__track' ),
-	THUMB: goog.getCssName( 'mdl-switch__thumb' ),
-	FOCUS_HELPER: goog.getCssName( 'mdl-switch__focus-helper' ),
-	RIPPLE_EFFECT: goog.getCssName( 'mdl-js-ripple-effect' ),
-	RIPPLE_IGNORE_EVENTS: goog.getCssName( 'mdl-js-ripple-effect--ignore-events' ),
-	RIPPLE_CONTAINER: goog.getCssName( 'mdl-switch__ripple-container' ),
-	RIPPLE_CENTER: goog.getCssName( 'mdl-ripple--center' ),
-	RIPPLE: goog.getCssName( 'mdl-ripple' ),
 	IS_FOCUSED: goog.getCssName( 'is-focused' ),
 	IS_DISABLED: goog.getCssName( 'is-disabled' ),
 	IS_CHECKED: goog.getCssName( 'is-checked' ),
 	IS_UPGRADED: goog.getCssName( 'is-upgraded' ),
+	JS_RADIO: goog.getCssName( 'mdl-js-radio' ),
+	RADIO_BTN: goog.getCssName( 'mdl-radio__button' ),
+	RADIO_OUTER_CIRCLE: goog.getCssName( 'mdl-radio__outer-circle' ),
+	RADIO_INNER_CIRCLE: goog.getCssName( 'mdl-radio__inner-circle' ),
+	RIPPLE_EFFECT: goog.getCssName( 'mdl-js-ripple-effect' ),
+	RIPPLE_IGNORE_EVENTS: goog.getCssName( 'mdl-js-ripple-effect--ignore-events' ),
+	RIPPLE_CONTAINER: goog.getCssName( 'mdl-radio__ripple-container' ),
+	RIPPLE_CENTER: goog.getCssName( 'mdl-ripple--center' ),
+	RIPPLE: goog.getCssName( 'mdl-ripple' ),
 	IS_ANIMATING: goog.getCssName( 'is-animating' )
 };
 
@@ -105,7 +105,7 @@ zz.ui.mdl.Switch.CSS = {
  * should be done at this stage. If the component contains child components, this call is propagated to its children.
  * @override
  */
-zz.ui.mdl.Switch.prototype.enterDocument = function( ){
+zz.ui.mdl.Radio.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
 
@@ -121,7 +121,7 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
 
 		this.getInputElement( ),
 		goog.events.EventType.FOCUS,
-		this.focusSwitchListener_,
+		this.focusRadioListener_,
 		false,
 		this
 	);
@@ -129,7 +129,7 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
 
 		this.getInputElement( ),
 		goog.events.EventType.BLUR,
-		this.blurSwitchListener_,
+		this.blurRadioListener_,
 		false,
 		this
 	);
@@ -137,20 +137,20 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
 
 		this.getInputElement( ),
 		goog.events.EventType.CHANGE,
-		this.changeSwitchListener_,
+		this.changeRadioListener_,
 		false,
 		this
 	);
 
 	// Ripple effect.
-	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT ) ){
+	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Radio.CSS.RIPPLE_EFFECT ) ){
 
 		var  ripple = new zz.ui.mdl.Ripple( );
 		this.addChild( ripple, false );
-		ripple.decorate( goog.dom.getElementByClass( zz.ui.mdl.Switch.CSS.RIPPLE_CONTAINER, this.getElement( ) ) );
+		ripple.decorate( goog.dom.getElementByClass( zz.ui.mdl.Radio.CSS.RIPPLE_CONTAINER, this.getElement( ) ) );
 	}
 
-	this.changeSwitchListener_( );
+	this.changeRadioListener_( );
 };
 
 /**
@@ -160,7 +160,7 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
  * be used.
  * @inheritDoc
  **/
-zz.ui.mdl.Switch.prototype.disposeInternal = function( ){
+zz.ui.mdl.Radio.prototype.disposeInternal = function( ){
 
 	goog.base( this, 'disposeInternal' );
 
@@ -173,42 +173,42 @@ zz.ui.mdl.Switch.prototype.disposeInternal = function( ){
 
 /**
  * Listener for element blur event.
- * @this {zz.ui.mdl.Switch}
+ * @this {zz.ui.mdl.Radio}
  * @private
  */
-zz.ui.mdl.Switch.prototype.blurListener_ = function( ){
+zz.ui.mdl.Radio.prototype.blurListener_ = function( ){
 
-	goog.Timer.callOnce( /** @this {zz.ui.mdl.Switch} */ function( ){
+	goog.Timer.callOnce( /** @this {zz.ui.mdl.Radio} */ function( ){
 
 		//noinspection JSPotentiallyInvalidUsageOfThis
 		this.getInputElement( ).blur( );
 
-	}, zz.ui.mdl.Switch.CONST.TINY_TIMEOUT, this );
+	}, zz.ui.mdl.Radio.CONST.TINY_TIMEOUT, this );
 };
 
 /**
- * Listener for Switch element focus event.
+ * Listener for Radio element focus event.
  * @private
  */
-zz.ui.mdl.Switch.prototype.focusSwitchListener_ = function( ){
+zz.ui.mdl.Radio.prototype.focusSwitchListener_ = function( ){
 
-	goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Switch.CSS.IS_FOCUSED );
+	goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Radio.CSS.IS_FOCUSED );
 };
 
 /**
- * Listener for Switch element blur event.
+ * Listener for Radio element blur event.
  * @private
  */
-zz.ui.mdl.Switch.prototype.blurSwitchListener_ = function( ){
+zz.ui.mdl.Radio.prototype.blurSwitchListener_ = function( ){
 
-	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Switch.CSS.IS_FOCUSED );
+	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Radio.CSS.IS_FOCUSED );
 };
 
 /**
- * Listener for Switch element change event.
+ * Listener for Radio element change event.
  * @private
  */
-zz.ui.mdl.Switch.prototype.changeSwitchListener_ = function( ){
+zz.ui.mdl.Radio.prototype.changeRadioListener_ = function( ){
 
 	this.setInputValue( this.getInputValue( ) );
 	this.getRenderer( ).updateClasses( this );
@@ -219,12 +219,12 @@ zz.ui.mdl.Switch.prototype.changeSwitchListener_ = function( ){
  **********************************************************************************************************************/
 
 /**
- * Enable/disable switch.
+ * Enable/disable radio.
  * @param {boolean} enable
  */
-zz.ui.mdl.Switch.prototype.setEnabled = function( enable ){
+zz.ui.mdl.Radio.prototype.setEnabled = function( enable ){
 
-	zz.ui.mdl.Switch.superClass_.setEnabled.call( this, enable );
+	zz.ui.mdl.Radio.superClass_.setEnabled.call( this, enable );
 	this.getInputElement( ).disabled = !enable;
 	this.getRenderer( ).updateClasses( this );
 };
