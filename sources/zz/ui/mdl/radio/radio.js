@@ -190,7 +190,7 @@ zz.ui.mdl.Radio.prototype.blurListener_ = function( ){
  * Listener for Radio element focus event.
  * @private
  */
-zz.ui.mdl.Radio.prototype.focusSwitchListener_ = function( ){
+zz.ui.mdl.Radio.prototype.focusRadioListener_ = function( ){
 
 	goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Radio.CSS.IS_FOCUSED );
 };
@@ -199,7 +199,7 @@ zz.ui.mdl.Radio.prototype.focusSwitchListener_ = function( ){
  * Listener for Radio element blur event.
  * @private
  */
-zz.ui.mdl.Radio.prototype.blurSwitchListener_ = function( ){
+zz.ui.mdl.Radio.prototype.blurRadioListener_ = function( ){
 
 	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Radio.CSS.IS_FOCUSED );
 };

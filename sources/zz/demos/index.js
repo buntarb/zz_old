@@ -185,8 +185,7 @@ zz.demos.app.run = function( ){
 	var radio1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
 	var radio2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
 
-	radio2.setEnabled( false );
-	
+
 
 	/******************************************************************************************************************
 	 * Fast click testing                                                                                             *
