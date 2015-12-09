@@ -120,7 +120,7 @@ zz.ui.mdl.Checkbox.prototype.enterDocument = function( ){
 	);
 	this.getHandler( ).listenWithScope(
 
-		this.getCheckboxElement( ),
+		this.getInputElement( ),
 		goog.events.EventType.FOCUS,
 		this.focusCheckboxListener_,
 		false,
@@ -128,7 +128,7 @@ zz.ui.mdl.Checkbox.prototype.enterDocument = function( ){
 	);
 	this.getHandler( ).listenWithScope(
 
-		this.getCheckboxElement( ),
+		this.getInputElement( ),
 		goog.events.EventType.BLUR,
 		this.blurCheckboxListener_,
 		false,
@@ -136,7 +136,7 @@ zz.ui.mdl.Checkbox.prototype.enterDocument = function( ){
 	);
 	this.getHandler( ).listenWithScope(
 
-		this.getCheckboxElement( ),
+		this.getInputElement( ),
 		goog.events.EventType.CHANGE,
 		this.changeCheckboxListener_,
 		false,
@@ -190,7 +190,7 @@ zz.ui.mdl.Checkbox.prototype.blurListener_ = function( ){
 	goog.Timer.callOnce( /** @this {zz.ui.mdl.Checkbox} */ function( ){
 
 		//noinspection JSPotentiallyInvalidUsageOfThis
-		this.getCheckboxElement( ).blur( );
+		this.getInputElement( ).blur( );
 
 	}, zz.ui.mdl.Checkbox.CONST.TINY_TIMEOUT, this );
 };
@@ -219,35 +219,8 @@ zz.ui.mdl.Checkbox.prototype.blurCheckboxListener_ = function( ){
  */
 zz.ui.mdl.Checkbox.prototype.changeCheckboxListener_ = function( ){
 
-	this.setChecked( this.getCheckboxElement( ).checked );
+	this.setInputValue( this.getInputValue( ) );
 	this.getRenderer( ).updateClasses( this );
-};
-
-/**********************************************************************************************************************
- * Dom helpers section                                                                                                *
- **********************************************************************************************************************/
-
-/**
- * Checkbox input element setter (for renderer).
- * @param {Element} element
- */
-zz.ui.mdl.Checkbox.prototype.setCheckboxElement = function( element ){
-
-	/**
-	 * Checkbox input element.
-	 * @type {Element}
-	 * @private
-	 */
-	this.checkboxElement_ = element;
-};
-
-/**
- * Checkbox input element getter (for renderer).
- * @returns {Element}
- */
-zz.ui.mdl.Checkbox.prototype.getCheckboxElement = function( ){
-
-	return /** @type {Element} */ ( this.checkboxElement_ );
 };
 
 /**********************************************************************************************************************
@@ -261,16 +234,6 @@ zz.ui.mdl.Checkbox.prototype.getCheckboxElement = function( ){
 zz.ui.mdl.Checkbox.prototype.setEnabled = function( enable ){
 
 	zz.ui.mdl.Checkbox.superClass_.setEnabled.call( this, enable );
-	this.getCheckboxElement( ).disabled = !enable;
+	this.getInputElement( ).disabled = !enable;
 	this.getRenderer( ).updateClasses( this );
-};
-
-/**
- * Check/uncheck checkbox.
- * @param {boolean} check
- */
-zz.ui.mdl.Checkbox.prototype.setChecked = function( check ){
-
-	zz.ui.mdl.Checkbox.superClass_.setChecked.call( this, check );
-	this.getCheckboxElement( ).checked = check;
 };

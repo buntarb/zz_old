@@ -33,7 +33,6 @@ goog.provide( 'zz.ui.mdl.CheckboxRenderer' );
 
 goog.require( 'goog.dom.classlist' );
 goog.require( 'zz.ui.mdl.ControlRenderer' );
-goog.require( 'zz.ui.mdl.Checkbox' );
 
 /**********************************************************************************************************************
  * Renderer definition section                                                                                        *
@@ -115,7 +114,7 @@ zz.ui.mdl.CheckboxRenderer.prototype.decorate = function( control, element ){
 		} ) ) );
 	}
 	// Input element.
-	control.setCheckboxElement( control.getDomHelper( ).getElementsByTagNameAndClass(
+	control.setInputElement( control.getDomHelper( ).getElementsByTagNameAndClass(
 
 		goog.dom.TagName.INPUT,
 		zz.ui.mdl.Checkbox.CSS.INPUT,
@@ -140,6 +139,28 @@ zz.ui.mdl.CheckboxRenderer.prototype.getCssClass = function( ){
 /**********************************************************************************************************************
  * Helpers methods                                                                                                    *
  **********************************************************************************************************************/
+
+/**
+ * Set control input element value.
+ * @param {zz.ui.mdl.Checkbox} control
+ * @param {*} value
+ */
+zz.ui.mdl.CheckboxRenderer.prototype.setValue = function( control, value ){
+
+	control.setChecked( value );
+	control.getInputElement( ).checked = value;
+	this.updateClasses( control );
+};
+
+/**
+ * Return control input element value.
+ * @param {zz.ui.mdl.Checkbox} control
+ * @returns {*} value
+ */
+zz.ui.mdl.CheckboxRenderer.prototype.getValue = function( control ){
+
+	return control.getInputElement( ).checked;
+};
 
 /**
  * @param {zz.ui.mdl.Checkbox} control

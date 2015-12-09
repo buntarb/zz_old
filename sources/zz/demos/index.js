@@ -36,6 +36,8 @@ goog.require( 'goog.events' );
 goog.require( 'goog.ui.decorate' );
 goog.require( 'goog.ui.Component' );
 
+goog.require( 'zz.module.user.controller.Users' );
+
 goog.require( 'zz.ui.mdl.Button' );
 goog.require( 'zz.ui.mdl.Tooltip' );
 goog.require( 'zz.ui.mdl.Navigation' );
@@ -151,7 +153,7 @@ zz.demos.app.run = function( ){
 //	Checkbox
 	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.checkbox.default );
 
-	var chckbx1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+	var chckbx1 = goog.global.chckbx1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
 	var chckbx2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
 
 	chckbx2.setEnabled( false );
@@ -160,6 +162,10 @@ zz.demos.app.run = function( ){
 	 * Fast click testing                                                                                             *
 	 ******************************************************************************************************************/
 
+	var users = goog.global.users = new zz.module.user.model.Users( );
+	var user = goog.global.user = users.createFirst( );
+
+	chckbx2.setModel( users, user, users.datafield.userVerifiedFlag );
 };
 
 /**********************************************************************************************************************
