@@ -32,12 +32,13 @@ goog.provide( 'zz.mvc.view.BaseView' );
  **********************************************************************************************************************/
 
 goog.require( 'goog.dom' );
-goog.require( 'goog.ui.Component' );
 goog.require( 'goog.json' );
+goog.require( 'goog.ui.Component' );
 goog.require( 'goog.format.JsonPrettyPrinter' );
 goog.require( 'goog.format.JsonPrettyPrinter.TextDelimiters' );
 goog.require( 'zz.mvc.model.Message' );
 goog.require( 'zz.mvc.model.EventType' );
+goog.require( 'zz.mvc.controller.BaseController' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -52,8 +53,13 @@ goog.require( 'zz.mvc.model.EventType' );
 zz.mvc.view.BaseView = function( opt_domHelper ){
 
 	goog.ui.Component.call( this, opt_domHelper );
-	this.controller_.initialize( this );
+
+	this.setControllerInternal( );
 };
+
+/**
+ * Base inheritance.
+ */
 goog.inherits( zz.mvc.view.BaseView, goog.ui.Component );
 
 /**********************************************************************************************************************
@@ -67,24 +73,10 @@ goog.inherits( zz.mvc.view.BaseView, goog.ui.Component );
 zz.mvc.view.BaseView.CSS_CLASS = goog.getCssName( 'zz-base-view' );
 
 /**********************************************************************************************************************
- * Prototype properties section                                                                                       *
- **********************************************************************************************************************/
-
-/**
- * Current view controller.
- * @type {zz.mvc.controller.BaseController}
- * @private
- */
-zz.mvc.view.BaseView.prototype.controller_ = undefined;
-
-/**********************************************************************************************************************
  * Prototype methods section                                                                                          *
  **********************************************************************************************************************/
 
 /**
- * Returns the CSS class name to be applied to the root element of all sub-views rendered or decorated using this view.
- * The class name is expected to uniquely identify the view class, i.e. no two view classes are expected to share the
- * same CSS class name.
  * @override
  */
 zz.mvc.view.BaseView.prototype.getCssClass = function( ){
@@ -93,8 +85,42 @@ zz.mvc.view.BaseView.prototype.getCssClass = function( ){
 };
 
 /**
- * Called when the component's element is known to be in the document. Anything using document.getElementById etc.
- * should be done at this stage. If the component contains child components, this call is propagated to its children.
+ * @override
+ */
+zz.mvc.view.BaseView.prototype.getContentElement = function( ){
+
+	return zz.mvc.view.BaseView.superClass_.getContentElement.call( this );
+};
+
+/**********************************************************************************************************************
+ * DOM construct methods section                                                                                      *
+ **********************************************************************************************************************/
+
+/**
+ * @override
+ */
+zz.mvc.view.BaseView.prototype.canDecorate = function( element ){
+
+	return zz.mvc.view.BaseView.superClass_.canDecorate.call( this, element );
+};
+
+/**
+ * @override
+ */
+zz.mvc.view.BaseView.prototype.createDom = function( ){
+
+	return zz.mvc.view.BaseView.superClass_.createDom.call( this );
+};
+
+/**
+ * @override
+ */
+zz.mvc.view.BaseView.prototype.decorate = function( element ){
+
+	return zz.mvc.view.BaseView.superClass_.decorate.call( this, element );
+};
+
+/**
  * @override
  */
 zz.mvc.view.BaseView.prototype.enterDocument = function( ){
@@ -114,80 +140,18 @@ zz.mvc.view.BaseView.prototype.enterDocument = function( ){
 	}
 };
 
-/**********************************************************************************************************************
- * DOM construct methods section                                                                                      *
- **********************************************************************************************************************/
-
 /**
- * @returns {Element} Element to contain child elements (null if none).
  * @override
  */
-zz.mvc.view.BaseView.prototype.getContentElement = function( ){
+zz.mvc.view.BaseView.prototype.disposeInternal = function( ){
 
-	return zz.mvc.view.BaseView.superClass_.getContentElement.call( this );
-};
-
-/**
- * Determines if a given element can be decorated by this type of component. This method should be overridden by
- * inheriting objects.
- * @param {Element} element Element to decorate.
- * @return {boolean} True if the element can be decorated, false otherwise.
- * @override
- */
-zz.mvc.view.BaseView.prototype.canDecorate = function( element ){
-
-	return zz.mvc.view.BaseView.superClass_.canDecorate.call( this, element );
-};
-
-/**
- * Creates the initial DOM representation for the component.  The default implementation is to set this.element_ = div.
- * @override
- */
-zz.mvc.view.BaseView.prototype.createDom = function( ){
-
-	return zz.mvc.view.BaseView.superClass_.createDom.call( this );
-};
-
-/**
- * Decorates the element for the UI component. If the element is in the document, the enterDocument method will be
- * called. If goog.ui.Component.ALLOW_DETACHED_DECORATION is false, the caller must pass an element that is in the
- * document.
- * @param {Element} element Element to decorate.
- * @override
- */
-zz.mvc.view.BaseView.prototype.decorate = function( element ){
-
-	return zz.mvc.view.BaseView.superClass_.decorate.call( this, element );
+	zz.mvc.view.BaseView.superClass_.disposeInternal.call( this );
+	this.unsubscribe_( );
 };
 
 /**********************************************************************************************************************
  * Model subscriber methods section                                                                                   *
  **********************************************************************************************************************/
-
-/** @inheritDoc */
-zz.mvc.view.BaseView.prototype.disposeInternal = function( ){
-
-	zz.mvc.view.BaseView.superClass_.disposeInternal.call( this );
-	this.unsubscribe( );
-};
-
-/**
- * Setting up view model.
- * @param {zz.mvc.model.Dataset} dataset
- * @param {zz.mvc.model.Datarow=} opt_datarow
- * @param {string=} opt_datafield
- */
-zz.mvc.view.BaseView.prototype.setModel = function( dataset, opt_datarow, opt_datafield ){
-
-	this.unsubscribe( );
-	this.model_ = {
-
-		dataset: dataset,
-		datarow: opt_datarow,
-		datafield: opt_datafield
-	};
-	this.subscribe_( );
-};
 
 /**
  * Subscribe view on setting model changes.
@@ -205,13 +169,31 @@ zz.mvc.view.BaseView.prototype.subscribe_ = function( ){
 /**
  * Unsubscribe view from setting model changes.
  */
-zz.mvc.view.BaseView.prototype.unsubscribe = function( ){
+zz.mvc.view.BaseView.prototype.unsubscribe_ = function( ){
 
 	var subModel = this.getModel( );
 	if( goog.isDefAndNotNull( subModel ) ){
 
 		subModel.dataset.unsubscribe( this );
 	}
+};
+
+/**
+ * Setting up view model.
+ * @param {zz.mvc.model.Dataset} dataset
+ * @param {zz.mvc.model.Datarow=} opt_datarow
+ * @param {string=} opt_datafield
+ */
+zz.mvc.view.BaseView.prototype.setModel = function( dataset, opt_datarow, opt_datafield ){
+
+	this.unsubscribe_( );
+	this.model_ = {
+
+		dataset: dataset,
+		datarow: opt_datarow,
+		datafield: opt_datafield
+	};
+	this.subscribe_( );
 };
 
 /**
@@ -253,4 +235,22 @@ zz.mvc.view.BaseView.prototype.modelChangedInternal = function( message ){
 		goog.dom.removeChildren( this.getElement( ) );
 		goog.dom.insertChildAt( this.getElement( ), element, 0 );
 	}
+};
+
+/**********************************************************************************************************************
+ * Controller methods section                                                                                         *
+ **********************************************************************************************************************/
+
+/**
+ * Setting up view controller. Need to be upgraded by subclass.
+ * @protected
+ */
+zz.mvc.view.BaseView.prototype.setControllerInternal = function( ){
+
+	/**
+	 * Current view controller.
+	 * @type {zz.mvc.controller.BaseController}
+	 * @private
+	 */
+	this.controller_ = new zz.mvc.controller.BaseController( this );
 };

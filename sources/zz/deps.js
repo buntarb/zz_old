@@ -2,9 +2,10 @@
 goog.addDependency("../../../../sources/zz/deps.js", [], []);
 goog.addDependency("../../../../sources/zz/base.js", ['zz'], ['zz._polyfill.animationframe', 'zz._stylesheet.remap', 'zz.demos.app']);
 goog.addDependency("../../../../sources/zz/mvc/view/error.js", ['zz.mvc.view.Error'], []);
-goog.addDependency("../../../../sources/zz/mvc/view/baseview.js", ['zz.mvc.view.BaseView'], ['goog.dom', 'goog.ui.Component', 'goog.json', 'goog.format.JsonPrettyPrinter', 'goog.format.JsonPrettyPrinter.TextDelimiters', 'zz.mvc.model.Message', 'zz.mvc.model.EventType']);
+goog.addDependency("../../../../sources/zz/mvc/view/baseview.js", ['zz.mvc.view.BaseView'], ['goog.dom', 'goog.json', 'goog.ui.Component', 'goog.format.JsonPrettyPrinter', 'goog.format.JsonPrettyPrinter.TextDelimiters', 'zz.mvc.model.Message', 'zz.mvc.model.EventType', 'zz.mvc.controller.BaseController']);
 goog.addDependency("../../../../sources/zz/mvc/controller/basecontroller.js", ['zz.mvc.controller.BaseController'], []);
-goog.addDependency("../../../../sources/zz/mvc/router/router.js", ['zz.mvc.Router'], ['goog.array', 'goog.events', 'goog.History', 'goog.history.Html5History']);
+goog.addDependency("../../../../sources/zz/mvc/router/eventtype.js", ['zz.mvc.Router.EventType'], ['goog.events']);
+goog.addDependency("../../../../sources/zz/mvc/router/router.js", ['zz.mvc.Router'], ['goog.array', 'goog.events', 'goog.History', 'goog.history.Html5History', 'zz.mvc.Router.EventType']);
 goog.addDependency("../../../../sources/zz/mvc/model/fieldtypes.js", ['zz.mvc.model.FieldTypes'], []);
 goog.addDependency("../../../../sources/zz/mvc/model/error.js", ['zz.mvc.model.Error'], []);
 goog.addDependency("../../../../sources/zz/mvc/model/dataset.js", ['zz.mvc.model.Dataset'], ['goog.array', 'goog.object', 'goog.pubsub.PubSub', 'goog.async.run', 'goog.events.EventTarget', 'goog.events.EventHandler', 'zz.mvc.model', 'zz.mvc.model.Message', 'zz.mvc.model.EventType', 'zz.mvc.model.DatarowCreateEvent', 'zz.mvc.model.DatarowDeleteEvent', 'zz.mvc.model.Error']);
