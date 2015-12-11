@@ -173,13 +173,8 @@ zz.demos.app.run = function( ){
 	//var swtch2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
     //
 	//swtch2.setEnabled( false );
-    //
-	//var users = goog.global.users = new zz.module.user.model.Users( );
-	//var user = goog.global.user = users.createFirst( );
-    //
-	//swtch1.setModel( users, user, users.datafield.userVerifiedFlag );
 
-	//	Icon Toggle
+//	Icon Toggle
 
 	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.icontoggle.default );
 
@@ -187,6 +182,11 @@ zz.demos.app.run = function( ){
 	var tggl2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
 
 	tggl2.setEnabled( false );
+
+	var users = goog.global.users = new zz.module.user.model.Users( );
+	var user = goog.global.user = users.createFirst( );
+
+	tggl1.setModel( users, user, users.datafield.userVerifiedFlag );
 
 
 	/******************************************************************************************************************
