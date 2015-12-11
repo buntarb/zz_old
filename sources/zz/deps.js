@@ -42,7 +42,7 @@ goog.addDependency("../../../../sources/zz/ui/_mdl/tabs/tabs.js", ['zz.ui.mdl.Ma
 goog.addDependency("../../../../sources/zz/ui/mdl/control.js", ['zz.ui.mdl.Control'], ['goog.events.Event', 'goog.ui.Control', 'goog.ui.Component', 'zz.mvc.model.Message', 'zz.mvc.model.EventType', 'zz.ui.formatter.Default', 'zz.ui.mdl.ControlRenderer']);
 goog.addDependency("../../../../sources/zz/ui/mdl/controlrenderer.js", ['zz.ui.mdl.ControlRenderer'], ['goog.ui.ControlRenderer']);
 goog.addDependency("../../../../sources/zz/ui/mdl/icontoggle/icontoggle.js", ['zz.ui.mdl.IconToggle'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'zz.ui.mdl.Control', 'zz.ui.mdl.IconToggleRenderer', 'zz.ui.mdl.Ripple']);
-goog.addDependency("../../../../sources/zz/ui/mdl/icontoggle/icontogglerenderer.js", ['zz.ui.mdl.IconToggleRenderer'], ['goog.dom.classlist', 'zz.ui.mdl.ControlRenderer', 'zz.ui.mdl.IconToggle']);
+goog.addDependency("../../../../sources/zz/ui/mdl/icontoggle/icontogglerenderer.js", ['zz.ui.mdl.IconToggleRenderer'], ['goog.dom.classlist', 'zz.ui.mdl.ControlRenderer']);
 goog.addDependency("../../../../sources/zz/ui/mdl/button/button.js", ['zz.ui.mdl.Button'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'zz.ui.mdl.Control', 'zz.ui.mdl.ButtonRenderer', 'zz.ui.mdl.Ripple']);
 goog.addDependency("../../../../sources/zz/ui/mdl/button/buttonrenderer.js", ['zz.ui.mdl.ButtonRenderer'], ['goog.dom.classlist', 'zz.ui.mdl.ControlRenderer']);
 goog.addDependency("../../../../sources/zz/ui/mdl/navigation/navigation.js", ['zz.ui.mdl.Navigation'], ['goog.array', 'goog.object', 'goog.asserts', 'goog.dom.TagName', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'zz.ui.mdl.Ripple']);
@@ -50,7 +50,7 @@ goog.addDependency("../../../../sources/zz/ui/mdl/spinner/spinner.js", ['zz.ui.m
 goog.addDependency("../../../../sources/zz/ui/mdl/progress/progress.js", ['zz.ui.mdl.Progress'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component']);
 goog.addDependency("../../../../sources/zz/ui/mdl/ripple/ripple.js", ['zz.ui.mdl.Ripple'], ['goog.Timer', 'goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component']);
 goog.addDependency("../../../../sources/zz/ui/mdl/tooltip/tooltip.js", ['zz.ui.mdl.Tooltip'], ['goog.array', 'goog.style', 'goog.dom', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component']);
-goog.addDependency("../../../../sources/zz/ui/mdl/switch/switchrenderer.js", ['zz.ui.mdl.SwitchRenderer'], ['goog.dom.classlist', 'zz.ui.mdl.ControlRenderer', 'zz.ui.mdl.Switch']);
+goog.addDependency("../../../../sources/zz/ui/mdl/switch/switchrenderer.js", ['zz.ui.mdl.SwitchRenderer'], ['goog.dom.classlist', 'zz.ui.mdl.ControlRenderer']);
 goog.addDependency("../../../../sources/zz/ui/mdl/switch/switch.js", ['zz.ui.mdl.Switch'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'zz.ui.mdl.Control', 'zz.ui.mdl.SwitchRenderer', 'zz.ui.mdl.Ripple']);
 goog.addDependency("../../../../sources/zz/ui/mdl/checkbox/checkboxrenderer.js", ['zz.ui.mdl.CheckboxRenderer'], ['goog.dom.classlist', 'zz.ui.mdl.ControlRenderer']);
 goog.addDependency("../../../../sources/zz/ui/mdl/checkbox/checkbox.js", ['zz.ui.mdl.Checkbox'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'zz.ui.mdl.Control', 'zz.ui.mdl.CheckboxRenderer', 'zz.ui.mdl.Ripple']);

@@ -33,7 +33,6 @@ goog.provide( 'zz.ui.mdl.SwitchRenderer' );
 
 goog.require( 'goog.dom.classlist' );
 goog.require( 'zz.ui.mdl.ControlRenderer' );
-goog.require( 'zz.ui.mdl.Switch' );
 
 /**********************************************************************************************************************
  * Renderer definition section                                                                                        *
