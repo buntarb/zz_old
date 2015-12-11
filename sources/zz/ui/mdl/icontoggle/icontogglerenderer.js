@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.ui.mdl.SwitchRenderer class.
+ * @fileoverview Provide zz.ui.mdl.IconToggleRenderer class.
  * @author popkov.aleksander@gmail.com (Alexander Popkov)
  */
 
@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.ui.mdl.SwitchRenderer' );
+goog.provide( 'zz.ui.mdl.IconToggleRenderer' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -39,16 +39,16 @@ goog.require( 'zz.ui.mdl.ControlRenderer' );
  **********************************************************************************************************************/
 
 /**
- * Default renderer for {@link zz.ui.mdl.Switch}s. Extends the superclass to support switches states.
+ * Default renderer for {@link zz.ui.mdl.IconToggle}s. Extends the superclass to support icon toggles states.
  * @constructor
  * @extends {zz.ui.mdl.ControlRenderer}
  */
-zz.ui.mdl.SwitchRenderer = function( ){
+zz.ui.mdl.IconToggleRenderer = function( ){
 
-	zz.ui.mdl.SwitchRenderer.base( this, 'constructor' );
+	zz.ui.mdl.IconToggleRenderer.base( this, 'constructor' );
 };
-goog.inherits( zz.ui.mdl.SwitchRenderer, zz.ui.mdl.ControlRenderer );
-goog.addSingletonGetter( zz.ui.mdl.SwitchRenderer );
+goog.inherits( zz.ui.mdl.IconToggleRenderer, zz.ui.mdl.ControlRenderer );
+goog.addSingletonGetter( zz.ui.mdl.IconToggleRenderer );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -58,59 +58,46 @@ goog.addSingletonGetter( zz.ui.mdl.SwitchRenderer );
  * Default CSS class to be applied to the root element of components rendered by this renderer.
  * @type {string}
  */
-zz.ui.mdl.SwitchRenderer.CSS_CLASS = goog.getCssName( 'mdl-switch' );
+zz.ui.mdl.IconToggleRenderer.CSS_CLASS = goog.getCssName( 'mdl-icon-toggle' );
 
 /**********************************************************************************************************************
  * Life cycle methods                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * @param {zz.ui.mdl.Switch} control
+ * @param {zz.ui.mdl.IconToggle} control
  * @param {Element} element
  * @override
  */
-zz.ui.mdl.SwitchRenderer.prototype.decorate = function( control, element ){
+zz.ui.mdl.IconToggleRenderer.prototype.decorate = function( control, element ){
 
-	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
-
-		'class': zz.ui.mdl.Switch.CSS.TRACK
-	} ) );
-	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
-
-		'class': zz.ui.mdl.Switch.CSS.THUMB
-
-	}, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
-
-		'class': zz.ui.mdl.Switch.CSS.FOCUS_HELPER
-
-	} ) ) );
 	// Ripple dom.
-	if( goog.dom.classlist.contains( element, zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT ) ){
+	if( goog.dom.classlist.contains( element, zz.ui.mdl.IconToggle.CSS.RIPPLE_EFFECT ) ){
 
 		goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
 			'class':
 
-				zz.ui.mdl.Switch.CSS.RIPPLE_CONTAINER + ' ' +
-				zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT + ' ' +
-				zz.ui.mdl.Switch.CSS.RIPPLE_CENTER
+				zz.ui.mdl.IconToggle.CSS.RIPPLE_CONTAINER + ' ' +
+				zz.ui.mdl.IconToggle.CSS.RIPPLE_EFFECT + ' ' +
+				zz.ui.mdl.IconToggle.CSS.RIPPLE_CENTER
 
 		}, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
 			'class':
 
-				zz.ui.mdl.Switch.CSS.RIPPLE + ' ' +
-				zz.ui.mdl.Switch.CSS.IS_ANIMATING
+				zz.ui.mdl.IconToggle.CSS.RIPPLE + ' ' +
+				zz.ui.mdl.IconToggle.CSS.IS_ANIMATING
 		} ) ) );
 	}
 	// Input element.
 	control.setInputElement( control.getDomHelper( ).getElementsByTagNameAndClass(
 
 		goog.dom.TagName.INPUT,
-		zz.ui.mdl.Switch.CSS.INPUT,
+		zz.ui.mdl.IconToggle.CSS.INPUT,
 		element )[ 0 ]
 	);
-	goog.dom.classlist.add( element, zz.ui.mdl.Switch.CSS.IS_UPGRADED );
+	goog.dom.classlist.add( element, zz.ui.mdl.IconToggle.CSS.IS_UPGRADED );
 	return goog.base( this, 'decorate', control, element );
 };
 
@@ -121,9 +108,9 @@ zz.ui.mdl.SwitchRenderer.prototype.decorate = function( control, element ){
 /**
  * @override
  */
-zz.ui.mdl.SwitchRenderer.prototype.getCssClass = function( ){
+zz.ui.mdl.IconToggleRenderer.prototype.getCssClass = function( ){
 
-	return zz.ui.mdl.SwitchRenderer.CSS_CLASS;
+	return zz.ui.mdl.IconToggleRenderer.CSS_CLASS;
 };
 
 /**********************************************************************************************************************
@@ -132,10 +119,10 @@ zz.ui.mdl.SwitchRenderer.prototype.getCssClass = function( ){
 
 /**
  * Set control input element value.
- * @param {zz.ui.mdl.Switch} control
+ * @param {zz.ui.mdl.IconToggle} control
  * @param {*} value
  */
-zz.ui.mdl.SwitchRenderer.prototype.setValue = function( control, value ){
+zz.ui.mdl.IconToggleRenderer.prototype.setValue = function( control, value ){
 
 	control.setChecked( value );
 	control.getInputElement( ).checked = value;
@@ -144,44 +131,44 @@ zz.ui.mdl.SwitchRenderer.prototype.setValue = function( control, value ){
 
 /**
  * Return control input element value.
- * @param {zz.ui.mdl.Switch} control
+ * @param {zz.ui.mdl.IconToggle} control
  * @returns {*} value
  */
-zz.ui.mdl.SwitchRenderer.prototype.getValue = function( control ){
+zz.ui.mdl.IconToggleRenderer.prototype.getValue = function( control ){
 
 	return control.getInputElement( ).checked;
 };
 
 /**
- * @param {zz.ui.mdl.Switch} control
+ * @param {zz.ui.mdl.IconToggle} control
  */
-zz.ui.mdl.SwitchRenderer.prototype.updateClasses = function( control ){
+zz.ui.mdl.IconToggleRenderer.prototype.updateClasses = function( control ){
 
 	//noinspection JSUnresolvedFunction
 	if( control.isEnabled( ) ){
 
-		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.Switch.CSS.IS_DISABLED );
+		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.IconToggle.CSS.IS_DISABLED );
 
 	} else {
 
-		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.Switch.CSS.IS_DISABLED );
+		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.IconToggle.CSS.IS_DISABLED );
 	}
 	//noinspection JSUnresolvedFunction
 	if( control.isChecked( ) ){
 
-		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.Switch.CSS.IS_CHECKED );
+		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.IconToggle.CSS.IS_CHECKED );
 
 	}else{
 
-		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.Switch.CSS.IS_CHECKED );
+		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.IconToggle.CSS.IS_CHECKED );
 	}
 };
 
 /**********************************************************************************************************************
- * Register a decorator factory function for zz.ui.mdl.Switches.                                                         *
+ * Register a decorator factory function for zz.ui.mdl.IconToggles.                                                         *
  **********************************************************************************************************************/
 
-goog.ui.registry.setDecoratorByClassName( zz.ui.mdl.SwitchRenderer.CSS_CLASS, function( ){
+goog.ui.registry.setDecoratorByClassName( zz.ui.mdl.IconToggleRenderer.CSS_CLASS, function( ){
 
-	return new zz.ui.mdl.Switch( );
+	return new zz.ui.mdl.IconToggle( );
 } );
