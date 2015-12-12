@@ -210,6 +210,16 @@ zz.ui.mdl.Radio.prototype.blurRadioListener_ = function( ){
  */
 zz.ui.mdl.Radio.prototype.changeRadioListener_ = function( ){
 
+	//var radios = document.getElementsByClassName(this.CssClasses_.JS_RADIO);
+	//for (var i = 0; i < radios.length; i++) {
+	//	var button = radios[i].querySelector('.' + this.CssClasses_.RADIO_BTN);
+	//	// Different name == different group, so no point updating those.
+	//	if (button.getAttribute('name') === this.btnElement_.getAttribute('name')) {
+	//		radios[i]['MaterialRadio'].updateClasses_();
+	//	}
+	//}
+
+
 	this.setInputValue( this.getInputValue( ) );
 	this.getRenderer( ).updateClasses( this );
 };
