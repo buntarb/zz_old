@@ -39,36 +39,30 @@ goog.require( 'zz.module.user.model.Users' );
  **********************************************************************************************************************/
 
 /**
+ * @param {zz.module.user.view.Users} view
  * @extends {zz.mvc.controller.BaseController}
  * @constructor
  */
-zz.module.user.controller.Users = function( ){
+zz.module.user.controller.Users = function( view ){
 
 	zz.mvc.controller.BaseController.call( this );
-};
-goog.inherits( zz.module.user.controller.Users, zz.mvc.controller.BaseController );
 
-/**********************************************************************************************************************
- * Prototype properties section                                                                                       *
- **********************************************************************************************************************/
-
-/**********************************************************************************************************************
- * Prototype methods section                                                                                          *
- **********************************************************************************************************************/
-
-/**
- * @type {zz.module.user.view.Users}
- * @override
- */
-zz.module.user.controller.Users.prototype.initialize = function( view ){
-
+	// Initialize view with data.
 	if( view instanceof zz.module.user.view.Users ){
 
 		var users = goog.global.users = new zz.module.user.model.Users( );
 		view.setModel( users );
-
 	}
 };
+
+/**
+ * Base inheritance.
+ */
+goog.inherits( zz.module.user.controller.Users, zz.mvc.controller.BaseController );
+
+/**********************************************************************************************************************
+ * Prototype methods section                                                                                          *
+ **********************************************************************************************************************/
 
 /**
  * @this {zz.module.user.view.Users}

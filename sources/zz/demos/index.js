@@ -46,6 +46,7 @@ goog.require( 'zz.ui.mdl.Progress' );
 goog.require( 'zz.ui.mdl.Checkbox' );
 goog.require( 'zz.ui.mdl.Switch' );
 goog.require( 'zz.ui.mdl.Radio' );
+goog.require( 'zz.ui.mdl.IconToggle' );
 
 goog.require( 'zz.template.ui.button' );
 goog.require( 'zz.template.ui.spinner' );
@@ -55,6 +56,7 @@ goog.require( 'zz.template.ui.tooltip' );
 goog.require( 'zz.template.ui.checkbox' );
 goog.require( 'zz.template.ui.switch' );
 goog.require( 'zz.template.ui.radio' );
+goog.require( 'zz.template.ui.icontoggle' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -166,26 +168,36 @@ zz.demos.app.run = function( ){
 
 //	Switch
 
-	//soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.switch.default );
-    //
-	//var swtch1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
-	//var swtch2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
-    //
-	//swtch2.setEnabled( false );
-    //
-	//var users = goog.global.users = new zz.module.user.model.Users( );
-	//var user = goog.global.user = users.createFirst( );
-    //
-	//swtch1.setModel( users, user, users.datafield.userVerifiedFlag );
+//	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.switch.default );
+//
+//	var swtch1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+//	var swtch2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+//
+//	swtch2.setEnabled( false );
+//
+//	var users = goog.global.users = new zz.module.user.model.Users( );
+//	var user = goog.global.user = users.createFirst( );
+//
+//	swtch1.setModel( users, user, users.datafield.userVerifiedFlag );
+
+//	Icon Toggle
+
+//	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.icontoggle.default );
+//
+//	var tggl1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+//	var tggl2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+//
+//	tggl2.setEnabled( false );
+//
+//	tggl1.setModel( users, user, users.datafield.userVerifiedFlag );
 
 
 //Radio
+
 	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.radio.default );
 
 	var radio1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
 	var radio2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
-
-
 
 	/******************************************************************************************************************
 	 * Fast click testing                                                                                             *

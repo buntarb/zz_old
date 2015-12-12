@@ -48,24 +48,13 @@ goog.require( 'zz.module.user.controller.Users' );
  */
 zz.module.user.view.Phone = function( opt_domHelper ){
 
-	/**
-	 * Current view controller.
-	 * @type {zz.module.user.controller.Users}
-	 * @private
-	 */
-	this.controller_ = new zz.module.user.controller.Users( );
-
 	zz.mvc.view.BaseView.call( this, opt_domHelper );
 };
+
+/**
+ * Base inheritance.
+ */
 goog.inherits( zz.module.user.view.Phone, zz.mvc.view.BaseView );
-
-/**********************************************************************************************************************
- * Prototype properties section                                                                                       *
- **********************************************************************************************************************/
-
-/**********************************************************************************************************************
- * Prototype methods section                                                                                          *
- **********************************************************************************************************************/
 
 /**********************************************************************************************************************
  * DOM construct methods section                                                                                      *
@@ -157,3 +146,20 @@ zz.module.user.view.Phone.prototype.enterDocument = function( ){
  * @protected
  */
 zz.module.user.view.Phone.prototype.modelChangedInternal = function( message ){ };
+
+/**********************************************************************************************************************
+ * Controller methods section                                                                                         *
+ **********************************************************************************************************************/
+
+/**
+ * @override
+ */
+zz.module.user.view.Phone.prototype.setControllerInternal = function( ){
+
+	/**
+	 * Current view controller.
+	 * @type {zz.module.user.controller.Users}
+	 * @private
+	 */
+	this.controller_ = new zz.module.user.controller.Users( );
+};

@@ -49,24 +49,13 @@ goog.require( 'zz.module.user.view.User' );
  */
 zz.module.user.view.Users = function( opt_domHelper ){
 
-	/**
-	 * Current view controller.
-	 * @type {zz.module.user.controller.User}
-	 * @private
-	 */
-	this.controller_ = new zz.module.user.controller.Users( );
-
 	zz.mvc.view.BaseView.call( this, opt_domHelper );
 };
+
+/**
+ * Base inheritance.
+ */
 goog.inherits( zz.module.user.view.Users, zz.mvc.view.BaseView );
-
-/**********************************************************************************************************************
- * Prototype properties section                                                                                       *
- **********************************************************************************************************************/
-
-/**********************************************************************************************************************
- * Prototype methods section                                                                                          *
- **********************************************************************************************************************/
 
 /**********************************************************************************************************************
  * DOM construct methods section                                                                                      *
@@ -76,8 +65,6 @@ goog.inherits( zz.module.user.view.Users, zz.mvc.view.BaseView );
  * @override
  */
 zz.module.user.view.Users.prototype.createDom = function( ){
-
-	// Create dom structure.
 
 	/**
 	 * Wrapper element for users add and remove buttons.
@@ -167,9 +154,7 @@ zz.module.user.view.Users.prototype.enterDocument = function( ){
  **********************************************************************************************************************/
 
 /**
- * Update view to process model changes. This method need to be override by child.
- * @param {zz.mvc.model.Message} message
- * @protected
+ * @override
  */
 zz.module.user.view.Users.prototype.modelChangedInternal = function( message ){
 
@@ -179,6 +164,27 @@ zz.module.user.view.Users.prototype.modelChangedInternal = function( message ){
 		this.addUser( message );
 	}
 };
+
+/**********************************************************************************************************************
+ * Controller methods section                                                                                         *
+ **********************************************************************************************************************/
+
+/**
+ * @override
+ */
+zz.module.user.view.Users.prototype.setControllerInternal = function( ){
+
+	/**
+	 * Current view controller.
+	 * @type {zz.module.user.controller.Users}
+	 * @private
+	 */
+	this.controller_ = new zz.module.user.controller.Users( this );
+};
+
+/**********************************************************************************************************************
+ * User action handling                                                                                               *
+ **********************************************************************************************************************/
 
 /**
  * @param {zz.mvc.model.Message} message
