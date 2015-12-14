@@ -1,0 +1,20 @@
+{namespace zz.template.ui.textfield}
+
+/**
+ * Default textfields.
+ */
+{template .default}
+  <form action="#">
+    <div class="{css mdl-textfield} {css mdl-js-textfield}">
+      <input class="{css mdl-textfield__input}" type="text" id="sample1">
+      <label class="{css mdl-textfield__label}" for="sample1">Text...</label>
+    </div>
+  </form>
+  <form action="#">
+    <div class="{css mdl-textfield} {css mdl-js-textfield}">
+      <input class="{css mdl-textfield__input}" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample2">
+      <label class="{css mdl-textfield__label}" for="sample2">Number...</label>
+      <span class="{css mdl-textfield__error}">Input is not a number!</span>
+    </div>
+  </form>
+{/template}
