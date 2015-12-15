@@ -85,11 +85,11 @@ zz.ui.mdl.TextFieldRenderer.prototype.decorate = function( control, element ){
 
 		goog.dom.TagName.INPUT,
 		zz.ui.mdl.TextField.CSS.INPUT
-	);
+	);  //PROBLEM: maybe I have to use control.getInputElement?
 	zz.ui.mdl.TextField.maxRows = zz.ui.mdl.TextField.CONST.NO_MAX_ROWS;
 
 	if (zz.ui.mdl.TextField.input) {
-		if (zz.ui.mdl.TextField.input.hasAttribute(
+		if (zz.ui.mdl.TextField.input.hasAttribute(  //PROBLEM: here is error in console
 				/** @type {string} */ (zz.ui.mdl.TextField.CONST.MAX_ROWS_ATTRIBUTE))) {
 			this.maxRows = parseInt(zz.ui.mdl.TextField.input.getAttribute(
 				/** @type {string} */ (zz.ui.mdl.TextField.CONST.MAX_ROWS_ATTRIBUTE)), 10);
@@ -144,7 +144,7 @@ zz.ui.mdl.TextFieldRenderer.prototype.setValue = function( control, value ){
  */
 zz.ui.mdl.TextFieldRenderer.prototype.getValue = function( control ){
 
-	//return control.getInputElement( ).checked;
+	//return control.getInputElement( ).checked; //PROBLEM: I dont understand what I have to write in this function
 };
 
 /**

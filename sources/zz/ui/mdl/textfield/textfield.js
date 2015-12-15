@@ -105,7 +105,7 @@ zz.ui.mdl.TextField.prototype.enterDocument = function( ){
 
 	this.getHandler( ).listenWithScope(
 
-		this.getInputElement( ),
+		this.getInputElement( ), //PROBLEM: use getElement or getInputElement?
 		//TODO: add goog.events.KeyHandler to handle key events
 		goog.events.EventType.KEYDOWN,
 		this.keyTextFieldListener_,
@@ -178,7 +178,7 @@ zz.ui.mdl.TextField.prototype.keyTextFieldListener_ = function( ){
  * Listener for TextField element focus event.
  * @private
  */
-zz.ui.mdl.TextField.prototype.focusTextFieldListener_ = function( ){
+zz.ui.mdl.TextField.prototype.focusTextFieldListener_ = function( ){ //PROBLEM: css class is-focused doesnt add
 
 	goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.TextField.CSS.IS_FOCUSED );
 };
