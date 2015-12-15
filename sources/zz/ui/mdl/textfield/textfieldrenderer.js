@@ -43,12 +43,12 @@ goog.require( 'zz.ui.mdl.ControlRenderer' );
  * @constructor
  * @extends {zz.ui.mdl.ControlRenderer}
  */
-zz.ui.mdl.SwitchRenderer = function( ){
+zz.ui.mdl.TextFieldRenderer = function( ){
 
-	zz.ui.mdl.SwitchRenderer.base( this, 'constructor' );
+	zz.ui.mdl.TextFieldRenderer.base( this, 'constructor' );
 };
-goog.inherits( zz.ui.mdl.SwitchRenderer, zz.ui.mdl.ControlRenderer );
-goog.addSingletonGetter( zz.ui.mdl.SwitchRenderer );
+goog.inherits( zz.ui.mdl.TextFieldRenderer, zz.ui.mdl.ControlRenderer );
+goog.addSingletonGetter( zz.ui.mdl.TextFieldRenderer );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -58,59 +58,32 @@ goog.addSingletonGetter( zz.ui.mdl.SwitchRenderer );
  * Default CSS class to be applied to the root element of components rendered by this renderer.
  * @type {string}
  */
-zz.ui.mdl.SwitchRenderer.CSS_CLASS = goog.getCssName( 'mdl-switch' );
+zz.ui.mdl.TextFieldRenderer.CSS_CLASS = goog.getCssName( 'mdl-textfield' );
 
 /**********************************************************************************************************************
  * Life cycle methods                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * @param {zz.ui.mdl.Switch} control
+ * @param {zz.ui.mdl.TextField} control
  * @param {Element} element
  * @override
  */
-zz.ui.mdl.SwitchRenderer.prototype.decorate = function( control, element ){
+zz.ui.mdl.TextFieldRenderer.prototype.decorate = function( control, element ){
 
-	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
-		'class': zz.ui.mdl.Switch.CSS.TRACK
+		'class': zz.ui.mdl.TextField.CSS.ERROR
 	} ) );
-	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 
-		'class': zz.ui.mdl.Switch.CSS.THUMB
-
-	}, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
-
-		'class': zz.ui.mdl.Switch.CSS.FOCUS_HELPER
-
-	} ) ) );
-	// Ripple dom.
-	if( goog.dom.classlist.contains( element, zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT ) ){
-
-		goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
-
-			'class':
-
-				zz.ui.mdl.Switch.CSS.RIPPLE_CONTAINER + ' ' +
-				zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT + ' ' +
-				zz.ui.mdl.Switch.CSS.RIPPLE_CENTER
-
-		}, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
-
-			'class':
-
-				zz.ui.mdl.Switch.CSS.RIPPLE + ' ' +
-				zz.ui.mdl.Switch.CSS.IS_ANIMATING
-		} ) ) );
-	}
 	// Input element.
 	control.setInputElement( control.getDomHelper( ).getElementsByTagNameAndClass(
 
 		goog.dom.TagName.INPUT,
-		zz.ui.mdl.Switch.CSS.INPUT,
-		element )[ 0 ]
+		zz.ui.mdl.TextField.CSS.INPUT,
+		element )
 	);
-	goog.dom.classlist.add( element, zz.ui.mdl.Switch.CSS.IS_UPGRADED );
+	goog.dom.classlist.add( element, zz.ui.mdl.TextField.CSS.IS_UPGRADED );
 	return goog.base( this, 'decorate', control, element );
 };
 
@@ -121,9 +94,9 @@ zz.ui.mdl.SwitchRenderer.prototype.decorate = function( control, element ){
 /**
  * @override
  */
-zz.ui.mdl.SwitchRenderer.prototype.getCssClass = function( ){
+zz.ui.mdl.TextFieldRenderer.prototype.getCssClass = function( ){
 
-	return zz.ui.mdl.SwitchRenderer.CSS_CLASS;
+	return zz.ui.mdl.TextFieldRenderer.CSS_CLASS;
 };
 
 /**********************************************************************************************************************
@@ -132,56 +105,61 @@ zz.ui.mdl.SwitchRenderer.prototype.getCssClass = function( ){
 
 /**
  * Set control input element value.
- * @param {zz.ui.mdl.Switch} control
+ * @param {zz.ui.mdl.TextField} control
  * @param {*} value
  */
-zz.ui.mdl.SwitchRenderer.prototype.setValue = function( control, value ){
+zz.ui.mdl.TextFieldRenderer.prototype.setValue = function( control, value ){
 
-	control.setChecked( value );
-	control.getInputElement( ).checked = value;
 	this.updateClasses( control );
 };
 
 /**
  * Return control input element value.
- * @param {zz.ui.mdl.Switch} control
+ * @param {zz.ui.mdl.TextField} control
  * @returns {*} value
  */
-zz.ui.mdl.SwitchRenderer.prototype.getValue = function( control ){
+zz.ui.mdl.TextFieldRenderer.prototype.getValue = function( control ){
 
-	return control.getInputElement( ).checked;
+	//return control.getInputElement( ).checked;
 };
 
 /**
- * @param {zz.ui.mdl.Switch} control
+ * @param {zz.ui.mdl.TextField} control
  */
-zz.ui.mdl.SwitchRenderer.prototype.updateClasses = function( control ){
+zz.ui.mdl.TextFieldRenderer.prototype.updateClasses = function( control ){
 
-	//noinspection JSUnresolvedFunction
 	if( control.isEnabled( ) ){
 
-		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.Switch.CSS.IS_DISABLED );
+		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.TextField.CSS.IS_DISABLED );
 
 	} else {
 
-		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.Switch.CSS.IS_DISABLED );
+		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.TextField.CSS.IS_DISABLED );
 	}
-	//noinspection JSUnresolvedFunction
-	if( control.isChecked( ) ){
 
-		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.Switch.CSS.IS_CHECKED );
+	if (control.validity) {
+		if (control.validity.valid) {
+			goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.TextField.CSS.IS_INVALID );
+		} else {
+			goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.TextField.CSS.IS_INVALID );
+		}
+	}
 
-	}else{
+	if( control.value && control.value.length > 0 ) {
 
-		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.Switch.CSS.IS_CHECKED );
+		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.TextField.CSS.IS_DIRTY );
+
+	} else {
+
+		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.TextField.CSS.IS_DIRTY );
 	}
 };
 
 /**********************************************************************************************************************
- * Register a decorator factory function for zz.ui.mdl.Switches.                                                         *
+ * Register a decorator factory function for zz.ui.mdl.TextFields.                                                         *
  **********************************************************************************************************************/
 
-goog.ui.registry.setDecoratorByClassName( zz.ui.mdl.SwitchRenderer.CSS_CLASS, function( ){
+goog.ui.registry.setDecoratorByClassName( zz.ui.mdl.TextFieldRenderer.CSS_CLASS, function( ){
 
-	return new zz.ui.mdl.Switch( );
+	return new zz.ui.mdl.TextField( );
 } );

@@ -46,6 +46,7 @@ goog.require( 'zz.ui.mdl.Progress' );
 goog.require( 'zz.ui.mdl.Checkbox' );
 goog.require( 'zz.ui.mdl.Switch' );
 goog.require( 'zz.ui.mdl.IconToggle' );
+goog.require( 'zz.ui.mdl.TextField' );
 
 goog.require( 'zz.template.ui.button' );
 goog.require( 'zz.template.ui.spinner' );
@@ -55,6 +56,7 @@ goog.require( 'zz.template.ui.tooltip' );
 goog.require( 'zz.template.ui.checkbox' );
 goog.require( 'zz.template.ui.switch' );
 goog.require( 'zz.template.ui.icontoggle' );
+goog.require( 'zz.template.ui.textfield' );
 
 
 /**********************************************************************************************************************
@@ -176,19 +178,24 @@ zz.demos.app.run = function( ){
 
 //	Icon Toggle
 
-	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.icontoggle.default );
+	//soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.icontoggle.default );
+    //
+	//var tggl1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+	//var tggl2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+    //
+	//tggl2.setEnabled( false );
+    //
+	//var users = goog.global.users = new zz.module.user.model.Users( );
+	//var user = goog.global.user = users.createFirst( );
+    //
+	//tggl1.setModel( users, user, users.datafield.userVerifiedFlag );
 
-	var tggl1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
-	var tggl2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+// Text Field
 
-	tggl2.setEnabled( false );
+	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.textfield.default );
 
-	var users = goog.global.users = new zz.module.user.model.Users( );
-	var user = goog.global.user = users.createFirst( );
-
-	tggl1.setModel( users, user, users.datafield.userVerifiedFlag );
-
-
+	var tf1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+	var tf2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
 	/******************************************************************************************************************
 	 * Fast click testing                                                                                             *
 	 ******************************************************************************************************************/

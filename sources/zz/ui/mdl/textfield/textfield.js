@@ -52,13 +52,12 @@ goog.require( 'zz.ui.mdl.Ripple' );
  */
 zz.ui.mdl.TextField = function( opt_content, opt_renderer, opt_domHelper ){
 
-	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.SwitchRenderer.getInstance( ), opt_domHelper );
+	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.TextFieldRenderer.getInstance( ), opt_domHelper );
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
-	this.setSupportedState( goog.ui.Component.State.CHECKED, true );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
 };
-goog.inherits( zz.ui.mdl.Switch, zz.ui.mdl.Control );
-goog.tagUnsealableClass( zz.ui.mdl.Switch );
+goog.inherits( zz.ui.mdl.TextField, zz.ui.mdl.Control );
+goog.tagUnsealableClass( zz.ui.mdl.TextField );
 
 /**********************************************************************************************************************
  * Static properties section                                                                                          *
@@ -68,9 +67,10 @@ goog.tagUnsealableClass( zz.ui.mdl.Switch );
  * Store constants in one place so they can be updated easily.
  * @enum {string | number}
  */
-zz.ui.mdl.Switch.CONST = {
+zz.ui.mdl.TextField.CONST = {
 
-	TINY_TIMEOUT: 10
+	NO_MAX_ROWS: -1,
+	MAX_ROWS_ATTRIBUTE: 'maxrows'
 };
 
 /**
@@ -78,22 +78,16 @@ zz.ui.mdl.Switch.CONST = {
  * it in one place should we decide to modify at a later date.
  * @enum {string}
  */
-zz.ui.mdl.Switch.CSS = {
+zz.ui.mdl.TextField.CSS = {
 
-	INPUT: goog.getCssName( 'mdl-switch__input' ),
-	TRACK: goog.getCssName( 'mdl-switch__track' ),
-	THUMB: goog.getCssName( 'mdl-switch__thumb' ),
-	FOCUS_HELPER: goog.getCssName( 'mdl-switch__focus-helper' ),
-	RIPPLE_EFFECT: goog.getCssName( 'mdl-js-ripple-effect' ),
-	RIPPLE_IGNORE_EVENTS: goog.getCssName( 'mdl-js-ripple-effect--ignore-events' ),
-	RIPPLE_CONTAINER: goog.getCssName( 'mdl-switch__ripple-container' ),
-	RIPPLE_CENTER: goog.getCssName( 'mdl-ripple--center' ),
-	RIPPLE: goog.getCssName( 'mdl-ripple' ),
+	LABEL: goog.getCssName( 'mdl-textfield__label' ),
+	INPUT: goog.getCssName( 'mdl-textfield__input' ),
+	IS_DIRTY: goog.getCssName( 'is-dirty' ),
 	IS_FOCUSED: goog.getCssName( 'is-focused' ),
 	IS_DISABLED: goog.getCssName( 'is-disabled' ),
-	IS_CHECKED: goog.getCssName( 'is-checked' ),
+	IS_INVALID: goog.getCssName( 'is-invalid' ),
 	IS_UPGRADED: goog.getCssName( 'is-upgraded' ),
-	IS_ANIMATING: goog.getCssName( 'is-animating' )
+	ERROR: goog.getCssName( 'mdl-textfield__error' )
 };
 
 /**********************************************************************************************************************
@@ -105,15 +99,15 @@ zz.ui.mdl.Switch.CSS = {
  * should be done at this stage. If the component contains child components, this call is propagated to its children.
  * @override
  */
-zz.ui.mdl.Switch.prototype.enterDocument = function( ){
+zz.ui.mdl.TextField.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
 
 	this.getHandler( ).listenWithScope(
 
 		this.getElement( ),
-		goog.events.EventType.MOUSEUP,
-		this.blurListener_,
+		goog.events.KeyHandler.EventType.KEY,
+		this.keyTextFieldListener_,
 		false,
 		this
 	);
@@ -121,7 +115,7 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
 
 		this.getInputElement( ),
 		goog.events.EventType.FOCUS,
-		this.focusSwitchListener_,
+		this.focusTextFieldListener_,
 		false,
 		this
 	);
@@ -129,28 +123,22 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
 
 		this.getInputElement( ),
 		goog.events.EventType.BLUR,
-		this.blurSwitchListener_,
+		this.blurTextFieldListener_,
 		false,
 		this
 	);
-	this.getHandler( ).listenWithScope(
+	//this.getHandler( ).listenWithScope(
+    //
+	//	this.getInputElement( ),
+	//	goog.events.EventType.CHANGE,
+	//	this.changeTextFieldListener_,
+	//	false,
+	//	this
+	//);
 
-		this.getInputElement( ),
-		goog.events.EventType.CHANGE,
-		this.changeSwitchListener_,
-		false,
-		this
-	);
 
-	// Ripple effect.
-	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT ) ){
 
-		var  ripple = new zz.ui.mdl.Ripple( );
-		this.addChild( ripple, false );
-		ripple.decorate( goog.dom.getElementByClass( zz.ui.mdl.Switch.CSS.RIPPLE_CONTAINER, this.getElement( ) ) );
-	}
-
-	this.changeSwitchListener_( );
+	//this.changeTextFieldListener_( );
 };
 
 /**
@@ -160,7 +148,7 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
  * be used.
  * @inheritDoc
  **/
-zz.ui.mdl.Switch.prototype.disposeInternal = function( ){
+zz.ui.mdl.TextField.prototype.disposeInternal = function( ){
 
 	goog.base( this, 'disposeInternal' );
 
@@ -172,59 +160,57 @@ zz.ui.mdl.Switch.prototype.disposeInternal = function( ){
  **********************************************************************************************************************/
 
 /**
- * Listener for element blur event.
- * @this {zz.ui.mdl.Switch}
+ * Listener for Text Field element onkeydown event.
  * @private
  */
-zz.ui.mdl.Switch.prototype.blurListener_ = function( ){
+zz.ui.mdl.TextField.prototype.keyTextFieldListener_ = function( ){
 
-	goog.Timer.callOnce( /** @this {zz.ui.mdl.Switch} */ function( ){
-
-		//noinspection JSPotentiallyInvalidUsageOfThis
-		this.getInputElement( ).blur( );
-
-	}, zz.ui.mdl.Switch.CONST.TINY_TIMEOUT, this );
+	var currentRowCount = event.target.value.split('\n').length;
+	if (event.keyCode === 13) {
+		if (currentRowCount >= zz.ui.mdl.TextField.CONST.NO_MAX_ROWS) {
+			event.preventDefault();
+		}
+	}
 };
 
 /**
- * Listener for Switch element focus event.
+ * Listener for TextField element focus event.
  * @private
  */
-zz.ui.mdl.Switch.prototype.focusSwitchListener_ = function( ){
+zz.ui.mdl.TextField.prototype.focusTextFieldListener_ = function( ){
 
-	goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Switch.CSS.IS_FOCUSED );
+	goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.TextField.CSS.IS_FOCUSED );
 };
 
 /**
- * Listener for Switch element blur event.
+ * Listener for TextField element blur event.
  * @private
  */
-zz.ui.mdl.Switch.prototype.blurSwitchListener_ = function( ){
+zz.ui.mdl.TextField.prototype.blurTextFieldListener_ = function( ){
 
-	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Switch.CSS.IS_FOCUSED );
+	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.TextField.CSS.IS_FOCUSED );
 };
 
 /**
- * Listener for Switch element change event.
+ * Listener for Text Field element change event.
  * @private
  */
-zz.ui.mdl.Switch.prototype.changeSwitchListener_ = function( ){
+zz.ui.mdl.TextField.prototype.changeTextFieldListener_ = function( ){
 
 	this.setInputValue( this.getInputValue( ) );
 	this.getRenderer( ).updateClasses( this );
 };
-
 /**********************************************************************************************************************
  * Helpers methods                                                                                                    *
  **********************************************************************************************************************/
 
 /**
- * Enable/disable switch.
+ * Enable/disable TextField.
  * @param {boolean} enable
  */
-zz.ui.mdl.Switch.prototype.setEnabled = function( enable ){
+zz.ui.mdl.TextField.prototype.setEnabled = function( enable ){
 
-	zz.ui.mdl.Switch.superClass_.setEnabled.call( this, enable );
+	zz.ui.mdl.TextField.superClass_.setEnabled.call( this, enable );
 	this.getInputElement( ).disabled = !enable;
 	this.getRenderer( ).updateClasses( this );
 };
