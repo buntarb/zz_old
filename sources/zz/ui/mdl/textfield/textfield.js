@@ -105,8 +105,9 @@ zz.ui.mdl.TextField.prototype.enterDocument = function( ){
 
 	this.getHandler( ).listenWithScope(
 
-		this.getElement( ),
-		goog.events.KeyHandler.EventType.KEY,
+		this.getInputElement( ),
+		//TODO: add goog.events.KeyHandler to handle key events
+		goog.events.EventType.KEYDOWN,
 		this.keyTextFieldListener_,
 		false,
 		this
@@ -127,18 +128,18 @@ zz.ui.mdl.TextField.prototype.enterDocument = function( ){
 		false,
 		this
 	);
-	//this.getHandler( ).listenWithScope(
-    //
-	//	this.getInputElement( ),
-	//	goog.events.EventType.CHANGE,
-	//	this.changeTextFieldListener_,
-	//	false,
-	//	this
-	//);
+	this.getHandler( ).listenWithScope(
+
+		this.getInputElement( ),
+		goog.events.EventType.CHANGE,
+		this.changeTextFieldListener_,
+		false,
+		this
+	);
 
 
 
-	//this.changeTextFieldListener_( );
+	this.changeTextFieldListener_( );
 };
 
 /**

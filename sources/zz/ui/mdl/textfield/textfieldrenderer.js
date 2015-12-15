@@ -76,27 +76,28 @@ zz.ui.mdl.TextFieldRenderer.prototype.decorate = function( control, element ){
 		'class': zz.ui.mdl.TextField.CSS.ERROR
 	} ) );
 
-	this.label = element.getDomHelper( ).getElementsByTagNameAndClass(
+	zz.ui.mdl.TextField.label = control.getDomHelper( ).getElementsByTagNameAndClass(
 
 		goog.dom.TagName.LABEL,
 		zz.ui.mdl.TextField.CSS.LABEL
 	);
-	this.input = element.getDomHelper( ).getElementsByTagNameAndClass(
+	zz.ui.mdl.TextField.input = control.getDomHelper( ).getElementsByTagNameAndClass(
 
 		goog.dom.TagName.INPUT,
 		zz.ui.mdl.TextField.CSS.INPUT
 	);
-	this.maxRows = zz.ui.mdl.TextField.CONST.NO_MAX_ROWS;
+	zz.ui.mdl.TextField.maxRows = zz.ui.mdl.TextField.CONST.NO_MAX_ROWS;
 
-	if (this.input) {
-		if (this.input.hasAttribute(
-				/** @type {string} */ (this.CONST.MAX_ROWS_ATTRIBUTE))) {
-			this.maxRows = parseInt(this.input.getAttribute(
-				/** @type {string} */ (this.CONST.MAX_ROWS_ATTRIBUTE)), 10);
-			if (isNaN(this.maxRows)) {
-				this.maxRows = this.CONST.NO_MAX_ROWS;
+	if (zz.ui.mdl.TextField.input) {
+		if (zz.ui.mdl.TextField.input.hasAttribute(
+				/** @type {string} */ (zz.ui.mdl.TextField.CONST.MAX_ROWS_ATTRIBUTE))) {
+			this.maxRows = parseInt(zz.ui.mdl.TextField.input.getAttribute(
+				/** @type {string} */ (zz.ui.mdl.TextField.CONST.MAX_ROWS_ATTRIBUTE)), 10);
+			if (isNaN(zz.ui.mdl.TextField.maxRows)) {
+				zz.ui.mdl.TextField.maxRows = zz.ui.mdl.TextField.CONST.NO_MAX_ROWS;
 			}
 		}
+	}
 
 
 	// Input element.
