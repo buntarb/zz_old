@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.ui.mdl.Radio class.
+ * @fileoverview Provide zz.ui.mdl.Radio and zz.ui.mdl.RadioRegister class.
  * @author popkov.aleksander@gmail.com (Alexander Popkov)
  */
 
@@ -26,6 +26,7 @@
  **********************************************************************************************************************/
 
 goog.provide( 'zz.ui.mdl.Radio' );
+goog.provide( 'zz.ui.mdl.RadioRegister' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -47,15 +48,30 @@ goog.require( 'zz.ui.mdl.Ripple' );
  * @param {goog.ui.ControlContent=} opt_content Text caption or DOM structure to display as the content of the control.
  * @param {goog.ui.ControlRenderer=} opt_renderer Renderer used to render or decorate the button.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper, used for document interaction.
+ * @param {zz.ui.formatter.Default=} opt_formatter Formatter object.
  * @extends {zz.ui.mdl.Control}
  * @constructor
  */
-zz.ui.mdl.Radio = function( opt_content, opt_renderer, opt_domHelper ){
+zz.ui.mdl.Radio = function( opt_content, opt_renderer, opt_domHelper, opt_formatter ){
 
-	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.RadioRenderer.getInstance( ), opt_domHelper );
+	zz.ui.mdl.Control.call(
+
+		this,
+		opt_content,
+		opt_renderer || zz.ui.mdl.RadioRenderer.getInstance( ),
+		opt_domHelper,
+		opt_formatter );
+
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
 	this.setSupportedState( goog.ui.Component.State.CHECKED, true );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
+
+	/**
+	 * Radio buttons register.
+	 * @type {zz.ui.mdl.RadioRegister}
+	 * @private
+	 */
+	this.register_ = zz.ui.mdl.RadioRegister.getInstance( );
 };
 goog.inherits( zz.ui.mdl.Radio, zz.ui.mdl.Control );
 goog.tagUnsealableClass( zz.ui.mdl.Radio );
@@ -101,14 +117,13 @@ zz.ui.mdl.Radio.CSS = {
  **********************************************************************************************************************/
 
 /**
- * Called when the component's element is known to be in the document. Anything using document.getElementById etc.
- * should be done at this stage. If the component contains child components, this call is propagated to its children.
  * @override
  */
 zz.ui.mdl.Radio.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
 
+	this.register_.add( this );
 	this.getHandler( ).listenWithScope(
 
 		this.getElement( ),
@@ -133,14 +148,6 @@ zz.ui.mdl.Radio.prototype.enterDocument = function( ){
 		false,
 		this
 	);
-	this.getHandler( ).listenWithScope(
-
-		this.getInputElement( ),
-		goog.events.EventType.CHANGE,
-		this.changeRadioListener_,
-		false,
-		this
-	);
 
 	// Ripple effect.
 	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Radio.CSS.RIPPLE_EFFECT ) ){
@@ -149,21 +156,16 @@ zz.ui.mdl.Radio.prototype.enterDocument = function( ){
 		this.addChild( ripple, false );
 		ripple.decorate( goog.dom.getElementByClass( zz.ui.mdl.Radio.CSS.RIPPLE_CONTAINER, this.getElement( ) ) );
 	}
-
-	this.changeRadioListener_( );
 };
 
 /**
- * Deletes or nulls out any references to COM objects, DOM nodes, or other disposable objects. Classes that extend
- * {@code goog.Disposable} should override this method. Not reentrant. To avoid calling it twice, it must only be
- * called from the subclass' {@code disposeInternal} method. Everywhere else the public {@code dispose} method must
- * be used.
- * @inheritDoc
+ * @override
  **/
 zz.ui.mdl.Radio.prototype.disposeInternal = function( ){
 
 	goog.base( this, 'disposeInternal' );
 
+	this.register_.remove( this );
 	this.getHandler( ).dispose( );
 };
 
@@ -204,27 +206,6 @@ zz.ui.mdl.Radio.prototype.blurRadioListener_ = function( ){
 	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Radio.CSS.IS_FOCUSED );
 };
 
-/**
- * Listener for Radio element change event.
- * @private
- */
-zz.ui.mdl.Radio.prototype.changeRadioListener_ = function( ){
-
-	//var radios = goog.dom.getElementByClass(zz.ui.mdl.Radio.CSS.JS_RADIO);
-	//console.log(radios);
-	//for (var i = 0; i < radios.length; i++) {
-	//	var button = radios[i].querySelectorAll('.' + zz.ui.mdl.Radio.CSS.RADIO_BTN);
-	//	// Different name == different group, so no point updating those.
-	//	if (button.getAttribute('name') === this.btnElement_.getAttribute('name')) {
-	//		//this.getRenderer( ).updateClasses( this );
-	//	}
-	//}
-
-
-	this.setInputValue( this.getInputValue( ) );
-	this.getRenderer( ).updateClasses( this );
-};
-
 /**********************************************************************************************************************
  * Helpers methods                                                                                                    *
  **********************************************************************************************************************/
@@ -238,4 +219,90 @@ zz.ui.mdl.Radio.prototype.setEnabled = function( enable ){
 	zz.ui.mdl.Radio.superClass_.setEnabled.call( this, enable );
 	this.getInputElement( ).disabled = !enable;
 	this.getRenderer( ).updateClasses( this );
+};
+
+/**********************************************************************************************************************
+ * Definition section                                                                                                 *
+ **********************************************************************************************************************/
+
+/**
+ * Register for storing all radio buttons controls. We need it to call updateClasses method of every radio button
+ * control with same name attribute when onChange event fire on one of them.
+ * @constructor
+ */
+zz.ui.mdl.RadioRegister = function( ){
+
+	/**
+	 * Private property for radio button store.
+	 * @type {Object}
+	 * @private
+	 */
+	this.radio_ = {};
+};
+goog.addSingletonGetter( zz.ui.mdl.RadioRegister );
+
+/**********************************************************************************************************************
+ * Prototype methods                                                                                                  *
+ **********************************************************************************************************************/
+
+/**
+ * Add new radio button control to register.
+ * @param {zz.ui.mdl.Radio} radio
+ */
+zz.ui.mdl.RadioRegister.prototype.add = function( radio ){
+
+	// TODO (buntarb): Add control model checking.
+	var name = radio.getInputElement( ).name;
+	if( !goog.isDef( this.radio_[ name ] ) ){
+
+		this.radio_[ name ] = { };
+	}
+	if( !goog.isDef( this.radio_[ name ][ goog.getUid( radio ) ] ) ){
+
+		this.radio_[ name ][ goog.getUid( radio ) ] = radio;
+	}
+};
+
+/**
+ * Remove specified radio button control from register.
+ * @param {zz.ui.mdl.Radio} radio
+ */
+zz.ui.mdl.RadioRegister.prototype.remove = function( radio ){
+
+	var name = radio.getInputElement( ).name;
+	if( goog.isDef( this.radio_[ name ][ goog.getUid( radio ) ] ) ){
+
+		delete this.radio_[ name ][ goog.getUid( radio ) ];
+	}
+};
+
+/**
+ * Notify radio button controls group about change event in one of groups control.
+ * @param {zz.ui.mdl.Radio} radio
+ */
+zz.ui.mdl.RadioRegister.prototype.changed = function( radio ){
+
+	var name = radio.getInputElement( ).name;
+	if( goog.isDef( this.radio_[ name ] ) ){
+
+		goog.object.forEach( this.radio_[ name ], function( r ){
+
+			if( goog.getUid( radio ) !== goog.getUid( r ) ){
+
+				if( "createEvent" in document ){
+
+					// TODO (buntarb): New event API can (must?) be used here.
+					var evt = document.createEvent( "HTMLEvents" );
+					evt.initEvent( goog.events.EventType.CHANGE, false, true );
+					evt.customFlag = true;
+					evt.customData = radio.getInputElement( ).value;
+					r.getInputElement( ).dispatchEvent( evt );
+
+				}else{
+
+					r.getInputElement( ).fireEvent("onchange");
+				}
+			}
+		} );
+	}
 };

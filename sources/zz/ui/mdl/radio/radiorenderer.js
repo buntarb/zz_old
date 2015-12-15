@@ -134,19 +134,10 @@ zz.ui.mdl.RadioRenderer.prototype.getCssClass = function( ){
  */
 zz.ui.mdl.RadioRenderer.prototype.setValue = function( control, value ){
 
-	control.setChecked( value );
-	control.getInputElement( ).checked = value;
+	control.getInputElement( ).checked = value === control.getInputElement( ).value;
+	//noinspection JSUnresolvedFunction
+	control.setChecked( control.getInputElement( ).checked );
 	this.updateClasses( control );
-};
-
-/**
- * Return control input element value.
- * @param {zz.ui.mdl.Radio} control
- * @returns {*} value
- */
-zz.ui.mdl.RadioRenderer.prototype.getValue = function( control ){
-
-	return control.getInputElement( ).checked;
 };
 
 /**

@@ -18,7 +18,7 @@ goog.require('soydata');
  * @suppress {checkTypes|uselessCode}
  */
 zz.template.ui.radio.default = function(opt_data, opt_ignored) {
-  return '<label id="1" class="' + goog.getCssName('mdl-radio') + ' ' + goog.getCssName('mdl-js-radio') + ' ' + goog.getCssName('mdl-js-ripple-effect') + '"><input type="radio" class="' + goog.getCssName('mdl-radio__button') + ' name="options" value="1" checked"><span class="' + goog.getCssName('mdl-radio__label') + '">1st</span></label><br><br><label id="2" class="' + goog.getCssName('mdl-radio') + ' ' + goog.getCssName('mdl-js-radio') + ' ' + goog.getCssName('mdl-js-ripple-effect') + '"><input type="radio" class="' + goog.getCssName('mdl-radio__button') + '" name="options" value="2"><span class="' + goog.getCssName('mdl-radio__label') + '">2nd</span></label>';
+  return '<form name="form"><label id="a1" class="' + goog.getCssName('mdl-radio') + ' ' + goog.getCssName('mdl-js-radio') + ' ' + goog.getCssName('mdl-js-ripple-effect') + '"><input type="radio" class="' + goog.getCssName('mdl-radio__button') + '" name="options" value="a"><span class="' + goog.getCssName('mdl-radio__label') + '">1st</span></label><br><br><label id="b1" class="' + goog.getCssName('mdl-radio') + ' ' + goog.getCssName('mdl-js-radio') + ' ' + goog.getCssName('mdl-js-ripple-effect') + '"><input type="radio" class="' + goog.getCssName('mdl-radio__button') + '" name="options" value="b"><span class="' + goog.getCssName('mdl-radio__label') + '">2nd</span></label></form>';
 };
 if (goog.DEBUG) {
   zz.template.ui.radio.default.soyTemplateName = 'zz.template.ui.radio.default';

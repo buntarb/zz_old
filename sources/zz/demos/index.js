@@ -65,6 +65,11 @@ goog.require( 'zz.template.ui.icontoggle' );
 zz.demos.app = {};
 zz.demos.app.run = function( ){
 
+//	Model
+
+	var users = goog.global.users = new zz.module.user.model.Users( );
+	var user = goog.global.user = users.createFirst( );
+
 //	Navigation
 
 //	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.navigation.fixedHeadersAndTabs );
@@ -174,11 +179,6 @@ zz.demos.app.run = function( ){
 //	var swtch2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
 //
 //	swtch2.setEnabled( false );
-//
-//	var users = goog.global.users = new zz.module.user.model.Users( );
-//	var user = goog.global.user = users.createFirst( );
-//
-//	swtch1.setModel( users, user, users.datafield.userVerifiedFlag );
 
 //	Icon Toggle
 
@@ -191,13 +191,17 @@ zz.demos.app.run = function( ){
 //
 //	tggl1.setModel( users, user, users.datafield.userVerifiedFlag );
 
-
 //Radio
 
 	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.radio.default );
 
-	var radio1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
-	var radio2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+	var radio1 = goog.ui.decorate( goog.dom.getElement( 'a1' ) );
+	var radio2 = goog.ui.decorate( goog.dom.getElement( 'b1' ) );
+
+	radio1.setModel( users, user, users.datafield.userFirstName );
+	radio2.setModel( users, user, users.datafield.userFirstName );
+
+	user.userFirstName = 'b';
 
 	/******************************************************************************************************************
 	 * Fast click testing                                                                                             *
