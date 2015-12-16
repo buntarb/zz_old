@@ -117,40 +117,38 @@ zz.ui.mdl.Checkbox.prototype.enterDocument = function( ){
 		false,
 		this
 	);
-	this.getHandler( ).listenWithScope(
-
-		this.getInputElement( ),
-		goog.events.EventType.FOCUS,
-		this.focusCheckboxListener_,
-		false,
-		this
-	);
-	this.getHandler( ).listenWithScope(
-
-		this.getInputElement( ),
-		goog.events.EventType.BLUR,
-		this.blurCheckboxListener_,
-		false,
-		this
-	);
-	this.getHandler( ).listenWithScope(
-
-		this.getInputElement( ),
-		goog.events.EventType.CHANGE,
-		this.changeCheckboxListener_,
-		false,
-		this
-	);
 
 	// Ripple effect.
 	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Checkbox.CSS.RIPPLE_EFFECT ) ){
 
 		var  ripple = new zz.ui.mdl.Ripple( );
 		this.addChild( ripple, false );
-		ripple.decorate( goog.dom.getElementByClass( zz.ui.mdl.Checkbox.CSS.RIPPLE_CONTAINER, this.getElement( ) ) );
-	}
+		ripple.decorate(
 
-	this.changeCheckboxListener_( );
+			goog.dom.getElementByClass(
+
+				zz.ui.mdl.Checkbox.CSS.RIPPLE_CONTAINER,
+				this.getElement( ) ) );
+
+	}else{
+
+		this.getHandler( ).listenWithScope(
+
+			this.getInputElement( ),
+			goog.events.EventType.FOCUS,
+			this.focusCheckboxListener_,
+			false,
+			this
+		);
+		this.getHandler( ).listenWithScope(
+
+			this.getInputElement( ),
+			goog.events.EventType.BLUR,
+			this.blurCheckboxListener_,
+			false,
+			this
+		);
+	}
 };
 
 /**
@@ -202,16 +200,6 @@ zz.ui.mdl.Checkbox.prototype.focusCheckboxListener_ = function( ){
 zz.ui.mdl.Checkbox.prototype.blurCheckboxListener_ = function( ){
 
 	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Checkbox.CSS.IS_FOCUSED );
-};
-
-/**
- * Listener for checkbox element change event.
- * @private
- */
-zz.ui.mdl.Checkbox.prototype.changeCheckboxListener_ = function( ){
-
-	this.setInputValue( this.getInputValue( ) );
-	this.getRenderer( ).updateClasses( this );
 };
 
 /**********************************************************************************************************************

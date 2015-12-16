@@ -164,34 +164,43 @@ zz.demos.app.run = function( ){
 
 //	Checkbox
 
+//	user.userVerifiedFlag = true;
+//
 //	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.checkbox.default );
 //
 //	var chckbx1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
 //	var chckbx2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
 //
+//	chckbx1.setModel( users, user, users.datafield.userVerifiedFlag );
 //	chckbx2.setEnabled( false );
 
 //	Switch
 
+//	user.userVerifiedFlag = true;
+//
 //	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.switch.default );
 //
 //	var swtch1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
 //	var swtch2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
 //
+//	swtch1.setModel( users, user, users.datafield.userVerifiedFlag );
 //	swtch2.setEnabled( false );
 
 //	Icon Toggle
 
+//	user.userVerifiedFlag = true;
+//
 //	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.icontoggle.default );
 //
 //	var tggl1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
 //	var tggl2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
 //
-//	tggl2.setEnabled( false );
-//
 //	tggl1.setModel( users, user, users.datafield.userVerifiedFlag );
+//	tggl2.setEnabled( false );
 
 //Radio
+
+	user.userFirstName = 'b';
 
 	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.radio.default );
 
@@ -200,8 +209,6 @@ zz.demos.app.run = function( ){
 
 	radio1.setModel( users, user, users.datafield.userFirstName );
 	radio2.setModel( users, user, users.datafield.userFirstName );
-
-	user.userFirstName = 'b';
 
 	/******************************************************************************************************************
 	 * Fast click testing                                                                                             *

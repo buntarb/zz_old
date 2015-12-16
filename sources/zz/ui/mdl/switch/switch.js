@@ -117,40 +117,38 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
 		false,
 		this
 	);
-	this.getHandler( ).listenWithScope(
-
-		this.getInputElement( ),
-		goog.events.EventType.FOCUS,
-		this.focusSwitchListener_,
-		false,
-		this
-	);
-	this.getHandler( ).listenWithScope(
-
-		this.getInputElement( ),
-		goog.events.EventType.BLUR,
-		this.blurSwitchListener_,
-		false,
-		this
-	);
-	this.getHandler( ).listenWithScope(
-
-		this.getInputElement( ),
-		goog.events.EventType.CHANGE,
-		this.changeSwitchListener_,
-		false,
-		this
-	);
 
 	// Ripple effect.
 	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT ) ){
 
 		var  ripple = new zz.ui.mdl.Ripple( );
 		this.addChild( ripple, false );
-		ripple.decorate( goog.dom.getElementByClass( zz.ui.mdl.Switch.CSS.RIPPLE_CONTAINER, this.getElement( ) ) );
-	}
+		ripple.decorate(
 
-	this.changeSwitchListener_( );
+			goog.dom.getElementByClass(
+
+				zz.ui.mdl.Switch.CSS.RIPPLE_CONTAINER,
+				this.getElement( ) ) );
+
+	}else{
+
+		this.getHandler( ).listenWithScope(
+
+			this.getInputElement( ),
+			goog.events.EventType.FOCUS,
+			this.focusSwitchListener_,
+			false,
+			this
+		);
+		this.getHandler( ).listenWithScope(
+
+			this.getInputElement( ),
+			goog.events.EventType.BLUR,
+			this.blurSwitchListener_,
+			false,
+			this
+		);
+	}
 };
 
 /**
@@ -202,16 +200,6 @@ zz.ui.mdl.Switch.prototype.focusSwitchListener_ = function( ){
 zz.ui.mdl.Switch.prototype.blurSwitchListener_ = function( ){
 
 	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Switch.CSS.IS_FOCUSED );
-};
-
-/**
- * Listener for Switch element change event.
- * @private
- */
-zz.ui.mdl.Switch.prototype.changeSwitchListener_ = function( ){
-
-	this.setInputValue( this.getInputValue( ) );
-	this.getRenderer( ).updateClasses( this );
 };
 
 /**********************************************************************************************************************

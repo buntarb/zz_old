@@ -18,7 +18,7 @@ goog.require('soydata');
  * @suppress {checkTypes|uselessCode}
  */
 zz.template.ui.icontoggle.default = function(opt_data, opt_ignored) {
-  return '<label id="1" class="' + goog.getCssName('mdl-icon-toggle') + ' ' + goog.getCssName('mdl-js-icon-toggle') + ' ' + goog.getCssName('mdl-js-ripple-effect') + '"><input type="checkbox" class="' + goog.getCssName('mdl-icon-toggle__input') + '" checked><i class="' + goog.getCssName('mdl-icon-toggle__label') + ' ' + goog.getCssName('material-icons') + '">format_bold</i></label><br><br><label id="2" class="' + goog.getCssName('mdl-icon-toggle') + ' ' + goog.getCssName('mdl-js-icon-toggle') + ' ' + goog.getCssName('mdl-js-ripple-effect') + '"><input type="checkbox" class="' + goog.getCssName('mdl-icon-toggle__input') + '"><i class="' + goog.getCssName('mdl-icon-toggle__label') + ' ' + goog.getCssName('material-icons') + '">format_italic</i></label>';
+  return '<label id="1" class="' + goog.getCssName('mdl-icon-toggle') + ' ' + goog.getCssName('mdl-js-icon-toggle') + ' ' + goog.getCssName('mdl-js-ripple-effect') + '"><input type="checkbox" class="' + goog.getCssName('mdl-icon-toggle__input') + '"><i class="' + goog.getCssName('mdl-icon-toggle__label') + ' ' + goog.getCssName('material-icons') + '">format_bold</i></label><br><br><label id="2" class="' + goog.getCssName('mdl-icon-toggle') + ' ' + goog.getCssName('mdl-js-icon-toggle') + ' ' + goog.getCssName('mdl-js-ripple-effect') + '"><input type="checkbox" class="' + goog.getCssName('mdl-icon-toggle__input') + '"><i class="' + goog.getCssName('mdl-icon-toggle__label') + ' ' + goog.getCssName('material-icons') + '">format_italic</i></label>';
 };
 if (goog.DEBUG) {
   zz.template.ui.icontoggle.default.soyTemplateName = 'zz.template.ui.icontoggle.default';

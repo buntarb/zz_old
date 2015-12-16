@@ -235,6 +235,15 @@ zz.ui.mdl.Control.prototype.subscribe_ = function( ){
 	if( goog.isDefAndNotNull( this.model_ ) ){
 
 		this.model_.dataset.subscribe( this );
+		this.modelChanged( new zz.mvc.model.Message(
+
+			zz.mvc.model.EventType.DATAROW_UPDATE,
+			this.model_.dataset,
+			this.model_.datarow,
+			this.model_.datafield,
+			null,
+			this.model_.datarow[ this.model_.datafield ]
+		) );
 	}
 };
 
