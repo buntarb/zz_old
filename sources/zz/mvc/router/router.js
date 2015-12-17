@@ -117,6 +117,7 @@ zz.mvc.Router = function( opt_noFragment, opt_blankPage, opt_input, opt_iframe )
  * Base inheritance.
  */
 goog.inherits( zz.mvc.Router, goog.events.EventTarget );
+goog.addSingletonGetter( zz.mvc.Router );
 
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
