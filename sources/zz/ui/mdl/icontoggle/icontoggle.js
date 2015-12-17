@@ -53,6 +53,7 @@ goog.require( 'zz.ui.mdl.Ripple' );
 zz.ui.mdl.IconToggle = function( opt_content, opt_renderer, opt_domHelper ){
 
 	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.IconToggleRenderer.getInstance( ), opt_domHelper );
+
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
 	this.setSupportedState( goog.ui.Component.State.CHECKED, true );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
@@ -70,7 +71,7 @@ goog.tagUnsealableClass( zz.ui.mdl.IconToggle );
  */
 zz.ui.mdl.IconToggle.CONST = {
 
-	TINY_TIMEOUT: 10
+	TINY_TIMEOUT: 0.001
 };
 
 /**
@@ -82,6 +83,7 @@ zz.ui.mdl.IconToggle.CSS = {
 
 	INPUT: goog.getCssName( 'mdl-icon-toggle__input' ),
 	JS_RIPPLE_EFFECT: goog.getCssName( 'mdl-js-ripple-effect' ),
+	RIPPLE_EFFECT: goog.getCssName( 'mdl-js-ripple-effect' ),
 	RIPPLE_IGNORE_EVENTS: goog.getCssName( 'mdl-js-ripple-effect--ignore-events' ),
 	RIPPLE_CONTAINER: goog.getCssName( 'mdl-icon-toggle__ripple-container' ),
 	RIPPLE_CENTER: goog.getCssName( 'mdl-ripple--center' ),
@@ -115,40 +117,38 @@ zz.ui.mdl.IconToggle.prototype.enterDocument = function( ){
 		false,
 		this
 	);
-	this.getHandler( ).listenWithScope(
-
-		this.getInputElement( ),
-		goog.events.EventType.FOCUS,
-		this.focusIconToggleListener_,
-		false,
-		this
-	);
-	this.getHandler( ).listenWithScope(
-
-		this.getInputElement( ),
-		goog.events.EventType.BLUR,
-		this.blurIconToggleListener_,
-		false,
-		this
-	);
-	this.getHandler( ).listenWithScope(
-
-		this.getInputElement( ),
-		goog.events.EventType.CHANGE,
-		this.changeIconToggleListener_,
-		false,
-		this
-	);
 
 	// Ripple effect.
 	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.IconToggle.CSS.RIPPLE_EFFECT ) ){
 
-		var  ripple = new zz.ui.mdl.Ripple( );
+		var ripple = new zz.ui.mdl.Ripple( );
 		this.addChild( ripple, false );
-		ripple.decorate( goog.dom.getElementByClass( zz.ui.mdl.IconToggle.CSS.RIPPLE_CONTAINER, this.getElement( ) ) );
-	}
+		ripple.decorate(
 
-	this.changeIconToggleListener_( );
+			goog.dom.getElementByClass(
+
+				zz.ui.mdl.IconToggle.CSS.RIPPLE_CONTAINER,
+				this.getElement( ) ) );
+
+	}else{
+
+		this.getHandler( ).listenWithScope(
+
+			this.getInputElement( ),
+			goog.events.EventType.FOCUS,
+			this.focusIconToggleListener_,
+			false,
+			this
+		);
+		this.getHandler( ).listenWithScope(
+
+			this.getInputElement( ),
+			goog.events.EventType.BLUR,
+			this.blurIconToggleListener_,
+			false,
+			this
+		);
+	}
 };
 
 /**
@@ -200,16 +200,6 @@ zz.ui.mdl.IconToggle.prototype.focusIconToggleListener_ = function( ){
 zz.ui.mdl.IconToggle.prototype.blurIconToggleListener_ = function( ){
 
 	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.IconToggle.CSS.IS_FOCUSED );
-};
-
-/**
- * Listener for IconToggle element change event.
- * @private
- */
-zz.ui.mdl.IconToggle.prototype.changeIconToggleListener_ = function( ){
-
-	this.setInputValue( this.getInputValue( ) );
-	this.getRenderer( ).updateClasses( this );
 };
 
 /**********************************************************************************************************************

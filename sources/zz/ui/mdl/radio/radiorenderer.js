@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.ui.mdl.TextFieldRenderer class.
+ * @fileoverview Provide zz.ui.mdl.RadioRenderer class.
  * @author popkov.aleksander@gmail.com (Alexander Popkov)
  */
 
@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.ui.mdl.TextFieldRenderer' );
+goog.provide( 'zz.ui.mdl.RadioRenderer' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -39,16 +39,16 @@ goog.require( 'zz.ui.mdl.ControlRenderer' );
  **********************************************************************************************************************/
 
 /**
- * Default renderer for {@link zz.ui.mdl.TextField}s. Extends the superclass to support switches states.
+ * Default renderer for {@link zz.ui.mdl.Radio}s. Extends the superclass to support radios states.
  * @constructor
  * @extends {zz.ui.mdl.ControlRenderer}
  */
-zz.ui.mdl.TextFieldRenderer = function( ){
+zz.ui.mdl.RadioRenderer = function( ){
 
-	zz.ui.mdl.TextFieldRenderer.base( this, 'constructor' );
+	zz.ui.mdl.RadioRenderer.base( this, 'constructor' );
 };
-goog.inherits( zz.ui.mdl.TextFieldRenderer, zz.ui.mdl.ControlRenderer );
-goog.addSingletonGetter( zz.ui.mdl.TextFieldRenderer );
+goog.inherits( zz.ui.mdl.RadioRenderer, zz.ui.mdl.ControlRenderer );
+goog.addSingletonGetter( zz.ui.mdl.RadioRenderer );
 
 /**********************************************************************************************************************
  * Prototype properties section                                                                                       *
@@ -58,48 +58,55 @@ goog.addSingletonGetter( zz.ui.mdl.TextFieldRenderer );
  * Default CSS class to be applied to the root element of components rendered by this renderer.
  * @type {string}
  */
-zz.ui.mdl.TextFieldRenderer.CSS_CLASS = goog.getCssName( 'mdl-textfield' );
+zz.ui.mdl.RadioRenderer.CSS_CLASS = goog.getCssName( 'mdl-radio' );
 
 /**********************************************************************************************************************
  * Life cycle methods                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * @param {zz.ui.mdl.TextField} control
+ * @param {zz.ui.mdl.Radio} control
  * @param {Element} element
  * @override
  */
-zz.ui.mdl.TextFieldRenderer.prototype.decorate = function( control, element ){
+zz.ui.mdl.RadioRenderer.prototype.decorate = function( control, element ){
 
-	// Label element
-	control.setLabelElement( control.getDomHelper( ).getElementsByTagNameAndClass(
+	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
-		goog.dom.TagName.LABEL,
-		zz.ui.mdl.TextField.CSS.LABEL
-	) );
+		'class': zz.ui.mdl.Radio.CSS.RADIO_OUTER_CIRCLE
+	} ) );
+	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
-	// Input element
-	control.setInputElement( control.getDomHelper( ).getElementByClass(
+		'class': zz.ui.mdl.Radio.CSS.RADIO_INNER_CIRCLE
 
-		zz.ui.mdl.TextField.CSS.INPUT
-	) );
+	} ) );
+	// Ripple dom.
+	if( goog.dom.classlist.contains( element, zz.ui.mdl.Radio.CSS.RIPPLE_EFFECT ) ){
 
-	// Text aria element attributes
-	if( control.getInputElement( ).hasAttribute( zz.ui.mdl.TextField.CONST.MAX_ROWS_ATTRIBUTE ) ){
+		goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
-		control.setMaxRows(
+			'class':
 
-			parseInt(
+				zz.ui.mdl.Radio.CSS.RIPPLE_CONTAINER + ' ' +
+				zz.ui.mdl.Radio.CSS.RIPPLE_EFFECT + ' ' +
+				zz.ui.mdl.Radio.CSS.RIPPLE_CENTER
 
-				control.getInputElement( ).getAttribute( zz.ui.mdl.TextField.CONST.MAX_ROWS_ATTRIBUTE ),
-				10 ) );
+		}, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
-		if( isNaN( control.getMaxRows( ) ) ){
+			'class':
 
-			control.setMaxRows( zz.ui.mdl.TextField.CONST.NO_MAX_ROWS );
-		}
+				zz.ui.mdl.Radio.CSS.RIPPLE + ' ' +
+				zz.ui.mdl.Radio.CSS.IS_ANIMATING
+		} ) ) );
 	}
-	goog.dom.classlist.add( element, zz.ui.mdl.TextField.CSS.IS_UPGRADED );
+	// Input element.
+	control.setInputElement( control.getDomHelper( ).getElementsByTagNameAndClass(
+
+		goog.dom.TagName.INPUT,
+		zz.ui.mdl.Radio.CSS.RADIO_BTN,
+		element )[ 0 ]
+	);
+	goog.dom.classlist.add( element, zz.ui.mdl.Radio.CSS.IS_UPGRADED );
 	return goog.base( this, 'decorate', control, element );
 };
 
@@ -110,9 +117,9 @@ zz.ui.mdl.TextFieldRenderer.prototype.decorate = function( control, element ){
 /**
  * @override
  */
-zz.ui.mdl.TextFieldRenderer.prototype.getCssClass = function( ){
+zz.ui.mdl.RadioRenderer.prototype.getCssClass = function( ){
 
-	return zz.ui.mdl.TextFieldRenderer.CSS_CLASS;
+	return zz.ui.mdl.RadioRenderer.CSS_CLASS;
 };
 
 /**********************************************************************************************************************
@@ -120,57 +127,48 @@ zz.ui.mdl.TextFieldRenderer.prototype.getCssClass = function( ){
  **********************************************************************************************************************/
 
 /**
- * @param {zz.ui.mdl.TextField} control
+ * Set control input element value.
+ * @param {zz.ui.mdl.Radio} control
+ * @param {*} value
  */
-zz.ui.mdl.TextFieldRenderer.prototype.updateClasses = function( control ){
+zz.ui.mdl.RadioRenderer.prototype.setValue = function( control, value ){
+
+	control.getInputElement( ).checked = value === control.getInputElement( ).value;
+	//noinspection JSUnresolvedFunction
+	control.setChecked( control.getInputElement( ).checked );
+	this.updateClasses( control );
+};
+
+/**
+ * @param {zz.ui.mdl.Radio} control
+ */
+zz.ui.mdl.RadioRenderer.prototype.updateClasses = function( control ){
 
 	//noinspection JSUnresolvedFunction
 	if( control.isEnabled( ) ){
 
-		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.TextField.CSS.IS_DISABLED );
+		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.Radio.CSS.IS_DISABLED );
+
+	} else {
+
+		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.Radio.CSS.IS_DISABLED );
+	}
+	//noinspection JSUnresolvedFunction
+	if( control.isChecked( ) ){
+
+		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.Radio.CSS.IS_CHECKED );
 
 	}else{
 
-		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.TextField.CSS.IS_DISABLED );
+		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.Radio.CSS.IS_CHECKED );
 	}
-	if( control.getInputElement( ).validity ){
-
-		if( control.getInputElement( ).validity.valid ){
-
-			goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.TextField.CSS.IS_INVALID );
-
-		}else{
-
-			goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.TextField.CSS.IS_INVALID );
-		}
-	}
-	if( control.getInputValue( ).length > 0 ){
-
-		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.TextField.CSS.IS_DIRTY );
-
-	}else{
-
-		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.TextField.CSS.IS_DIRTY );
-	}
-};
-
-/**
- * Set control input element value.
- * @param {zz.ui.mdl.Control} control
- * @param {*} value
- * @override
- */
-zz.ui.mdl.ControlRenderer.prototype.setValue = function( control, value ){
-
-	control.getInputElement( ).value = value;
-	this.updateClasses( control );
 };
 
 /**********************************************************************************************************************
- * Register a decorator factory function for zz.ui.mdl.TextFields.                                                         *
+ * Register a decorator factory function for zz.ui.mdl.Radios.                                                         *
  **********************************************************************************************************************/
 
-goog.ui.registry.setDecoratorByClassName( zz.ui.mdl.TextFieldRenderer.CSS_CLASS, function( ){
+goog.ui.registry.setDecoratorByClassName( zz.ui.mdl.RadioRenderer.CSS_CLASS, function( ){
 
-	return new zz.ui.mdl.TextField( );
+	return new zz.ui.mdl.Radio( );
 } );

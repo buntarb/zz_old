@@ -45,6 +45,7 @@ goog.require( 'zz.ui.mdl.Spinner' );
 goog.require( 'zz.ui.mdl.Progress' );
 goog.require( 'zz.ui.mdl.Checkbox' );
 goog.require( 'zz.ui.mdl.Switch' );
+goog.require( 'zz.ui.mdl.Radio' );
 goog.require( 'zz.ui.mdl.IconToggle' );
 goog.require( 'zz.ui.mdl.TextField' );
 
@@ -55,9 +56,9 @@ goog.require( 'zz.template.ui.progress' );
 goog.require( 'zz.template.ui.tooltip' );
 goog.require( 'zz.template.ui.checkbox' );
 goog.require( 'zz.template.ui.switch' );
+goog.require( 'zz.template.ui.radio' );
 goog.require( 'zz.template.ui.icontoggle' );
 goog.require( 'zz.template.ui.textfield' );
-
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -65,6 +66,11 @@ goog.require( 'zz.template.ui.textfield' );
 
 zz.demos.app = {};
 zz.demos.app.run = function( ){
+
+//	Model
+
+	var users = goog.global.users = new zz.module.user.model.Users( );
+	var user = goog.global.user = users.createFirst( );
 
 //	Navigation
 
@@ -160,35 +166,51 @@ zz.demos.app.run = function( ){
 
 //	Checkbox
 
+//	user.userVerifiedFlag = true;
+//
 //	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.checkbox.default );
 //
 //	var chckbx1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
 //	var chckbx2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
 //
+//	chckbx1.setModel( users, user, users.datafield.userVerifiedFlag );
 //	chckbx2.setEnabled( false );
 
 //	Switch
 
-	//soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.switch.default );
-    //
-	//var swtch1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
-	//var swtch2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
-    //
-	//swtch2.setEnabled( false );
+//	user.userVerifiedFlag = true;
+//
+//	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.switch.default );
+//
+//	var swtch1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+//	var swtch2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+//
+//	swtch1.setModel( users, user, users.datafield.userVerifiedFlag );
+//	swtch2.setEnabled( false );
 
 //	Icon Toggle
 
-	//soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.icontoggle.default );
-    //
-	//var tggl1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
-	//var tggl2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
-    //
-	//tggl2.setEnabled( false );
-    //
-	//var users = goog.global.users = new zz.module.user.model.Users( );
-	//var user = goog.global.user = users.createFirst( );
-    //
-	//tggl1.setModel( users, user, users.datafield.userVerifiedFlag );
+//	user.userVerifiedFlag = true;
+//
+//	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.icontoggle.default );
+//
+//	var tggl1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+//	var tggl2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+//
+//	tggl1.setModel( users, user, users.datafield.userVerifiedFlag );
+//	tggl2.setEnabled( false );
+
+//Radio
+
+//	user.userFirstName = 'b';
+//
+//	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.radio.default );
+//
+//	var radio1 = goog.ui.decorate( goog.dom.getElement( 'a1' ) );
+//	var radio2 = goog.ui.decorate( goog.dom.getElement( 'b1' ) );
+//
+//	radio1.setModel( users, user, users.datafield.userFirstName );
+//	radio2.setModel( users, user, users.datafield.userFirstName );
 
 // Text Field
 
@@ -196,9 +218,11 @@ zz.demos.app.run = function( ){
 
 	var tf1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
 	var tf2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
-	/******************************************************************************************************************
-	 * Fast click testing                                                                                             *
-	 ******************************************************************************************************************/
+
+	tf1.setEnabled( false );
+
+	tf1.setModel( users, user, users.datafield.userFirstName );
+	tf2.setModel( users, user, users.datafield.userFirstName );
 };
 
 /**********************************************************************************************************************

@@ -52,9 +52,16 @@ goog.require( 'zz.ui.mdl.Ripple' );
  */
 zz.ui.mdl.TextField = function( opt_content, opt_renderer, opt_domHelper ){
 
-	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.TextFieldRenderer.getInstance( ), opt_domHelper );
+	zz.ui.mdl.Control.call(
+
+		this,
+		opt_content,
+		opt_renderer || zz.ui.mdl.TextFieldRenderer.getInstance( ),
+		opt_domHelper );
+
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
+	this.setAllowTextSelection( true );
 };
 goog.inherits( zz.ui.mdl.TextField, zz.ui.mdl.Control );
 goog.tagUnsealableClass( zz.ui.mdl.TextField );
@@ -103,15 +110,18 @@ zz.ui.mdl.TextField.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
 
-	this.getHandler( ).listenWithScope(
+	if( this.maxRow_ !== zz.ui.mdl.TextField.CONST.NO_MAX_ROWS ){
 
-		this.getInputElement( ), //PROBLEM: use getElement or getInputElement?
 		//TODO: add goog.events.KeyHandler to handle key events
-		goog.events.EventType.KEYDOWN,
-		this.keyTextFieldListener_,
-		false,
-		this
-	);
+		this.getHandler( ).listenWithScope(
+
+			this.getInputElement( ),
+			goog.events.EventType.KEYDOWN,
+			this.keyTextFieldListener_,
+			false,
+			this
+		);
+	}
 	this.getHandler( ).listenWithScope(
 
 		this.getInputElement( ),
@@ -128,18 +138,6 @@ zz.ui.mdl.TextField.prototype.enterDocument = function( ){
 		false,
 		this
 	);
-	this.getHandler( ).listenWithScope(
-
-		this.getInputElement( ),
-		goog.events.EventType.CHANGE,
-		this.changeTextFieldListener_,
-		false,
-		this
-	);
-
-
-
-	this.changeTextFieldListener_( );
 };
 
 /**
@@ -161,15 +159,17 @@ zz.ui.mdl.TextField.prototype.disposeInternal = function( ){
  **********************************************************************************************************************/
 
 /**
- * Listener for Text Field element onkeydown event.
+ * Listener for Text Field element keydown event.
  * @private
  */
 zz.ui.mdl.TextField.prototype.keyTextFieldListener_ = function( ){
 
-	var currentRowCount = event.target.value.split('\n').length;
-	if (event.keyCode === 13) {
-		if (currentRowCount >= zz.ui.mdl.TextField.CONST.NO_MAX_ROWS) {
-			event.preventDefault();
+	var currentRowCount = event.target.value.split( '\n' ).length;
+	if( event.keyCode === 13 ){
+
+		if( currentRowCount >= this.maxRow_ ){
+
+			event.preventDefault( );
 		}
 	}
 };
@@ -178,7 +178,7 @@ zz.ui.mdl.TextField.prototype.keyTextFieldListener_ = function( ){
  * Listener for TextField element focus event.
  * @private
  */
-zz.ui.mdl.TextField.prototype.focusTextFieldListener_ = function( ){ //PROBLEM: css class is-focused doesnt add
+zz.ui.mdl.TextField.prototype.focusTextFieldListener_ = function( ){
 
 	goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.TextField.CSS.IS_FOCUSED );
 };
@@ -192,18 +192,45 @@ zz.ui.mdl.TextField.prototype.blurTextFieldListener_ = function( ){
 	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.TextField.CSS.IS_FOCUSED );
 };
 
-/**
- * Listener for Text Field element change event.
- * @private
- */
-zz.ui.mdl.TextField.prototype.changeTextFieldListener_ = function( ){
-
-	this.setInputValue( this.getInputValue( ) );
-	this.getRenderer( ).updateClasses( this );
-};
 /**********************************************************************************************************************
  * Helpers methods                                                                                                    *
  **********************************************************************************************************************/
+
+/**
+ * Setting up label element.
+ * @param {Element} element
+ */
+zz.ui.mdl.TextField.prototype.setLabelElement = function( element ){
+
+	this.labelElement_ = element;
+};
+
+/**
+ * Return label element.
+ * @returns {Element}
+ */
+zz.ui.mdl.TextField.prototype.getLabelElement = function( ){
+
+	return this.labelElement_;
+};
+
+/**
+ * Setting up text aria max row attribute.
+ * @param {Number} maxRow
+ */
+zz.ui.mdl.TextField.prototype.setMaxRows = function( maxRow ){
+
+	this.maxRow_ = maxRow;
+};
+
+/**
+ * Return text aria max row attribute.
+ * @returns {Number}
+ */
+zz.ui.mdl.TextField.prototype.getMaxRows = function( ){
+
+	return this.maxRow_;
+};
 
 /**
  * Enable/disable TextField.

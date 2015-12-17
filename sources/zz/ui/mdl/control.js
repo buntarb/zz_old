@@ -44,7 +44,7 @@ goog.require( 'zz.ui.mdl.ControlRenderer' );
  * @param {goog.ui.ControlContent=} opt_content Text caption or DOM structure to display as the content of the control.
  * @param {zz.ui.mdl.ControlRenderer=} opt_renderer Renderer used to render or decorate the component.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper, used for document interaction.
- * @param {zz.ui.formatter.Decimal=} opt_formatter Formatter object.
+ * @param {zz.ui.formatter.Default=} opt_formatter Formatter object.
  * @constructor
  * @extends {goog.ui.Control}
  */
@@ -212,7 +212,7 @@ zz.ui.mdl.Control.prototype.disposeInternal = function( ){
 
 	goog.base( this, 'disposeInternal' );
 
-	this.unsubscribe( );
+	this.unsubscribe_( );
 	this.getHandler( ).dispose( );
 
 	this.model_ = null;
@@ -227,24 +227,6 @@ zz.ui.mdl.Control.prototype.disposeInternal = function( ){
  **********************************************************************************************************************/
 
 /**
- * Setting up model.
- * @param {!zz.mvc.model.Dataset} dataset
- * @param {!zz.mvc.model.Datarow} datarow
- * @param {!string} datafield
- */
-zz.ui.mdl.Control.prototype.setModel = function( dataset, datarow, datafield ){
-
-	this.unsubscribe( );
-	this.model_ = {
-
-		dataset: dataset,
-		datarow: datarow,
-		datafield: datafield
-	};
-	this.subscribe_( );
-};
-
-/**
  * Subscribe control to model changes.
  * @private
  */
@@ -253,18 +235,46 @@ zz.ui.mdl.Control.prototype.subscribe_ = function( ){
 	if( goog.isDefAndNotNull( this.model_ ) ){
 
 		this.model_.dataset.subscribe( this );
+		this.modelChanged( new zz.mvc.model.Message(
+
+			zz.mvc.model.EventType.DATAROW_UPDATE,
+			this.model_.dataset,
+			this.model_.datarow,
+			this.model_.datafield,
+			null,
+			this.model_.datarow[ this.model_.datafield ]
+		) );
 	}
 };
 
 /**
  * Unsubscribe control from model changes.
+ * @private
  */
-zz.ui.mdl.Control.prototype.unsubscribe = function( ){
+zz.ui.mdl.Control.prototype.unsubscribe_ = function( ){
 
 	if( goog.isDefAndNotNull( this.model_ ) ){
 
 		this.model_.dataset.unsubscribe( this );
 	}
+};
+
+/**
+ * Setting up model.
+ * @param {!zz.mvc.model.Dataset} dataset
+ * @param {!zz.mvc.model.Datarow} datarow
+ * @param {!string} datafield
+ */
+zz.ui.mdl.Control.prototype.setModel = function( dataset, datarow, datafield ){
+
+	this.unsubscribe_( );
+	this.model_ = {
+
+		dataset: dataset,
+		datarow: datarow,
+		datafield: datafield
+	};
+	this.subscribe_( );
 };
 
 /**
@@ -290,6 +300,10 @@ zz.ui.mdl.Control.prototype.modelChangedInternal = function( message ){
 	this.setInputValue( this.formatter_.format( message.new_value ) );
 };
 
+/**********************************************************************************************************************
+ * Helpers methods                                                                                                    *
+ **********************************************************************************************************************/
+
 /**
  * Control input element setter (used by renderer).
  * @param {Element} element
@@ -303,10 +317,6 @@ zz.ui.mdl.Control.prototype.setInputElement = function( element ){
 	 */
 	this.inputElement_ = element;
 };
-
-/**********************************************************************************************************************
- * Helpers methods                                                                                                    *
- **********************************************************************************************************************/
 
 /**
  * Control input element getter.
