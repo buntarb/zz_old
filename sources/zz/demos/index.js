@@ -36,8 +36,6 @@ goog.require( 'goog.events' );
 goog.require( 'goog.ui.decorate' );
 goog.require( 'goog.ui.Component' );
 
-goog.require( 'zz.module.user.controller.Users' );
-
 goog.require( 'zz.ui.mdl.Button' );
 goog.require( 'zz.ui.mdl.Tooltip' );
 goog.require( 'zz.ui.mdl.Navigation' );
@@ -60,6 +58,8 @@ goog.require( 'zz.template.ui.radio' );
 goog.require( 'zz.template.ui.icontoggle' );
 goog.require( 'zz.template.ui.textfield' );
 
+goog.require( 'zz.module.user.view.Users' );
+
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
@@ -69,8 +69,8 @@ zz.demos.app.run = function( ){
 
 //	Model
 
-	var users = goog.global.users = new zz.module.user.model.Users( );
-	var user = goog.global.user = users.createFirst( );
+//	var users = goog.global.users = new zz.module.user.model.Users( );
+//	var user = goog.global.user = users.createFirst( );
 
 //	Navigation
 
@@ -214,15 +214,20 @@ zz.demos.app.run = function( ){
 
 // Text Field
 
-	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.textfield.default );
+//	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.textfield.default );
+//
+//	var tf1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+//	var tf2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+//
+//	tf1.setEnabled( false );
+//
+//	tf1.setModel( users, user, users.datafield.userFirstName );
+//	tf2.setModel( users, user, users.datafield.userFirstName );
 
-	var tf1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
-	var tf2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+//	Run user module
 
-	tf1.setEnabled( false );
-
-	tf1.setModel( users, user, users.datafield.userFirstName );
-	tf2.setModel( users, user, users.datafield.userFirstName );
+	var usersView = new zz.module.user.view.Users( );
+	usersView.render( goog.dom.getElement( 'root' ) );
 };
 
 /**********************************************************************************************************************

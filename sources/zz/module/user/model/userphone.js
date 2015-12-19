@@ -40,12 +40,11 @@ goog.require( 'zz.mvc.model.FieldTypes' );
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
-//noinspection JSClosureCompilerSyntax
 /**
- * @constructor
  * @param {!zz.mvc.model.Dataset} dataset
  * @param {?Array.<boolean, number, string>} opt_data
  * @extends {zz.mvc.model.Datarow}
+ * @constructor
  */
 zz.module.user.model.UserPhone = function( dataset, opt_data ){
 
@@ -74,6 +73,7 @@ zz.module.user.model.UserPhone = function( dataset, opt_data ){
 	 */
 	zz.mvc.model.Datarow.call( this, dataset, opt_data );
 };
+
 goog.inherits( zz.module.user.model.UserPhone, zz.mvc.model.Datarow );
 
 /**********************************************************************************************************************
@@ -81,10 +81,10 @@ goog.inherits( zz.module.user.model.UserPhone, zz.mvc.model.Datarow );
  **********************************************************************************************************************/
 
 /**
- * @constructor
  * @param {?goog.event.EventTarget} opt_parent
  * @param {?Array.<Array>} opt_data
  * @extends {zz.mvc.model.Dataset}
+ * @constructor
  */
 zz.module.user.model.UserPhoneSet = function( opt_parent, opt_data ){
 

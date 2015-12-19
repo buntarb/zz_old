@@ -41,12 +41,11 @@ goog.require( 'zz.module.user.model.UserPhoneSet' );
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
-//noinspection JSClosureCompilerSyntax
 /**
- * @constructor
- * @extends {zz.mvc.model.Datarow}
  * @param {!zz.mvc.model.Dataset} dataset
  * @param {?Array.<boolean, number, string>} opt_data
+ * @extends {zz.mvc.model.Datarow}
+ * @constructor
  */
 zz.module.user.model.User = function( dataset, opt_data ){
 
@@ -97,10 +96,10 @@ goog.inherits( zz.module.user.model.User, zz.mvc.model.Datarow );
  **********************************************************************************************************************/
 
 /**
- * @constructor
  * @param {goog.event.EventTarget=} opt_parent
  * @param {Array.<Array>=} opt_data
  * @extends {zz.mvc.model.Dataset}
+ * @constructor
  */
 zz.module.user.model.Users = function( opt_parent, opt_data ){
 

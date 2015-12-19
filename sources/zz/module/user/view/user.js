@@ -31,14 +31,27 @@ goog.provide( 'zz.module.user.view.User' );
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
+// Common
+goog.require( 'soy' );
 goog.require( 'goog.dom' );
 goog.require( 'goog.dom.classlist' );
+
+// UI
+goog.require( 'zz.ui.mdl.TextField' );
+goog.require( 'zz.ui.mdl.Checkbox' );
+
+// Template
+goog.require( 'zz.template.module.user' );
+
+// Views
 goog.require( 'zz.mvc.view.BaseView' );
-//goog.require( 'zz.ui.Checkbox' );
-//goog.require( 'zz.ui.LabelInput' );
-goog.require( 'zz.ui.formatter.Decimal' );
-goog.require( 'zz.module.user.controller.Users' );
 goog.require( 'zz.module.user.view.Phones' );
+
+// Controllers
+goog.require( 'zz.module.user.controller.Users' );
+
+// Other
+goog.require( 'zz.ui.formatter.Decimal' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -68,94 +81,120 @@ goog.inherits( zz.module.user.view.User, zz.mvc.view.BaseView );
  */
 zz.module.user.view.User.prototype.createDom = function( ){
 
+	this.setElementInternal(
+
+		soy.renderAsElement(
+
+			zz.template.module.user.user,
+			{ id: goog.getUid( this ) } ) );
+};
+
+/**
+ * @override
+ */
+zz.module.user.view.User.prototype.enterDocument = function( ){
+
+	goog.base( this, 'enterDocument' );
+
 	var model = this.getModel( );
 	var formatter = zz.ui.formatter.Decimal.getInstance( );
-
-	// Create dom structure.
-
-	/**
-	 * Wrapper element for user inputs.
-	 * @type {Element}
-	 * @private
-	 */
-	this.userDetailPanelElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
-
-		'class': goog.getCssName( 'user-detail' )
-	} );
-
-	/**
-	 * Wrapper element for user phones view.
-	 * @type {Element}
-	 * @private
-	 */
-	this.userPhonesPanelElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
-
-		'class': goog.getCssName( 'user-phones' )
-	} );
-
-	/**
-	 * Current view root element.
-	 * @type {Element}
-	 * @private
-	 */
-	this.userWrapperElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
-
-		'class': goog.getCssName( 'user-view' )
-
-	}, [ this.userDetailPanelElement_, this.userPhonesPanelElement_ ] );
 
 	// Create inputs.
 
 	/**
 	 * Control for user id.
-	 * @type {zz.ui.LabelInput}
+	 * @type {zz.ui.mdl.TextField}
 	 * @private
 	 */
-	this.userIdElement_ = new zz.ui.LabelInput( 'User #', formatter, false );
+	this.userIdElement_ = goog.ui.decorate(
+
+		goog.dom.getElementByClass(
+
+			goog.getCssName( 'user-number' ),
+			goog.dom.getElementByClass(
+
+				goog.getCssName( 'user-detail' ),
+				this.getElement( ) ) ) );
+
+	this.userIdElement_.setFormatter( formatter );
 
 	/**
 	 * Control for user first name.
 	 * @type {zz.ui.LabelInput}
 	 * @private
 	 */
-	this.firstNameElement_ = new zz.ui.LabelInput( 'User first name' );
+	this.firstNameElement_ = goog.ui.decorate(
+
+		goog.dom.getElementByClass(
+
+			goog.getCssName( 'user-first-name' ),
+			goog.dom.getElementByClass(
+
+				goog.getCssName( 'user-detail' ),
+				this.getElement( ) ) ) );
 
 	/**
 	 * Control for user last name.
 	 * @type {zz.ui.LabelInput}
 	 * @private
 	 */
-	this.lastNameElement_ = new zz.ui.LabelInput( 'User last name' );
+	this.lastNameElement_ = goog.ui.decorate(
+
+		goog.dom.getElementByClass(
+
+			goog.getCssName( 'user-last-name' ),
+			goog.dom.getElementByClass(
+
+				goog.getCssName( 'user-detail' ),
+				this.getElement( ) ) ) );
 
 	/**
 	 * Control for user login.
 	 * @type {zz.ui.LabelInput}
 	 * @private
 	 */
-	this.loginElement_ = new zz.ui.LabelInput( 'User login' );
+	this.loginElement_ = goog.ui.decorate(
+
+		goog.dom.getElementByClass(
+
+			goog.getCssName( 'user-login' ),
+			goog.dom.getElementByClass(
+
+				goog.getCssName( 'user-detail' ),
+				this.getElement( ) ) ) );
 
 	/**
 	 * Control for user password.
 	 * @type {zz.ui.LabelInput}
 	 * @private
 	 */
-	this.passwordElement_ = new zz.ui.LabelInput( 'User password', undefined, true );
+	this.passwordElement_ = goog.ui.decorate(
+
+		goog.dom.getElementByClass(
+
+			goog.getCssName( 'user-password' ),
+			goog.dom.getElementByClass(
+
+				goog.getCssName( 'user-detail' ),
+				this.getElement( ) ) ) );
 
 	/**
 	 * Control for userVerifiedFlag.
 	 * @type {zz.ui.Checkbox}
 	 * @private
 	 */
-	this.verifiedElement_ = new zz.ui.Checkbox( );
+	this.verifiedElement_ = goog.ui.decorate(
 
-	/**
-	 * Phones view.
-	 * @type {zz.module.user.view.Phones}
-	 * @private
-	 */
-	this.phonesView_ = new zz.module.user.view.Phones( );
+		goog.dom.getElementByClass(
 
-	// Setting up controls models.
+			goog.getCssName( 'user-verified-flag' ),
+			goog.dom.getElementByClass(
+
+				goog.getCssName( 'user-detail' ),
+				this.getElement( ) ) ) );
+
+	// Setting up controls models
+
 	this.userIdElement_.setModel(
 
 		model.dataset,
@@ -193,43 +232,24 @@ zz.module.user.view.User.prototype.createDom = function( ){
 		model.dataset.datafield.userVerifiedFlag
 	);
 
-	// Setting up views models.
-	this.phonesView_.setModel( model.datarow.userPhones );
+//	/**
+//	 * Phones view.
+//	 * @type {zz.module.user.view.Phones}
+//	 * @private
+//	 */
+//	this.phonesView_ = new zz.module.user.view.Phones( );
 
-	// Change internal element to insert controls.
-	this.setElementInternal( this.userDetailPanelElement_ );
+	// Setting up views models.
+//	this.phonesView_.setModel( model.datarow.userPhones );
 
 	// Inserting controls.
-	this.addChild( this.userIdElement_, true );
-	this.addChild( this.firstNameElement_, true );
-	this.addChild( this.lastNameElement_, true );
-	this.addChild( this.loginElement_, true );
-	this.addChild( this.passwordElement_, true );
-	this.addChild( this.verifiedElement_, true );
 
-	// Adding classes.
-	this.setInputControlStyle( this.userIdElement_ );
-	this.setInputControlStyle( this.firstNameElement_ );
-	this.setInputControlStyle( this.lastNameElement_ );
-	this.setInputControlStyle( this.loginElement_ );
-	this.setInputControlStyle( this.passwordElement_ );
-
-	// Change internal element to insert phones view.
-	this.setElementInternal( this.userPhonesPanelElement_ );
-
-	// Inserting phones view.
-	this.addChild( this.phonesView_, true );
-
-	// Change internal element to view root element before exit.
-	this.setElementInternal( this.userWrapperElement_ );
-};
-
-/**
- * @override
- */
-zz.module.user.view.User.prototype.enterDocument = function( ){
-
-	goog.base( this, 'enterDocument' );
+	this.addChild( this.userIdElement_ );
+	this.addChild( this.firstNameElement_ );
+	this.addChild( this.lastNameElement_ );
+	this.addChild( this.loginElement_ );
+	this.addChild( this.passwordElement_ );
+	this.addChild( this.verifiedElement_ );
 };
 
 /**
@@ -256,27 +276,6 @@ zz.module.user.view.User.prototype.disposeInternal = function( ){
  * @protected
  */
 zz.module.user.view.User.prototype.modelChangedInternal = function( message ){ };
-
-/**
- * Setting up inputs dimensions.
- * @param {zz.ui.LabelInput} ctrl
- */
-zz.module.user.view.User.prototype.setInputControlStyle = function( ctrl ){
-
-	goog.dom.classlist.addAll( ctrl.getElement( ), [
-
-		//goog.getCssName( 'width-23un' ),
-		//goog.getCssName( 'height-5un' ),
-		//goog.getCssName( 'margin-right-1un' ),
-		//goog.getCssName( 'margin-left-1un' ),
-		//goog.getCssName( 'padding-top-1un' ),
-		//goog.getCssName( 'padding-right-1un' ),
-		//goog.getCssName( 'padding-bottom-1un' ),
-		//goog.getCssName( 'padding-left-1un' ),
-		//goog.getCssName( 'line-height-3un' ),
-		//goog.getCssName( 'font-size-normal' )
-	] );
-};
 
 /**********************************************************************************************************************
  * Controller methods section                                                                                         *

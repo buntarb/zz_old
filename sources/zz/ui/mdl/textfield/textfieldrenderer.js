@@ -156,11 +156,11 @@ zz.ui.mdl.TextFieldRenderer.prototype.updateClasses = function( control ){
 
 /**
  * Set control input element value.
- * @param {zz.ui.mdl.Control} control
+ * @param {zz.ui.mdl.TextField} control
  * @param {*} value
  * @override
  */
-zz.ui.mdl.ControlRenderer.prototype.setValue = function( control, value ){
+zz.ui.mdl.TextFieldRenderer.prototype.setValue = function( control, value ){
 
 	control.getInputElement( ).value = value;
 	this.updateClasses( control );

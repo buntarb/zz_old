@@ -175,30 +175,33 @@ zz.ui.mdl.Control.prototype.enterDocument = function( ){
 			this.model_.datarow[ this.model_.datafield ]
 		) );
 	}
-	this.getHandler( ).listenWithScope( this.getInputElement( ), [
+	if( this.getInputElement( ) ){
 
-		goog.events.EventType.INPUT,
-		goog.events.EventType.CHANGE
+		this.getHandler( ).listenWithScope( this.getInputElement( ), [
 
-	], /** @this {zz.ui.mdl.Control} */ function( evt ){
+			goog.events.EventType.INPUT,
+			goog.events.EventType.CHANGE
 
-		try{
+		], /** @this {zz.ui.mdl.Control} */ function( evt ){
 
-			if( this.model_ )
+			try{
 
-				this.model_.datarow[ this.model_.datafield ] = this.formatter_.parse( this.getInputValue( ) );
+				if( this.model_ )
 
-		}catch( err ){
+					this.model_.datarow[ this.model_.datafield ] = this.formatter_.parse( this.getInputValue( ) );
 
-			this.errorHandler_( err );
-		}
-		if( evt.type === goog.events.EventType.CHANGE ){
+			}catch( err ){
 
-			if( this.model_ )
+				this.errorHandler_( err );
+			}
+			if( evt.type === goog.events.EventType.CHANGE ){
 
-				this.setInputValue( this.formatter_.format( this.model_.datarow[ this.model_.datafield ] ) );
-		}
-	}, false, this );
+				if( this.model_ )
+
+					this.setInputValue( this.formatter_.format( this.model_.datarow[ this.model_.datafield ] ) );
+			}
+		}, false, this );
+	}
 };
 
 /**
@@ -303,6 +306,15 @@ zz.ui.mdl.Control.prototype.modelChangedInternal = function( message ){
 /**********************************************************************************************************************
  * Helpers methods                                                                                                    *
  **********************************************************************************************************************/
+
+/**
+ * Formatter setter.
+ * @param {zz.ui.formatter.Default|zz.ui.formatter.Decimal} formatter
+ */
+zz.ui.mdl.Control.prototype.setFormatter = function( formatter ){
+
+	this.formatter_ = formatter;
+};
 
 /**
  * Control input element setter (used by renderer).

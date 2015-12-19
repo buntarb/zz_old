@@ -31,12 +31,23 @@ goog.provide( 'zz.module.user.view.Users' );
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'goog.events.EventType' );
+// Common
+goog.require( 'soy' );
 goog.require( 'goog.dom' );
-goog.require( 'goog.ui.Button' );
+goog.require( 'goog.events.EventType' );
+
+// UI
+goog.require( 'zz.ui.mdl.Button' );
+
+// Views
 goog.require( 'zz.mvc.view.BaseView' );
-goog.require( 'zz.module.user.controller.Users' );
 goog.require( 'zz.module.user.view.User' );
+
+// Controllers
+goog.require( 'zz.module.user.controller.Users' );
+
+// Template
+goog.require( 'zz.template.module.user' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -58,6 +69,16 @@ zz.module.user.view.Users = function( opt_domHelper ){
 goog.inherits( zz.module.user.view.Users, zz.mvc.view.BaseView );
 
 /**********************************************************************************************************************
+ * Static properties section                                                                                          *
+ **********************************************************************************************************************/
+
+/**
+ * Users view css class.
+ * @type {String}
+ */
+zz.module.user.view.Users.CSS_CLASS = goog.getCssName( 'users-view' );
+
+/**********************************************************************************************************************
  * DOM construct methods section                                                                                      *
  **********************************************************************************************************************/
 
@@ -66,69 +87,7 @@ goog.inherits( zz.module.user.view.Users, zz.mvc.view.BaseView );
  */
 zz.module.user.view.Users.prototype.createDom = function( ){
 
-	/**
-	 * Wrapper element for users add and remove buttons.
-	 * @type {Element}
-	 * @private
-	 */
-	this.controlPanelElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
-
-		'class': goog.getCssName( 'users-control' )
-	} );
-
-	/**
-	 * Wrapper element for user view.
-	 * @type {Element}
-	 * @private
-	 */
-	this.contentPanelElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
-
-		'class': goog.getCssName( 'users-content' )
-	} );
-
-	/**
-	 * Current view root element.
-	 * @type {Element}
-	 * @private
-	 */
-	this.wrapperElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
-
-		'class': goog.getCssName( 'users-view' )
-
-	}, [ this.controlPanelElement_, this.contentPanelElement_ ] );
-
-	/**
-	 * Array for storing created user views.
-	 * @type {Array}
-	 * @private
-	 */
-	this.userViews_ = [];
-
-	// Create controls.
-
-	/**
-	 * Add user control button.
-	 * @type {goog.ui.Button}
-	 * @private
-	 */
-	this.addUserButton_ = new goog.ui.Button( 'Add user' );
-
-	/**
-	 * Remove user control button.
-	 * @type {goog.ui.Button}
-	 * @private
-	 */
-	this.remUserButton_ = new goog.ui.Button( 'Remove user' );
-
-	// Change internal element to inject controls.
-	this.setElementInternal( this.controlPanelElement_ );
-
-	// Adding controls to element.
-	this.addChild( this.addUserButton_, true );
-	this.addChild( this.remUserButton_, true );
-
-	// Change internal element to view root element.
-	this.setElementInternal( this.wrapperElement_ );
+	this.setElementInternal( soy.renderAsElement( zz.template.module.user.users ) );
 };
 
 /**
@@ -138,7 +97,46 @@ zz.module.user.view.Users.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
 
+	/**
+	 * Add user control button.
+	 * @type {goog.ui.Button}
+	 * @private
+	 */
+	this.addUserButton_ = goog.ui.decorate( goog.dom.getElementByClass(
+
+		goog.getCssName( 'add-user' ),
+		goog.dom.getElementByClass(
+
+			goog.getCssName( 'users-control' ),
+			this.getElement( ) ) ) );
+
+	/**
+	 * Remove user control button.
+	 * @type {goog.ui.Button}
+	 * @private
+	 */
+	this.remUserButton_ = goog.ui.decorate( goog.dom.getElementByClass(
+
+		goog.getCssName( 'remove-user' ),
+		goog.dom.getElementByClass(
+
+			goog.getCssName( 'users-control' ),
+			this.getElement( ) ) ) );
+
+	/**
+	 * Array for storing created user views.
+	 * @type {Array}
+	 * @private
+	 */
+	this.userViews_ = [];
+
+	// Adding controls to element.
+
+	this.addChild( this.addUserButton_ );
+	this.addChild( this.remUserButton_ );
+
 	// Setting up add user button click event.
+
 	this.getHandler( ).listenWithScope(
 
 		this.addUserButton_,
@@ -193,7 +191,14 @@ zz.module.user.view.Users.prototype.addUser = function( message ){
 
 	this.userViews_.push( new zz.module.user.view.User( ) );
 	this.userViews_[ this.userViews_.length - 1 ].setModel( message.dataset, message.datarow );
-	this.setElementInternal( goog.dom.getElement( this.contentPanelElement_ ) );
+
+	this.setElementInternal( goog.dom.getElement(
+
+		goog.dom.getElementByClass(
+
+			goog.getCssName( 'users-content' ),
+			this.getElement( ) ) ) );
+
 	this.addChildAt( this.userViews_[ this.userViews_.length - 1 ], 2, true );
-	this.setElementInternal( goog.dom.getElement( this.wrapperElement_ ) );
+	this.setElementInternal( this.getElement( ) );
 };

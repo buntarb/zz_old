@@ -98,12 +98,12 @@ function compileTemplates( ){
 
 			'java -jar ./libs/google-closure-templates/SoyToJsSrcCompiler.jar ' +
 
-			'--shouldProvideRequireSoyNamespaces ' +
-			'--codeStyle concat ' +
-			'--cssHandlingScheme goog ' +
-			'--shouldGenerateJsdoc ' +
-			'--outputPathFormat ./sources/zz/_template/{INPUT_FILE_NAME_NO_EXT}.js ' +
-			'--srcs ' + results.join( ',' );
+				'--shouldProvideRequireSoyNamespaces ' +
+				'--codeStyle concat ' +
+				'--cssHandlingScheme goog ' +
+				'--shouldGenerateJsdoc ' +
+				'--outputPathFormat ./sources/zz/_template/{INPUT_FILE_NAME_NO_EXT}.js ' +
+				'--srcs ' + results.join( ',' );
 
 		exec( cmd, function( err ){
 
