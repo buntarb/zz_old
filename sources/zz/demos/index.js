@@ -224,11 +224,21 @@ zz.demos.app.run = function( ){
 //	tf1.setModel( users, user, users.datafield.userFirstName );
 //	tf2.setModel( users, user, users.datafield.userFirstName );
 
+// Text Field
+
+	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.slider.default );
+
+	var sldr1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+	var sldr2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+
+	sldr1.setEnabled( false );
+
+
 //	Run user module
 
-	var usersView = new zz.module.user.view.Users( );
-	usersView.render( goog.dom.getElement( 'root' ) );
-};
+//	var usersView = new zz.module.user.view.Users( );
+//	usersView.render( goog.dom.getElement( 'root' ) );
+//};
 
 /**********************************************************************************************************************
  * Public API export section                                                                                          *
