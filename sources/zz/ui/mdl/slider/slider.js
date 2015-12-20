@@ -118,7 +118,6 @@ zz.ui.mdl.Slider.prototype.enterDocument = function( ){
 			false,
 			this
 		);
-	}
 };
 
 /**

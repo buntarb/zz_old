@@ -46,6 +46,7 @@ goog.require( 'zz.ui.mdl.Switch' );
 goog.require( 'zz.ui.mdl.Radio' );
 goog.require( 'zz.ui.mdl.IconToggle' );
 goog.require( 'zz.ui.mdl.TextField' );
+goog.require( 'zz.ui.mdl.Slider' );
 
 goog.require( 'zz.template.ui.button' );
 goog.require( 'zz.template.ui.spinner' );
@@ -57,6 +58,7 @@ goog.require( 'zz.template.ui.switch' );
 goog.require( 'zz.template.ui.radio' );
 goog.require( 'zz.template.ui.icontoggle' );
 goog.require( 'zz.template.ui.textfield' );
+goog.require( 'zz.template.ui.slider' );
 
 goog.require( 'zz.module.user.view.Users' );
 
