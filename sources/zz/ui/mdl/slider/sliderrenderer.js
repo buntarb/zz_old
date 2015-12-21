@@ -71,27 +71,38 @@ zz.ui.mdl.SliderRenderer.CSS_CLASS = goog.getCssName( 'mdl-slider' );
  */
 zz.ui.mdl.SliderRenderer.prototype.decorate = function( control, element ){
 
-	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+	//input container
+	goog.dom.appendChild( goog.dom.getElement( 'root' ), goog.dom.createDom( goog.dom.TagName.DIV, {
 
-		'class': zz.ui.mdl.Slider.CSS.TRACK
+		'class': zz.ui.mdl.Slider.CSS.SLIDER_CONTAINER
 	} ) );
-	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 
-		'class': zz.ui.mdl.Slider.CSS.THUMB
+	goog.dom.appendChild( getElementsByClass( zz.ui.mdl.Slider.CSS.SLIDER_CONTAINER ), element );
 
-	}, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
+	goog.dom.appendChild( getElementsByClass( zz.ui.mdl.Slider.CSS.SLIDER_CONTAINER ),
 
-		'class': zz.ui.mdl.Slider.CSS.FOCUS_HELPER
+		control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 
-	} ) ) );
+		'class': zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX
+	} ) );
 
-	// Input element.
-	control.setInputElement( control.getDomHelper( ).getElementsByTagNameAndClass(
+	goog.dom.appendChild( getElementsByClass( zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX ),
 
-		goog.dom.TagName.INPUT,
-		zz.ui.mdl.Slider.CSS.INPUT,
-		element )[ 0 ]
-	);
+		control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+
+		'class': zz.ui.mdl.Slider.CSS.BACKGROUND_LOWER
+
+	} ) );
+
+	goog.dom.appendChild( getElementsByClass( zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX ),
+
+		control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+
+			'class': zz.ui.mdl.Slider.CSS.BACKGROUND_UPPER
+
+		} ) );
+
+	
 	goog.dom.classlist.add( element, zz.ui.mdl.Slider.CSS.IS_UPGRADED );
 	return goog.base( this, 'decorate', control, element );
 };
