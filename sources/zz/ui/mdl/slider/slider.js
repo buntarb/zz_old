@@ -104,17 +104,34 @@ zz.ui.mdl.Slider.prototype.enterDocument = function( ){
 	this.getHandler( ).listenWithScope(
 
 		this.getElement( ),
-		goog.events.EventType.MOUSEUP,
-		this.blurListener_,
+		goog.events.EventType.ONINPUT,
+		this.updateValueStyles_,
 		false,
 		this
 	);
 
 		this.getHandler( ).listenWithScope(
 
-			this.getInputElement( ),
-			goog.events.EventType.BLUR,
-			this.blurSliderListener_,
+			this.getElement( ),
+			goog.events.EventType.CHANGE,
+			this.updateValueStyles_,
+			false,
+			this
+		);
+
+		this.getHandler( ).listenWithScope(
+
+			this.getElement( ),
+			goog.events.EventType.MOUSEUP,
+			this.blurListener_,
+			false,
+			this
+		);
+		this.getHandler( ).listenWithScope(
+
+			this.getContainerElement( ),
+			goog.events.EventType.MOUSEDOWN,
+			//what?,
 			false,
 			this
 		);
@@ -171,7 +188,24 @@ zz.ui.mdl.Slider.prototype.blurSliderListener_ = function( ){
  **********************************************************************************************************************/
 
 /**
- * Enable/disable switch.
+ * Setting up slider container element.
+ * @param {Element} element
+ */
+zz.ui.mdl.Slider.prototype.setSliderElement = function( element ){
+
+	this.ContainerElement_ = element;
+};
+
+/**
+ * Return slider container element.
+ * @returns {Element}
+ */
+zz.ui.mdl.Slider.prototype.getContainerElement = function( ){
+
+	return this.ContainerElement_;
+};
+/**
+ * Enable/disable slider.
  * @param {boolean} enable
  */
 zz.ui.mdl.Slider.prototype.setEnabled = function( enable ){

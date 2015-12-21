@@ -77,11 +77,16 @@ zz.ui.mdl.SliderRenderer.prototype.decorate = function( control, element ){
 		'class': zz.ui.mdl.Slider.CSS.SLIDER_CONTAINER
 	} ) );
 
-	goog.dom.appendChild( getElementsByClass( zz.ui.mdl.Slider.CSS.SLIDER_CONTAINER ), element );
+	// Conrainer element
+	control.setContainerElement( control.getDomHelper( ).getElementsByTagNameAndClass(
 
-	goog.dom.appendChild( getElementsByClass( zz.ui.mdl.Slider.CSS.SLIDER_CONTAINER ),
+		goog.dom.TagName.DIV,
+		zz.ui.mdl.TextField.CSS.SLIDER_CONTAINER
+	) );
 
-		control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+	goog.dom.appendChild( control.getContainerElement( ), element );
+
+	goog.dom.appendChild( control.getContainerElement( ), control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 
 		'class': zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX
 	} ) );
@@ -102,7 +107,7 @@ zz.ui.mdl.SliderRenderer.prototype.decorate = function( control, element ){
 
 		} ) );
 
-	
+
 	goog.dom.classlist.add( element, zz.ui.mdl.Slider.CSS.IS_UPGRADED );
 	return goog.base( this, 'decorate', control, element );
 };
