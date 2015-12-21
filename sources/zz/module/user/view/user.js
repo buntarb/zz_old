@@ -86,7 +86,7 @@ zz.module.user.view.User.prototype.createDom = function( ){
 		soy.renderAsElement(
 
 			zz.template.module.user.user,
-			{ id: goog.getUid( this ) } ) );
+			{ id: goog.getUid( this.getModel( ).datarow ) } ) );
 };
 
 /**

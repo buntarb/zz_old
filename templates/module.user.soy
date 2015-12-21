@@ -1,6 +1,7 @@
 {namespace zz.template.module.user}
 
-/**Users view.
+/**
+ * Users view.
  */
 {template .users}
     <div
@@ -36,7 +37,7 @@
 {template .user}
     <div
         id="{$id}"
-        class="{css user-view}">
+        class="{css user-view} {css demo-card-wide} {css mdl-card} {css mdl-shadow--2dp}">
         <div
             class="{css user-detail}">
             <div
@@ -48,7 +49,9 @@
                 <label
                     for="{css user-number}-{$id}"
                     class="{css mdl-textfield__label}">
-                    User #
+                    {msg desc="User id" meaning="User uniqe id"}
+                        #
+                    {/msg}
                 </label>
             </div>
             <div
@@ -60,7 +63,9 @@
                 <label
                     for="{css user-first-name}-{$id}"
                     class="{css mdl-textfield__label}">
-                    User first name
+                    {msg desc="User first name" meaning="User first name"}
+                        First name
+                    {/msg}
                 </label>
             </div>
             <div
@@ -72,7 +77,9 @@
                 <label
                     for="{css user-last-name}-{$id}"
                     class="{css mdl-textfield__label}">
-                    User last name
+                    {msg desc="User last name" meaning="User last name"}
+                        Last name
+                    {/msg}
                 </label>
             </div>
             <div
@@ -84,7 +91,9 @@
                 <label
                     for="{css user-login}-{$id}"
                     class="{css mdl-textfield__label}">
-                    User login
+                    {msg desc="User login" meaning="User login"}
+                        Login
+                    {/msg}
                 </label>
             </div>
             <div
@@ -96,18 +105,21 @@
                 <label
                     for="{css user-password}-{$id}"
                     class="{css mdl-textfield__label}">
-                    User password
+                    {msg desc="User password" meaning="User password"}
+                        Password
+                    {/msg}
                 </label>
             </div>
             <label
-                id="1"
                 class="{css mdl-checkbox} {css mdl-js-checkbox} {css mdl-js-ripple-effect} {css user-verified-flag}">
                 <input
                     type="checkbox"
                     class="{css mdl-checkbox__input}">
                 <span
                     class="{css mdl-checkbox__label}">
-                    User verified flag
+                    {msg desc="User verified flag" meaning="User verified flag"}
+                        Verified flag
+                    {/msg}
                 </span>
             </label>
         </div>
