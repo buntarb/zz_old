@@ -144,10 +144,10 @@ zz.ui.mdl.SliderRenderer.prototype.getCssClass = function( ){
  * @param {zz.ui.mdl.Swlider} control
  * @param {*} value
  */
-zz.ui.mdl.SliderRenderer.prototype.setValue = function( control, value ){
+zz.ui.mdl.Slider.prototype.setValue = function( control, value ){
 
 	control.getElement( ).value = value;
-	zz.ui.mdl.SliderRenderer.updateValueStyles_( control );
+	this.updateValueStyles_( control );
 };
 
 /**
@@ -155,7 +155,7 @@ zz.ui.mdl.SliderRenderer.prototype.setValue = function( control, value ){
  * @param {zz.ui.mdl.Slider} control
  * @returns {*} value
  */
-zz.ui.mdl.SliderRenderer.prototype.getValue = function( control ){
+zz.ui.mdl.Slider.prototype.getValue = function( control ){
 
 	return control.getElement( ).value;
 };
