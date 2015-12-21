@@ -147,7 +147,7 @@ zz.ui.mdl.SliderRenderer.prototype.getCssClass = function( ){
 zz.ui.mdl.SwitchRenderer.prototype.setValue = function( control, value ){
 
 	control.getElement( ).value = value;
-	zz.ui.mdl.SwitchRenderer.updateValueStyles_( control );
+	zz.ui.mdl.SliderRenderer.updateValueStyles_( control );
 };
 
 /**
