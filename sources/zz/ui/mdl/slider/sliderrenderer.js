@@ -45,7 +45,7 @@ goog.require( 'zz.ui.mdl.ControlRenderer' );
  */
 zz.ui.mdl.SliderRenderer = function( ){
 
-	zz.ui.mdl.SwitchRenderer.base( this, 'constructor' );
+	zz.ui.mdl.SliderRenderer.base( this, 'constructor' );
 };
 goog.inherits( zz.ui.mdl.SliderRenderer, zz.ui.mdl.ControlRenderer );
 goog.addSingletonGetter( zz.ui.mdl.SliderRenderer );
@@ -144,7 +144,7 @@ zz.ui.mdl.SliderRenderer.prototype.getCssClass = function( ){
  * @param {zz.ui.mdl.Swlider} control
  * @param {*} value
  */
-zz.ui.mdl.SwitchRenderer.prototype.setValue = function( control, value ){
+zz.ui.mdl.SliderRenderer.prototype.setValue = function( control, value ){
 
 	control.getElement( ).value = value;
 	zz.ui.mdl.SliderRenderer.updateValueStyles_( control );
@@ -155,12 +155,12 @@ zz.ui.mdl.SwitchRenderer.prototype.setValue = function( control, value ){
  * @param {zz.ui.mdl.Slider} control
  * @returns {*} value
  */
-zz.ui.mdl.SwitchRenderer.prototype.getValue = function( control ){
+zz.ui.mdl.SliderRenderer.prototype.getValue = function( control ){
 
 	return control.getElement( ).value;
 };
 /**********************************************************************************************************************
- * Register a decorator factory function for zz.ui.mdl.Switches.                                                         *
+ * Register a decorator factory function for zz.ui.mdl.Sliders.                                                         *
  **********************************************************************************************************************/
 
 goog.ui.registry.setDecoratorByClassName( zz.ui.mdl.SliderRenderer.CSS_CLASS, function( ){
