@@ -191,7 +191,7 @@ zz.ui.mdl.Slider.prototype.blurSliderListener_ = function( ){
  * Setting up slider container element.
  * @param {Element} element
  */
-zz.ui.mdl.Slider.prototype.setSliderElement = function( element ){
+zz.ui.mdl.Slider.prototype.setContainerElement = function( element ){
 
 	this.ContainerElement_ = element;
 };
