@@ -18,7 +18,7 @@ goog.require('soydata');
  * @suppress {checkTypes|uselessCode}
  */
 zz.template.ui.slider.default = function(opt_data, opt_ignored) {
-  return '<input id="1" class="' + goog.getCssName('mdl-slider') + ' ' + goog.getCssName('mdl-js-slider') + '" type="range" min="0" max="1000" value="0" tabindex="0"><br><input id="2" class="' + goog.getCssName('mdl-slider') + ' ' + goog.getCssName('mdl-js-slider') + '" type="range" min="0" max="100" value="25" tabindex="0">';
+  return '<input id="1" class="' + goog.getCssName('mdl-slider') + ' ' + goog.getCssName('mdl-js-slider') + '" type="range" min="0" max="100" value="0" tabindex="0">';
 };
 if (goog.DEBUG) {
   zz.template.ui.slider.default.soyTemplateName = 'zz.template.ui.slider.default';

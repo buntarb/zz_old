@@ -231,9 +231,9 @@ zz.demos.app.run = function( ){
 	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.slider.default );
 
 	var sldr1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
-	var sldr2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+	//var sldr2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
 
-	sldr1.setEnabled( false );
+	//sldr1.setEnabled( false );
 
 
 //	Run user module

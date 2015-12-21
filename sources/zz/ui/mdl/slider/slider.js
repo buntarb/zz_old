@@ -104,37 +104,37 @@ zz.ui.mdl.Slider.prototype.enterDocument = function( ){
 	this.getHandler( ).listenWithScope(
 
 		this.getElement( ),
-		goog.events.EventType.ONINPUT,
+		goog.events.EventType.INPUT,
 		this.updateValueStyles_,
 		false,
 		this
 	);
 
-		this.getHandler( ).listenWithScope(
+	this.getHandler( ).listenWithScope(
 
-			this.getElement( ),
-			goog.events.EventType.CHANGE,
-			this.updateValueStyles_,
-			false,
-			this
-		);
+		this.getElement( ),
+		goog.events.EventType.CHANGE,
+		this.updateValueStyles_,
+		false,
+		this
+	);
 
-		this.getHandler( ).listenWithScope(
+	this.getHandler( ).listenWithScope(
 
-			this.getElement( ),
-			goog.events.EventType.MOUSEUP,
-			this.blurListener_,
-			false,
-			this
-		);
-		this.getHandler( ).listenWithScope(
+		this.getElement( ),
+		goog.events.EventType.MOUSEUP,
+		this.blurSliderListener_,
+		false,
+		this
+	);
+	this.getHandler( ).listenWithScope(
 
-			this.getContainerElement( ),
-			goog.events.EventType.MOUSEDOWN,
-			//what?,
-			false,
-			this
-		);
+		this.getcontainerElement( ),
+		goog.events.EventType.MOUSEDOWN,
+		this.onContainerMouseDown_,
+		false,
+		this
+	);
 };
 
 /**
@@ -160,29 +160,71 @@ zz.ui.mdl.Slider.prototype.disposeInternal = function( ){
  * @this {zz.ui.mdl.Slider}
  * @private
  */
-zz.ui.mdl.Slider.prototype.blurListener_ = function( ){
-
-	this.getInputElement( ).blur( );
-};
-
-/**
- * Listener for Slider element focus event.
- * @private
- */
-zz.ui.mdl.Slider.prototype.focusSwitchListener_ = function( ){
-
-	goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Slider.CSS.IS_FOCUSED );
-};
-
-/**
- * Listener for Slider element blur event.
- * @private
- */
 zz.ui.mdl.Slider.prototype.blurSliderListener_ = function( ){
 
-	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Slider.CSS.IS_FOCUSED );
+	this.getElement( ).blur( );
 };
 
+/**
+ * Listener for Slider container element mousedown event.
+ * @private
+ */
+zz.ui.mdl.Slider.prototype.onContainerMouseDown_ = function( ){
+
+	// If this click is not on the parent element (but rather some child)
+	// ignore. It may still bubble up.
+	if ( event.target !== this.getElement( ).parentElement ) {
+		return;
+	}
+
+	// Discard the original event and create a new event that
+	// is on the slider element.
+	event.preventDefault( );
+	var newEvent = new MouseEvent( 'mousedown', {
+		target: event.target,
+		buttons: event.buttons,
+		clientX: event.clientX,
+		clientY: this.getElement( ).getBoundingClientRect( ).y
+	} );
+	this.getElement( ).dispatchEvent( newEvent );
+};
+
+/**
+ * Listener for Slider container element mousedown event.
+ * @private
+ */
+zz.ui.mdl.Slider.prototype.updateValueStyles_ = function( ){
+
+	// Calculate and apply percentages to div structure behind slider.
+	var fraction = ( this.getElement( ).value - this.getElement( ).min ) / ( this.getElement( ).max - this.getElement( ).min );
+
+	if ( fraction === 0 ) {
+		this.getElement( ).classList.add(this.CSS.IS_LOWEST_VALUE);
+	} else {
+		this.getElement( ).classList.remove(this.CSS.IS_LOWEST_VALUE);
+	}
+
+	if ( !this.isIE_ ) {
+		this.backgroundLower_.style.flex = fraction;
+		this.backgroundLower_.style.webkitFlex = fraction;
+		this.backgroundUpper_.style.flex = 1 - fraction;
+		this.backgroundUpper_.style.webkitFlex = 1 - fraction;
+	}
+};
+
+/**
+ * Update slider value.
+ *
+ * @param {number} value The value to which to set the control (optional).
+ * @public
+ */
+zz.ui.mdl.Slider.prototype.change = function( value ) {
+
+	if ( typeof value !== 'undefined' ) {
+		this.getElement( ).value = value;
+	}
+	this.updateValueStyles_( );
+};
 /**********************************************************************************************************************
  * Helpers methods                                                                                                    *
  **********************************************************************************************************************/
@@ -191,18 +233,37 @@ zz.ui.mdl.Slider.prototype.blurSliderListener_ = function( ){
  * Setting up slider container element.
  * @param {Element} element
  */
-zz.ui.mdl.Slider.prototype.setContainerElement = function( element ){
+zz.ui.mdl.Slider.prototype.setcontainerElement = function( element ){
 
-	this.ContainerElement_ = element;
+	this.containerElement_ = element;
 };
 
 /**
  * Return slider container element.
  * @returns {Element}
  */
-zz.ui.mdl.Slider.prototype.getContainerElement = function( ){
+zz.ui.mdl.Slider.prototype.getcontainerElement = function( ){
 
-	return this.ContainerElement_;
+	return this.containerElement_;
+};
+
+
+/**
+ * Setting up browser feature detection for slider.
+ * @param {string} isIE
+ */
+zz.ui.mdl.TextField.prototype.setisIE = function( maxRow ){
+
+	this.isIE_ = window.navigator.msPointerEnabled;
+};
+
+/**
+ * Return browser feature detection for slider.
+ * @returns {string}
+ */
+zz.ui.mdl.TextField.prototype.getisIE = function( ){
+
+	return this.isIE_;
 };
 /**
  * Enable/disable slider.
@@ -211,6 +272,6 @@ zz.ui.mdl.Slider.prototype.getContainerElement = function( ){
 zz.ui.mdl.Slider.prototype.setEnabled = function( enable ){
 
 	zz.ui.mdl.Slider.superClass_.setEnabled.call( this, enable );
-	this.getInputElement( ).disabled = !enable;
-	this.getRenderer( ).updateClasses( this );
+	this.getElement( ).disabled = !enable;
+	this.getRenderer( ).updateValueStyles_( this );
 };

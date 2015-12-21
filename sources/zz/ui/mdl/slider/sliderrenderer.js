@@ -70,47 +70,59 @@ zz.ui.mdl.SliderRenderer.CSS_CLASS = goog.getCssName( 'mdl-slider' );
  * @override
  */
 zz.ui.mdl.SliderRenderer.prototype.decorate = function( control, element ){
+	if ( this.isIE_ ) {
 
-	//input container
-	goog.dom.appendChild( goog.dom.getElement( 'root' ), goog.dom.createDom( goog.dom.TagName.DIV, {
+		var containerIE = goog.dom.createDom( goog.dom.TagName.DIV, {
 
-		'class': zz.ui.mdl.Slider.CSS.SLIDER_CONTAINER
-	} ) );
+			'class': zz.ui.mdl.Slider.CSS.IE_CONTAINER
+		} );
 
-	// Conrainer element
-	control.setContainerElement( control.getDomHelper( ).getElementsByTagNameAndClass(
+		// Container element
+		control.setcontainerElement( containerIE );
 
-		goog.dom.TagName.DIV,
-		zz.ui.mdl.TextField.CSS.SLIDER_CONTAINER
-	) );
+		goog.dom.insertSiblingBefore( containerIE, element );
+		goog.dom.appendChild( containerIE, element );
+	} else {
 
-	goog.dom.appendChild( control.getContainerElement( ), element );
 
-	goog.dom.appendChild( control.getContainerElement( ), control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+		var container = goog.dom.createDom( goog.dom.TagName.DIV, {
 
-		'class': zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX
-	} ) );
+			'class': zz.ui.mdl.Slider.CSS.SLIDER_CONTAINER
+		} );
 
-	goog.dom.appendChild( getElementsByClass( zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX ),
+		// Container element
+		control.setcontainerElement( container );
 
-		control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+		goog.dom.insertSiblingBefore( container, element );
+		goog.dom.appendChild( container, element );
 
-		'class': zz.ui.mdl.Slider.CSS.BACKGROUND_LOWER
+		goog.dom.appendChild( container, goog.dom.createDom( goog.dom.TagName.DIV, {
 
-	} ) );
-
-	goog.dom.appendChild( getElementsByClass( zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX ),
-
-		control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
-
-			'class': zz.ui.mdl.Slider.CSS.BACKGROUND_UPPER
-
+			'class': zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX
 		} ) );
 
+		goog.dom.appendChild( goog.dom.getElementByClass( zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX ),
 
-	goog.dom.classlist.add( element, zz.ui.mdl.Slider.CSS.IS_UPGRADED );
-	return goog.base( this, 'decorate', control, element );
+			goog.dom.createDom( goog.dom.TagName.DIV, {
+
+				'class': zz.ui.mdl.Slider.CSS.BACKGROUND_LOWER
+
+			} ) );
+
+		goog.dom.appendChild( goog.dom.getElementByClass( zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX ),
+
+			goog.dom.createDom( goog.dom.TagName.DIV, {
+
+				'class': zz.ui.mdl.Slider.CSS.BACKGROUND_UPPER
+
+			} ) );
+
+		goog.dom.classlist.add( element, zz.ui.mdl.Slider.CSS.IS_UPGRADED );
+		zz.ui.mdl.Slider.prototype.updateValueStyles_( control );
+		return goog.base( this, 'decorate', control, element );
+	}
 };
+
 
 /**********************************************************************************************************************
  * Style manipulation methods                                                                                         *
@@ -127,17 +139,15 @@ zz.ui.mdl.SliderRenderer.prototype.getCssClass = function( ){
 /**********************************************************************************************************************
  * Helpers methods                                                                                                    *
  **********************************************************************************************************************/
-
 /**
  * Set control input element value.
- * @param {zz.ui.mdl.Slider} control
+ * @param {zz.ui.mdl.Swlider} control
  * @param {*} value
  */
-zz.ui.mdl.SliderRenderer.prototype.setValue = function( control, value ){
+zz.ui.mdl.SwitchRenderer.prototype.setValue = function( control, value ){
 
-	control.setChecked( value );
-	control.getInputElement( ).checked = value;
-	this.updateClasses( control );
+	control.getElement( ).value = value;
+	zz.ui.mdl.SwitchRenderer.updateValueStyles_( control );
 };
 
 /**
@@ -145,36 +155,10 @@ zz.ui.mdl.SliderRenderer.prototype.setValue = function( control, value ){
  * @param {zz.ui.mdl.Slider} control
  * @returns {*} value
  */
-zz.ui.mdl.SliderRenderer.prototype.getValue = function( control ){
+zz.ui.mdl.SwitchRenderer.prototype.getValue = function( control ){
 
-	return control.getInputElement( ).checked;
+	return control.getElement( ).value;
 };
-
-/**
- * @param {zz.ui.mdl.Slider} control
- */
-zz.ui.mdl.SliderRenderer.prototype.updateClasses = function( control ){
-
-	//noinspection JSUnresolvedFunction
-	if( control.isEnabled( ) ){
-
-		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.Slider.CSS.IS_DISABLED );
-
-	} else {
-
-		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.Slider.CSS.IS_DISABLED );
-	}
-	//noinspection JSUnresolvedFunction
-	if( control.isChecked( ) ){
-
-		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.Slider.CSS.IS_CHECKED );
-
-	}else{
-
-		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.Slider.CSS.IS_CHECKED );
-	}
-};
-
 /**********************************************************************************************************************
  * Register a decorator factory function for zz.ui.mdl.Switches.                                                         *
  **********************************************************************************************************************/
