@@ -12,15 +12,9 @@
 		"gulp-param": "~0.6.4",
 		"gulp-sass": "~2.1.0",
 		"gulp-filenames": "~1.3.0",
-
-		"closure-library": "https://github.com/google/closure-library.git",
-		"ydn-db": "https://github.com/yathit/ydn-db.git",
-
 		"material-design-lite": "",
-		"material-design-icons": ""
-	},
-	"scripts": {
-		"preinstall": "sh ./preinstall.sh",
-		"postinstall": "sh ./postinstall.sh"
+		"material-design-icons": "",
+		"closure-library": "https://github.com/google/closure-library.git",
+		"ydn-db": "https://github.com/yathit/ydn-db.git"
 	}
 }

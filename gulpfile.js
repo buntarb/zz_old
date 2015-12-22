@@ -33,17 +33,29 @@ var sass = require( 'gulp-sass' );
 var express = require('express' );
 
 /**********************************************************************************************************************
- * TEMPLATES AND MESSAGES CONSTANTS                                                                                   *
+ * Constants                                                                                                          *
  **********************************************************************************************************************/
 
-// TODO (buntarb): add this jar to package.
-var MSG_EXTRACTOR_PATH = './libs/google-closure-templates/SoyMsgExtractor.jar';
-var MSG_TARGET_PATH = './messages';
+var PATH = {
 
-var SOY_TO_JS_COMPILER_PATH = './libs/google-closure-templates/SoyToJsSrcCompiler.jar';
-var SOY_TEMPLATES_PATH = './templates';
+	TOOLS: './bin',
+	MESSAGES: './messages',
+	TEMPLATES: './templates',
+	STYLESHEETS: './stylesheets'
+};
 
-var DEFAULT_LOCALE = 'en';
+var TOOLS = {
+
+	COMPILER: PATH.TOOLS + '/compiler/compiler.jar',
+	MESSAGES: PATH.TOOLS + '/messages/SoyMsgExtractor.jar',
+	TEMPLATES: PATH.TOOLS + '/templates/SoyToJsSrcCompiler.jar',
+	STYLESHEETS: PATH.TOOLS + '/stylesheets/closure-stylesheets.jar'
+};
+
+var DEFAULTS = {
+
+	LOCALE: 'en'
+};
 
 /**********************************************************************************************************************
  * Functions declare section                                                                                          *
