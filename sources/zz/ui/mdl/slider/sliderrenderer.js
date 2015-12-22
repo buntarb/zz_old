@@ -78,7 +78,7 @@ zz.ui.mdl.SliderRenderer.prototype.decorate = function( control, element ){
 		} );
 
 		// Container element
-		control.setcontainerElement( containerIE );
+		control.setContainerElement( containerIE );
 
 		goog.dom.insertSiblingBefore( containerIE, element );
 		goog.dom.appendChild( containerIE, element );
@@ -91,7 +91,7 @@ zz.ui.mdl.SliderRenderer.prototype.decorate = function( control, element ){
 		} );
 
 		// Container element
-		control.setcontainerElement( container );
+		control.setContainerElement( container );
 
 		goog.dom.insertSiblingBefore( container, element );
 		goog.dom.appendChild( container, element );
@@ -118,7 +118,7 @@ zz.ui.mdl.SliderRenderer.prototype.decorate = function( control, element ){
 			} ) );
 
 		goog.dom.classlist.add( element, zz.ui.mdl.Slider.CSS.IS_UPGRADED );
-		zz.ui.mdl.Slider.prototype.updateValueStyles_( control );
+		this.updateClasses( control );
 		return goog.base( this, 'decorate', control, element );
 	}
 };
@@ -141,13 +141,13 @@ zz.ui.mdl.SliderRenderer.prototype.getCssClass = function( ){
  **********************************************************************************************************************/
 /**
  * Set control input element value.
- * @param {zz.ui.mdl.Swlider} control
+ * @param {zz.ui.mdl.Slider} control
  * @param {*} value
  */
 zz.ui.mdl.SliderRenderer.prototype.setValue = function( control, value ){
 
 	control.getElement( ).value = value;
-	zz.ui.mdl.SliderRenderer.updateValueStyles_( control );
+	this.updateClasses( control );
 };
 
 /**
@@ -158,6 +158,29 @@ zz.ui.mdl.SliderRenderer.prototype.setValue = function( control, value ){
 zz.ui.mdl.SliderRenderer.prototype.getValue = function( control ){
 
 	return control.getElement( ).value;
+};
+
+/**
+ * @param {zz.ui.mdl.Slider} control
+ */
+zz.ui.mdl.SliderRenderer.prototype.updateClasses = function( ){
+
+	// Calculate and apply percentages to div structure behind slider.
+	var fraction = (
+		this.getElement( ).value - this.getElement( ).min ) / ( this.getElement( ).max - this.getElement( ).min );
+
+	if ( fraction === 0 ) {
+		this.getElement( ).classList.add(this.CSS.IS_LOWEST_VALUE);
+	} else {
+		this.getElement( ).classList.remove(this.CSS.IS_LOWEST_VALUE);
+	}
+
+	if ( !this.getisIE_ ) { //TODO: fix this. use class Environtment to differ browser IE
+		this.getbackgroundLower_.goog.style.flex = fraction;
+		this.getgetbackgroundLower_.goog.style.webkitFlex = fraction;
+		this.getbackgroundUpper_.goog.style.flex = 1 - fraction;
+		this.getbackgroundUpper_.goog.style.webkitFlex = 1 - fraction;
+	}
 };
 /**********************************************************************************************************************
  * Register a decorator factory function for zz.ui.mdl.Sliders.                                                         *

@@ -129,7 +129,7 @@ zz.ui.mdl.Slider.prototype.enterDocument = function( ){
 	);
 	this.getHandler( ).listenWithScope(
 
-		this.getcontainerElement( ),
+		this.getContainerElement( ),
 		goog.events.EventType.MOUSEDOWN,
 		this.onContainerMouseDown_,
 		false,
@@ -189,42 +189,6 @@ zz.ui.mdl.Slider.prototype.onContainerMouseDown_ = function( ){
 	this.getElement( ).dispatchEvent( newEvent );
 };
 
-/**
- * Listener for Slider container element mousedown event.
- * @private
- */
-zz.ui.mdl.Slider.prototype.updateValueStyles_ = function( ){
-
-	// Calculate and apply percentages to div structure behind slider.
-	var fraction = ( this.getElement( ).value - this.getElement( ).min ) / ( this.getElement( ).max - this.getElement( ).min );
-
-	if ( fraction === 0 ) {
-		this.getElement( ).classList.add(this.CSS.IS_LOWEST_VALUE);
-	} else {
-		this.getElement( ).classList.remove(this.CSS.IS_LOWEST_VALUE);
-	}
-
-	if ( !this.isIE_ ) {
-		this.backgroundLower_.style.flex = fraction;
-		this.backgroundLower_.style.webkitFlex = fraction;
-		this.backgroundUpper_.style.flex = 1 - fraction;
-		this.backgroundUpper_.style.webkitFlex = 1 - fraction;
-	}
-};
-
-/**
- * Update slider value.
- *
- * @param {number} value The value to which to set the control (optional).
- * @public
- */
-zz.ui.mdl.Slider.prototype.change = function( value ) {
-
-	if ( typeof value !== 'undefined' ) {
-		this.getElement( ).value = value;
-	}
-	this.updateValueStyles_( );
-};
 /**********************************************************************************************************************
  * Helpers methods                                                                                                    *
  **********************************************************************************************************************/
@@ -252,7 +216,7 @@ zz.ui.mdl.Slider.prototype.getcontainerElement = function( ){
  * Setting up browser feature detection for slider.
  * @param {string} isIE
  */
-zz.ui.mdl.TextField.prototype.setisIE = function( maxRow ){
+zz.ui.mdl.Slider.prototype.setisIE = function( ){
 
 	this.isIE_ = window.navigator.msPointerEnabled;
 };
@@ -261,9 +225,44 @@ zz.ui.mdl.TextField.prototype.setisIE = function( maxRow ){
  * Return browser feature detection for slider.
  * @returns {string}
  */
-zz.ui.mdl.TextField.prototype.getisIE = function( ){
+zz.ui.mdl.Slider.prototype.getisIE = function( ){
 
 	return this.isIE_;
+};
+/**
+ * Return getbackgroundLower for slider. //TODO: alex: think about description
+ * @returns {string}
+ */
+zz.ui.mdl.Slider.prototype.getbackgroundLower = function( ){
+
+	return this.getbackgroundLower_;
+};
+
+/**
+ * Setting up getbackgroundLower for slider. //TODO: alex: think about description
+ * @param {string} isIE
+ */
+zz.ui.mdl.Slider.prototype.setbackgroundLower = function( backgroundLower ){
+
+	this.setbackgroundLower_ = backgroundLower;
+};
+
+/**
+ * Return getbackgroundUpper for slider. //TODO: alex: think about description
+ * @returns {string}
+ */
+zz.ui.mdl.Slider.prototype.getbackgroundUpper = function( ){
+
+	return this.getbackgroundUpper_;
+};
+
+/**
+ * Setting up getbackgroundUpper for slider. //TODO: alex: think about description
+ * @param {string} isIE
+ */
+zz.ui.mdl.Slider.prototype.setbackgroundUpper = function( backgroundLower ){
+
+	this.setbackgroundUpper_ = backgroundUpper;
 };
 /**
  * Enable/disable slider.
@@ -273,5 +272,5 @@ zz.ui.mdl.Slider.prototype.setEnabled = function( enable ){
 
 	zz.ui.mdl.Slider.superClass_.setEnabled.call( this, enable );
 	this.getElement( ).disabled = !enable;
-	this.getRenderer( ).updateValueStyles_( this );
+	this.getRenderer( ).updateClasses( this );
 };
