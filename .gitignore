@@ -1,8 +1,6 @@
 .idea
 tmp
-lib
-bin
-libs
 nbproject
 node_modules
 npm-debug.log
+bin/stylesheets/ant

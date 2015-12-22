@@ -25,16 +25,65 @@
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
+var fs = require( 'fs' );
+var exec = require( 'child_process' ).exec;
 var gulp = require( 'gulp' );
 var http = require( 'http' );
 var sass = require( 'gulp-sass' );
 var express = require('express' );
-var fs = require( 'fs' );
-var exec = require( 'child_process' ).exec;
+
+/**********************************************************************************************************************
+ * TEMPLATES AND MESSAGES CONSTANTS                                                                                   *
+ **********************************************************************************************************************/
+
+// TODO (buntarb): add this jar to package.
+var MSG_EXTRACTOR_PATH = './libs/google-closure-templates/SoyMsgExtractor.jar';
+var MSG_TARGET_PATH = './messages';
+
+var SOY_TO_JS_COMPILER_PATH = './libs/google-closure-templates/SoyToJsSrcCompiler.jar';
+var SOY_TEMPLATES_PATH = './templates';
+
+var DEFAULT_LOCALE = 'en';
 
 /**********************************************************************************************************************
  * Functions declare section                                                                                          *
  **********************************************************************************************************************/
+
+/**
+ * Recursive find all files in specified path.
+ * @param {string} dir
+ * @param {function} done
+ */
+var getFilesRecursively = function( dir, done ){
+
+	var results = [ ];
+	fs.readdir( dir, function( err, list ){
+
+		if( err ) return done( err );
+		var i = 0;
+		( function next( ){
+
+			var file = list[ i++ ];
+			if( !file ) return done( null, results );
+			file = dir + '/' + file;
+			fs.stat( file, function( err, stat ){
+
+				if( stat && stat.isDirectory( ) ){
+
+					getFilesRecursively( file, function( err, res ){
+
+						results = results.concat( res );
+						next( );
+					} );
+				}else{
+
+					results.push( file );
+					next( );
+				}
+			} );
+		} )( );
+	} );
+};
 
 /**
  * Start web server on localhost:8080.
@@ -51,55 +100,19 @@ function startWebServer( ){
 }
 
 /**
- * Recursive path scan.
- * @param {string} dir
- * @param {function} done
- */
-var walk = function( dir, done ){
-
-	var results = [ ];
-	fs.readdir( dir, function( err, list ){
-
-		if( err ) return done( err );
-		var i = 0;
-		( function next( ){
-
-			var file = list[ i++ ];
-			if( !file ) return done( null, results );
-			file = dir + '/' + file;
-			fs.stat( file, function( err, stat ){
-
-				if( stat && stat.isDirectory( ) ){
-
-					walk( file, function( err, res ){
-
-						results = results.concat( res );
-						next( );
-					} );
-				}else{
-
-					results.push( file );
-					next( );
-				}
-			} );
-		})( );
-	} );
-};
-
-/**
  * Extract messages from .soy files to .xlf files using Closure Tools utility.
  */
 function extractMessages( ){
 
-	walk( './templates', function( err, results ){
+	getFilesRecursively( './templates', function( err, results ){
 
 		if( err ) console.log( err );
 		var cmd =
 
-			'java -jar ./libs/google-closure-templates/SoyMsgExtractor.jar ' +
+			'java -jar ' + MSG_EXTRACTOR_PATH + ' ' +
 
-				'--targetLocaleString en ' +
-				'--outputPathFormat ./messages/{INPUT_FILE_NAME_NO_EXT}.xlf ' +
+				'--targetLocaleString ' + DEFAULT_LOCALE + ' ' +
+				'--outputPathFormat ' + MSG_TARGET_PATH + '/{INPUT_FILE_NAME_NO_EXT}.xlf ' +
 				results.join( ' ' );
 
 		exec( cmd, function( err ){
@@ -126,8 +139,8 @@ function compileTemplates( ){
 				'--cssHandlingScheme goog ' +
 				'--shouldGenerateJsdoc ' +
 				'--locales en,ru,ua ' +
-				'--messageFilePathFormat ./messages/module.user.xlf ' +
-				'--outputPathFormat ./sources/zz/_template/{INPUT_FILE_NAME_NO_EXT}.js ' +
+				'--messageFilePathFormat ./messages/{LOCALE}/module.user.xlf ' +
+				'--outputPathFormat ./sources/zz/_template/{LOCALE}/{INPUT_FILE_NAME_NO_EXT}.js ' +
 				'--srcs ' + results.join( ',' );
 
 		exec( cmd, function( err ){
@@ -371,11 +384,3 @@ gulp.task( 'compile:tpl', compileTemplates );
 gulp.task( 'compile:app', compileApplication );
 gulp.task( 'start:ws', startWebServer );
 gulp.task( 'start:fe', watchFrontendChanges );
-
-gulp.task('tmp', function( ){
-
-	exec( 'read module_name', function( error, stdout, stderr ){
-
-		console.log( stdout );
-	} );
-});
