@@ -36,12 +36,22 @@ var express = require('express' );
  * Constants                                                                                                          *
  **********************************************************************************************************************/
 
+var DEFAULTS = {
+
+	LOCALE: 'en'
+};
+
 var PATH = {
 
 	TOOLS: './bin',
 	MESSAGES: './messages',
 	TEMPLATES: './templates',
-	STYLESHEETS: './stylesheets'
+	STYLESHEETS: './stylesheets',
+	SOURCES: {
+
+		ROOT: './sources/zz',
+		TEMPLATE: './sources/zz/_template'
+	}
 };
 
 var TOOLS = {
@@ -52,13 +62,8 @@ var TOOLS = {
 	STYLESHEETS: PATH.TOOLS + '/stylesheets/closure-stylesheets.jar'
 };
 
-var DEFAULTS = {
-
-	LOCALE: 'en'
-};
-
 /**********************************************************************************************************************
- * Functions declare section                                                                                          *
+ * Helper functions                                                                                                   *
  **********************************************************************************************************************/
 
 /**
@@ -98,6 +103,121 @@ var getFilesRecursively = function( dir, done ){
 };
 
 /**
+ * Return file name without ext.
+ * TODO (buntarb): Update this function.
+ * @param {String} fullName
+ * @returns {string}
+ */
+function getFileNameNoExt( fullName ){
+
+	var tmp = fullName.split( '/' );
+	tmp = tmp[ tmp.length - 1 ].split( '.' );
+	tmp.pop( );
+	return tmp.join( '.' );
+}
+
+/**********************************************************************************************************************
+ * Messages functions                                                                                                 *
+ **********************************************************************************************************************/
+
+/**
+ * Extract messages from .soy files to .xlf files using Closure Tools utility. Target locale is default.
+ */
+function extractMessages( ){
+
+	getFilesRecursively( PATH.TEMPLATES, function( err, results ){
+
+		if( err ) console.log( err );
+		var cmd =
+
+			'java -jar ' + TOOLS.MESSAGES + ' ' +
+
+				'--targetLocaleString ' + DEFAULTS.LOCALE + ' ' +
+				'--outputPathFormat ' + PATH.MESSAGES + '/' + DEFAULTS.LOCALE + '/{INPUT_FILE_NAME_NO_EXT}.xlf ' +
+				results.join( ' ' );
+
+		exec( cmd, function( err ){
+
+			if( err ) console.log( err );
+		} );
+	} );
+}
+
+/**********************************************************************************************************************
+ * Templates functions                                                                                                *
+ **********************************************************************************************************************/
+
+/**
+ * Compile single .soy file with specified locale.
+ * @param {String} fullName
+ * @param {String=} locale
+ */
+function compileSoyFile( fullName, locale ){
+
+	locale = locale ? locale : DEFAULTS.LOCALE;
+
+	var cmd;
+	var file = getFileNameNoExt( fullName );
+	try{
+
+		fs.statSync( PATH.MESSAGES + '/' + locale + '/' + file + '.xlf' ).isFile( );
+		cmd =
+
+			'java -jar ' + TOOLS.TEMPLATES + ' ' +
+
+				'--shouldProvideRequireSoyNamespaces ' +
+				'--codeStyle concat ' +
+				'--cssHandlingScheme goog ' +
+				'--shouldGenerateJsdoc ' +
+				'--locales ' + locale + ' ' +
+				'--messageFilePathFormat ' + PATH.MESSAGES + '/' + locale + '/' + file + '.xlf ' +
+				'--outputPathFormat ' + PATH.SOURCES.TEMPLATE + '/' + locale + '/' + file + '.js ' +
+				'--srcs ' + fullName;
+
+	}catch( err ){
+
+		cmd =
+
+			'java -jar ' + TOOLS.TEMPLATES + ' ' +
+
+				'--shouldProvideRequireSoyNamespaces ' +
+				'--codeStyle concat ' +
+				'--cssHandlingScheme goog ' +
+				'--shouldGenerateJsdoc ' +
+				'--outputPathFormat ' + PATH.SOURCES.TEMPLATE + '/' + locale + '/' + file + '.js ' +
+				'--srcs ' + fullName;
+
+	}finally{
+
+
+		exec( cmd, function( err ){
+
+			if( err ) console.log( err );
+		} );
+	}
+}
+
+/**
+ * Compile templates to .js files with specified locale.
+ */
+function compileTemplates( ){
+
+
+	getFilesRecursively( PATH.TEMPLATES, function( err, files ){
+
+		if( err ) console.log( err );
+		files.forEach( function( file ){
+
+			compileSoyFile( file );
+		} );
+	} );
+}
+
+/**********************************************************************************************************************
+ * Functions declare section                                                                                          *
+ **********************************************************************************************************************/
+
+/**
  * Start web server on localhost:8080.
  */
 function startWebServer( ){
@@ -111,56 +231,7 @@ function startWebServer( ){
 	console.log('Static server started at http://localhost:' + port);
 }
 
-/**
- * Extract messages from .soy files to .xlf files using Closure Tools utility.
- */
-function extractMessages( ){
 
-	getFilesRecursively( './templates', function( err, results ){
-
-		if( err ) console.log( err );
-		var cmd =
-
-			'java -jar ' + MSG_EXTRACTOR_PATH + ' ' +
-
-				'--targetLocaleString ' + DEFAULT_LOCALE + ' ' +
-				'--outputPathFormat ' + MSG_TARGET_PATH + '/{INPUT_FILE_NAME_NO_EXT}.xlf ' +
-				results.join( ' ' );
-
-		exec( cmd, function( err ){
-
-			if( err ) console.log( err );
-		} );
-	} );
-}
-
-/**
- * Compile templates from .soy files to .js files using Closure Tools utility.
- */
-function compileTemplates( ){
-
-	walk( './templates', function( err, results ){
-
-		if( err ) console.log( err );
-		var cmd =
-
-			'java -jar ./libs/google-closure-templates/SoyToJsSrcCompiler.jar ' +
-
-				'--shouldProvideRequireSoyNamespaces ' +
-				'--codeStyle concat ' +
-				'--cssHandlingScheme goog ' +
-				'--shouldGenerateJsdoc ' +
-				'--locales en,ru,ua ' +
-				'--messageFilePathFormat ./messages/{LOCALE}/module.user.xlf ' +
-				'--outputPathFormat ./sources/zz/_template/{LOCALE}/{INPUT_FILE_NAME_NO_EXT}.js ' +
-				'--srcs ' + results.join( ',' );
-
-		exec( cmd, function( err ){
-
-			if( err ) console.log( err );
-		} );
-	} );
-}
 
 /**
  * Compile stylesheets from .scss files to .gss files using gulp-sass utility.
