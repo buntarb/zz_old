@@ -163,23 +163,23 @@ zz.ui.mdl.SliderRenderer.prototype.getValue = function( control ){
 /**
  * @param {zz.ui.mdl.Slider} control
  */
-zz.ui.mdl.SliderRenderer.prototype.updateClasses = function( ){
+zz.ui.mdl.SliderRenderer.prototype.updateClasses = function( control ){
 
 	// Calculate and apply percentages to div structure behind slider.
 	var fraction = (
-		this.getElement( ).value - this.getElement( ).min ) / ( this.getElement( ).max - this.getElement( ).min );
+		control.getElement( ).value - control.getElement( ).min ) / ( control.getElement( ).max - control.getElement( ).min );
 
 	if ( fraction === 0 ) {
-		this.getElement( ).classList.add(this.CSS.IS_LOWEST_VALUE);
+		control.getElement( ).classList.add(control.CSS.IS_LOWEST_VALUE);
 	} else {
-		this.getElement( ).classList.remove(this.CSS.IS_LOWEST_VALUE);
+		this.getElement( ).classList.remove(control.CSS.IS_LOWEST_VALUE);
 	}
 
-	if ( !this.getisIE_ ) { //TODO: fix this. use class Environtment to differ browser IE
-		this.getbackgroundLower_.goog.style.flex = fraction;
-		this.getgetbackgroundLower_.goog.style.webkitFlex = fraction;
-		this.getbackgroundUpper_.goog.style.flex = 1 - fraction;
-		this.getbackgroundUpper_.goog.style.webkitFlex = 1 - fraction;
+	if ( !control.getisIE_ ) { //TODO: fix this. use class Environtment to differ browser IE
+		control.getbackgroundLower_.goog.style.flex = fraction;
+		control.getgetbackgroundLower_.goog.style.webkitFlex = fraction;
+		control.getbackgroundUpper_.goog.style.flex = 1 - fraction;
+		control.getbackgroundUpper_.goog.style.webkitFlex = 1 - fraction;
 	}
 };
 /**********************************************************************************************************************
