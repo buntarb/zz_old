@@ -235,7 +235,7 @@ zz.ui.mdl.Slider.prototype.getisIE = function( ){
  */
 zz.ui.mdl.Slider.prototype.getbackgroundLower = function( ){
 
-	return this.getbackgroundLower_;
+	return this.backgroundLower_;
 };
 
 /**
@@ -244,7 +244,7 @@ zz.ui.mdl.Slider.prototype.getbackgroundLower = function( ){
  */
 zz.ui.mdl.Slider.prototype.setbackgroundLower = function( backgroundLower ){
 
-	this.setbackgroundLower_ = backgroundLower;
+	this.backgroundLower_ = backgroundLower;
 };
 
 /**
@@ -253,16 +253,16 @@ zz.ui.mdl.Slider.prototype.setbackgroundLower = function( backgroundLower ){
  */
 zz.ui.mdl.Slider.prototype.getbackgroundUpper = function( ){
 
-	return this.getbackgroundUpper_;
+	return this.backgroundUpper_;
 };
 
 /**
  * Setting up getbackgroundUpper for slider. //TODO: alex: think about description
  * @param {string} isIE
  */
-zz.ui.mdl.Slider.prototype.setbackgroundUpper = function( backgroundLower ){
+zz.ui.mdl.Slider.prototype.setbackgroundUpper = function( backgroundUpper ){
 
-	this.setbackgroundUpper_ = backgroundUpper;
+	this.backgroundUpper_ = backgroundUpper;
 };
 /**
  * Enable/disable slider.

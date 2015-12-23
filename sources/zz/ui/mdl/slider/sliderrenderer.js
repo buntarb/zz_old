@@ -101,25 +101,28 @@ zz.ui.mdl.SliderRenderer.prototype.decorate = function( control, element ){
 			'class': zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX
 		} ) );
 
-		goog.dom.appendChild( goog.dom.getElementByClass( zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX ),
-
-			goog.dom.createDom( goog.dom.TagName.DIV, {
+			control.setbackgroundLower( goog.dom.createDom( goog.dom.TagName.DIV, {
 
 				'class': zz.ui.mdl.Slider.CSS.BACKGROUND_LOWER
 
 			} ) );
-
 		goog.dom.appendChild( goog.dom.getElementByClass( zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX ),
 
-			goog.dom.createDom( goog.dom.TagName.DIV, {
+			control.getbackgroundLower( ) );
 
-				'class': zz.ui.mdl.Slider.CSS.BACKGROUND_UPPER
+		control.setbackgroundUpper( goog.dom.createDom( goog.dom.TagName.DIV, {
 
-			} ) );
+			'class': zz.ui.mdl.Slider.CSS.BACKGROUND_UPPER
+
+		} ) );
+		goog.dom.appendChild( goog.dom.getElementByClass( zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX ),
+
+			control.getbackgroundUpper( ) );
 
 		goog.dom.classlist.add( element, zz.ui.mdl.Slider.CSS.IS_UPGRADED );
 		//this.updateClasses( control );
 		return goog.base( this, 'decorate', control, element );
+
 	}
 };
 
@@ -176,10 +179,21 @@ zz.ui.mdl.SliderRenderer.prototype.updateClasses = function( control ){
 	}
 
 	if ( !control.getisIE_ ) { //TODO: fix this. use class Environtment to differ browser IE
-		control.getbackgroundLower.goog.style.flex = fraction;
-		control.getbackgroundLower.goog.style.webkitFlex = fraction;
-		control.getbackgroundUpper.goog.style.flex = 1 - fraction;
-		control.getbackgroundUpper.goog.style.webkitFlex = 1 - fraction;
+		goog.style.setStyle( control.getbackgroundLower( ), {
+
+			flex : fraction,
+			webkitFlex : fraction,
+		} );
+		goog.style.setStyle( control.getbackgroundUpper( ), {
+
+			flex : 1 - fraction,
+			webkitFlex : 1 - fraction,
+		} );
+
+		//control.getbackgroundLower.goog.style.flex = fraction;
+		//control.getbackgroundLower.goog.style.webkitFlex = fraction;
+		//control.getbackgroundUpper.goog.style.flex = 1 - fraction;
+		//control.getbackgroundUpper.goog.style.webkitFlex = 1 - fraction;
 	}
 };
 /**********************************************************************************************************************
