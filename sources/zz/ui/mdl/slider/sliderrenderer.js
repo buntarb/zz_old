@@ -118,7 +118,7 @@ zz.ui.mdl.SliderRenderer.prototype.decorate = function( control, element ){
 			} ) );
 
 		goog.dom.classlist.add( element, zz.ui.mdl.Slider.CSS.IS_UPGRADED );
-		this.updateClasses( control );
+		//this.updateClasses( control );
 		return goog.base( this, 'decorate', control, element );
 	}
 };
@@ -170,16 +170,16 @@ zz.ui.mdl.SliderRenderer.prototype.updateClasses = function( control ){
 		control.getElement( ).value - control.getElement( ).min ) / ( control.getElement( ).max - control.getElement( ).min );
 
 	if ( fraction === 0 ) {
-		control.getElement( ).classList.add(control.CSS.IS_LOWEST_VALUE);
+		control.getElement( ).classList.add(zz.ui.mdl.Slider.CSS.IS_LOWEST_VALUE);
 	} else {
-		this.getElement( ).classList.remove(control.CSS.IS_LOWEST_VALUE);
+		control.getElement( ).classList.remove(zz.ui.mdl.Slider.CSS.IS_LOWEST_VALUE); //why not control.CSS.IS_
 	}
 
 	if ( !control.getisIE_ ) { //TODO: fix this. use class Environtment to differ browser IE
-		control.getbackgroundLower_.goog.style.flex = fraction;
-		control.getgetbackgroundLower_.goog.style.webkitFlex = fraction;
-		control.getbackgroundUpper_.goog.style.flex = 1 - fraction;
-		control.getbackgroundUpper_.goog.style.webkitFlex = 1 - fraction;
+		control.getbackgroundLower.goog.style.flex = fraction;
+		control.getbackgroundLower.goog.style.webkitFlex = fraction;
+		control.getbackgroundUpper.goog.style.flex = 1 - fraction;
+		control.getbackgroundUpper.goog.style.webkitFlex = 1 - fraction;
 	}
 };
 /**********************************************************************************************************************

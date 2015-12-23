@@ -105,7 +105,7 @@ zz.ui.mdl.Slider.prototype.enterDocument = function( ){
 
 		this.getElement( ),
 		goog.events.EventType.INPUT,
-		this.updateValueStyles_,
+		this.getRenderer( ).updateClasses( this ),
 		false,
 		this
 	);
@@ -114,7 +114,7 @@ zz.ui.mdl.Slider.prototype.enterDocument = function( ){
 
 		this.getElement( ),
 		goog.events.EventType.CHANGE,
-		this.updateValueStyles_,
+		this.getRenderer( ).updateClasses( this ),
 		false,
 		this
 	);
@@ -197,7 +197,7 @@ zz.ui.mdl.Slider.prototype.onContainerMouseDown_ = function( ){
  * Setting up slider container element.
  * @param {Element} element
  */
-zz.ui.mdl.Slider.prototype.setcontainerElement = function( element ){
+zz.ui.mdl.Slider.prototype.setContainerElement = function( element ){
 
 	this.containerElement_ = element;
 };
@@ -206,7 +206,7 @@ zz.ui.mdl.Slider.prototype.setcontainerElement = function( element ){
  * Return slider container element.
  * @returns {Element}
  */
-zz.ui.mdl.Slider.prototype.getcontainerElement = function( ){
+zz.ui.mdl.Slider.prototype.getContainerElement = function( ){
 
 	return this.containerElement_;
 };
