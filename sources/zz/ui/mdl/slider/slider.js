@@ -233,7 +233,7 @@ zz.ui.mdl.Slider.prototype.getisIE = function( ){
  * Return getbackgroundLower for slider. //TODO: alex: think about description
  * @returns {string}
  */
-zz.ui.mdl.Slider.prototype.getbackgroundLower = function( ){
+zz.ui.mdl.Slider.prototype.getBackgroundLower = function( ){
 
 	return this.backgroundLower_;
 };
@@ -242,7 +242,7 @@ zz.ui.mdl.Slider.prototype.getbackgroundLower = function( ){
  * Setting up getbackgroundLower for slider. //TODO: alex: think about description
  * @param {string} isIE
  */
-zz.ui.mdl.Slider.prototype.setbackgroundLower = function( backgroundLower ){
+zz.ui.mdl.Slider.prototype.setBackgroundLower = function( backgroundLower ){
 
 	this.backgroundLower_ = backgroundLower;
 };
@@ -251,7 +251,7 @@ zz.ui.mdl.Slider.prototype.setbackgroundLower = function( backgroundLower ){
  * Return getbackgroundUpper for slider. //TODO: alex: think about description
  * @returns {string}
  */
-zz.ui.mdl.Slider.prototype.getbackgroundUpper = function( ){
+zz.ui.mdl.Slider.prototype.getBackgroundUpper = function( ){
 
 	return this.backgroundUpper_;
 };
@@ -260,7 +260,7 @@ zz.ui.mdl.Slider.prototype.getbackgroundUpper = function( ){
  * Setting up getbackgroundUpper for slider. //TODO: alex: think about description
  * @param {string} isIE
  */
-zz.ui.mdl.Slider.prototype.setbackgroundUpper = function( backgroundUpper ){
+zz.ui.mdl.Slider.prototype.setBackgroundUpper = function( backgroundUpper ){
 
 	this.backgroundUpper_ = backgroundUpper;
 };
