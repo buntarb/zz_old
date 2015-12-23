@@ -173,7 +173,7 @@ zz.ui.mdl.Slider.prototype.onContainerMouseDown_ = function( ){
 
 	// If this click is not on the parent element (but rather some child)
 	// ignore. It may still bubble up.
-	if ( event.target !== this.getElement( ).parentElement ) {
+	if ( event.target !== this.getElement( ).parentElement ) { //why not getParentElement( this.getElement( ) )
 		return;
 	}
 
