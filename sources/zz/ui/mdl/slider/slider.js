@@ -38,6 +38,7 @@ goog.require( 'goog.ui.Component' );
 goog.require( 'zz.ui.mdl.Control' );
 goog.require( 'zz.ui.mdl.SliderRenderer' );
 goog.require( 'zz.ui.mdl.Ripple' );
+goog.require( 'zz.ui.formatter.Decimal' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -52,9 +53,12 @@ goog.require( 'zz.ui.mdl.Ripple' );
  */
 zz.ui.mdl.Slider = function( opt_content, opt_renderer, opt_domHelper ){
 
-	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.SliderRenderer.getInstance( ), opt_domHelper );
+	zz.ui.mdl.Control.call( this,
+		opt_content, opt_renderer || zz.ui.mdl.SliderRenderer.getInstance( ),
+		opt_domHelper,
+		zz.ui.formatter.Decimal.getInstance( )
+	);
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
-	this.setSupportedState( goog.ui.Component.State.CHECKED, true );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
 };
 goog.inherits( zz.ui.mdl.Slider, zz.ui.mdl.Control );
@@ -68,9 +72,7 @@ goog.tagUnsealableClass( zz.ui.mdl.Slider );
  * Store constants in one place so they can be updated easily.
  * @enum {string | number}
  */
-zz.ui.mdl.Slider.CONST = {
-
-};
+zz.ui.mdl.Slider.CONST = {};
 
 /**
  * Store strings for class names defined by this component that are used in JavaScript. This allows us to simply change
@@ -103,25 +105,7 @@ zz.ui.mdl.Slider.prototype.enterDocument = function( ){
 
 	this.getHandler( ).listenWithScope(
 
-		this.getElement( ),
-		goog.events.EventType.INPUT,
-		this.getRenderer( ).updateClasses( this ),
-		false,
-		this
-	);
-
-	this.getHandler( ).listenWithScope(
-
-		this.getElement( ),
-		goog.events.EventType.CHANGE,
-		this.getRenderer( ).updateClasses( this ),
-		false,
-		this
-	);
-
-	this.getHandler( ).listenWithScope(
-
-		this.getElement( ),
+		this.getInputElement( ),
 		goog.events.EventType.MOUSEUP,
 		this.blurSliderListener_,
 		false,
@@ -147,7 +131,6 @@ zz.ui.mdl.Slider.prototype.enterDocument = function( ){
 zz.ui.mdl.Slider.prototype.disposeInternal = function( ){
 
 	goog.base( this, 'disposeInternal' );
-
 	this.getHandler( ).dispose( );
 };
 
@@ -162,31 +145,29 @@ zz.ui.mdl.Slider.prototype.disposeInternal = function( ){
  */
 zz.ui.mdl.Slider.prototype.blurSliderListener_ = function( ){
 
-	this.getElement( ).blur( );
+	this.getInputElement( ).blur( );
 };
 
 /**
- * Listener for Slider container element mousedown event.
+ * Listener for Slider container element mousedown event.//TODO: describe parameter (event) goog.events.BrowserEvent
  * @private
  */
-zz.ui.mdl.Slider.prototype.onContainerMouseDown_ = function( ){
+zz.ui.mdl.Slider.prototype.onContainerMouseDown_ = function( event ){
 
-	// If this click is not on the parent element (but rather some child)
-	// ignore. It may still bubble up.
-	if ( event.target !== this.getElement( ).parentElement ) { //why not getParentElement( this.getElement( ) )
-		return;
-	}
+	var originalEvent = event.getBrowserEvent( );
 
 	// Discard the original event and create a new event that
 	// is on the slider element.
 	event.preventDefault( );
+
 	var newEvent = new MouseEvent( 'mousedown', {
-		target: event.target,
-		buttons: event.buttons,
-		clientX: event.clientX,
-		clientY: this.getElement( ).getBoundingClientRect( ).y
+		target: originalEvent.target,
+		buttons: originalEvent.buttons,
+		clientX: originalEvent.clientX,
+		clientY: this.getInputElement( ).getBoundingClientRect( ).y
 	} );
-	this.getElement( ).dispatchEvent( newEvent );
+
+	this.getInputElement( ).dispatchEvent( newEvent );
 };
 
 /**********************************************************************************************************************
@@ -216,7 +197,7 @@ zz.ui.mdl.Slider.prototype.getContainerElement = function( ){
  * Setting up browser feature detection for slider.
  * @param {string} isIE
  */
-zz.ui.mdl.Slider.prototype.setisIE = function( ){
+zz.ui.mdl.Slider.prototype.setisIE = function( ){//TODO: fix this. use class Environtment to differ browser IE
 
 	this.isIE_ = window.navigator.msPointerEnabled;
 };
@@ -271,6 +252,6 @@ zz.ui.mdl.Slider.prototype.setBackgroundUpper = function( backgroundUpper ){
 zz.ui.mdl.Slider.prototype.setEnabled = function( enable ){
 
 	zz.ui.mdl.Slider.superClass_.setEnabled.call( this, enable );
-	this.getElement( ).disabled = !enable;
+	this.getInputElement( ).disabled = !enable;
 	this.getRenderer( ).updateClasses( this );
 };

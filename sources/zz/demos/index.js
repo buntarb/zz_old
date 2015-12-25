@@ -71,8 +71,8 @@ zz.demos.app.run = function( ){
 
 //	Model
 
-//	var users = goog.global.users = new zz.module.user.model.Users( );
-//	var user = goog.global.user = users.createFirst( );
+	var users = goog.global.users = new zz.module.user.model.Users( );
+	var user = goog.global.user = users.createFirst( );
 
 //	Navigation
 
@@ -232,6 +232,8 @@ zz.demos.app.run = function( ){
 
 	var sldr1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
 	//var sldr2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+
+	sldr1.setModel( users, user, users.datafield.userId );
 
 	//sldr1.setEnabled( false );
 

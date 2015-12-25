@@ -70,7 +70,7 @@ zz.ui.mdl.SliderRenderer.CSS_CLASS = goog.getCssName( 'mdl-slider' );
  * @override
  */
 zz.ui.mdl.SliderRenderer.prototype.decorate = function( control, element ){
-	if ( this.isIE_ ) {
+	if( this.isIE_ ){
 
 		var containerIE = goog.dom.createDom( goog.dom.TagName.DIV, {
 
@@ -82,8 +82,9 @@ zz.ui.mdl.SliderRenderer.prototype.decorate = function( control, element ){
 
 		goog.dom.insertSiblingBefore( containerIE, element );
 		goog.dom.appendChild( containerIE, element );
-	} else {
+		return goog.base( this, 'decorate', control, containerIE );
 
+	}else{
 
 		var container = goog.dom.createDom( goog.dom.TagName.DIV, {
 
@@ -100,12 +101,10 @@ zz.ui.mdl.SliderRenderer.prototype.decorate = function( control, element ){
 
 			'class': zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX
 		} ) );
+		control.setBackgroundLower( goog.dom.createDom( goog.dom.TagName.DIV, {
 
-			control.setBackgroundLower( goog.dom.createDom( goog.dom.TagName.DIV, {
-
-				'class': zz.ui.mdl.Slider.CSS.BACKGROUND_LOWER
-
-			} ) );
+			'class': zz.ui.mdl.Slider.CSS.BACKGROUND_LOWER
+		} ) );
 		goog.dom.appendChild( goog.dom.getElementByClass( zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX ),
 
 			control.getBackgroundLower( ) );
@@ -113,16 +112,13 @@ zz.ui.mdl.SliderRenderer.prototype.decorate = function( control, element ){
 		control.setBackgroundUpper( goog.dom.createDom( goog.dom.TagName.DIV, {
 
 			'class': zz.ui.mdl.Slider.CSS.BACKGROUND_UPPER
-
 		} ) );
 		goog.dom.appendChild( goog.dom.getElementByClass( zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX ),
 
 			control.getBackgroundUpper( ) );
 
 		goog.dom.classlist.add( element, zz.ui.mdl.Slider.CSS.IS_UPGRADED );
-		//this.updateClasses( control );
-		return goog.base( this, 'decorate', control, element );
-
+		return goog.base( this, 'decorate', control, container );
 	}
 };
 
@@ -149,7 +145,7 @@ zz.ui.mdl.SliderRenderer.prototype.getCssClass = function( ){
  */
 zz.ui.mdl.SliderRenderer.prototype.setValue = function( control, value ){
 
-	control.getElement( ).value = value;
+	control.getInputElement( ).value = value;
 	this.updateClasses( control );
 };
 
@@ -160,7 +156,7 @@ zz.ui.mdl.SliderRenderer.prototype.setValue = function( control, value ){
  */
 zz.ui.mdl.SliderRenderer.prototype.getValue = function( control ){
 
-	return control.getElement( ).value;
+	return control.getInputElement( ).value;
 };
 
 /**
@@ -170,15 +166,20 @@ zz.ui.mdl.SliderRenderer.prototype.updateClasses = function( control ){
 
 	// Calculate and apply percentages to div structure behind slider.
 	var fraction = (
-		control.getElement( ).value - control.getElement( ).min ) / ( control.getElement( ).max - control.getElement( ).min );
+		control.getInputElement( ).value - control.getInputElement( ).min ) /
+		( control.getInputElement( ).max - control.getInputElement( ).min );
 
-	if ( fraction === 0 ) {
-		control.getElement( ).classList.add(zz.ui.mdl.Slider.CSS.IS_LOWEST_VALUE);
-	} else {
-		control.getElement( ).classList.remove(zz.ui.mdl.Slider.CSS.IS_LOWEST_VALUE); //why not control.CSS.IS_
+	if( fraction === 0 ) {
+
+		goog.dom.classlist.add( control.getInputElement( ), zz.ui.mdl.Slider.CSS.IS_LOWEST_VALUE );
+
+	}else{
+
+		goog.dom.classlist.remove( control.getInputElement( ), zz.ui.mdl.Slider.CSS.IS_LOWEST_VALUE );
+
 	}
+	if( !control.getisIE_ ) {
 
-	if ( !control.getisIE_ ) { //TODO: fix this. use class Environtment to differ browser IE
 		goog.style.setStyle( control.getBackgroundLower( ), {
 
 			flex : fraction,
