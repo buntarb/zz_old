@@ -52,13 +52,13 @@ goog.require( 'zz.ui.mdl.Ripple' );
  */
 zz.ui.mdl.Menu = function( opt_content, opt_renderer, opt_domHelper ){
 
-	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.SwitchRenderer.getInstance( ), opt_domHelper );
+	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.MenuRenderer.getInstance( ), opt_domHelper );
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
 	this.setSupportedState( goog.ui.Component.State.CHECKED, true );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
 };
-goog.inherits( zz.ui.mdl.Switch, zz.ui.mdl.Control );
-goog.tagUnsealableClass( zz.ui.mdl.Switch );
+goog.inherits( zz.ui.mdl.Menu, zz.ui.mdl.Control );
+goog.tagUnsealableClass( zz.ui.mdl.Menu );
 
 /**********************************************************************************************************************
  * Static properties section                                                                                          *
@@ -68,9 +68,13 @@ goog.tagUnsealableClass( zz.ui.mdl.Switch );
  * Store constants in one place so they can be updated easily.
  * @enum {string | number}
  */
-zz.ui.mdl.Switch.CONST = {
+zz.ui.mdl.Menu.CONST = {
 
-	TINY_TIMEOUT: 10
+	ENTER: 13,
+	ESCAPE: 27,
+	SPACE: 32,
+	UP_ARROW: 38,
+	DOWN_ARROW: 40
 };
 
 /**
@@ -78,22 +82,25 @@ zz.ui.mdl.Switch.CONST = {
  * it in one place should we decide to modify at a later date.
  * @enum {string}
  */
-zz.ui.mdl.Switch.CSS = {
+zz.ui.mdl.Menu.CSS = {
 
-	INPUT: goog.getCssName( 'mdl-switch__input' ),
-	TRACK: goog.getCssName( 'mdl-switch__track' ),
-	THUMB: goog.getCssName( 'mdl-switch__thumb' ),
-	FOCUS_HELPER: goog.getCssName( 'mdl-switch__focus-helper' ),
+	CONTAINER: goog.getCssName( 'mdl-menu__container' ),
+	OUTLINE: goog.getCssName( 'mdl-menu__outline' ),
+	ITEM: goog.getCssName( 'mdl-menu__item' ),
+	ITEM_RIPPLE_CONTAINER: goog.getCssName( 'mdl-menu__item-ripple-container' ),
 	RIPPLE_EFFECT: goog.getCssName( 'mdl-js-ripple-effect' ),
 	RIPPLE_IGNORE_EVENTS: goog.getCssName( 'mdl-js-ripple-effect--ignore-events' ),
-	RIPPLE_CONTAINER: goog.getCssName( 'mdl-switch__ripple-container' ),
-	RIPPLE_CENTER: goog.getCssName( 'mdl-ripple--center' ),
 	RIPPLE: goog.getCssName( 'mdl-ripple' ),
-	IS_FOCUSED: goog.getCssName( 'is-focused' ),
-	IS_DISABLED: goog.getCssName( 'is-disabled' ),
-	IS_CHECKED: goog.getCssName( 'is-checked' ),
+	// Statuses
 	IS_UPGRADED: goog.getCssName( 'is-upgraded' ),
-	IS_ANIMATING: goog.getCssName( 'is-animating' )
+	IS_VISIBLE: goog.getCssName( 'is-visible' ),
+	IS_ANIMATING: goog.getCssName( 'is-animating' ),
+	// Alignment options
+	BOTTOM_LEFT: goog.getCssName( 'mdl-menu--bottom-left' ),  // This is the default.
+	BOTTOM_RIGHT: goog.getCssName( 'mdl-menu--bottom-right' ),
+	TOP_LEFT: goog.getCssName( 'mdl-menu--top-left' ),
+	TOP_RIGHT: goog.getCssName( 'mdl-menu--top-right' ),
+	UNALIGNED: goog.getCssName( 'mdl-menu--unaligned' )
 };
 
 /**********************************************************************************************************************
@@ -105,7 +112,7 @@ zz.ui.mdl.Switch.CSS = {
  * should be done at this stage. If the component contains child components, this call is propagated to its children.
  * @override
  */
-zz.ui.mdl.Switch.prototype.enterDocument = function( ){
+zz.ui.mdl.Menu.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
 
@@ -119,7 +126,7 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
 	);
 
 	// Ripple effect.
-	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT ) ){
+	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Menu.CSS.RIPPLE_EFFECT ) ){
 
 		var  ripple = new zz.ui.mdl.Ripple( );
 		this.addChild( ripple, false );
@@ -127,7 +134,7 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
 
 			goog.dom.getElementByClass(
 
-				zz.ui.mdl.Switch.CSS.RIPPLE_CONTAINER,
+				zz.ui.mdl.Menu.CSS.RIPPLE_CONTAINER,
 				this.getElement( ) ) );
 
 	}else{
@@ -136,7 +143,7 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
 
 			this.getInputElement( ),
 			goog.events.EventType.FOCUS,
-			this.focusSwitchListener_,
+			this.focusMenuListener_,
 			false,
 			this
 		);
@@ -144,7 +151,7 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
 
 			this.getInputElement( ),
 			goog.events.EventType.BLUR,
-			this.blurSwitchListener_,
+			this.blurMenuListener_,
 			false,
 			this
 		);
@@ -158,7 +165,7 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
  * be used.
  * @inheritDoc
  **/
-zz.ui.mdl.Switch.prototype.disposeInternal = function( ){
+zz.ui.mdl.Menu.prototype.disposeInternal = function( ){
 
 	goog.base( this, 'disposeInternal' );
 
@@ -171,35 +178,35 @@ zz.ui.mdl.Switch.prototype.disposeInternal = function( ){
 
 /**
  * Listener for element blur event.
- * @this {zz.ui.mdl.Switch}
+ * @this {zz.ui.mdl.Menu}
  * @private
  */
-zz.ui.mdl.Switch.prototype.blurListener_ = function( ){
+zz.ui.mdl.Menu.prototype.blurListener_ = function( ){
 
-	goog.Timer.callOnce( /** @this {zz.ui.mdl.Switch} */ function( ){
+	goog.Timer.callOnce( /** @this {zz.ui.mdl.Menu} */ function( ){
 
 		//noinspection JSPotentiallyInvalidUsageOfThis
 		this.getInputElement( ).blur( );
 
-	}, zz.ui.mdl.Switch.CONST.TINY_TIMEOUT, this );
+	}, zz.ui.mdl.Menu.CONST.TINY_TIMEOUT, this );
 };
 
 /**
- * Listener for Switch element focus event.
+ * Listener for Menu element focus event.
  * @private
  */
-zz.ui.mdl.Switch.prototype.focusSwitchListener_ = function( ){
+zz.ui.mdl.Menu.prototype.focusMenuListener_ = function( ){
 
-	goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Switch.CSS.IS_FOCUSED );
+	goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Menu.CSS.IS_FOCUSED );
 };
 
 /**
- * Listener for Switch element blur event.
+ * Listener for Menu element blur event.
  * @private
  */
-zz.ui.mdl.Switch.prototype.blurSwitchListener_ = function( ){
+zz.ui.mdl.Menu.prototype.blurMenuListener_ = function( ){
 
-	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Switch.CSS.IS_FOCUSED );
+	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Menu.CSS.IS_FOCUSED );
 };
 
 /**********************************************************************************************************************
@@ -207,12 +214,12 @@ zz.ui.mdl.Switch.prototype.blurSwitchListener_ = function( ){
  **********************************************************************************************************************/
 
 /**
- * Enable/disable switch.
+ * Enable/disable Menu.
  * @param {boolean} enable
  */
-zz.ui.mdl.Switch.prototype.setEnabled = function( enable ){
+zz.ui.mdl.Menu.prototype.setEnabled = function( enable ){
 
-	zz.ui.mdl.Switch.superClass_.setEnabled.call( this, enable );
+	zz.ui.mdl.Menu.superClass_.setEnabled.call( this, enable );
 	this.getInputElement( ).disabled = !enable;
 	this.getRenderer( ).updateClasses( this );
 };
