@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.ui.mdl.Switch class.
+ * @fileoverview Provide zz.ui.mdl.Menu class.
  * @author popkov.aleksander@gmail.com (Alexander Popkov)
  */
 
@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.ui.mdl.Switch' );
+goog.provide( 'zz.ui.mdl.Menu' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -36,7 +36,7 @@ goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.events.EventType' );
 goog.require( 'goog.ui.Component' );
 goog.require( 'zz.ui.mdl.Control' );
-goog.require( 'zz.ui.mdl.SwitchRenderer' );
+goog.require( 'zz.ui.mdl.MenuRenderer' );
 goog.require( 'zz.ui.mdl.Ripple' );
 
 /**********************************************************************************************************************
@@ -50,7 +50,7 @@ goog.require( 'zz.ui.mdl.Ripple' );
  * @extends {zz.ui.mdl.Control}
  * @constructor
  */
-zz.ui.mdl.Switch = function( opt_content, opt_renderer, opt_domHelper ){
+zz.ui.mdl.Menu = function( opt_content, opt_renderer, opt_domHelper ){
 
 	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.SwitchRenderer.getInstance( ), opt_domHelper );
 	this.setAutoStates( goog.ui.Component.State.ALL, false );

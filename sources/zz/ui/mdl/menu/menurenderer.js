@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.ui.mdl.SwitchRenderer class.
+ * @fileoverview Provide zz.ui.mdl.MenuRenderer class.
  * @author popkov.aleksander@gmail.com (Alexander Popkov)
  */
 
@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.ui.mdl.SwitchRenderer' );
+goog.provide( 'zz.ui.mdl.MenuRenderer' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -43,7 +43,7 @@ goog.require( 'zz.ui.mdl.ControlRenderer' );
  * @constructor
  * @extends {zz.ui.mdl.ControlRenderer}
  */
-zz.ui.mdl.SwitchRenderer = function( ){
+zz.ui.mdl.MenuRenderer = function( ){
 
 	zz.ui.mdl.SwitchRenderer.base( this, 'constructor' );
 };

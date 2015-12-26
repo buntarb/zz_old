@@ -4,6 +4,7 @@
  * Default menus.
  */
 {template .default}
+/** Left aligned menu below button */
 <button id="demo-menu-lower-left"
         class="{css mdl-button} {css mdl-js-button} {css mdl-button--icon}">
   <i class="{css material-icons}">more_vert</i>
@@ -11,6 +12,48 @@
 
 <ul class="{css mdl-menu} {css mdl-menu--bottom-left} {css mdl-js-menu} {css mdl-js-ripple-effect}"
     for="demo-menu-lower-left">
+  <li class="{css mdl-menu__item}">Some Action</li>
+  <li class="{css mdl-menu__item}">Another Action</li>
+  <li disabled class="{css mdl-menu__item}">Disabled Action</li>
+  <li class="{css mdl-menu__item}">Yet Another Action</li>
+</ul>
+
+/** Right aligned menu below button */
+<button id="demo-menu-lower-right"
+        class="{css mdl-button} {css mdl-js-button} {css mdl-button--icon}">
+  <i class="{css material-icons}">more_vert</i>
+</button>
+
+<ul class="{css mdl-menu} {css mdl-menu--bottom-right} {css mdl-js-menu} {css mdl-js-ripple-effect}"
+    for="demo-menu-lower-right">
+  <li class="{css mdl-menu__item}">Some Action</li>
+  <li class="{css mdl-menu__item}">Another Action</li>
+  <li disabled class="{css mdl-menu__item}">Disabled Action</li>
+  <li class="{css mdl-menu__item}">Yet Another Action</li>
+</ul>
+
+/** Left aligned menu on top of button */
+<button id="demo-menu-top-left"
+        class="{css mdl-button} {css mdl-js-button} {css mdl-button--icon}">
+  <i class="{css material-icons}">more_vert</i>
+</button>
+
+<ul class="{css mdl-menu} {css mdl-menu--top-left} {css mdl-js-menu} {css mdl-js-ripple-effect}"
+    for="demo-menu-top-left">
+  <li class="{css mdl-menu__item}">Some Action</li>
+  <li class="{css mdl-menu__item}">Another Action</li>
+  <li disabled class="{css mdl-menu__item}">Disabled Action</li>
+  <li class="{css mdl-menu__item}">Yet Another Action</li>
+</ul>
+
+/** Right aligned menu on top of button */
+<button id="demo-menu-top-right"
+        class="{css mdl-button} {css mdl-js-button} {css mdl-button--icon}">
+  <i class="{css material-icons}">more_vert</i>
+</button>
+
+<ul class="{css mdl-menu} {css mdl-menu--top-right} {css mdl-js-menu} {css mdl-js-ripple-effect}"
+    for="demo-menu-top-right">
   <li class="{css mdl-menu__item}">Some Action</li>
   <li class="{css mdl-menu__item}">Another Action</li>
   <li disabled class="{css mdl-menu__item}">Disabled Action</li>
