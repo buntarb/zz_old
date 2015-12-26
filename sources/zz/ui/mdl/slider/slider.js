@@ -149,7 +149,8 @@ zz.ui.mdl.Slider.prototype.blurSliderListener_ = function( ){
 };
 
 /**
- * Listener for Slider container element mousedown event.//TODO: describe parameter (event) goog.events.BrowserEvent
+ * Listener for Slider container element mousedown event.
+ * @param {goog.events.BrowserEvent} browser event.
  * @private
  */
 zz.ui.mdl.Slider.prototype.onContainerMouseDown_ = function( event ){
@@ -211,7 +212,7 @@ zz.ui.mdl.Slider.prototype.getisIE = function( ){
 	return this.isIE_;
 };
 /**
- * Return getbackgroundLower for slider. //TODO: alex: think about description
+ * Return getbackgroundLower property for slider.
  * @returns {string}
  */
 zz.ui.mdl.Slider.prototype.getBackgroundLower = function( ){
@@ -220,8 +221,8 @@ zz.ui.mdl.Slider.prototype.getBackgroundLower = function( ){
 };
 
 /**
- * Setting up getbackgroundLower for slider. //TODO: alex: think about description
- * @param {string} isIE
+ * Setting up getbackgroundLower property for slider.
+ * @param {string}
  */
 zz.ui.mdl.Slider.prototype.setBackgroundLower = function( backgroundLower ){
 
@@ -229,7 +230,7 @@ zz.ui.mdl.Slider.prototype.setBackgroundLower = function( backgroundLower ){
 };
 
 /**
- * Return getbackgroundUpper for slider. //TODO: alex: think about description
+ * Return getbackgroundUpper property for slider.
  * @returns {string}
  */
 zz.ui.mdl.Slider.prototype.getBackgroundUpper = function( ){
@@ -238,8 +239,8 @@ zz.ui.mdl.Slider.prototype.getBackgroundUpper = function( ){
 };
 
 /**
- * Setting up getbackgroundUpper for slider. //TODO: alex: think about description
- * @param {string} isIE
+ * Setting up getbackgroundUpper property for slider.
+ * @param {string}
  */
 zz.ui.mdl.Slider.prototype.setBackgroundUpper = function( backgroundUpper ){
 
