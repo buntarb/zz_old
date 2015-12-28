@@ -70,22 +70,6 @@ zz.ui.mdl.SliderRenderer.CSS_CLASS = goog.getCssName( 'mdl-slider' );
  * @override
  */
 zz.ui.mdl.SliderRenderer.prototype.decorate = function( control, element ){
-	if( this.isIE_ ){
-
-		var containerIE = goog.dom.createDom( goog.dom.TagName.DIV, {
-
-			'class': zz.ui.mdl.Slider.CSS.IE_CONTAINER
-		} );
-
-		// Container element
-		control.setContainerElement( containerIE );
-
-		goog.dom.insertSiblingBefore( containerIE, element );
-		goog.dom.appendChild( containerIE, element );
-		return goog.base( this, 'decorate', control, containerIE );
-
-	}else{
-
 		var container = goog.dom.createDom( goog.dom.TagName.DIV, {
 
 			'class': zz.ui.mdl.Slider.CSS.SLIDER_CONTAINER
@@ -119,7 +103,6 @@ zz.ui.mdl.SliderRenderer.prototype.decorate = function( control, element ){
 
 		goog.dom.classlist.add( element, zz.ui.mdl.Slider.CSS.IS_UPGRADED );
 		return goog.base( this, 'decorate', control, container );
-	}
 };
 
 

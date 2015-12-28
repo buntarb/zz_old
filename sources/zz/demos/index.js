@@ -47,6 +47,7 @@ goog.require( 'zz.ui.mdl.Radio' );
 goog.require( 'zz.ui.mdl.IconToggle' );
 goog.require( 'zz.ui.mdl.TextField' );
 goog.require( 'zz.ui.mdl.Slider' );
+goog.require( 'zz.ui.mdl.Menu' );
 
 goog.require( 'zz.template.ui.button' );
 goog.require( 'zz.template.ui.spinner' );
@@ -59,6 +60,7 @@ goog.require( 'zz.template.ui.radio' );
 goog.require( 'zz.template.ui.icontoggle' );
 goog.require( 'zz.template.ui.textfield' );
 goog.require( 'zz.template.ui.slider' );
+goog.require( 'zz.template.ui.menu' );
 
 goog.require( 'zz.module.user.view.Users' );
 
@@ -226,16 +228,24 @@ zz.demos.app.run = function( ){
 //	tf1.setModel( users, user, users.datafield.userFirstName );
 //	tf2.setModel( users, user, users.datafield.userFirstName );
 
-// Text Field
+// Slider
 
-	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.slider.default );
+	//soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.slider.default );
 
-	var sldr1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+	//var sldr1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
 	//var sldr2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
 
-	sldr1.setModel( users, user, users.datafield.userId );
+	//sldr1.setModel( users, user, users.datafield.userId );
 
 	//sldr1.setEnabled( false );
+
+// Menu
+
+	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.menu.default );
+
+	var menu1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+
+
 
 
 //	Run user module

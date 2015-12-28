@@ -18,7 +18,7 @@ goog.addDependency("../../../../sources/zz/mvc/environment/environment.js", ['zz
 goog.addDependency("../../../../sources/zz/mvc/environment/eventtype.js", ['zz.mvc.Environment.EventType'], ['goog.events']);
 goog.addDependency("../../../../sources/zz/mvc/view/baseview.js", ['zz.mvc.view.BaseView'], ['goog.dom', 'goog.json', 'goog.ui.Component', 'goog.format.JsonPrettyPrinter', 'goog.format.JsonPrettyPrinter.TextDelimiters', 'zz.mvc.model.Message', 'zz.mvc.model.EventType', 'zz.mvc.controller.BaseController']);
 goog.addDependency("../../../../sources/zz/mvc/view/error.js", ['zz.mvc.view.Error'], []);
-goog.addDependency("../../../../sources/zz/demos/index.js", ['zz.demos.app'], ['soy', 'goog.events', 'goog.ui.decorate', 'goog.ui.Component', 'zz.ui.mdl.Button', 'zz.ui.mdl.Tooltip', 'zz.ui.mdl.Navigation', 'zz.ui.mdl.Spinner', 'zz.ui.mdl.Progress', 'zz.ui.mdl.Checkbox', 'zz.ui.mdl.Switch', 'zz.ui.mdl.Radio', 'zz.ui.mdl.IconToggle', 'zz.ui.mdl.TextField', 'zz.ui.mdl.Slider', 'zz.template.ui.button', 'zz.template.ui.spinner', 'zz.template.ui.navigation', 'zz.template.ui.progress', 'zz.template.ui.tooltip', 'zz.template.ui.checkbox', 'zz.template.ui.switch', 'zz.template.ui.radio', 'zz.template.ui.icontoggle', 'zz.template.ui.textfield', 'zz.template.ui.slider', 'zz.module.user.view.Users']);
+goog.addDependency("../../../../sources/zz/demos/index.js", ['zz.demos.app'], ['soy', 'goog.events', 'goog.ui.decorate', 'goog.ui.Component', 'zz.ui.mdl.Button', 'zz.ui.mdl.Tooltip', 'zz.ui.mdl.Navigation', 'zz.ui.mdl.Spinner', 'zz.ui.mdl.Progress', 'zz.ui.mdl.Checkbox', 'zz.ui.mdl.Switch', 'zz.ui.mdl.Radio', 'zz.ui.mdl.IconToggle', 'zz.ui.mdl.TextField', 'zz.ui.mdl.Slider', 'zz.ui.mdl.Menu', 'zz.template.ui.button', 'zz.template.ui.spinner', 'zz.template.ui.navigation', 'zz.template.ui.progress', 'zz.template.ui.tooltip', 'zz.template.ui.checkbox', 'zz.template.ui.switch', 'zz.template.ui.radio', 'zz.template.ui.icontoggle', 'zz.template.ui.textfield', 'zz.template.ui.slider', 'zz.template.ui.menu', 'zz.module.user.view.Users']);
 goog.addDependency("../../../../sources/zz/_stylesheet/remap.js", ['zz._stylesheet.remap'], []);
 goog.addDependency("../../../../sources/zz/ui/_mdl/mdlComponentHandler.js", ['zz.ui.mdl.componentHandler'], ['zz.ui.mdl.requestAnimationFrame', 'zz.ui.mdl.cancelAnimationFrame']);
 goog.addDependency("../../../../sources/zz/ui/_mdl/rAF.js", ['zz.ui.mdl.requestAnimationFrame', 'zz.ui.mdl.cancelAnimationFrame'], []);
@@ -43,6 +43,8 @@ goog.addDependency("../../../../sources/zz/ui/mdl/controlrenderer.js", ['zz.ui.m
 goog.addDependency("../../../../sources/zz/ui/mdl/ripple/ripple.js", ['zz.ui.mdl.Ripple'], ['goog.Timer', 'goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component']);
 goog.addDependency("../../../../sources/zz/ui/mdl/switch/switchrenderer.js", ['zz.ui.mdl.SwitchRenderer'], ['goog.dom.classlist', 'zz.ui.mdl.ControlRenderer']);
 goog.addDependency("../../../../sources/zz/ui/mdl/switch/switch.js", ['zz.ui.mdl.Switch'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'zz.ui.mdl.Control', 'zz.ui.mdl.SwitchRenderer', 'zz.ui.mdl.Ripple']);
+goog.addDependency("../../../../sources/zz/ui/mdl/menu/menu.js", ['zz.ui.mdl.Menu'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'zz.ui.mdl.Control', 'zz.ui.mdl.MenuRenderer', 'zz.ui.mdl.Ripple']);
+goog.addDependency("../../../../sources/zz/ui/mdl/menu/menurenderer.js", ['zz.ui.mdl.MenuRenderer'], ['goog.dom.classlist', 'zz.ui.mdl.ControlRenderer']);
 goog.addDependency("../../../../sources/zz/ui/mdl/navigation/navigation.js", ['zz.ui.mdl.Navigation'], ['goog.array', 'goog.object', 'goog.asserts', 'goog.dom.TagName', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'zz.ui.mdl.Ripple']);
 goog.addDependency("../../../../sources/zz/ui/mdl/slider/slider.js", ['zz.ui.mdl.Slider'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'zz.ui.mdl.Control', 'zz.ui.mdl.SliderRenderer', 'zz.ui.mdl.Ripple', 'zz.ui.formatter.Decimal']);
 goog.addDependency("../../../../sources/zz/ui/mdl/slider/sliderrenderer.js", ['zz.ui.mdl.SliderRenderer'], ['goog.dom.classlist', 'zz.ui.mdl.ControlRenderer']);
@@ -70,6 +72,7 @@ goog.addDependency("../../../../sources/zz/_template/tooltip.js", ['zz.template.
 goog.addDependency("../../../../sources/zz/_template/progress.js", ['zz.template.ui.progress'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/_template/zz.template.module.user.js", ['zz.template.module.user'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/_template/button.js", ['zz.template.ui.button'], ['soy', 'soydata']);
+goog.addDependency("../../../../sources/zz/_template/menu.js", ['zz.template.ui.menu'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/_template/textfield.js", ['zz.template.ui.textfield'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/_template/switch.js", ['zz.template.ui.switch'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/_template/spinner.js", ['zz.template.ui.spinner'], ['soy', 'soydata']);

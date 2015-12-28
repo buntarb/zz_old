@@ -58,7 +58,7 @@ goog.addSingletonGetter( zz.ui.mdl.MenuRenderer );
  * Default CSS class to be applied to the root element of components rendered by this renderer.
  * @type {string}
  */
-zz.ui.mdl.MenuRenderer.CSS_CLASS = goog.getCssName( 'mdl-Menu' );
+zz.ui.mdl.MenuRenderer.CSS_CLASS = goog.getCssName( 'mdl-menu' );
 
 /**********************************************************************************************************************
  * Life cycle methods                                                                                                 *
@@ -71,46 +71,40 @@ zz.ui.mdl.MenuRenderer.CSS_CLASS = goog.getCssName( 'mdl-Menu' );
  */
 zz.ui.mdl.MenuRenderer.prototype.decorate = function( control, element ){
 
-	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
+	var container = goog.dom.createDom( goog.dom.TagName.DIV, {
 
-		'class': zz.ui.mdl.Menu.CSS.TRACK
+		'class': zz.ui.mdl.Menu.CSS.CONTAINER
+	} );
+	var listItem = goog.dom.getElementsByClass( zz.ui.mdl.Menu.CSS.ITEM);
+	// Container element
+	//control.setContainerElement( container );
+
+	goog.dom.insertSiblingBefore( container, element );
+
+	goog.dom.appendChild( container, goog.dom.createDom( goog.dom.TagName.DIV, {
+
+		'class': zz.ui.mdl.Menu.CSS.OUTLINE
 	} ) );
-	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
 
-		'class': zz.ui.mdl.Menu.CSS.THUMB
+	goog.dom.appendChild( container, element );
 
-	}, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
-		'class': zz.ui.mdl.Menu.CSS.FOCUS_HELPER
-
-	} ) ) );
 	// Ripple dom.
-	if( goog.dom.classlist.contains( element, zz.ui.mdl.Menu.CSS.RIPPLE_EFFECT ) ){
+	if( goog.dom.classlist.contains( element, zz.ui.mdl.Menu.CSS.RIPPLE_EFFECT ) ) {
 
-		goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
+		for ( i = 0; i < listItem.length; i++ ){
 
-			'class':
+			goog.dom.appendChild( listItem[i], control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
-				zz.ui.mdl.Menu.CSS.RIPPLE_CONTAINER + ' ' +
-				zz.ui.mdl.Menu.CSS.RIPPLE_EFFECT + ' ' +
-				zz.ui.mdl.Menu.CSS.RIPPLE_CENTER
+				'class': zz.ui.mdl.Menu.CSS.ITEM_RIPPLE_CONTAINER
+			}, control.getDomHelper().createDom(goog.dom.TagName.SPAN, {
 
-		}, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
-
-			'class':
-
-				zz.ui.mdl.Menu.CSS.RIPPLE + ' ' +
-				zz.ui.mdl.Menu.CSS.IS_ANIMATING
-		} ) ) );
+				'class': zz.ui.mdl.Menu.CSS.RIPPLE
+			})));
+		}
 	}
-	// Input element.
-	control.setInputElement( control.getDomHelper( ).getElementsByTagNameAndClass(
 
-		goog.dom.TagName.INPUT,
-		zz.ui.mdl.Menu.CSS.INPUT,
-		element )[ 0 ]
-	);
-	goog.dom.classlist.add( element, zz.ui.mdl.Menu.CSS.IS_UPGRADED );
+	goog.dom.classlist.add( container, zz.ui.mdl.Menu.CSS.IS_UPGRADED );
 	return goog.base( this, 'decorate', control, element );
 };
 
