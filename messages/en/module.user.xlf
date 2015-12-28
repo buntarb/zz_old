@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file original="SoyMsgBundle" datatype="x-soy-msg-bundle" xml:space="preserve" source-language="en" target-language="en">
+    <body>
+      <trans-unit id="860657238615646911" datatype="html">
+        <source>Last name</source>
+        <target/>
+        <note priority="1" from="description">User last name</note>
+        <note priority="1" from="meaning">User last name</note>
+      </trans-unit>
+      <trans-unit id="977033422881153855" datatype="html">
+        <source>First name</source>
+        <target/>
+        <note priority="1" from="description">User first name</note>
+        <note priority="1" from="meaning">User first name</note>
+      </trans-unit>
+      <trans-unit id="4255585361011904569" datatype="html">
+        <source>#</source>
+        <target/>
+        <note priority="1" from="description">User id</note>
+        <note priority="1" from="meaning">User uniqe id</note>
+      </trans-unit>
+      <trans-unit id="4644079914060263062" datatype="html">
+        <source>Login</source>
+        <target/>
+        <note priority="1" from="description">User login</note>
+        <note priority="1" from="meaning">User login</note>
+      </trans-unit>
+      <trans-unit id="7731915653291177450" datatype="html">
+        <source>Password</source>
+        <target/>
+        <note priority="1" from="description">User password</note>
+        <note priority="1" from="meaning">User password</note>
+      </trans-unit>
+      <trans-unit id="8067584134555556529" datatype="html">
+        <source>Verified flag</source>
+        <target/>
+        <note priority="1" from="description">User verified flag</note>
+        <note priority="1" from="meaning">User verified flag</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
