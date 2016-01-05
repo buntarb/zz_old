@@ -30,188 +30,8 @@ var exec = require( 'child_process' ).exec;
 var gulp = require( 'gulp' );
 var http = require( 'http' );
 var sass = require( 'gulp-sass' );
-var express = require('express' );
-
-/**********************************************************************************************************************
- * Constants                                                                                                          *
- **********************************************************************************************************************/
-
-var DEFAULTS = {
-
-	LOCALE: 'en'
-};
-
-var PATH = {
-
-	TOOLS: './bin',
-	MESSAGES: './messages',
-	TEMPLATES: './templates',
-	STYLESHEETS: './stylesheets',
-	SOURCES: {
-
-		ROOT: './sources/zz',
-		TEMPLATE: './sources/zz/_template'
-	}
-};
-
-var TOOLS = {
-
-	COMPILER: PATH.TOOLS + '/compiler/compiler.jar',
-	MESSAGES: PATH.TOOLS + '/messages/SoyMsgExtractor.jar',
-	TEMPLATES: PATH.TOOLS + '/templates/SoyToJsSrcCompiler.jar',
-	STYLESHEETS: PATH.TOOLS + '/stylesheets/closure-stylesheets.jar'
-};
-
-/**********************************************************************************************************************
- * Helper functions                                                                                                   *
- **********************************************************************************************************************/
-
-/**
- * Recursive find all files in specified path.
- * @param {string} dir
- * @param {function} done
- */
-var getFilesRecursively = function( dir, done ){
-
-	var results = [ ];
-	fs.readdir( dir, function( err, list ){
-
-		if( err ) return done( err );
-		var i = 0;
-		( function next( ){
-
-			var file = list[ i++ ];
-			if( !file ) return done( null, results );
-			file = dir + '/' + file;
-			fs.stat( file, function( err, stat ){
-
-				if( stat && stat.isDirectory( ) ){
-
-					getFilesRecursively( file, function( err, res ){
-
-						results = results.concat( res );
-						next( );
-					} );
-				}else{
-
-					results.push( file );
-					next( );
-				}
-			} );
-		} )( );
-	} );
-};
-
-/**
- * Return file name without ext.
- * TODO (buntarb): Update this function.
- * @param {String} fullName
- * @returns {string}
- */
-function getFileNameNoExt( fullName ){
-
-	var tmp = fullName.split( '/' );
-	tmp = tmp[ tmp.length - 1 ].split( '.' );
-	tmp.pop( );
-	return tmp.join( '.' );
-}
-
-/**********************************************************************************************************************
- * Messages functions                                                                                                 *
- **********************************************************************************************************************/
-
-/**
- * Extract messages from .soy files to .xlf files using Closure Tools utility. Target locale is default.
- */
-function extractMessages( ){
-
-	getFilesRecursively( PATH.TEMPLATES, function( err, results ){
-
-		if( err ) console.log( err );
-		var cmd =
-
-			'java -jar ' + TOOLS.MESSAGES + ' ' +
-
-				'--targetLocaleString ' + DEFAULTS.LOCALE + ' ' +
-				'--outputPathFormat ' + PATH.MESSAGES + '/' + DEFAULTS.LOCALE + '/{INPUT_FILE_NAME_NO_EXT}.xlf ' +
-				results.join( ' ' );
-
-		exec( cmd, function( err ){
-
-			if( err ) console.log( err );
-		} );
-	} );
-}
-
-/**********************************************************************************************************************
- * Templates functions                                                                                                *
- **********************************************************************************************************************/
-
-/**
- * Compile single .soy file with specified locale.
- * @param {String} fullName
- * @param {String=} locale
- */
-function compileSoyFile( fullName, locale ){
-
-	locale = locale ? locale : DEFAULTS.LOCALE;
-
-	var cmd;
-	var file = getFileNameNoExt( fullName );
-	try{
-
-		fs.statSync( PATH.MESSAGES + '/' + locale + '/' + file + '.xlf' ).isFile( );
-		cmd =
-
-			'java -jar ' + TOOLS.TEMPLATES + ' ' +
-
-				'--shouldProvideRequireSoyNamespaces ' +
-				'--codeStyle concat ' +
-				'--cssHandlingScheme goog ' +
-				'--shouldGenerateJsdoc ' +
-				'--locales ' + locale + ' ' +
-				'--messageFilePathFormat ' + PATH.MESSAGES + '/' + locale + '/' + file + '.xlf ' +
-				'--outputPathFormat ' + PATH.SOURCES.TEMPLATE + '/' + locale + '/' + file + '.js ' +
-				'--srcs ' + fullName;
-
-	}catch( err ){
-
-		cmd =
-
-			'java -jar ' + TOOLS.TEMPLATES + ' ' +
-
-				'--shouldProvideRequireSoyNamespaces ' +
-				'--codeStyle concat ' +
-				'--cssHandlingScheme goog ' +
-				'--shouldGenerateJsdoc ' +
-				'--outputPathFormat ' + PATH.SOURCES.TEMPLATE + '/' + locale + '/' + file + '.js ' +
-				'--srcs ' + fullName;
-
-	}finally{
-
-
-		exec( cmd, function( err ){
-
-			if( err ) console.log( err );
-		} );
-	}
-}
-
-/**
- * Compile templates to .js files with specified locale.
- */
-function compileTemplates( ){
-
-
-	getFilesRecursively( PATH.TEMPLATES, function( err, files ){
-
-		if( err ) console.log( err );
-		files.forEach( function( file ){
-
-			compileSoyFile( file );
-		} );
-	} );
-}
+var express = require( 'express' );
+var templates = require( './sources/node/templates.js' );
 
 /**********************************************************************************************************************
  * Functions declare section                                                                                          *
@@ -224,14 +44,10 @@ function startWebServer( ){
 
 	var app = express( );
 	var port = 8080;
-
-	//noinspection JSCheckFunctionSignatures,JSUnresolvedVariable
-	app.use( express.static( __dirname ) );
+	app.use( express.static( __dirname ), function( ){ } );
 	app.listen( port );
 	console.log('Static server started at http://localhost:' + port);
 }
-
-
 
 /**
  * Compile stylesheets from .scss files to .gss files using gulp-sass utility.
@@ -462,8 +278,8 @@ gulp.task( 'watchFrontendChanges', watchFrontendChanges );
 gulp.task( 'copy:resources', copyResources );
 gulp.task( 'compile:sass', compileSass );
 gulp.task( 'compile:gss', compileGss );
-gulp.task( 'compile:msg', extractMessages );
-gulp.task( 'compile:tpl', compileTemplates );
+gulp.task( 'compile:msg', templates.extractMessages );
+gulp.task( 'compile:tpl', templates.compileTemplates );
 gulp.task( 'compile:app', compileApplication );
 gulp.task( 'start:ws', startWebServer );
 gulp.task( 'start:fe', watchFrontendChanges );
