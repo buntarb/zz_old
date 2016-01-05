@@ -133,9 +133,33 @@ zz.ui.mdl.Menu.prototype.enterDocument = function( ){
 
 	this.getHandler( ).listenWithScope(
 
-		this.getElement( ),
-		goog.events.EventType.MOUSEUP,
-		this.blurListener_,
+		this.getForElement( ),
+		goog.events.EventType.CLICK,
+		this.handleForClick_,
+		false,
+		this
+	);
+	this.getHandler( ).listenWithScope(
+
+		this.getForElement( ),
+		goog.events.EventType.KEYDOWN,
+		this.handleForKeyboardEvent_,
+		false,
+		this
+	);
+	this.getHandler( ).listenWithScope(
+
+		this.getItems( ),
+		goog.events.EventType.CLICK,
+		this.boundItemClick_,
+		false,
+		this
+	);
+	this.getHandler( ).listenWithScope(
+
+		this.getItems( ),
+		goog.events.EventType.KEYDOWN,
+		this.boundItemKeydown_,
 		false,
 		this
 	);
@@ -192,49 +216,74 @@ zz.ui.mdl.Menu.prototype.disposeInternal = function( ){
  **********************************************************************************************************************/
 
 /**
- * Listener for element blur event.
+ * Listener for forElement click event.
  * @this {zz.ui.mdl.Menu}
  * @private
  */
-zz.ui.mdl.Menu.prototype.blurListener_ = function( ){
+zz.ui.mdl.Menu.prototype.handleForClick_ = function( event ){
 
-	goog.Timer.callOnce( /** @this {zz.ui.mdl.Menu} */ function( ){
+	if (this.element_ && this.forElement_) {
+		var rect = this.forElement_.getBoundingClientRect();
+		var forRect = this.forElement_.parentElement.getBoundingClientRect();
 
-		//noinspection JSPotentiallyInvalidUsageOfThis
-		this.getInputElement( ).blur( );
+		if (this.element_.classList.contains(this.CssClasses_.UNALIGNED)) {
+			// Do not position the menu automatically. Requires the developer to
+			// manually specify position.
+		} else if (this.element_.classList.contains(
+				this.CssClasses_.BOTTOM_RIGHT)) {
+			// Position below the "for" element, aligned to its right.
+			this.container_.style.right = (forRect.right - rect.right) + 'px';
+			this.container_.style.top =
+				this.forElement_.offsetTop + this.forElement_.offsetHeight + 'px';
+		} else if (this.element_.classList.contains(this.CssClasses_.TOP_LEFT)) {
+			// Position above the "for" element, aligned to its left.
+			this.container_.style.left = this.forElement_.offsetLeft + 'px';
+			this.container_.style.bottom = (forRect.bottom - rect.top) + 'px';
+		} else if (this.element_.classList.contains(this.CssClasses_.TOP_RIGHT)) {
+			// Position above the "for" element, aligned to its right.
+			this.container_.style.right = (forRect.right - rect.right) + 'px';
+			this.container_.style.bottom = (forRect.bottom - rect.top) + 'px';
+		} else {
+			// Default: position below the "for" element, aligned to its left.
+			this.container_.style.left = this.forElement_.offsetLeft + 'px';
+			this.container_.style.top =
+				this.forElement_.offsetTop + this.forElement_.offsetHeight + 'px';
+		}
+	}
 
-	}, zz.ui.mdl.Menu.CONST.TINY_TIMEOUT, this );
+	this.toggle(evt);
+
 };
 
-/**
- * Listener for Menu element focus event.
- * @private
- */
-zz.ui.mdl.Menu.prototype.focusMenuListener_ = function( ){
-
-	goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Menu.CSS.IS_FOCUSED );
-};
-
-/**
- * Listener for Menu element blur event.
- * @private
- */
-zz.ui.mdl.Menu.prototype.blurMenuListener_ = function( ){
-
-	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Menu.CSS.IS_FOCUSED );
-};
-
-/**********************************************************************************************************************
- * Helpers methods                                                                                                    *
- **********************************************************************************************************************/
-
-/**
- * Enable/disable Menu.
- * @param {boolean} enable
- */
-zz.ui.mdl.Menu.prototype.setEnabled = function( enable ){
-
-	zz.ui.mdl.Menu.superClass_.setEnabled.call( this, enable );
-	this.getInputElement( ).disabled = !enable;
-	this.getRenderer( ).updateClasses( this );
-};
+///**
+// * Listener for Menu element focus event.
+// * @private
+// */
+//zz.ui.mdl.Menu.prototype.focusMenuListener_ = function( ){
+//
+//	goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Menu.CSS.IS_FOCUSED );
+//};
+//
+///**
+// * Listener for Menu element blur event.
+// * @private
+// */
+//zz.ui.mdl.Menu.prototype.blurMenuListener_ = function( ){
+//
+//	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Menu.CSS.IS_FOCUSED );
+//};
+//
+///**********************************************************************************************************************
+// * Helpers methods                                                                                                    *
+// **********************************************************************************************************************/
+//
+///**
+// * Enable/disable Menu.
+// * @param {boolean} enable
+// */
+//zz.ui.mdl.Menu.prototype.setEnabled = function( enable ){
+//
+//	zz.ui.mdl.Menu.superClass_.setEnabled.call( this, enable );
+//	this.getInputElement( ).disabled = !enable;
+//	this.getRenderer( ).updateClasses( this );
+//};
