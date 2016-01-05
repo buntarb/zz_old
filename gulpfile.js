@@ -32,6 +32,7 @@ var http = require( 'http' );
 var sass = require( 'gulp-sass' );
 var express = require( 'express' );
 var templates = require( './sources/node/templates.js' );
+var stylesheets = require( './sources/node/stylesheets.js' );
 
 /**********************************************************************************************************************
  * Functions declare section                                                                                          *
@@ -47,58 +48,6 @@ function startWebServer( ){
 	app.use( express.static( __dirname ), function( ){ } );
 	app.listen( port );
 	console.log('Static server started at http://localhost:' + port);
-}
-
-/**
- * Compile stylesheets from .scss files to .gss files using gulp-sass utility.
- */
-function compileSass( ){
-
-	gulp.src( './stylesheets/scss/zz.scss' )
-
-		.pipe( sass( ) )
-		.pipe( sass.sync( ).on( 'error', sass.logError ) )
-		.pipe( gulp.dest( './stylesheets/_gss' ) );
-}
-
-/**
- * Compile stylesheets from .gcl files to .css files using Closure Tools utility.
- */
-function compileGss( ){
-
-	var cmd =
-
-		'java -jar ./libs/google-closure-stylesheets/index.jar ' +
-
-			'--allow-unrecognized-functions ' +
-			'--allow-unrecognized-properties ' +
-			'--output-file ./stylesheets/_css/zz.css ' +
-			'--output-renaming-map-format CLOSURE_COMPILED ' +
-			'--rename CLOSURE ' +
-			'--output-renaming-map ./sources/zz/_stylesheet/remap.dat ' +
-			'./stylesheets/_gss/zz.css';
-
-	exec( cmd, function( err ){
-
-		if( err ) console.log( err );
-		cmd =
-
-			'cat ./sources/zz/_stylesheet/remap.tpl ' +
-				'./sources/zz/_stylesheet/remap.dat ' +
-				'>./sources/zz/_stylesheet/remap.js';
-
-		exec( cmd, function( err ){
-
-			if( err ){
-
-				console.log( err );
-
-			}else{
-
-				copyResources( );
-			}
-		} );
-	} );
 }
 
 /**
@@ -276,10 +225,11 @@ gulp.task( 'compileApplication', compileApplication );
 gulp.task( 'watchFrontendChanges', watchFrontendChanges );
 
 gulp.task( 'copy:resources', copyResources );
-gulp.task( 'compile:sass', compileSass );
-gulp.task( 'compile:gss', compileGss );
-gulp.task( 'compile:msg', templates.extractMessages );
-gulp.task( 'compile:tpl', templates.compileTemplates );
 gulp.task( 'compile:app', compileApplication );
 gulp.task( 'start:ws', startWebServer );
 gulp.task( 'start:fe', watchFrontendChanges );
+
+gulp.task( 'compile:msg', templates.extractMessages );
+gulp.task( 'compile:tpl', templates.compileTemplates );
+gulp.task( 'compile:scss', stylesheets.scss2gss );
+gulp.task( 'compile:gss', stylesheets.gss2css );

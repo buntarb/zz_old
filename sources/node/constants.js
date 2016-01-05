@@ -44,12 +44,27 @@ var PATH = {
 	TOOLS: '/bin',
 	MESSAGES: '/messages',
 	TEMPLATES: '/templates',
-	STYLESHEETS: '/stylesheets',
+	STYLESHEETS: {
+
+		ROOT: '/stylesheets',
+		SCSS: '/scss',
+		GSS: '/_gss',
+		CSS: '/_css'
+	},
 	SOURCES: {
 
 		ROOT: '/sources/zz',
-		TEMPLATE: '/sources/zz/_template'
+		TEMPLATE: '/_template',
+		STYLESHEET: '/_stylesheet'
 	}
+};
+
+var FILE = {
+
+	ROOT_SCSS: 'zz.scss',
+	REMAP_TPL: 'remap.tpl',
+	REMAP_DAT: 'remap.dat',
+	REMAP_JS: 'remap.js'
 };
 
 /**
@@ -72,5 +87,6 @@ module.exports = {
 
 	DEFAULTS: DEFAULTS,
 	PATH: PATH,
+	FILE: FILE,
 	TOOLS: TOOLS
 };

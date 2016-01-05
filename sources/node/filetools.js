@@ -26,20 +26,29 @@
  **********************************************************************************************************************/
 
 var fs = require( 'fs' );
-var exec = require( 'child_process' ).exec;
+var exec = require( 'child_process' ).execSync;
 var CONST = require( './constants' );
 
 /**********************************************************************************************************************
- * Helper functions                                                                                                   *
+ * Functions declare section                                                                                          *
  **********************************************************************************************************************/
 
 /**
  * Execute shell command.
  * @param {String} command
- * @param {Function} callback
  * @type {Function}
  */
-var execute = exec;
+var execute = function( command ){
+
+	try{
+
+		exec( command );
+
+	}catch( err ){
+
+		console.log( err );
+	}
+};
 
 /**
  * Determine is specified file exist or not.
@@ -51,8 +60,27 @@ var isFileExist = function( fileName ){
 	var exist;
 	try{
 
-		fs.statSync( fileName ).isFile( );
-		exist = true;
+		exist = fs.statSync( fileName ).isFile( );
+
+	}catch( err ){
+
+		exist = false;
+
+	}
+	return exist;
+};
+
+/**
+ * Determine is specified directory exist or not.
+ * @param {String} dirName
+ * @returns {Boolean}
+ */
+var isDirectoryExist = function( dirName ){
+
+	var exist;
+	try{
+
+		exist = fs.statSync( dirName ).isDirectory( );
 
 	}catch( err ){
 
@@ -97,6 +125,7 @@ var getFilesRecursively = function( dir, done ){
 	fs.readdir( dir, function( err, list ){
 
 		if( err ) return done( err );
+
 		var i = 0;
 		( function next( ){
 
@@ -122,6 +151,25 @@ var getFilesRecursively = function( dir, done ){
 	} );
 };
 
+/**
+ * Open specified file and return its content.
+ * @param {String} fileName
+ * @returns {String}
+ */
+var openFile = function( fileName ){
+
+	return fs.readFileSync( fileName, 'utf8' );
+};
+
+/**
+ * Save specified data into specified file.
+ * @param {String} fileName
+ */
+var saveFile = function( fileName, fileData ){
+
+	fs.writeFileSync( fileName, fileData, 'utf8' );
+};
+
 /**********************************************************************************************************************
  * Exports                                                                                                            *
  **********************************************************************************************************************/
@@ -129,8 +177,11 @@ var getFilesRecursively = function( dir, done ){
 module.exports = {
 
 	execute: execute,
+	isDirExist: isDirectoryExist,
 	isFileExist: isFileExist,
 	getAbsPath: getAbsPath,
 	getFileNameNoExt: getFileNameNoExt,
-	getFilesRecursively: getFilesRecursively
+	getFilesRecursively: getFilesRecursively,
+	openFile: openFile,
+	saveFile: saveFile
 };

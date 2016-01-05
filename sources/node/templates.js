@@ -29,7 +29,7 @@ var CONST = require( './constants.js' );
 var filetools = require( './filetools.js' );
 
 /**********************************************************************************************************************
- * Messages functions                                                                                                 *
+ * Functions declare section                                                                                          *
  **********************************************************************************************************************/
 
 /**
@@ -58,12 +58,7 @@ var extractMessages = function( ){
 
 				results.join( ' ' );
 
-		filetools.execute( cmd, function( err ){
-
-			if( err )
-
-				console.log( err );
-		} );
+		filetools.execute( cmd );
 	} );
 };
 
@@ -121,12 +116,7 @@ var compileTemplate = function( fullName, locale ){
 
 				'--srcs ' + fullName;
 	}
-	filetools.execute( cmd, function( err ){
-
-		if( err )
-
-			console.log( err );
-	} );
+	filetools.execute( cmd );
 };
 
 /**
