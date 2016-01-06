@@ -31,7 +31,13 @@
  */
 var DEFAULTS = {
 
-	LOCALE: 'en'
+	LOCALE: 'en',
+	NAMESPACE: 'zz',
+	SOURCE_MAP: 'V3',
+	SOURCE_MAP_ENABLE: true,
+	COMPILE_LEVEL: 'ADVANCED_OPTIMIZATIONS',
+	INPUT_LANGUAGE: 'ECMASCRIPT5_STRICT',
+	OUTPUT_LANGUAGE: 'ECMASCRIPT5_STRICT'
 };
 
 /**
@@ -51,12 +57,19 @@ var PATH = {
 		GSS: '/_gss',
 		CSS: '/_css'
 	},
+	GOOG: {
+
+		ROOT: '/node_modules/google-closure-library',
+		BASE: '/closure/goog',
+		GOOG3P: '/third_party/closure'
+	},
 	SOURCES: {
 
 		ROOT: '/sources/zz',
 		TEMPLATE: '/_template',
 		STYLESHEET: '/_stylesheet'
-	}
+	},
+	APPLICATION: '/sources/app'
 };
 
 var FILE = {
@@ -64,7 +77,10 @@ var FILE = {
 	ROOT_SCSS: 'zz.scss',
 	REMAP_TPL: 'remap.tpl',
 	REMAP_DAT: 'remap.dat',
-	REMAP_JS: 'remap.js'
+	REMAP_JS: 'remap.js',
+	DEPS_JS: 'deps.js',
+	APP_JS: 'zz.js',
+	MAP_JS: 'zz.js.map'
 };
 
 /**
@@ -73,6 +89,8 @@ var FILE = {
  */
 var TOOLS = {
 
+	BUILDER: PATH.ROOT + PATH.GOOG.ROOT + '/closure/bin/build/closurebuilder.py',
+	CALCDEPS: PATH.ROOT + PATH.GOOG.ROOT + '/closure/bin/calcdeps.py',
 	COMPILER: PATH.ROOT + PATH.TOOLS + '/compiler/compiler.jar',
 	MESSAGES: PATH.ROOT + PATH.TOOLS + '/messages/SoyMsgExtractor.jar',
 	TEMPLATES: PATH.ROOT + PATH.TOOLS + '/templates/SoyToJsSrcCompiler.jar',

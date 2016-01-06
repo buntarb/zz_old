@@ -34,23 +34,6 @@ var CONST = require( './constants' );
  **********************************************************************************************************************/
 
 /**
- * Execute shell command.
- * @param {String} command
- * @type {Function}
- */
-var execute = function( command ){
-
-	try{
-
-		exec( command );
-
-	}catch( err ){
-
-		console.log( err );
-	}
-};
-
-/**
  * Determine is specified file exist or not.
  * @param {String} fileName
  * @returns {Boolean}
@@ -91,6 +74,59 @@ var isDirectoryExist = function( dirName ){
 };
 
 /**
+ * Execute shell command.
+ * @param {String} command
+ * @type {Function}
+ */
+var execute = function( command ){
+
+	try{
+
+		exec( command );
+
+	}catch( err ){
+
+		console.log( err );
+	}
+};
+
+/**
+ * Open specified file and return its content.
+ * @param {String} fileName
+ * @returns {String}
+ */
+var openFile = function( fileName ){
+
+	return fs.readFileSync( fileName, 'utf8' );
+};
+
+/**
+ * Save specified data into specified file.
+ * @param {String} fileName
+ * @param {String} fileData
+ */
+var saveFile = function( fileName, fileData ){
+
+	fs.writeFileSync( fileName, fileData, 'utf8' );
+};
+
+/**
+ * Remove specified file.
+ * @param fileName
+ */
+var removeFile = function( fileName ){
+
+	try{
+
+		fs.unlinkSync( fileName );
+
+	}catch( err ){
+
+		console.log( err );
+	}
+};
+
+/**
  * Return absolute path of specified related path based on project constants.
  * @param {String} relPath
  * @returns {String}
@@ -116,58 +152,26 @@ var getFileNameNoExt = function( fullName ){
 
 /**
  * Recursive find all files in specified path.
- * @param {string} dir
- * @param {function} done
+ * @param {string} dirName
  */
-var getFilesRecursively = function( dir, done ){
 
-	var results = [ ];
-	fs.readdir( dir, function( err, list ){
+var getFilesRecursively = function( dirName ){
 
-		if( err ) return done( err );
+	var files = [ ];
+	var list = fs.readdirSync( dirName );
+	list.forEach( function( item ){
 
-		var i = 0;
-		( function next( ){
+		item = dirName + '/' + item;
+		if( isDirectoryExist( item ) ){
 
-			var file = list[ i++ ];
-			if( !file ) return done( null, results );
-			file = dir + '/' + file;
-			fs.stat( file, function( err, stat ){
+			files = files.concat( getFilesRecursively( item ) );
+		}
+		if( isFileExist( item ) ){
 
-				if( stat && stat.isDirectory( ) ){
-
-					getFilesRecursively( file, function( err, res ){
-
-						results = results.concat( res );
-						next( );
-					} );
-				}else{
-
-					results.push( file );
-					next( );
-				}
-			} );
-		} )( );
+			files.push( item );
+		}
 	} );
-};
-
-/**
- * Open specified file and return its content.
- * @param {String} fileName
- * @returns {String}
- */
-var openFile = function( fileName ){
-
-	return fs.readFileSync( fileName, 'utf8' );
-};
-
-/**
- * Save specified data into specified file.
- * @param {String} fileName
- */
-var saveFile = function( fileName, fileData ){
-
-	fs.writeFileSync( fileName, fileData, 'utf8' );
+	return files;
 };
 
 /**********************************************************************************************************************
@@ -176,12 +180,13 @@ var saveFile = function( fileName, fileData ){
 
 module.exports = {
 
-	execute: execute,
 	isDirExist: isDirectoryExist,
 	isFileExist: isFileExist,
+	execute: execute,
+	openFile: openFile,
+	saveFile: saveFile,
+	removeFile: removeFile,
 	getAbsPath: getAbsPath,
 	getFileNameNoExt: getFileNameNoExt,
-	getFilesRecursively: getFilesRecursively,
-	openFile: openFile,
-	saveFile: saveFile
+	getFilesRecursively: getFilesRecursively
 };

@@ -92,7 +92,7 @@ var compileTemplate = function( fullName, locale ){
 
 				'--outputPathFormat ' +
 
-					filetools.getAbsPath( CONST.PATH.SOURCES.TEMPLATE ) + '/' +
+					filetools.getAbsPath( CONST.PATH.SOURCES.ROOT + CONST.PATH.SOURCES.TEMPLATE ) + '/' +
 					locale + '/' +
 					file + '.js ' +
 
@@ -110,7 +110,7 @@ var compileTemplate = function( fullName, locale ){
 				'--shouldGenerateJsdoc ' +
 				'--outputPathFormat ' +
 
-					filetools.getAbsPath( CONST.PATH.SOURCES.TEMPLATE ) + '/' +
+					filetools.getAbsPath( CONST.PATH.SOURCES.ROOT + CONST.PATH.SOURCES.TEMPLATE ) + '/' +
 					locale + '/' +
 					file + '.js ' +
 
@@ -125,18 +125,10 @@ var compileTemplate = function( fullName, locale ){
  */
 var compileTemplates = function( locale ){
 
-	locale = locale && typeof locale === 'string' ? locale : CONST.DEFAULTS.LOCALE;
+	var files = filetools.getFilesRecursively( filetools.getAbsPath( CONST.PATH.TEMPLATES ) );
+	files.forEach( function( file ){
 
-	filetools.getFilesRecursively( filetools.getAbsPath( CONST.PATH.TEMPLATES ), function( err, files ){
-
-		if( err )
-
-			console.log( err );
-
-		files.forEach( function( file ){
-
-			compileTemplate( file, locale );
-		} );
+		compileTemplate( file, locale && typeof locale === 'string' ? locale : CONST.DEFAULTS.LOCALE );
 	} );
 };
 

@@ -31,6 +31,7 @@ var gulp = require( 'gulp' );
 var http = require( 'http' );
 var sass = require( 'gulp-sass' );
 var express = require( 'express' );
+var compiler = require( './sources/node/compiler.js' );
 var templates = require( './sources/node/templates.js' );
 var stylesheets = require( './sources/node/stylesheets.js' );
 
@@ -51,56 +52,6 @@ function startWebServer( ){
 }
 
 /**
- * Calculate application dependencies.
- */
-function calcDependencies( ){//noinspection JSUnresolvedFunction
-
-	var cmd = 'rm ./sources/zz/deps.js';
-	exec( cmd, function( err ){
-
-		if( err ) console.log( err );
-		cmd =
-
-			'python ./libs/google-closure-library/closure/bin/calcdeps.py ' +
-				'--output_mode deps ' +
-				'--dep ./libs/google-closure-library/closure/goog/ ' +
-				'--path ./sources/zz/ > ./sources/zz/deps.js';
-
-		exec( cmd, function( err ){
-
-			if( err ) console.log( err );
-		} );
-	} );
-}
-
-/**
- * Copy application resources.
- */
-function copyResources( ){
-
-	var cmd = 'rm -r ./stylesheets/_css/resources/';
-	exec( cmd, function( err ){
-
-		if( err ) console.log( err );
-		cmd = 'cp -r ./resources ./stylesheets/_css/resources';
-		exec( cmd, function( err ){
-
-			if( err ) console.log( err );
-			cmd = 'rm -r ./stylesheets/_gss/resources/';
-			exec( cmd, function( err ){
-
-				if( err ) console.log( err );
-				cmd = 'cp -r ./resources ./stylesheets/_gss/resources';
-				exec( cmd, function( err ){
-
-					if( err ) console.log( err );
-				} );
-			} );
-		} );
-	} );
-}
-
-/**
  * Start watchers processes.
  */
 function watchFrontendChanges( ){
@@ -112,106 +63,6 @@ function watchFrontendChanges( ){
 	gulp.watch( './sources/zz/*/*.js', [ 'calcDependencies' ] );
 	gulp.watch( './sources/zz/*/*/*.js', [ 'calcDependencies' ] );
 	gulp.watch( './sources/zz/*/*/*/*.js', [ 'calcDependencies' ] );
-}
-
-/**
- * Run compiler in check mode.
- */
-function checkApplication( ){
-
-	var cmd =
-
-		'python ./libs/google-closure-library/closure/bin/build/closurebuilder.py ' +
-
-			// Libraries root dirs
-			'--root=./libs/google-closure-library/closure/goog/ ' +
-			'--root=./libs/google-closure-library/third_party/closure/ ' +
-			'--root=./libs/google-closure-templates/ ' +
-			'--root=./sources/zz/ ' +
-
-			// Externs
-			//'--compiler_flags="--externs=./sources/zz/_extern/gapi.js" ' +
-
-			// Project namespace
-			'--namespace="zz" ' +
-
-			// Compiler settings
-			'--output_mode=compiled ' +
-			'--compiler_jar=./libs/google-closure-compiler/compiler.jar ' +
-			'--compiler_flags="--compilation_level=ADVANCED_OPTIMIZATIONS" ' +
-			'--compiler_flags="--language_in=ECMASCRIPT5" ' +
-			'--compiler_flags="--language_out=ECMASCRIPT5" ' +
-
-			// Uncomment this line for check-only mode
-			'--compiler_flags="--checks-only" ';
-
-	exec( cmd, function( error, stdout, stderr ){
-
-		console.log( stderr );
-		if( error ) console.log( error );
-	} );
-}
-
-/**
- * Compile existing application.
- * //@ sourceMappingURL=zz.js.map
- */
-function compileApplication( ){
-
-	var cmd = 'rm ./app/zz.js ./app/zz.css';
-	exec( cmd, function( err ){
-
-		if( err ) console.log( err );
-		cmd =
-
-			'python ./libs/google-closure-library/closure/bin/build/closurebuilder.py ' +
-
-				// Libraries root dirs
-				'--root=./libs/google-closure-library/closure/goog/ ' +
-				'--root=./libs/google-closure-library/third_party/closure/ ' +
-				'--root=./libs/google-closure-templates/ ' +
-				'--root=./sources/zz/ ' +
-
-				// Externs
-				//'--compiler_flags="--externs=./sources/zz/_extern/gapi.js" ' +
-
-				// Project namespace
-				'--namespace="zz" ' +
-
-				// Compiler settings
-				'--output_mode=compiled ' +
-				'--compiler_jar=./libs/google-closure-compiler/compiler.jar ' +
-
-				'--compiler_flags="--source_map_format=V3" ' +
-				'--compiler_flags="--compilation_level=ADVANCED_OPTIMIZATIONS" ' +
-				'--compiler_flags="--language_in=ECMASCRIPT5_STRICT" ' +
-				'--compiler_flags="--language_out=ECMASCRIPT5_STRICT" ' +
-
-				// Output file
-				'--compiler_flags="--create_source_map=./app/zz.js.map" ' +
-				'--compiler_flags="--js_output_file=./app/zz.js" ';
-
-		exec( cmd, function( error, stdout, stderr ){
-
-			console.log( stderr );
-			if( err ) console.log( error );
-			var cmd = 'cp ./stylesheets/_css/zz.css ./app/zz.css';
-			exec( cmd, function( err ){
-
-				if( err ) console.log( err );
-				cmd = 'rm -r ./app/resources/*';
-				exec( cmd, function( err ){
-
-					if( err ) console.log( err );
-					cmd = 'cp -r ./resources/* ./app/resources/';
-					exec( cmd, function( err ){
-
-						if( err ) console.log( err );
-					} );
-				} );
-			} );
-		} );
-	} );
 }
 
 /**********************************************************************************************************************
@@ -233,3 +84,5 @@ gulp.task( 'compile:msg', templates.extractMessages );
 gulp.task( 'compile:tpl', templates.compileTemplates );
 gulp.task( 'compile:scss', stylesheets.scss2gss );
 gulp.task( 'compile:gss', stylesheets.gss2css );
+gulp.task( 'compile:dep', compiler.calculateDependencies );
+gulp.task( 'compile:app', compiler.compileApplication );
