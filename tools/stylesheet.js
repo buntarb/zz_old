@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Declare project gulp commands.
+ * @fileoverview Declare stylesheet commands.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -27,7 +27,7 @@
 
 var gulp = require( 'gulp' );
 var sass = require( 'gulp-sass' );
-var CONST = require( './constants.js' );
+var CONST = require( './constant.js' );
 var filetools = require( './filetools.js' );
 
 /**********************************************************************************************************************
@@ -64,8 +64,11 @@ function gss2css( ){
 	if( filetools.isFileExist( fileName ) ){
 
 		fileData = filetools.openFile( fileName );
-		fileData = fileData.replace( '@charset "UTF-8";', '' );
-		filetools.saveFile( fileName, fileData );
+		if( fileData.indexOf( '@charset "UTF-8";' ) >= 0 ){
+
+			fileData = fileData.replace( '@charset "UTF-8";', '' );
+			filetools.saveFile( fileName, fileData );
+		}
 	}
 	var cmd =
 

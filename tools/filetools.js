@@ -27,7 +27,7 @@
 
 var fs = require( 'fs' );
 var exec = require( 'child_process' ).execSync;
-var CONST = require( './constants' );
+var CONST = require( './constant' );
 
 /**********************************************************************************************************************
  * Functions declare section                                                                                          *

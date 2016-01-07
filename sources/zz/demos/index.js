@@ -228,6 +228,7 @@ zz.demos.app.run = function( ){
 
 	var usersView = new zz.module.user.view.Users( );
 	usersView.render( goog.dom.getElement( 'root' ) );
+
 };
 
 /**********************************************************************************************************************

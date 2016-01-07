@@ -31,13 +31,19 @@
  */
 var DEFAULTS = {
 
+	TITLE: 'zz.Framework!',
 	LOCALE: 'en',
 	NAMESPACE: 'zz',
 	SOURCE_MAP: 'V3',
 	SOURCE_MAP_ENABLE: true,
 	COMPILE_LEVEL: 'ADVANCED_OPTIMIZATIONS',
 	INPUT_LANGUAGE: 'ECMASCRIPT5_STRICT',
-	OUTPUT_LANGUAGE: 'ECMASCRIPT5_STRICT'
+	OUTPUT_LANGUAGE: 'ECMASCRIPT5_STRICT',
+	SERVER_DEV: 'dev',
+	SERVER_TST: 'tst',
+	SERVER_APP: 'app',
+	SERVER_DOMAIN: 'localhost',
+	SERVER_PORT: 8080
 };
 
 /**
@@ -48,8 +54,10 @@ var PATH = {
 
 	ROOT: '/var/www/zz',
 	TOOLS: '/bin',
+	APPLICATION: '/app',
 	MESSAGES: '/messages',
 	TEMPLATES: '/templates',
+	RESOURCES: '/resources',
 	STYLESHEETS: {
 
 		ROOT: '/stylesheets',
@@ -68,10 +76,13 @@ var PATH = {
 		ROOT: '/sources/zz',
 		TEMPLATE: '/_template',
 		STYLESHEET: '/_stylesheet'
-	},
-	APPLICATION: '/sources/app'
+	}
 };
 
+/**
+ * Project files.
+ * @type {Object}
+ */
 var FILE = {
 
 	ROOT_SCSS: 'zz.scss',
@@ -98,6 +109,95 @@ var TOOLS = {
 };
 
 /**********************************************************************************************************************
+ * Templates                                                                                                          *
+ **********************************************************************************************************************/
+
+var TEMPLATE = {
+
+	APP:
+
+		'<!DOCTYPE html>' +
+		'<html>' +
+			'<head>' +
+				'<meta charset="utf-8">' +
+				'<meta http-equiv="X-UA-Compatible" content="IE=edge">' +
+				'<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">' +
+				'<title>' +
+					'<%TITLE%>' +
+				'</title>' +
+				'<style>' +
+					'<%STYLE%>' +
+				'</style>' +
+				'<script>' +
+					'<%SCRIPT%>' +
+				'</script>' +
+			'</head>' +
+			'<body>' +
+				'<div id="root"></div>' +
+				'<script>' +
+					'zz.demos.app.run( );' +
+				'</script>' +
+			'</body>' +
+		'</html>',
+
+	TST:
+
+		'<!DOCTYPE html>' +
+		'<html>' +
+			'<head>' +
+				'<meta charset="utf-8">' +
+				'<meta http-equiv="X-UA-Compatible" content="IE=edge">' +
+				'<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">' +
+				'<title>' +
+					'<%TITLE%>' +
+				'</title>' +
+				'<style>' +
+					'<%STYLE%>' +
+				'</style>' +
+//				'<script>' +
+//					'<%SCRIPT%>' +
+//				'</script>' +
+				'<script src="' + PATH.APPLICATION + '/' + FILE.APP_JS + '"></script>' +
+			'</head>' +
+			'<body>' +
+				'<div id="root"></div>' +
+				'<script>' +
+					'zz.demos.app.run( );' +
+				'</script>' +
+			'</body>' +
+		'</html>',
+
+	DEV:
+
+		'<!DOCTYPE html>' +
+		'<html>' +
+			'<head>' +
+				'<meta charset="utf-8">' +
+				'<meta http-equiv="X-UA-Compatible" content="IE=edge">' +
+				'<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">' +
+				'<title>' +
+					'<%TITLE%>' +
+				'</title>' +
+				'<style>' +
+					'<%STYLE_1%>' +
+				'</style>' +
+				'<style>' +
+					'<%STYLE_2%>' +
+				'</style>' +
+				'<script src="/node_modules/google-closure-library/closure/goog/base.js"></script>' +
+				'<script>goog.require("goog.soy");</script>' +
+				'<script src="' + PATH.SOURCES.ROOT + PATH.SOURCES.TEMPLATE + '/soyutils_usegoog.js"></script>' +
+				'<script src="' + PATH.SOURCES.ROOT + '/deps.js"></script>' +
+				'<script src="' + PATH.SOURCES.ROOT + '/base.js"></script>' +
+			'</head>' +
+			'<body>' +
+				'<div id="root"></div>' +
+				'<script>zz.demos.app.run( );</script>' +
+			'</body>' +
+		'</html>'
+};
+
+/**********************************************************************************************************************
  * Exports                                                                                                            *
  **********************************************************************************************************************/
 
@@ -106,5 +206,6 @@ module.exports = {
 	DEFAULTS: DEFAULTS,
 	PATH: PATH,
 	FILE: FILE,
-	TOOLS: TOOLS
+	TOOLS: TOOLS,
+	TEMPLATE: TEMPLATE
 };

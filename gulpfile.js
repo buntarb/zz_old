@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Declare project gulp commands.
+ * @fileoverview Declare project gulp tasks and watchers.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,64 +25,79 @@
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-var fs = require( 'fs' );
-var exec = require( 'child_process' ).exec;
+var CONST = require( './tools/constant.js' );
 var gulp = require( 'gulp' );
-var http = require( 'http' );
-var sass = require( 'gulp-sass' );
-var express = require( 'express' );
-var compiler = require( './sources/node/compiler.js' );
-var templates = require( './sources/node/templates.js' );
-var stylesheets = require( './sources/node/stylesheets.js' );
+var server = require( './tools/server.js' );
+var compiler = require( './tools/compiler.js' );
+var template = require( './tools/template.js' );
+var filetools = require( './tools/filetools.js' );
+var stylesheet = require( './tools/stylesheet.js' );
 
 /**********************************************************************************************************************
  * Functions declare section                                                                                          *
  **********************************************************************************************************************/
 
 /**
- * Start web server on localhost:8080.
- */
-function startWebServer( ){
-
-	var app = express( );
-	var port = 8080;
-	app.use( express.static( __dirname ), function( ){ } );
-	app.listen( port );
-	console.log('Static server started at http://localhost:' + port);
-}
-
-/**
  * Start watchers processes.
  */
-function watchFrontendChanges( ){
+function watchFrontend( ){
 
-	gulp.watch( './templates/**/*', [ 'compile:tpl' ] );
-	gulp.watch( './stylesheets/scss/**/*', [ 'compile:sass' ] );
-	gulp.watch( './stylesheets/_gss/zz.css', [ 'compile:gss' ] );
-	gulp.watch( './sources/zz/base.js', [ 'calcDependencies' ] );
-	gulp.watch( './sources/zz/*/*.js', [ 'calcDependencies' ] );
-	gulp.watch( './sources/zz/*/*/*.js', [ 'calcDependencies' ] );
-	gulp.watch( './sources/zz/*/*/*/*.js', [ 'calcDependencies' ] );
+	gulp.watch(
+
+		CONST.PATH.ROOT +
+		CONST.PATH.TEMPLATES + '/**/*', [
+		'compile:tpl'
+	] );
+	gulp.watch(
+
+		CONST.PATH.ROOT +
+		CONST.PATH.STYLESHEETS.ROOT +
+		CONST.PATH.STYLESHEETS.SCSS + '/**/*', [
+		'compile:gss'
+	] );
+	gulp.watch(
+
+		CONST.PATH.ROOT +
+		CONST.PATH.STYLESHEETS.ROOT +
+		CONST.PATH.STYLESHEETS.GSS + '/' +
+		filetools.getFileNameNoExt( CONST.FILE.ROOT_SCSS ) + '.css', [
+		'compile:css'
+	] );
+	gulp.watch(
+
+		CONST.PATH.ROOT +
+		CONST.PATH.SOURCES.ROOT + '/base.js', [
+		'compile:dep'
+	] );
+	gulp.watch(
+
+		CONST.PATH.ROOT +
+		CONST.PATH.SOURCES.ROOT + '/*/*.js', [
+		'compile:dep'
+	] );
+	gulp.watch(
+
+		CONST.PATH.ROOT +
+		CONST.PATH.SOURCES.ROOT + '/*/*/*.js', [
+		'compile:dep'
+	] );
+	gulp.watch(
+
+		CONST.PATH.ROOT +
+		CONST.PATH.SOURCES.ROOT + '/*/*/*/*.js', [
+		'compile:dep'
+	] );
 }
 
 /**********************************************************************************************************************
  * Gulp tasks declare section                                                                                         *
  **********************************************************************************************************************/
 
-gulp.task( 'startWebServer', startWebServer );
-gulp.task( 'calcDependencies', calcDependencies );
-gulp.task( 'checkApplication', checkApplication );
-gulp.task( 'compileApplication', compileApplication );
-gulp.task( 'watchFrontendChanges', watchFrontendChanges );
-
-gulp.task( 'copy:resources', copyResources );
-gulp.task( 'compile:app', compileApplication );
-gulp.task( 'start:ws', startWebServer );
-gulp.task( 'start:fe', watchFrontendChanges );
-
-gulp.task( 'compile:msg', templates.extractMessages );
-gulp.task( 'compile:tpl', templates.compileTemplates );
-gulp.task( 'compile:scss', stylesheets.scss2gss );
-gulp.task( 'compile:gss', stylesheets.gss2css );
+gulp.task( 'compile:msg', template.extractMessages );
+gulp.task( 'compile:tpl', template.compileTemplates );
+gulp.task( 'compile:gss', stylesheet.scss2gss );
+gulp.task( 'compile:css', stylesheet.gss2css );
 gulp.task( 'compile:dep', compiler.calculateDependencies );
 gulp.task( 'compile:app', compiler.compileApplication );
+gulp.task( 'start:ws', server.startWebServer );
+gulp.task( 'watch:fe', watchFrontend );

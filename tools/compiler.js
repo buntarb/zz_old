@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Declare project gulp commands.
+ * @fileoverview Declare compiler commands.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,7 +25,7 @@
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-var CONST = require( './constants.js' );
+var CONST = require( './constant.js' );
 var filetools = require( './filetools.js' );
 
 /**********************************************************************************************************************
