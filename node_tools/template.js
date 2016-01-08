@@ -39,27 +39,21 @@ var filetools = require( './filetools.js' );
  */
 var extractMessages = function( ){
 
-	filetools.getFilesRecursively( filetools.getAbsPath( CONST.PATH.TEMPLATES ), function( err, results ){
+	var results = filetools.getFilesRecursively( filetools.getAbsPath( CONST.PATH.TEMPLATES ) );
+	var cmd =
 
-		if( err )
+		'java -jar ' + CONST.TOOLS.MESSAGES + ' ' +
 
-			console.log( err );
+			'--targetLocaleString ' + CONST.DEFAULTS.LOCALE + ' ' +
+			'--outputPathFormat ' +
 
-		var cmd =
+				filetools.getAbsPath( CONST.PATH.MESSAGES ) + '/' +
+				CONST.DEFAULTS.LOCALE +
+				'/{INPUT_FILE_NAME_NO_EXT}.xlf ' +
 
-			'java -jar ' + CONST.TOOLS.MESSAGES + ' ' +
+			results.join( ' ' );
 
-				'--targetLocaleString ' + CONST.DEFAULTS.LOCALE + ' ' +
-				'--outputPathFormat ' +
-
-					filetools.getAbsPath( CONST.PATH.MESSAGES ) + '/' +
-					CONST.DEFAULTS.LOCALE +
-					'/{INPUT_FILE_NAME_NO_EXT}.xlf ' +
-
-				results.join( ' ' );
-
-		filetools.execute( cmd );
-	} );
+	filetools.execute( cmd );
 };
 
 /**

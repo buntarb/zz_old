@@ -25,13 +25,13 @@
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-var CONST = require( './tools/constant.js' );
+var CONST = require( './node_tools/constant.js' );
 var gulp = require( 'gulp' );
-var server = require( './tools/server.js' );
-var compiler = require( './tools/compiler.js' );
-var template = require( './tools/template.js' );
-var filetools = require( './tools/filetools.js' );
-var stylesheet = require( './tools/stylesheet.js' );
+var server = require( './node_tools/server.js' );
+var compiler = require( './node_tools/compiler.js' );
+var template = require( './node_tools/template.js' );
+var filetools = require( './node_tools/filetools.js' );
+var stylesheet = require( './node_tools/stylesheet.js' );
 
 /**********************************************************************************************************************
  * Functions declare section                                                                                          *
@@ -46,8 +46,12 @@ function watchFrontend( ){
 
 		CONST.PATH.ROOT +
 		CONST.PATH.TEMPLATES + '/**/*', [
-		'compile:tpl'
-	] );
+		'compile:soy'
+
+	] ).on( 'change', function( evt ){
+
+		template.compileTemplate( evt.path );
+	} );
 	gulp.watch(
 
 		CONST.PATH.ROOT +
@@ -95,6 +99,7 @@ function watchFrontend( ){
 
 gulp.task( 'compile:msg', template.extractMessages );
 gulp.task( 'compile:tpl', template.compileTemplates );
+gulp.task( 'compile:soy', function(){} );
 gulp.task( 'compile:gss', stylesheet.scss2gss );
 gulp.task( 'compile:css', stylesheet.gss2css );
 gulp.task( 'compile:dep', compiler.calculateDependencies );
