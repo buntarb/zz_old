@@ -106,3 +106,9 @@ gulp.task( 'compile:dep', compiler.calculateDependencies );
 gulp.task( 'compile:app', compiler.compileApplication );
 gulp.task( 'start:ws', server.startWebServer );
 gulp.task( 'watch:fe', watchFrontend );
+
+gulp.task( 'default', function( ){
+
+	server.startWebServer( );
+	watchFrontend( );
+} );
