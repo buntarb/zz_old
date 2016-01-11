@@ -27,6 +27,7 @@
 
 var gulp = require( 'gulp' );
 var sass = require( 'gulp-sass' );
+var notifier = require( 'node-notifier' );
 var CONST = require( './constant.js' );
 var filetools = require( './filetools.js' );
 
@@ -39,6 +40,11 @@ var filetools = require( './filetools.js' );
  */
 function scss2gss( ){
 
+	notifier.notify( {
+
+		'title': 'Stylesheets',
+		'message': 'Compiling styles'
+	} );
 	//noinspection JSUnresolvedVariable
 	gulp.src( filetools.getAbsPath(
 

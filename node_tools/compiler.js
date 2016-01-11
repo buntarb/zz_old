@@ -25,6 +25,7 @@
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
+var notifier = require( 'node-notifier' );
 var CONST = require( './constant.js' );
 var filetools = require( './filetools.js' );
 
@@ -37,6 +38,11 @@ var filetools = require( './filetools.js' );
  */
 function calculateDependencies( ){
 
+	notifier.notify( {
+
+		'title': 'Scripts',
+		'message': 'Calculate dependencies'
+	} );
 	if( filetools.isFileExist( filetools.getAbsPath( CONST.PATH.SOURCES.ROOT + '/' + CONST.FILE.DEPS_JS ) ) ){
 
 		filetools.removeFile( filetools.getAbsPath( CONST.PATH.SOURCES.ROOT + '/' + CONST.FILE.DEPS_JS ) );
@@ -59,6 +65,11 @@ function calculateDependencies( ){
  */
 function compileApplication( ){
 
+	notifier.notify( {
+
+		'title': 'Scripts',
+		'message': 'Compiling application'
+	} );
 	if( filetools.isFileExist( filetools.getAbsPath( CONST.PATH.APPLICATION + '/' + CONST.FILE.APP_JS ) ) ){
 
 		filetools.removeFile( filetools.getAbsPath( CONST.PATH.APPLICATION + '/' + CONST.FILE.APP_JS ) ); }

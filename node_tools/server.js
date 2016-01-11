@@ -25,8 +25,10 @@
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-var vhost = require('vhost');
+var gulp = require( 'gulp' );
+var vhost = require( 'vhost' );
 var express = require( 'express' );
+var notifier = require( 'node-notifier' );
 var CONST = require( './constant.js' );
 var filetools = require( './filetools.js' );
 
@@ -134,11 +136,11 @@ function startWebServer( ){
 		.use( express.static( CONST.PATH.ROOT ), function( ){} )
 		.listen( CONST.DEFAULTS.SERVER_PORT );
 
-	console.log( 'Static server started at ' +
+	notifier.notify( {
 
-		CONST.DEFAULTS.SERVER_APP + '.' +
-		CONST.DEFAULTS.SERVER_DOMAIN + ':' +
-		CONST.DEFAULTS.SERVER_PORT );
+		'title': 'Server',
+		'message': 'Start at ' + CONST.DEFAULTS.SERVER_DOMAIN + ':' + CONST.DEFAULTS.SERVER_PORT
+	} );
 }
 
 /**********************************************************************************************************************

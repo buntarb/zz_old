@@ -25,6 +25,7 @@
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
+var notifier = require( 'node-notifier' );
 var CONST = require( './constant.js' );
 var filetools = require( './filetools.js' );
 
@@ -53,6 +54,11 @@ var extractMessages = function( ){
 
 			results.join( ' ' );
 
+	notifier.notify( {
+
+		'title': 'Templates',
+		'message': 'Extracting messages'
+	} );
 	filetools.execute( cmd );
 };
 
@@ -64,7 +70,6 @@ var extractMessages = function( ){
 var compileTemplate = function( fullName, locale ){
 
 	locale = locale && typeof locale === 'string' ? locale : CONST.DEFAULTS.LOCALE;
-
 	var cmd;
 	var file = filetools.getFileNameNoExt( fullName );
 	if( filetools.isFileExist( filetools.getAbsPath( CONST.PATH.MESSAGES ) + '/' + locale + '/' + file + '.xlf' ) ){
@@ -110,6 +115,11 @@ var compileTemplate = function( fullName, locale ){
 
 				'--srcs ' + fullName;
 	}
+	notifier.notify( {
+
+		'title': 'Templates',
+		'message': 'Compiling ' + file + '.soy'
+	} );
 	filetools.execute( cmd );
 };
 
