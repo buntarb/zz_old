@@ -164,37 +164,37 @@ zz.ui.mdl.Menu.prototype.enterDocument = function( ){
 		this
 	);
 
-	// Ripple effect.
-	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Menu.CSS.RIPPLE_EFFECT ) ){
-
-		var  ripple = new zz.ui.mdl.Ripple( );
-		this.addChild( ripple, false );
-		ripple.decorate(
-
-			goog.dom.getElementByClass(
-
-				zz.ui.mdl.Menu.CSS.RIPPLE_CONTAINER,
-				this.getElement( ) ) );
-
-	}else{
-
-		this.getHandler( ).listenWithScope(
-
-			this.getInputElement( ),
-			goog.events.EventType.FOCUS,
-			this.focusMenuListener_,
-			false,
-			this
-		);
-		this.getHandler( ).listenWithScope(
-
-			this.getInputElement( ),
-			goog.events.EventType.BLUR,
-			this.blurMenuListener_,
-			false,
-			this
-		);
-	}
+	//// Ripple effect.
+	//if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Menu.CSS.RIPPLE_EFFECT ) ){
+    //
+	//	var  ripple = new zz.ui.mdl.Ripple( );
+	//	this.addChild( ripple, false );
+	//	ripple.decorate(
+    //
+	//		goog.dom.getElementByClass(
+    //
+	//			zz.ui.mdl.Menu.CSS.RIPPLE_CONTAINER,
+	//			this.getElement( ) ) );
+    //
+	//}else{
+    //
+	//	this.getHandler( ).listenWithScope(
+    //
+	//		this.getInputElement( ),
+	//		goog.events.EventType.FOCUS,
+	//		this.focusMenuListener_,
+	//		false,
+	//		this
+	//	);
+	//	this.getHandler( ).listenWithScope(
+    //
+	//		this.getInputElement( ),
+	//		goog.events.EventType.BLUR,
+	//		this.blurMenuListener_,
+	//		false,
+	//		this
+	//	);
+	//}
 };
 
 /**
@@ -248,7 +248,7 @@ zz.ui.mdl.Menu.prototype.handleForClick_ = function( event ){
 				left : control.getForElement( ).offsetLeft + 'px',
 				bottom :  (forRect.bottom - rect.top) + 'px'
 			} );
-		} else if ( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Menu.CSS.TOP_RIGHT ) {
+		} else if ( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Menu.CSS.TOP_RIGHT ) ){
 
 			// Position above the "for" element, aligned to its right.
 			goog.style.setStyle( control.getContainerElement( ), {
@@ -281,11 +281,13 @@ zz.ui.mdl.Menu.prototype.handleForKeyboardEvent_ = function( evt ){
 			':not([disabled])');
 
 		if (items && items.length > 0 &&
-			goog.dom.classlist.contains( this.getContainerElement( ), zz.ui.mdl.Menu.CSS.IS_VISIBLE ){
+			goog.dom.classlist.contains( this.getContainerElement( ), zz.ui.mdl.Menu.CSS.IS_VISIBLE ) ){
 			if ( evt.keyCode === zz.ui.mdl.Menu.Keycodes.UP_ARROW ){
+
 				evt.preventDefault( );
 				items[items.length - 1].focus( );
-			} else if (evt.keyCode === zz.ui.mdl.Menu.Keycodes.DOWN_ARROW) {
+			} else if ( evt.keyCode === zz.ui.mdl.Menu.Keycodes.DOWN_ARROW ){
+
 				evt.preventDefault( );
 				items[0].focus( );
 			}
