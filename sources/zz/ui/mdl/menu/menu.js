@@ -222,68 +222,232 @@ zz.ui.mdl.Menu.prototype.disposeInternal = function( ){
  */
 zz.ui.mdl.Menu.prototype.handleForClick_ = function( event ){
 
-	if (this.element_ && this.forElement_) {
-		var rect = this.forElement_.getBoundingClientRect();
-		var forRect = this.forElement_.parentElement.getBoundingClientRect();
+		var rect = control.getForElement( ).getBoundingClientRect();
+		var forRect = control.getForElement( ).parentElement.getBoundingClientRect();
 
-		if (this.element_.classList.contains(this.CssClasses_.UNALIGNED)) {
+		if ( goog.dom.classlist.contains( control.getForElement( ), zz.ui.mdl.Checkbox.CSS.UNALIGNED ) ){
+
 			// Do not position the menu automatically. Requires the developer to
 			// manually specify position.
-		} else if (this.element_.classList.contains(
-				this.CssClasses_.BOTTOM_RIGHT)) {
+		} else if ( goog.dom.classlist.contains( control.getForElement( ), zz.ui.mdl.Checkbox.CSS.BOTTOM_RIGHT ) ) {
+
 			// Position below the "for" element, aligned to its right.
-			this.container_.style.right = (forRect.right - rect.right) + 'px';
-			this.container_.style.top =
-				this.forElement_.offsetTop + this.forElement_.offsetHeight + 'px';
-		} else if (this.element_.classList.contains(this.CssClasses_.TOP_LEFT)) {
+			goog.style.setStyle( control.getContainerElement( ), {
+
+				right : (forRect.right - rect.right) + 'px'
+			} );
+			goog.style.setStyle( control.getContainerElement( ), {
+
+				top : control.getForElement( ).offsetTop + control.getForElement( ).offsetHeight + 'px'} );
+
+		} else if ( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Menu.CSS.TOP_LEFT ) ){
+
 			// Position above the "for" element, aligned to its left.
-			this.container_.style.left = this.forElement_.offsetLeft + 'px';
-			this.container_.style.bottom = (forRect.bottom - rect.top) + 'px';
-		} else if (this.element_.classList.contains(this.CssClasses_.TOP_RIGHT)) {
+			goog.style.setStyle( control.getContainerElement( ), {
+
+				left : control.getForElement( ).offsetLeft + 'px',
+				bottom :  (forRect.bottom - rect.top) + 'px'
+			} );
+		} else if ( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Menu.CSS.TOP_RIGHT ) {
+
 			// Position above the "for" element, aligned to its right.
-			this.container_.style.right = (forRect.right - rect.right) + 'px';
-			this.container_.style.bottom = (forRect.bottom - rect.top) + 'px';
+			goog.style.setStyle( control.getContainerElement( ), {
+
+				right : (forRect.right - rect.right) + 'px',
+				bottom : (forRect.bottom - rect.top) + 'px'
+			} );
 		} else {
+
 			// Default: position below the "for" element, aligned to its left.
-			this.container_.style.left = this.forElement_.offsetLeft + 'px';
-			this.container_.style.top =
-				this.forElement_.offsetTop + this.forElement_.offsetHeight + 'px';
+			goog.style.setStyle( control.getContainerElement( ), {
+
+				left : control.getForElement( ).offsetLeft + 'px',
+				top : control.getForElement( ).offsetTop + control.getForElement( ).offsetHeight + 'px'
+			} );
 		}
-	}
 
 	this.toggle(evt);
 
 };
 
-///**
-// * Listener for Menu element focus event.
-// * @private
-// */
-//zz.ui.mdl.Menu.prototype.focusMenuListener_ = function( ){
-//
-//	goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Menu.CSS.IS_FOCUSED );
-//};
-//
-///**
-// * Listener for Menu element blur event.
-// * @private
-// */
-//zz.ui.mdl.Menu.prototype.blurMenuListener_ = function( ){
-//
-//	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Menu.CSS.IS_FOCUSED );
-//};
-//
-///**********************************************************************************************************************
-// * Helpers methods                                                                                                    *
-// **********************************************************************************************************************/
-//
-///**
-// * Enable/disable Menu.
-// * @param {boolean} enable
-// */
-//zz.ui.mdl.Menu.prototype.setEnabled = function( enable ){
-//
-//	zz.ui.mdl.Menu.superClass_.setEnabled.call( this, enable );
-//	this.getInputElement( ).disabled = !enable;
-//	this.getRenderer( ).updateClasses( this );
-//};
+/**
+ * Listener for forElement keyboard event.
+ * @this {zz.ui.mdl.Menu}
+ * @private
+ */
+zz.ui.mdl.Menu.prototype.handleForKeyboardEvent_ = function( evt ){
+
+	var items = control.getElement( ).querySelectorAll('.' + zz.ui.mdl.Menu.CSS.ITEM +
+			':not([disabled])');
+
+		if (items && items.length > 0 &&
+			goog.dom.classlist.contains( this.getContainerElement( ), zz.ui.mdl.Menu.CSS.IS_VISIBLE ){
+			if ( evt.keyCode === zz.ui.mdl.Menu.Keycodes.UP_ARROW ){
+				evt.preventDefault( );
+				items[items.length - 1].focus( );
+			} else if (evt.keyCode === zz.ui.mdl.Menu.Keycodes.DOWN_ARROW) {
+				evt.preventDefault( );
+				items[0].focus( );
+			}
+		}
+};
+
+/**
+ * Listener for item keyboard event.
+ * @this {zz.ui.mdl.Menu}
+ * @private
+ */
+zz.ui.mdl.Menu.prototype.handleItemKeyboardEvent_ = function( evt ){
+
+		var items = control.getElement( ).querySelectorAll('.' + zz.ui.mdl.Menu.CSS.ITEM +
+			':not([disabled])');
+
+		if ( items && items.length > 0 &&
+			goog.dom.classlist.contains( this.getContainerElement( ), zz.ui.mdl.Menu.CSS.IS_VISIBLE ) ){
+			var currentIndex = Array.prototype.slice.call( items ).indexOf( evt.target );
+
+			if ( evt.keyCode === zz.ui.mdl.Menu.Keycodes.UP_ARROW ){
+
+				evt.preventDefault( );
+				if ( currentIndex > 0 ){
+					items[currentIndex - 1].focus( );
+				} else {
+					items[items.length - 1].focus( );
+				}
+			} else if ( evt.keyCode === zz.ui.mdl.Menu.Keycodes.DOWN_ARROW ){
+
+				evt.preventDefault( );
+				if ( items.length > currentIndex + 1 ){
+					items[currentIndex + 1].focus( );
+				} else {
+
+					items[0].focus( );
+				}
+			} else if ( evt.keyCode === zz.ui.mdl.Menu.Keycodes.SPACE ||
+
+				evt.keyCode === zz.ui.mdl.Menu.Keycodes.ENTER ){
+				evt.preventDefault( );
+				// Send mousedown and mouseup to trigger ripple.
+				var e = new MouseEvent( 'mousedown' );
+				evt.target.dispatchEvent( e );
+				e = new MouseEvent( 'mouseup' );
+				evt.target.dispatchEvent( e );
+				// Send click.
+				evt.target.click( );
+			} else if (evt.keyCode === zz.ui.mdl.Menu.Keycodes.ESCAPE) {
+
+				evt.preventDefault( );
+				this.hide( );
+			}
+	}
+};
+
+/**
+ * Listener for item click event.
+ * @this {zz.ui.mdl.Menu}
+ * @private
+ */
+zz.ui.mdl.Menu.prototype.handleItemClick_ = function( evt ){
+
+	if ( evt.target.hasAttribute( 'disabled' ) ){
+
+		evt.stopPropagation( );
+	} else {
+		// Wait some time before closing menu, so the user can see the ripple.
+		this.closing_ = true;
+		window.setTimeout( function( evt ){
+
+			this.hide( );
+			this.closing_ = false;
+		}.bind( this ), /** @type {number} */ ( zz.ui.mdl.Menu.CONST.CLOSE_TIMEOUT ) );
+	}
+};
+
+/**
+ * Calculates the initial clip (for opening the menu) or final clip (for closing
+ * it), and applies it. This allows us to animate from or to the correct point,
+ * that is, the point it's aligned to in the "for" element.
+ *
+ * @param {number} height Height of the clip rectangle
+ * @param {number} width Width of the clip rectangle
+ * @this {zz.ui.mdl.Menu}
+ * @private
+ */
+zz.ui.mdl.Menu.prototype.applyClip_ = function( height, width ){
+
+	if ( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Menu.CSS.UNALIGNED ) ){
+
+		// Do not clip.
+		goog.style.setStyle( control.getElement( ), {
+
+			clip : ''
+		});
+	} else if ( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Menu.CSS.BOTTOM_RIGHT ) ){
+
+		// Clip to the top right corner of the menu.
+		goog.style.setStyle( control.getElement( ), {
+
+			clip : 'rect(0 ' + width + 'px ' + '0 ' + width + 'px)'
+		});
+	} else if ( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Menu.CSS.TOP_LEFT ) ){
+
+		// Clip to the bottom left corner of the menu.
+		goog.style.setStyle( control.getElement( ), {
+
+			clip : 'rect(' + height + 'px 0 ' + height + 'px 0)'
+		});
+	} else if ( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Menu.CSS.TOP_RIGHT ) ){
+
+		// Clip to the bottom right corner of the menu.
+		goog.style.setStyle( control.getElement( ), {
+
+			clip : 'rect(' + height + 'px ' + width + 'px ' + height + 'px ' + width + 'px)'
+		});
+	} else {
+
+		// Default: do not clip (same as clipping to the top left corner).
+		goog.style.setStyle( control.getElement( ), {
+
+			clip : ''
+		});
+	}
+};
+
+/**********************************************************************************************************************
+ * Helpers methods                                                                                                    *
+ **********************************************************************************************************************/
+/**
+ * Setting up menu for element.
+ * @param {Element} element
+ */
+zz.ui.mdl.Menu.prototype.setForElement = function( element ){
+
+	this.forElement_ = element;
+};
+
+/**
+ * Return menu for element.
+ * @returns {Element}
+ */
+zz.ui.mdl.Menu.prototype.getForElement = function( ){
+
+	return this.forElement_;
+};
+
+/**
+ * Setting up menu container element.
+ * @param {Element} element
+ */
+zz.ui.mdl.Menu.prototype.setContainerElement = function( element ){
+
+	this.containerElement_ = element;
+};
+
+/**
+ * Return menu container element.
+ * @returns {Element}
+ */
+zz.ui.mdl.Menu.prototype.getContainerElement = function( ){
+
+	return this.containerElement_;
+};
