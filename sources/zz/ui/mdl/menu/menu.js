@@ -303,6 +303,8 @@ zz.ui.mdl.Menu.prototype.handleItemKeyboardEvent_ = function( evt ){
 
 		var items = control.getElement( ).querySelectorAll('.' + zz.ui.mdl.Menu.CSS.ITEM +
 			':not([disabled])');
+		//item elements
+		control.getItems( items );
 
 		if ( items && items.length > 0 &&
 			goog.dom.classlist.contains( this.getContainerElement( ), zz.ui.mdl.Menu.CSS.IS_VISIBLE ) ){
@@ -452,4 +454,22 @@ zz.ui.mdl.Menu.prototype.setContainerElement = function( element ){
 zz.ui.mdl.Menu.prototype.getContainerElement = function( ){
 
 	return this.containerElement_;
+};
+
+/**
+ * Setting up menu item elements.
+ * @param {Element} element
+ */
+zz.ui.mdl.Menu.prototype.setItems = function( items ){
+
+	this.Items_ = items;
+};
+
+/**
+ * Return menu item elements.
+ * @returns {Element}
+ */
+zz.ui.mdl.Menu.prototype.getItems = function( ){
+
+	return this.Items_;
 };
