@@ -34,6 +34,7 @@ goog.provide( 'zz.module.user.view.Users' );
 // Common
 goog.require( 'soy' );
 goog.require( 'goog.dom' );
+goog.require( 'goog.array' );
 goog.require( 'goog.events.EventType' );
 
 // UI
@@ -61,6 +62,13 @@ goog.require( 'zz.template.module.user' );
 zz.module.user.view.Users = function( opt_domHelper ){
 
 	zz.mvc.view.BaseView.call( this, opt_domHelper );
+
+	/**
+	 * Array for storing created user views.
+	 * @type {Array}
+	 * @private
+	 */
+	this.userViews_ = [];
 };
 
 /**
@@ -99,7 +107,7 @@ zz.module.user.view.Users.prototype.enterDocument = function( ){
 
 	/**
 	 * Add user control button.
-	 * @type {goog.ui.Button}
+	 * @type {zz.ui.mdl.Button}
 	 * @private
 	 */
 	this.addUserButton_ = goog.ui.decorate( goog.dom.getElementByClass(
@@ -112,7 +120,7 @@ zz.module.user.view.Users.prototype.enterDocument = function( ){
 
 	/**
 	 * Remove user control button.
-	 * @type {goog.ui.Button}
+	 * @type {zz.ui.mdl.Button}
 	 * @private
 	 */
 	this.remUserButton_ = goog.ui.decorate( goog.dom.getElementByClass(
@@ -122,18 +130,6 @@ zz.module.user.view.Users.prototype.enterDocument = function( ){
 
 			goog.getCssName( 'users-control' ),
 			this.getElement( ) ) ) );
-
-	/**
-	 * Array for storing created user views.
-	 * @type {Array}
-	 * @private
-	 */
-	this.userViews_ = [];
-
-	// Adding controls to element.
-
-	this.addChild( this.addUserButton_ );
-	this.addChild( this.remUserButton_ );
 
 	// Setting up add user button click event.
 
@@ -145,6 +141,26 @@ zz.module.user.view.Users.prototype.enterDocument = function( ){
 		false,
 		this
 	);
+};
+
+/**
+ * @override
+ */
+zz.module.user.view.Users.prototype.disposeInternal = function( ){
+
+	goog.base( this, 'disposeInternal' );
+
+	this.addUserButton_.dispose( );
+	this.remUserButton_.dispose( );
+
+	goog.array.forEach( this.userViews_, function( view ){
+
+		view.dispose( );
+	} );
+
+	delete this.addUserButton_;
+	delete this.remUserButton_;
+	delete this.userViews_;
 };
 
 /**********************************************************************************************************************
@@ -191,14 +207,22 @@ zz.module.user.view.Users.prototype.addUser = function( message ){
 
 	this.userViews_.push( new zz.module.user.view.User( ) );
 	this.userViews_[ this.userViews_.length - 1 ].setModel( message.dataset, message.datarow );
+	if( this.userViews_.length > 1 ){
 
-	this.setElementInternal( goog.dom.getElement(
+		this.userViews_[ this.userViews_.length - 1 ].renderBefore( goog.dom.getElement(
 
-		goog.dom.getElementByClass(
+			goog.dom.getElementByClass(
 
-			goog.getCssName( 'users-content' ),
-			this.getElement( ) ) ) );
+				goog.getCssName( 'user-view' ),
+				this.getElement( ) ) ) );
 
-	this.addChildAt( this.userViews_[ this.userViews_.length - 1 ], 2, true );
-	this.setElementInternal( this.getElement( ) );
+	}else{
+
+		this.userViews_[ this.userViews_.length - 1 ].render( goog.dom.getElement(
+
+			goog.dom.getElementByClass(
+
+				goog.getCssName( 'users-content' ),
+				this.getElement( ) ) ) );
+	}
 };

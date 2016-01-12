@@ -43,4 +43,4 @@ goog.require( 'zz.demos.app' );
  * Base namespace for Imazzine Library.
  * @const
  */
-zz = zz || {};
+zz = zz || { };

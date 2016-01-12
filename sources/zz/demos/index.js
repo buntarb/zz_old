@@ -250,8 +250,14 @@ zz.demos.app.run = function( ){
 
 //	Run user module
 
+//<<<<<<< HEAD
+////	var usersView = new zz.module.user.view.Users( );
+////	usersView.render( goog.dom.getElement( 'root' ) );
+//=======
 //	var usersView = new zz.module.user.view.Users( );
 //	usersView.render( goog.dom.getElement( 'root' ) );
+//
+//>>>>>>> develop
 };
 
 /**********************************************************************************************************************
