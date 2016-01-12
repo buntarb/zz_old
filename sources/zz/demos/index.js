@@ -231,12 +231,9 @@ zz.demos.app.run = function( ){
 // Slider
 
 	//soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.slider.default );
-
 	//var sldr1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
 	//var sldr2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
-
 	//sldr1.setModel( users, user, users.datafield.userId );
-
 	//sldr1.setEnabled( false );
 
 // Menu
@@ -245,19 +242,10 @@ zz.demos.app.run = function( ){
 
 	var menu1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
 
-
-
-
 //	Run user module
 
-//<<<<<<< HEAD
-////	var usersView = new zz.module.user.view.Users( );
-////	usersView.render( goog.dom.getElement( 'root' ) );
-//=======
 //	var usersView = new zz.module.user.view.Users( );
 //	usersView.render( goog.dom.getElement( 'root' ) );
-//
-//>>>>>>> develop
 };
 
 /**********************************************************************************************************************

@@ -75,7 +75,9 @@ zz.ui.mdl.MenuRenderer.prototype.decorate = function( control, element ){
 
 		'class': zz.ui.mdl.Menu.CSS.CONTAINER
 	} );
+
 	var listItem = goog.dom.getElementsByClass( zz.ui.mdl.Menu.CSS.ITEM);
+
 	// Container element
 	control.setContainerElement( container );
 
@@ -143,6 +145,7 @@ zz.ui.mdl.MenuRenderer.prototype.addAnimationEndListener_ = function( ){
 		control.getElement( ).removeEventListener('transitionend', cleanup);
 		control.getElement( ).removeEventListener('webkitTransitionEnd', cleanup);
 		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.Menu.IS_ANIMATING );
+
 	}.bind( this );
 
 	// Remove animation class once the transition is done.
