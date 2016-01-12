@@ -77,7 +77,7 @@ zz.ui.mdl.MenuRenderer.prototype.decorate = function( control, element ){
 	} );
 	var listItem = goog.dom.getElementsByClass( zz.ui.mdl.Menu.CSS.ITEM);
 	// Container element
-	//control.setContainerElement( container );
+	control.setContainerElement( container );
 
 	goog.dom.insertSiblingBefore( container, element );
 
@@ -103,6 +103,15 @@ zz.ui.mdl.MenuRenderer.prototype.decorate = function( control, element ){
 			})));
 		}
 	}
+
+	// Find the "for" element.
+	var forElId = control.getElement( ).getAttribute( 'for' );
+	var forElement = null;
+	if ( forElId ){
+
+		forEl = goog.dom.getElement( forElId );
+	}
+	control.setForElement( forElement );
 
 	goog.dom.classlist.add( container, zz.ui.mdl.Menu.CSS.IS_UPGRADED );
 	return goog.base( this, 'decorate', control, element );
