@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.mvc.Environment class.
+ * @fileoverview Provide zz.mvc.application.Environment class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.mvc.Environment' );
+goog.provide( 'zz.mvc.application.Environment' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -46,7 +46,7 @@ goog.require( 'goog.labs.userAgent.platform' );
  * @constructor
  * @extends {goog.events.EventTarget}
  */
-zz.mvc.Environment = function( ){
+zz.mvc.application.Environment = function( ){
 
 	goog.base( this );
 };
@@ -54,37 +54,49 @@ zz.mvc.Environment = function( ){
 /**
  * Base inheritance.
  */
-goog.inherits( zz.mvc.Environment, goog.events.EventTarget );
-goog.addSingletonGetter( zz.mvc.Environment );
+goog.inherits( zz.mvc.application.Environment, goog.events.EventTarget );
+goog.addSingletonGetter( zz.mvc.application.Environment );
+
+/**********************************************************************************************************************
+ * Lifecycle methods                                                                                                  *
+ **********************************************************************************************************************/
+
+zz.mvc.application.Environment.prototype.disposeInternal = function( ){
+
+	goog.base( 'disposeInternal', this );
+};
 
 /**********************************************************************************************************************
  * Mode                                                                                                               *
  **********************************************************************************************************************/
 
 /**
- * The set of methods that returns info about application running mode.
- * @type {Object}
+ * Determine is current application running in Node.
+ * @returns {boolean}
  */
-zz.mvc.Environment.prototype.mode = { };
+zz.mvc.application.Environment.prototype.isNode = function( ){
+
+	return typeof global !== 'undefined' && global.process.title === 'node' &&
+
+		typeof window === 'undefined' && !goog.global[ 'cordova' ];
+};
 
 /**
  * Determine is current application running in Cordova/PhoneGAP mode.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.mode.isCordova = function( ){
+zz.mvc.application.Environment.prototype.isCordova = function( ){
 
-	return !!goog.global[ 'cordova' ];
+	return typeof window !== 'undefined' && !!goog.global[ 'cordova' ];
 };
-
-// TODO: Node.js!!!
 
 /**
  * Determine is current application running in browser mode.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.mode.isBrowser = function( ){
+zz.mvc.application.Environment.prototype.isBrowser = function( ){
 
-	return !goog.global[ 'cordova' ];
+	return typeof window !== 'undefined' && !goog.global[ 'cordova' ];
 };
 
 /**********************************************************************************************************************
@@ -95,13 +107,13 @@ zz.mvc.Environment.prototype.mode.isBrowser = function( ){
  * The set of methods that returns info about current device.
  * @type {Object}
  */
-zz.mvc.Environment.prototype.device = { };
+zz.mvc.application.Environment.prototype.device = { };
 
 /**
  * Determine is current device touchable or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.device.isTouchable = function( ){
+zz.mvc.application.Environment.prototype.device.isTouchable = function( ){
 
 	return ( 'on' + goog.events.EventType.TOUCHSTART ) in goog.global;
 };
@@ -110,7 +122,7 @@ zz.mvc.Environment.prototype.device.isTouchable = function( ){
  * Determine is current device desktop or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.device.isDesktop = function( ){
+zz.mvc.application.Environment.prototype.device.isDesktop = function( ){
 
 	return goog.labs.userAgent.device.isDesktop( );
 };
@@ -119,7 +131,7 @@ zz.mvc.Environment.prototype.device.isDesktop = function( ){
  * Determine is current device tablet or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.device.isTablet = function( ){
+zz.mvc.application.Environment.prototype.device.isTablet = function( ){
 
 	return goog.labs.userAgent.device.isTablet( );
 };
@@ -128,7 +140,7 @@ zz.mvc.Environment.prototype.device.isTablet = function( ){
  * Determine is current device mobile or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.device.isMobile = function( ){
+zz.mvc.application.Environment.prototype.device.isMobile = function( ){
 
 	return goog.labs.userAgent.device.isMobile( );
 };
@@ -137,7 +149,7 @@ zz.mvc.Environment.prototype.device.isMobile = function( ){
  * Determine is current device iPad or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.device.isIpad = function( ){
+zz.mvc.application.Environment.prototype.device.isIpad = function( ){
 
 	return goog.labs.userAgent.platform.isIpad( );
 };
@@ -146,7 +158,7 @@ zz.mvc.Environment.prototype.device.isIpad = function( ){
  * Determine is current device iPhone or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.device.isIphone = function( ){
+zz.mvc.application.Environment.prototype.device.isIphone = function( ){
 
 	return goog.labs.userAgent.platform.isIphone( );
 };
@@ -155,7 +167,7 @@ zz.mvc.Environment.prototype.device.isIphone = function( ){
  * Determine is current device iPod or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.device.isIpod = function( ){
+zz.mvc.application.Environment.prototype.device.isIpod = function( ){
 
 	return goog.labs.userAgent.platform.isIpod( );
 };
@@ -168,13 +180,13 @@ zz.mvc.Environment.prototype.device.isIpod = function( ){
  * The set of methods that returns info about current OS.
  * @type {Object}
  */
-zz.mvc.Environment.prototype.os = { };
+zz.mvc.application.Environment.prototype.os = { };
 
 /**
  * Determine is current OS Android or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.os.isAndroid = function( ){
+zz.mvc.application.Environment.prototype.os.isAndroid = function( ){
 
 	return goog.labs.userAgent.platform.isAndroid( );
 };
@@ -183,7 +195,7 @@ zz.mvc.Environment.prototype.os.isAndroid = function( ){
  * Determine is current OS Chrome or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.os.isChrome = function( ){
+zz.mvc.application.Environment.prototype.os.isChrome = function( ){
 
 	return goog.labs.userAgent.platform.isChromeOS( );
 };
@@ -192,7 +204,7 @@ zz.mvc.Environment.prototype.os.isChrome = function( ){
  * Determine is current OS iOS or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.os.isIOS = function( ){
+zz.mvc.application.Environment.prototype.os.isIOS = function( ){
 
 	return goog.labs.userAgent.platform.isIos( );
 };
@@ -201,7 +213,7 @@ zz.mvc.Environment.prototype.os.isIOS = function( ){
  * Determine is current OS Linux or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.os.isLinux = function( ){
+zz.mvc.application.Environment.prototype.os.isLinux = function( ){
 
 	return goog.labs.userAgent.platform.isLinux( );
 };
@@ -210,7 +222,7 @@ zz.mvc.Environment.prototype.os.isLinux = function( ){
  * Determine is current OS Macintosh or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.os.isMacintosh = function( ){
+zz.mvc.application.Environment.prototype.os.isMacintosh = function( ){
 
 	return goog.labs.userAgent.platform.isMacintosh( );
 };
@@ -219,7 +231,7 @@ zz.mvc.Environment.prototype.os.isMacintosh = function( ){
  * Determine is current OS Windows or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.os.isWindows = function( ){
+zz.mvc.application.Environment.prototype.os.isWindows = function( ){
 
 	return goog.labs.userAgent.platform.isWindows( );
 };
@@ -232,13 +244,13 @@ zz.mvc.Environment.prototype.os.isWindows = function( ){
  * The set of methods that returns info about current browser engine.
  * @type {Object}
  */
-zz.mvc.Environment.prototype.engine = { };
+zz.mvc.application.Environment.prototype.browserEngine = { };
 
 /**
  * Determine is current engine Gecko or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.engine.isGecko = function( ){
+zz.mvc.application.Environment.prototype.browserEngine.isGecko = function( ){
 
 	return goog.labs.userAgent.engine.isGecko( );
 };
@@ -247,7 +259,7 @@ zz.mvc.Environment.prototype.engine.isGecko = function( ){
  * Determine is current engine Presto or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.engine.isPresto = function( ){
+zz.mvc.application.Environment.prototype.browserEngine.isPresto = function( ){
 
 	return goog.labs.userAgent.engine.isPresto( );
 };
@@ -256,7 +268,7 @@ zz.mvc.Environment.prototype.engine.isPresto = function( ){
  * Determine is current engine Trident or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.engine.isTrident = function( ){
+zz.mvc.application.Environment.prototype.browserEngine.isTrident = function( ){
 
 	return goog.labs.userAgent.engine.isTrident( );
 };
@@ -265,7 +277,7 @@ zz.mvc.Environment.prototype.engine.isTrident = function( ){
  * Determine is current engine WebKit or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.engine.isWebKit = function( ){
+zz.mvc.application.Environment.prototype.browserEngine.isWebKit = function( ){
 
 	return goog.labs.userAgent.engine.isWebKit( );
 };
@@ -278,13 +290,13 @@ zz.mvc.Environment.prototype.engine.isWebKit = function( ){
  * The set of methods that returns info about current browser.
  * @type {Object}
  */
-zz.mvc.Environment.prototype.browser = { };
+zz.mvc.application.Environment.prototype.browser = { };
 
 /**
  * Determine is current browser Android or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.browser.isAndroid = function( ){
+zz.mvc.application.Environment.prototype.browser.isAndroid = function( ){
 
 	return goog.labs.userAgent.browser.isAndroidBrowser( );
 };
@@ -293,7 +305,7 @@ zz.mvc.Environment.prototype.browser.isAndroid = function( ){
  * Determine is current browser Chrome or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.browser.isChrome = function( ){
+zz.mvc.application.Environment.prototype.browser.isChrome = function( ){
 
 	return goog.labs.userAgent.browser.isChrome( );
 };
@@ -302,7 +314,7 @@ zz.mvc.Environment.prototype.browser.isChrome = function( ){
  * Determine is current browser Coast or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.browser.isCoast = function( ){
+zz.mvc.application.Environment.prototype.browser.isCoast = function( ){
 
 	return goog.labs.userAgent.browser.isCoast( );
 };
@@ -311,7 +323,7 @@ zz.mvc.Environment.prototype.browser.isCoast = function( ){
  * Determine is current browser Firefox or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.browser.isFirefox = function( ){
+zz.mvc.application.Environment.prototype.browser.isFirefox = function( ){
 
 	return goog.labs.userAgent.browser.isFirefox( );
 };
@@ -320,16 +332,25 @@ zz.mvc.Environment.prototype.browser.isFirefox = function( ){
  * Determine is current browser IE or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.browser.isIE = function( ){
+zz.mvc.application.Environment.prototype.browser.isIE = function( ){
 
 	return goog.labs.userAgent.browser.isIE( );
+};
+
+/**
+ * Determine is current browser Edge or not.
+ * @returns {boolean}
+ */
+zz.mvc.application.Environment.prototype.browser.isEdge = function( ){
+
+	return goog.labs.userAgent.browser.isEdge( );
 };
 
 /**
  * Determine is current browser IosWebview or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.browser.isIosWebview = function( ){
+zz.mvc.application.Environment.prototype.browser.isIosWebview = function( ){
 
 	return goog.labs.userAgent.browser.isIosWebview( );
 };
@@ -338,7 +359,7 @@ zz.mvc.Environment.prototype.browser.isIosWebview = function( ){
  * Determine is current browser Opera or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.browser.isOpera = function( ){
+zz.mvc.application.Environment.prototype.browser.isOpera = function( ){
 
 	return goog.labs.userAgent.browser.isOpera( );
 };
@@ -347,7 +368,7 @@ zz.mvc.Environment.prototype.browser.isOpera = function( ){
  * Determine is current browser Safari or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.browser.isSafari = function( ){
+zz.mvc.application.Environment.prototype.browser.isSafari = function( ){
 
 	return goog.labs.userAgent.browser.isSafari( );
 };
@@ -356,7 +377,16 @@ zz.mvc.Environment.prototype.browser.isSafari = function( ){
  * Determine is current browser Silk or not.
  * @returns {boolean}
  */
-zz.mvc.Environment.prototype.browser.isSilk = function( ){
+zz.mvc.application.Environment.prototype.browser.isSilk = function( ){
 
 	return goog.labs.userAgent.browser.isSilk( );
+};
+
+/**
+ * Return browser version or empty string if version cannot be determined.
+ * @returns {string}
+ */
+zz.mvc.application.Environment.prototype.browser.getVersion = function( ){
+
+	return goog.labs.userAgent.browser.getVersion( );
 };
