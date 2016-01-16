@@ -54,8 +54,7 @@ zz.ui.mdl.Menu = function( opt_content, opt_renderer, opt_domHelper ){
 
 	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.MenuRenderer.getInstance( ), opt_domHelper );
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
-	this.setSupportedState( goog.ui.Component.State.CHECKED, true );
-	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
+	this.setSupportedState( goog.ui.Component.State.OPENED, true );
 };
 goog.inherits( zz.ui.mdl.Menu, zz.ui.mdl.Control );
 goog.tagUnsealableClass( zz.ui.mdl.Menu );
@@ -104,12 +103,12 @@ zz.ui.mdl.Menu.CSS = {
 	ITEM: goog.getCssName( 'mdl-menu__item' ),
 	ITEM_RIPPLE_CONTAINER: goog.getCssName( 'mdl-menu__item-ripple-container' ),
 	RIPPLE_EFFECT: goog.getCssName( 'mdl-js-ripple-effect' ),
-	RIPPLE_IGNORE_EVENTS: goog.getCssName( 'mdl-js-ripple-effect--ignore-events' ),
-	RIPPLE: goog.getCssName( 'mdl-ripple' ),
+
 	// Statuses
 	IS_UPGRADED: goog.getCssName( 'is-upgraded' ),
 	IS_VISIBLE: goog.getCssName( 'is-visible' ),
 	IS_ANIMATING: goog.getCssName( 'is-animating' ),
+
 	// Alignment options
 	BOTTOM_LEFT: goog.getCssName( 'mdl-menu--bottom-left' ),  // This is the default.
 	BOTTOM_RIGHT: goog.getCssName( 'mdl-menu--bottom-right' ),
@@ -130,71 +129,14 @@ zz.ui.mdl.Menu.CSS = {
 zz.ui.mdl.Menu.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
-
 	this.getHandler( ).listenWithScope(
 
-		this.getForElement( ),
-		goog.events.EventType.CLICK,
-		this.handleForClick_,
+		this.listElement_,
+		goog.events.EventType.TRANSITIONEND,
+		this.animationEndListener_,
 		false,
 		this
 	);
-	this.getHandler( ).listenWithScope(
-
-		this.getForElement( ),
-		goog.events.EventType.KEYDOWN,
-		this.handleForKeyboardEvent_,
-		false,
-		this
-	);
-	this.getHandler( ).listenWithScope(
-
-		this.getItems( ),
-		goog.events.EventType.CLICK,
-		this.boundItemClick_,
-		false,
-		this
-	);
-	this.getHandler( ).listenWithScope(
-
-		this.getItems( ),
-		goog.events.EventType.KEYDOWN,
-		this.boundItemKeydown_,
-		false,
-		this
-	);
-
-	//// Ripple effect.
-	//if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Menu.CSS.RIPPLE_EFFECT ) ){
-    //
-	//	var  ripple = new zz.ui.mdl.Ripple( );
-	//	this.addChild( ripple, false );
-	//	ripple.decorate(
-    //
-	//		goog.dom.getElementByClass(
-    //
-	//			zz.ui.mdl.Menu.CSS.RIPPLE_CONTAINER,
-	//			this.getElement( ) ) );
-    //
-	//}else{
-    //
-	//	this.getHandler( ).listenWithScope(
-    //
-	//		this.getInputElement( ),
-	//		goog.events.EventType.FOCUS,
-	//		this.focusMenuListener_,
-	//		false,
-	//		this
-	//	);
-	//	this.getHandler( ).listenWithScope(
-    //
-	//		this.getInputElement( ),
-	//		goog.events.EventType.BLUR,
-	//		this.blurMenuListener_,
-	//		false,
-	//		this
-	//	);
-	//}
 };
 
 /**
@@ -207,7 +149,6 @@ zz.ui.mdl.Menu.prototype.enterDocument = function( ){
 zz.ui.mdl.Menu.prototype.disposeInternal = function( ){
 
 	goog.base( this, 'disposeInternal' );
-
 	this.getHandler( ).dispose( );
 };
 
@@ -216,227 +157,18 @@ zz.ui.mdl.Menu.prototype.disposeInternal = function( ){
  **********************************************************************************************************************/
 
 /**
- * Listener for forElement click event.
+ * Listener for animation end event.
  * @this {zz.ui.mdl.Menu}
  * @private
  */
-zz.ui.mdl.Menu.prototype.handleForClick_ = function( event ){
+zz.ui.mdl.Menu.prototype.animationEndListener_ = function( ){
 
-		var rect = control.getForElement( ).getBoundingClientRect();
-		var forRect = control.getForElement( ).parentElement.getBoundingClientRect();
-
-		if ( goog.dom.classlist.contains( control.getForElement( ), zz.ui.mdl.Checkbox.CSS.UNALIGNED ) ){
-
-			// Do not position the menu automatically. Requires the developer to
-			// manually specify position.
-		} else if ( goog.dom.classlist.contains( control.getForElement( ), zz.ui.mdl.Checkbox.CSS.BOTTOM_RIGHT ) ) {
-
-			// Position below the "for" element, aligned to its right.
-			goog.style.setStyle( control.getContainerElement( ), {
-
-				right : (forRect.right - rect.right) + 'px'
-			} );
-			goog.style.setStyle( control.getContainerElement( ), {
-
-				top : control.getForElement( ).offsetTop + control.getForElement( ).offsetHeight + 'px'} );
-
-		} else if ( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Menu.CSS.TOP_LEFT ) ){
-
-			// Position above the "for" element, aligned to its left.
-			goog.style.setStyle( control.getContainerElement( ), {
-
-				left : control.getForElement( ).offsetLeft + 'px',
-				bottom :  (forRect.bottom - rect.top) + 'px'
-			} );
-		} else if ( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Menu.CSS.TOP_RIGHT ) ){
-
-			// Position above the "for" element, aligned to its right.
-			goog.style.setStyle( control.getContainerElement( ), {
-
-				right : (forRect.right - rect.right) + 'px',
-				bottom : (forRect.bottom - rect.top) + 'px'
-			} );
-		} else {
-
-			// Default: position below the "for" element, aligned to its left.
-			goog.style.setStyle( control.getContainerElement( ), {
-
-				left : control.getForElement( ).offsetLeft + 'px',
-				top : control.getForElement( ).offsetTop + control.getForElement( ).offsetHeight + 'px'
-			} );
-		}
-
-	this.toggle(evt);
-
-};
-
-/**
- * Listener for forElement keyboard event.
- * @this {zz.ui.mdl.Menu}
- * @private
- */
-zz.ui.mdl.Menu.prototype.handleForKeyboardEvent_ = function( evt ){
-
-	var items = control.getElement( ).querySelectorAll('.' + zz.ui.mdl.Menu.CSS.ITEM +
-			':not([disabled])');
-
-		if (items && items.length > 0 &&
-			goog.dom.classlist.contains( this.getContainerElement( ), zz.ui.mdl.Menu.CSS.IS_VISIBLE ) ){
-			if ( evt.keyCode === zz.ui.mdl.Menu.Keycodes.UP_ARROW ){
-
-				evt.preventDefault( );
-				items[items.length - 1].focus( );
-			} else if ( evt.keyCode === zz.ui.mdl.Menu.Keycodes.DOWN_ARROW ){
-
-				evt.preventDefault( );
-				items[0].focus( );
-			}
-		}
-};
-
-/**
- * Listener for item keyboard event.
- * @this {zz.ui.mdl.Menu}
- * @private
- */
-zz.ui.mdl.Menu.prototype.handleItemKeyboardEvent_ = function( evt ){
-
-		var items = control.getElement( ).querySelectorAll('.' + zz.ui.mdl.Menu.CSS.ITEM +
-			':not([disabled])');
-		//item elements
-		control.getItems( items );
-
-		if ( items && items.length > 0 &&
-			goog.dom.classlist.contains( this.getContainerElement( ), zz.ui.mdl.Menu.CSS.IS_VISIBLE ) ){
-			var currentIndex = Array.prototype.slice.call( items ).indexOf( evt.target );
-
-			if ( evt.keyCode === zz.ui.mdl.Menu.Keycodes.UP_ARROW ){
-
-				evt.preventDefault( );
-				if ( currentIndex > 0 ){
-					items[currentIndex - 1].focus( );
-				} else {
-					items[items.length - 1].focus( );
-				}
-			} else if ( evt.keyCode === zz.ui.mdl.Menu.Keycodes.DOWN_ARROW ){
-
-				evt.preventDefault( );
-				if ( items.length > currentIndex + 1 ){
-					items[currentIndex + 1].focus( );
-				} else {
-
-					items[0].focus( );
-				}
-			} else if ( evt.keyCode === zz.ui.mdl.Menu.Keycodes.SPACE ||
-
-				evt.keyCode === zz.ui.mdl.Menu.Keycodes.ENTER ){
-				evt.preventDefault( );
-				// Send mousedown and mouseup to trigger ripple.
-				var e = new MouseEvent( 'mousedown' );
-				evt.target.dispatchEvent( e );
-				e = new MouseEvent( 'mouseup' );
-				evt.target.dispatchEvent( e );
-				// Send click.
-				evt.target.click( );
-			} else if (evt.keyCode === zz.ui.mdl.Menu.Keycodes.ESCAPE) {
-
-				evt.preventDefault( );
-				this.hide( );
-			}
-	}
-};
-
-/**
- * Listener for item click event.
- * @this {zz.ui.mdl.Menu}
- * @private
- */
-zz.ui.mdl.Menu.prototype.handleItemClick_ = function( evt ){
-
-	if ( evt.target.hasAttribute( 'disabled' ) ){
-
-		evt.stopPropagation( );
-	} else {
-		// Wait some time before closing menu, so the user can see the ripple.
-		this.closing_ = true;
-		window.setTimeout( function( evt ){
-
-			this.hide( );
-			this.closing_ = false;
-		}.bind( this ), /** @type {number} */ ( zz.ui.mdl.Menu.CONST.CLOSE_TIMEOUT ) );
-	}
-};
-
-/**
- * Calculates the initial clip (for opening the menu) or final clip (for closing
- * it), and applies it. This allows us to animate from or to the correct point,
- * that is, the point it's aligned to in the "for" element.
- *
- * @param {number} height Height of the clip rectangle
- * @param {number} width Width of the clip rectangle
- * @this {zz.ui.mdl.Menu}
- * @private
- */
-zz.ui.mdl.Menu.prototype.applyClip_ = function( height, width ){
-
-	if ( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Menu.CSS.UNALIGNED ) ){
-
-		// Do not clip.
-		goog.style.setStyle( control.getElement( ), {
-
-			clip : ''
-		});
-	} else if ( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Menu.CSS.BOTTOM_RIGHT ) ){
-
-		// Clip to the top right corner of the menu.
-		goog.style.setStyle( control.getElement( ), {
-
-			clip : 'rect(0 ' + width + 'px ' + '0 ' + width + 'px)'
-		});
-	} else if ( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Menu.CSS.TOP_LEFT ) ){
-
-		// Clip to the bottom left corner of the menu.
-		goog.style.setStyle( control.getElement( ), {
-
-			clip : 'rect(' + height + 'px 0 ' + height + 'px 0)'
-		});
-	} else if ( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Menu.CSS.TOP_RIGHT ) ){
-
-		// Clip to the bottom right corner of the menu.
-		goog.style.setStyle( control.getElement( ), {
-
-			clip : 'rect(' + height + 'px ' + width + 'px ' + height + 'px ' + width + 'px)'
-		});
-	} else {
-
-		// Default: do not clip (same as clipping to the top left corner).
-		goog.style.setStyle( control.getElement( ), {
-
-			clip : ''
-		});
-	}
+	this.getRenderer().removeAnimatingClass( this );
 };
 
 /**********************************************************************************************************************
  * Helpers methods                                                                                                    *
  **********************************************************************************************************************/
-/**
- * Setting up menu for element.
- * @param {Element} element
- */
-zz.ui.mdl.Menu.prototype.setForElement = function( element ){
-
-	this.forElement_ = element;
-};
-
-/**
- * Return menu for element.
- * @returns {Element}
- */
-zz.ui.mdl.Menu.prototype.getForElement = function( ){
-
-	return this.forElement_;
-};
 
 /**
  * Setting up menu container element.
@@ -457,19 +189,95 @@ zz.ui.mdl.Menu.prototype.getContainerElement = function( ){
 };
 
 /**
- * Setting up menu item elements.
+ * Setting up menu outline element.
  * @param {Element} element
  */
-zz.ui.mdl.Menu.prototype.setItems = function( items ){
+zz.ui.mdl.Menu.prototype.setOutlineElement = function( element ){
 
-	this.Items_ = items;
+	this.outlineElement_ = element;
+};
+
+/**
+ * Return menu outline element.
+ * @returns {Element}
+ */
+zz.ui.mdl.Menu.prototype.getOutlineElement = function( ){
+
+	return this.outlineElement_;
+};
+
+
+/**
+ * Setting up menu list element.
+ * @param {Element} element
+ */
+zz.ui.mdl.Menu.prototype.setListElement = function( element ){
+
+	this.listElement_ = element;
+};
+
+/**
+ * Return menu list element.
+ * @returns {Element}
+ */
+zz.ui.mdl.Menu.prototype.getListElement = function( ){
+
+	return this.listElement_;
+};
+
+/**
+ * Setting up menu item elements.
+ * @param {Array} items
+ */
+zz.ui.mdl.Menu.prototype.setItemsElements = function( items ){
+
+	this.itemsElements_ = items;
 };
 
 /**
  * Return menu item elements.
- * @returns {Element}
+ * @returns {Array}
  */
-zz.ui.mdl.Menu.prototype.getItems = function( ){
+zz.ui.mdl.Menu.prototype.getItemsElements = function( ){
 
-	return this.Items_;
+	return this.itemsElements_;
+};
+
+/**********************************************************************************************************************
+ * Public manager methods                                                                                             *
+ **********************************************************************************************************************/
+
+/**
+ * Open menu.
+ * @param {Element=} opt_element
+ */
+zz.ui.mdl.Menu.prototype.open = function( opt_element ){
+
+	this.setOpen( true );
+	this.getRenderer( ).open( this, opt_element );
+};
+
+/**
+ * Close menu.
+ * @param {Element=} opt_element
+ */
+zz.ui.mdl.Menu.prototype.close = function( opt_element ){
+
+	this.setOpen( false );
+};
+
+/**
+ * Toggle menu state.
+ * @param {Element=} opt_element
+ */
+zz.ui.mdl.Menu.prototype.toggle = function( opt_element ){
+
+	if( this.isOpen( ) ){
+
+		this.close( opt_element );
+
+	}else{
+
+		this.open( opt_element );
+	}
 };

@@ -239,8 +239,12 @@ zz.demos.app.run = function( ){
 // Menu
 
 	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.menu.default );
+	var menu = goog.ui.decorate( goog.dom.getElement( '1' ) );
+	var btn = goog.ui.decorate( goog.dom.getElement( 'demo-menu-lower-left' ) );
+	goog.events.listen( btn, goog.ui.Component.EventType.ACTION, function( evt ){
 
-	var menu1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+		menu.open( );
+	} );
 
 //	Run user module
 

@@ -106,7 +106,10 @@ goog.require( 'zz.ui.mdl.componentHandler' );
    * Initialize element.
    */
   MaterialMenu.prototype.init = function() {
+
     if (this.element_) {
+
+
       // Create container for the menu.
       var container = document.createElement('div');
       container.classList.add(this.CssClasses_.CONTAINER);
@@ -122,17 +125,17 @@ goog.require( 'zz.ui.mdl.componentHandler' );
       container.insertBefore(outline, this.element_);
 
       // Find the "for" element and bind events to it.
-      var forElId = this.element_.getAttribute('for');
-      var forEl = null;
-      if (forElId) {
-        forEl = document.getElementById(forElId);
-        if (forEl) {
-          this.forElement_ = forEl;
-          forEl.addEventListener('click', this.handleForClick_.bind(this));
-          forEl.addEventListener('keydown',
-              this.handleForKeyboardEvent_.bind(this));
-        }
-      }
+//      var forElId = this.element_.getAttribute('for');
+//      var forEl = null;
+//      if (forElId) {
+//        forEl = document.getElementById(forElId);
+//        if (forEl) {
+//          this.forElement_ = forEl;
+//          forEl.addEventListener('click', this.handleForClick_.bind(this));
+//          forEl.addEventListener('keydown',
+//              this.handleForKeyboardEvent_.bind(this));
+//        }
+//      }
 
       var items = this.element_.querySelectorAll('.' + this.CssClasses_.ITEM);
       this.boundItemKeydown_ = this.handleItemKeyboardEvent_.bind(this);
@@ -149,6 +152,12 @@ goog.require( 'zz.ui.mdl.componentHandler' );
       // Add ripple classes to each item, if the user has enabled ripples.
       if (this.element_.classList.contains(this.CssClasses_.RIPPLE_EFFECT)) {
         this.element_.classList.add(this.CssClasses_.RIPPLE_IGNORE_EVENTS);
+
+		// goog.array.forEach( items, function( item ){
+		//
+		//		...
+		//
+		// } );
 
         for (i = 0; i < items.length; i++) {
           var item = items[i];

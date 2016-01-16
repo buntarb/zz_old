@@ -54,7 +54,7 @@ goog.addDependency("../../../../sources/zz/ui/mdl/textfield/textfield.js", ['zz.
 goog.addDependency("../../../../sources/zz/ui/mdl/textfield/textfieldrenderer.js", ['zz.ui.mdl.TextFieldRenderer'], ['goog.dom.classlist', 'zz.ui.mdl.ControlRenderer']);
 goog.addDependency("../../../../sources/zz/ui/mdl/ripple/ripple.js", ['zz.ui.mdl.Ripple'], ['goog.Timer', 'goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component']);
 goog.addDependency("../../../../sources/zz/ui/mdl/tooltip/tooltip.js", ['zz.ui.mdl.Tooltip'], ['goog.array', 'goog.style', 'goog.dom', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component']);
-goog.addDependency("../../../../sources/zz/ui/mdl/menu/menurenderer.js", ['zz.ui.mdl.MenuRenderer'], ['goog.dom.classlist', 'zz.ui.mdl.ControlRenderer']);
+goog.addDependency("../../../../sources/zz/ui/mdl/menu/menurenderer.js", ['zz.ui.mdl.MenuRenderer'], ['goog.array', 'goog.style', 'goog.dom.classlist', 'zz.ui.mdl.ControlRenderer']);
 goog.addDependency("../../../../sources/zz/ui/mdl/menu/menu.js", ['zz.ui.mdl.Menu'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'zz.ui.mdl.Control', 'zz.ui.mdl.MenuRenderer', 'zz.ui.mdl.Ripple']);
 goog.addDependency("../../../../sources/zz/ui/mdl/switch/switchrenderer.js", ['zz.ui.mdl.SwitchRenderer'], ['goog.dom.classlist', 'zz.ui.mdl.ControlRenderer']);
 goog.addDependency("../../../../sources/zz/ui/mdl/switch/switch.js", ['zz.ui.mdl.Switch'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'zz.ui.mdl.Control', 'zz.ui.mdl.SwitchRenderer', 'zz.ui.mdl.Ripple']);
@@ -73,12 +73,11 @@ goog.addDependency("../../../../sources/zz/module/user/model/userphone.js", ['zz
 goog.addDependency("../../../../sources/zz/module/user/model/users.js", ['zz.module.user.model.User', 'zz.module.user.model.Users'], ['zz.mvc.model.Datarow', 'zz.mvc.model.Dataset', 'zz.mvc.model.FieldTypes', 'zz.module.user.model.UserPhoneSet']);
 goog.addDependency("../../../../sources/zz/_template/soyutils.js", [], []);
 goog.addDependency("../../../../sources/zz/_template/soyutils_usegoog.js", ['soy', 'soy.StringBuilder', 'soy.esc', 'soydata', 'soydata.SanitizedHtml', 'soydata.SanitizedHtmlAttribute', 'soydata.SanitizedJs', 'soydata.SanitizedJsStrChars', 'soydata.SanitizedUri', 'soydata.VERY_UNSAFE'], ['goog.asserts', 'goog.dom.DomHelper', 'goog.format', 'goog.i18n.BidiFormatter', 'goog.i18n.bidi', 'goog.soy', 'goog.soy.data.SanitizedContentKind', 'goog.string', 'goog.string.StringBuffer']);
-goog.addDependency("../../../../sources/zz/_template/slider.js", ['zz.template.ui.slider'], ['soy', 'soydata']);
-goog.addDependency("../../../../sources/zz/_template/menu.js", ['zz.template.ui.menu'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/_template/en/icontoggle.js", ['zz.template.ui.icontoggle'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/_template/en/navigation.js", ['zz.template.ui.navigation'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/_template/en/button.js", ['zz.template.ui.button'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/_template/en/spinner.js", ['zz.template.ui.spinner'], ['soy', 'soydata']);
+goog.addDependency("../../../../sources/zz/_template/en/slider.js", ['zz.template.ui.slider'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/_template/en/switch.js", ['zz.template.ui.switch'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/_template/en/radio.js", ['zz.template.ui.radio'], ['soy', 'soydata']);
 goog.addDependency("../../../../sources/zz/_template/en/menu.js", ['zz.template.ui.menu'], ['soy', 'soydata']);

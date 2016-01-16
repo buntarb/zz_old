@@ -70,14 +70,13 @@ zz.ui.mdl.SliderRenderer.CSS_CLASS = goog.getCssName( 'mdl-slider' );
  * @override
  */
 zz.ui.mdl.SliderRenderer.prototype.decorate = function( control, element ){
+
 		var container = goog.dom.createDom( goog.dom.TagName.DIV, {
 
 			'class': zz.ui.mdl.Slider.CSS.SLIDER_CONTAINER
 		} );
-
 		// Container element
 		control.setContainerElement( container );
-
 		goog.dom.insertSiblingBefore( container, element );
 		goog.dom.appendChild( container, element );
 
