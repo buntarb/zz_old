@@ -59,7 +59,7 @@ var DEFAULTS = {
 var PATH = {
 
 	ROOT: ( IS_WINDOWS ? process.env.HOMEDRIVE : '' ) + '/var/www/zz',
-	TOOLS: '/bin',
+	TOOLS: '/tools',
 	APPLICATION: '/app',
 	MESSAGES: '/messages',
 	TEMPLATES: '/templates',
