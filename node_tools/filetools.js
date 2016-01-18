@@ -144,7 +144,7 @@ var getAbsPath = function( relPath ){
  */
 var getFileNameNoExt = function( fullName ){
 
-	var tmp = fullName.split( '/' );
+	var tmp = fullName.split( CONST.IS_WINDOWS ? '\\' : '/' );
 	tmp = tmp[ tmp.length - 1 ].split( '.' );
 	tmp.pop( );
 	return tmp.join( '.' );

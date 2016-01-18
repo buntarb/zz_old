@@ -14,7 +14,7 @@
 		"node-notifier": "",
 		"material-design-lite": "",
 		"material-design-icons": "",
-		"closure-library": "https://github.com/google/closure-library.git",
-		"ydn-db": "https://github.com/yathit/ydn-db.git"
+		"closure-library": "",
+		"ydn.db": ""
 	}
 }
