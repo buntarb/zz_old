@@ -26,6 +26,12 @@
  **********************************************************************************************************************/
 
 /**
+ * Windows OS flag.
+ * @type {Boolean}
+ */
+var IS_WINDOWS = /windows/i.test( process.env.OS );
+
+/**
  * Defaults
  * @type {Object}
  */
@@ -43,7 +49,7 @@ var DEFAULTS = {
 	SERVER_TST: 'tst',
 	SERVER_APP: 'app',
 	SERVER_DOMAIN: 'localhost',
-	SERVER_PORT: 8080
+	SERVER_PORT: 8888
 };
 
 /**
@@ -52,7 +58,7 @@ var DEFAULTS = {
  */
 var PATH = {
 
-	ROOT: '/var/www/zz',
+	ROOT: ( IS_WINDOWS ? process.env.HOMEDRIVE : '' ) + '/var/www/zz',
 	TOOLS: '/bin',
 	APPLICATION: '/app',
 	MESSAGES: '/messages',
@@ -67,7 +73,7 @@ var PATH = {
 	},
 	GOOG: {
 
-		ROOT: '/node_modules/google-closure-library',
+		ROOT: '/node_modules/google-closure-library-latest/lib',
 		BASE: '/closure/goog',
 		GOOG3P: '/third_party/closure'
 	},
@@ -154,9 +160,6 @@ var TEMPLATE = {
 				'<style>' +
 					'<%STYLE%>' +
 				'</style>' +
-//				'<script>' +
-//					'<%SCRIPT%>' +
-//				'</script>' +
 				'<script src="' + PATH.APPLICATION + '/' + FILE.APP_JS + '"></script>' +
 			'</head>' +
 			'<body>' +
@@ -184,7 +187,7 @@ var TEMPLATE = {
 				'<style>' +
 					'<%STYLE_2%>' +
 				'</style>' +
-				'<script src="/node_modules/google-closure-library/closure/goog/base.js"></script>' +
+				'<script src="' + PATH.GOOG.ROOT + '/closure/goog/base.js"></script>' +
 				'<script>goog.require("goog.soy");</script>' +
 				'<script src="' + PATH.SOURCES.ROOT + PATH.SOURCES.TEMPLATE + '/soyutils_usegoog.js"></script>' +
 				'<script src="' + PATH.SOURCES.ROOT + '/deps.js"></script>' +
@@ -203,6 +206,7 @@ var TEMPLATE = {
 
 module.exports = {
 
+	IS_WINDOWS: IS_WINDOWS,
 	DEFAULTS: DEFAULTS,
 	PATH: PATH,
 	FILE: FILE,

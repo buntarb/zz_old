@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Environment events types.
+ * @fileoverview Application events types.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.mvc.Environment.EventType' );
+goog.provide( 'zz.mvc.application.EventType' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -38,10 +38,10 @@ goog.require( 'goog.events' );
  **********************************************************************************************************************/
 
 /**
- * Constants for environment events types.
+ * Constants for application events.
  * @enum {string}
  */
-zz.mvc.Router.Environment = {
+zz.mvc.application.EventType = {
 
-	//
+	ROUTE_EXPIRED: goog.events.getUniqueId( 'route_expired' )
 };
