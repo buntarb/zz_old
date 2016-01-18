@@ -73,7 +73,7 @@ var PATH = {
 	},
 	GOOG: {
 
-		ROOT: '/node_modules/closure-library',
+		ROOT: '/node_modules/google-closure-library-latest/lib',
 		BASE: '/closure/goog',
 		GOOG3P: '/third_party/closure'
 	},
