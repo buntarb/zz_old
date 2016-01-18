@@ -160,9 +160,6 @@ var TEMPLATE = {
 				'<style>' +
 					'<%STYLE%>' +
 				'</style>' +
-//				'<script>' +
-//					'<%SCRIPT%>' +
-//				'</script>' +
 				'<script src="' + PATH.APPLICATION + '/' + FILE.APP_JS + '"></script>' +
 			'</head>' +
 			'<body>' +
@@ -190,7 +187,7 @@ var TEMPLATE = {
 				'<style>' +
 					'<%STYLE_2%>' +
 				'</style>' +
-				'<script src="/node_modules/closure-library/closure/goog/base.js"></script>' +
+				'<script src="' + PATH.GOOG.ROOT + '/closure/goog/base.js"></script>' +
 				'<script>goog.require("goog.soy");</script>' +
 				'<script src="' + PATH.SOURCES.ROOT + PATH.SOURCES.TEMPLATE + '/soyutils_usegoog.js"></script>' +
 				'<script src="' + PATH.SOURCES.ROOT + '/deps.js"></script>' +
