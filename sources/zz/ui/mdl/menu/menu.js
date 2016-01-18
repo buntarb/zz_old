@@ -163,7 +163,7 @@ zz.ui.mdl.Menu.prototype.disposeInternal = function( ){
  */
 zz.ui.mdl.Menu.prototype.animationEndListener_ = function( ){
 
-	this.getRenderer().removeAnimatingClass( this );
+	this.getRenderer( ).removeAnimatingClass( this );
 };
 
 /**********************************************************************************************************************
@@ -264,6 +264,7 @@ zz.ui.mdl.Menu.prototype.open = function( opt_element ){
 zz.ui.mdl.Menu.prototype.close = function( opt_element ){
 
 	this.setOpen( false );
+	this.getRenderer( ).close( this, opt_element );
 };
 
 /**

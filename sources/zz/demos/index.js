@@ -243,7 +243,7 @@ zz.demos.app.run = function( ){
 	var btn = goog.ui.decorate( goog.dom.getElement( 'demo-menu-lower-left' ) );
 	goog.events.listen( btn, goog.ui.Component.EventType.ACTION, function( evt ){
 
-		menu.open( );
+		menu.toggle( );
 	} );
 
 //	Run user module

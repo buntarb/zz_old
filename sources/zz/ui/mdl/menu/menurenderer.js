@@ -134,6 +134,48 @@ zz.ui.mdl.MenuRenderer.prototype.getCssClass = function( ){
  **********************************************************************************************************************/
 
 /**
+ * Apply clip to menu list.
+ * @param {zz.ui.mdl.Menu} control
+ * @param {goog.math.Size} listSize
+ * @private
+ */
+zz.ui.mdl.MenuRenderer.prototype.applyClip_ = function( control, listSize ){
+
+	if( goog.dom.classlist.contains( control.getListElement( ), zz.ui.mdl.Menu.CSS.UNALIGNED  ) ){
+
+		goog.style.setStyle( control.getListElement( ), {
+
+			clip: ''
+		} );
+	}
+	if( goog.dom.classlist.contains( control.getListElement( ), zz.ui.mdl.Menu.CSS.BOTTOM_RIGHT  ) ){
+
+		goog.style.setStyle( control.getListElement( ), {
+
+			clip: 'rect(0 ' + listSize.width + 'px ' + '0 ' + listSize.width + 'px)'
+		} );
+	}
+	if( goog.dom.classlist.contains( control.getListElement( ), zz.ui.mdl.Menu.CSS.TOP_LEFT  ) ){
+
+		goog.style.setStyle( control.getListElement( ), {
+
+			clip: 'rect(' + listSize.height + 'px 0 ' + listSize.height + 'px 0)'
+		} );
+	}
+	if( goog.dom.classlist.contains( control.getListElement( ), zz.ui.mdl.Menu.CSS.TOP_RIGHT  ) ){
+
+		goog.style.setStyle( control.getListElement( ), {
+
+			clip: 'rect(' + listSize.height + 'px ' +
+
+				listSize.width + 'px ' +
+				listSize.height + 'px ' +
+				listSize.width + 'px)'
+		} );
+	}
+};
+
+/**
  * Remove animating class.
  * @param {zz.ui.mdl.Menu} control
  */
@@ -145,7 +187,7 @@ zz.ui.mdl.MenuRenderer.prototype.removeAnimatingClass = function( control ){
 /**
  * Open menu.
  * @param {zz.ui.mdl.Menu} control
- * @param {Element} opt_element
+ * @param {Element=} opt_element
  */
 zz.ui.mdl.MenuRenderer.prototype.open = function( control, opt_element ){
 
@@ -185,38 +227,9 @@ zz.ui.mdl.MenuRenderer.prototype.open = function( control, opt_element ){
 				transitionDelay: itemDelay
 			} );
 		} );
-		if( goog.dom.classlist.contains( control.getListElement( ), zz.ui.mdl.Menu.CSS.UNALIGNED  ) ){
+		this.applyClip_( control, listSize );
 
-			goog.style.setStyle( control.getListElement( ), {
-
-				clip: ''
-			} );
-		}
-		if( goog.dom.classlist.contains( control.getListElement( ), zz.ui.mdl.Menu.CSS.BOTTOM_RIGHT  ) ){
-
-			goog.style.setStyle( control.getListElement( ), {
-
-				clip: 'rect(0 ' + listSize.width + 'px ' + '0 ' + listSize.width + 'px)'
-			} );
-		}
-		if( goog.dom.classlist.contains( control.getListElement( ), zz.ui.mdl.Menu.CSS.TOP_LEFT  ) ){
-
-			goog.style.setStyle( control.getListElement( ), {
-
-				clip: 'rect(' + listSize.height + 'px 0 ' + listSize.height + 'px 0)'
-			} );
-		}
-		if( goog.dom.classlist.contains( control.getListElement( ), zz.ui.mdl.Menu.CSS.TOP_RIGHT  ) ){
-
-			goog.style.setStyle( control.getListElement( ), {
-
-				clip: 'rect(' + listSize.height + 'px ' +
-
-					listSize.width + 'px ' +
-					listSize.height + 'px ' +
-					listSize.width + 'px)'
-			} );
-		}
+		// TODO (buntarb): Maybe we can drop animation frame from here.
 		window.requestAnimationFrame( function( ){
 
 			goog.dom.classlist.add( control.getListElement( ), zz.ui.mdl.Menu.CSS.IS_ANIMATING );
@@ -230,8 +243,31 @@ zz.ui.mdl.MenuRenderer.prototype.open = function( control, opt_element ){
 	}
 };
 
+/**
+ * Close menu.
+ * @param {zz.ui.mdl.Menu} control
+ * @param {Element=} opt_element
+ */
+zz.ui.mdl.MenuRenderer.prototype.close = function( control, opt_element ){
+
+	if( control.getContainerElement( ) && control.getOutlineElement( ) && control.getListElement( ) ){
+
+		goog.array.forEach( control.getItemsElements( ), function( item ){
+
+			goog.style.setStyle( item, {
+
+				transitionDelay: ''
+			} );
+		} );
+		var listSize = goog.style.getSize( control.getListElement( ) );
+		goog.dom.classlist.add( control.getListElement( ), zz.ui.mdl.Menu.CSS.IS_ANIMATING );
+		this.applyClip_( control, listSize );
+		goog.dom.classlist.remove( control.getContainerElement( ), zz.ui.mdl.Menu.CSS.IS_VISIBLE );
+	}
+};
+
 /**********************************************************************************************************************
- * Register a decorator factory function for zz.ui.mdl.Menues.                                                         *
+ * Register a decorator factory function for zz.ui.mdl.Menus.                                                         *
  **********************************************************************************************************************/
 
 goog.ui.registry.setDecoratorByClassName( zz.ui.mdl.MenuRenderer.CSS_CLASS, function( ){
