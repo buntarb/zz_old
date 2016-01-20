@@ -43,7 +43,7 @@ goog.require( 'goog.events' );
  */
 zz.app.EventType = {
 
-	ROUTED: goog.events.getUniqueId( 'routed' ),
-	ONLINE: goog.events.getUniqueId( 'online' ),
-	OFFLINE: goog.events.getUniqueId( 'offline' )
+	APPLICATION_ROUTED: goog.events.getUniqueId( 'application_routed' ),
+	APPLICATION_ONLINE: goog.events.getUniqueId( 'application_online' ),
+	APPLICATION_OFFLINE: goog.events.getUniqueId( 'application_offline' )
 };

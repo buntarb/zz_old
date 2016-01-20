@@ -35,7 +35,7 @@ goog.require( 'goog.array' );
 goog.require( 'goog.events');
 goog.require( 'goog.History' );
 goog.require( 'goog.history.Html5History' );
-goog.require( 'zz.events.Routed' );
+goog.require( 'zz.events.ApplicationRouted' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -150,7 +150,7 @@ zz.app.Router.prototype.onChange_ = function( ){
 	var fragment = this.history_.getToken( );
 	if( fragment != this.currentFragment_ ){
 
-		this.dispatchEvent( new zz.events.Routed( this.currentFragment_, fragment ) );
+		this.dispatchEvent( new zz.events.ApplicationRouted( this.currentFragment_, fragment ) );
 		this.currentFragment_ = fragment;
 		var isRouted = goog.array.find( this.routes_, function( route ){
 
