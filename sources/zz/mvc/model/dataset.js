@@ -40,8 +40,8 @@ goog.require( 'goog.events.EventHandler' );
 goog.require( 'zz.mvc.model' );
 goog.require( 'zz.mvc.model.Message' );
 goog.require( 'zz.mvc.model.EventType' );
-goog.require( 'zz.mvc.model.DatarowCreateEvent' );
-goog.require( 'zz.mvc.model.DatarowDeleteEvent' );
+goog.require( 'zz.events.DatarowCreate' );
+goog.require( 'zz.events.DatarowDelete' );
 goog.require( 'zz.mvc.model.Error' );
 
 /**********************************************************************************************************************
@@ -365,7 +365,7 @@ zz.mvc.model.Dataset.prototype.createAt = function( index, opt_data ){
 	this.publish( message );
 	goog.async.run( function( ){
 
-		this.dispatchEvent( new zz.mvc.model.DatarowCreateEvent( message ) );
+		this.dispatchEvent( new zz.events.DatarowCreate( message ) );
 
 	}, this );
 	return datarow;
@@ -418,7 +418,7 @@ zz.mvc.model.Dataset.prototype.deleteAt = function( index ){
 		this.publish( message );
 		goog.async.run( function( ){
 
-			this.dispatchEvent( new zz.mvc.model.DatarowDeleteEvent( message ) );
+			this.dispatchEvent( new zz.events.DatarowDelete( message ) );
 
 		}, this );
 		return true;

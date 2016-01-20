@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.mvc.application.Router class (based on PlastronJS router).
+ * @fileoverview Provide zz.app.Router class (based on PlastronJS router).
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.mvc.application.Router' );
+goog.provide( 'zz.app.Router' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -35,7 +35,7 @@ goog.require( 'goog.array' );
 goog.require( 'goog.events');
 goog.require( 'goog.History' );
 goog.require( 'goog.history.Html5History' );
-goog.require( 'zz.mvc.application.EventType' );
+goog.require( 'zz.events.Routed' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -50,7 +50,7 @@ goog.require( 'zz.mvc.application.EventType' );
  * @constructor
  * @extends {goog.events.EventTarget}
  */
-zz.mvc.application.Router = function( opt_noFragment, opt_blankPage, opt_input, opt_iframe ){
+zz.app.Router = function( opt_noFragment, opt_blankPage, opt_input, opt_iframe ){
 
 	goog.base( this );
 
@@ -116,8 +116,8 @@ zz.mvc.application.Router = function( opt_noFragment, opt_blankPage, opt_input, 
 /**
  * Base inheritance.
  */
-goog.inherits( zz.mvc.application.Router, goog.events.EventTarget );
-goog.addSingletonGetter( zz.mvc.application.Router );
+goog.inherits( zz.app.Router, goog.events.EventTarget );
+goog.addSingletonGetter( zz.app.Router );
 
 /**********************************************************************************************************************
  * Prototype methods section                                                                                          *
@@ -130,7 +130,7 @@ goog.addSingletonGetter( zz.mvc.application.Router );
  * @returns {boolean}
  * @private
  */
-zz.mvc.application.Router.prototype.runRouteIfMatches_ = function( route, fragment ){
+zz.app.Router.prototype.runRouteIfMatches_ = function( route, fragment ){
 
 	var args = route.route.exec( fragment );
 	if( args ){
@@ -145,17 +145,12 @@ zz.mvc.application.Router.prototype.runRouteIfMatches_ = function( route, fragme
  * History change events listener.
  * @private
  */
-zz.mvc.application.Router.prototype.onChange_ = function( ){
+zz.app.Router.prototype.onChange_ = function( ){
 
 	var fragment = this.history_.getToken( );
 	if( fragment != this.currentFragment_ ){
 
-		this.dispatchEvent( {
-
-			type: zz.mvc.application.EventType.ROUTE_EXPIRED,
-			previous: this.currentFragment_,
-			current: fragment
-		} );
+		this.dispatchEvent( new zz.events.Routed( this.currentFragment_, fragment ) );
 		this.currentFragment_ = fragment;
 		var isRouted = goog.array.find( this.routes_, function( route ){
 
@@ -173,7 +168,7 @@ zz.mvc.application.Router.prototype.onChange_ = function( ){
  * Pass through the fragment for the URL.
  * @param {string} fragment
  */
-zz.mvc.application.Router.prototype.setFragment = function( fragment ){
+zz.app.Router.prototype.setFragment = function( fragment ){
 
 	this.history_.setToken( fragment );
 };
@@ -182,7 +177,7 @@ zz.mvc.application.Router.prototype.setFragment = function( fragment ){
  * Returns current routed fragment.
  * @return {string}
  */
-zz.mvc.application.Router.prototype.getFragment = function( ){
+zz.app.Router.prototype.getFragment = function( ){
 
 	return this.currentFragment_;
 };
@@ -192,9 +187,9 @@ zz.mvc.application.Router.prototype.getFragment = function( ){
  * @param {string|RegExp} route
  * @param {function(string, ...[string])} callback
  * @param {Object=} opt_context
- * @returns {zz.mvc.application.Router}
+ * @returns {zz.app.Router}
  */
-zz.mvc.application.Router.prototype.when = function( route, callback, opt_context ){
+zz.app.Router.prototype.when = function( route, callback, opt_context ){
 
 	if( goog.isString( route ) )
 
@@ -221,7 +216,7 @@ zz.mvc.application.Router.prototype.when = function( route, callback, opt_contex
  * Fragment for default path.
  * @param {string} defaultFragment
  */
-zz.mvc.application.Router.prototype.otherwise = function( defaultFragment ){
+zz.app.Router.prototype.otherwise = function( defaultFragment ){
 
 	this.defaultFragment_ = defaultFragment;
 };
@@ -229,7 +224,7 @@ zz.mvc.application.Router.prototype.otherwise = function( defaultFragment ){
 /**
  * Bootstrap router.
  */
-zz.mvc.application.Router.prototype.bootstrap = function( ){
+zz.app.Router.prototype.bootstrap = function( ){
 
 	var fragment = this.history_.getToken( );
 	this.currentFragment_ = fragment;

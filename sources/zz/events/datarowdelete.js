@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Provide zz.mvc.model.DatarowCreateEvent class.
+ * @fileoverview Provide zz.events.DatarowDelete class.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,13 +25,13 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.mvc.model.DatarowCreateEvent' );
+goog.provide( 'zz.events.DatarowDelete' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'goog.events.Event' );
+goog.require( 'zz.events.BaseEvent' );
 goog.require( 'zz.mvc.model.EventType' );
 
 /**********************************************************************************************************************
@@ -40,16 +40,16 @@ goog.require( 'zz.mvc.model.EventType' );
 
 /**
  * @constructor
- * @extends {goog.events.Event}
+ * @extends {zz.events.BaseEvent}
  * @param {!zz.mvc.model.Message} message
  */
-zz.mvc.model.DatarowCreateEvent = function( message ){
+zz.events.DatarowDelete = function( message ){
 
 	/**
 	 * Model message.
 	 * @type {!zz.mvc.model.Datarow}
 	 */
 	this.message = message;
-	goog.events.Event.call( this, zz.mvc.model.EventType.DATAROW_DELETE, message.dataset );
+	zz.events.BaseEvent.call( this, zz.mvc.model.EventType.DATAROW_DELETE, message.dataset );
 };
-goog.inherits( zz.mvc.model.DatarowCreateEvent, goog.events.Event );
+goog.inherits( zz.events.DatarowDelete, zz.events.BaseEvent );

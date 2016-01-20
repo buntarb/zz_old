@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Application events types.
+ * @fileoverview Application offline event.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,23 +25,26 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.mvc.application.EventType' );
+goog.provide( 'zz.events.Offline' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'goog.events' );
+goog.require( 'zz.events.BaseEvent' );
+goog.require( 'zz.app.EventType' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * Constants for application events.
- * @enum {string}
+ * Offline event class.
+ * @extends {zz.events.BaseEvent}
+ * @constructor
  */
-zz.mvc.application.EventType = {
+zz.events.Offline = function( ){
 
-	ROUTE_EXPIRED: goog.events.getUniqueId( 'route_expired' )
+	zz.events.BaseEvent.call( this, zz.app.EventType.OFFLINE );
 };
+goog.inherits( zz.events.Offline, zz.events.BaseEvent );

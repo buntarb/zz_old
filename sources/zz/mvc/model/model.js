@@ -33,7 +33,7 @@ goog.provide( 'zz.mvc.model' );
 
 goog.require( 'goog.async.run' );
 goog.require( 'zz.mvc.model.EventType' );
-goog.require( 'zz.mvc.model.DatarowUpdateEvent' );
+goog.require( 'zz.events.DatarowUpdate' );
 goog.require( 'zz.mvc.model.Message' );
 
 /**********************************************************************************************************************
@@ -141,7 +141,7 @@ zz.mvc.model.setupBooleanField = function( dataset, datarow, datafield, required
                 dataset.publish( message );
                 goog.async.run( function( ){
 
-					dataset.dispatchEvent( new zz.mvc.model.DatarowUpdateEvent( message ) );
+					dataset.dispatchEvent( new zz.events.DatarowUpdate( message ) );
                 } );
             }
         },
@@ -191,7 +191,7 @@ zz.mvc.model.setupNumberField = function( dataset, datarow, datafield, required,
                 dataset.publish( message );
 				goog.async.run( function( ){
 
-					dataset.dispatchEvent( new zz.mvc.model.DatarowUpdateEvent( message ) );
+					dataset.dispatchEvent( new zz.events.DatarowUpdate( message ) );
 				} );
             }
         },
@@ -241,7 +241,7 @@ zz.mvc.model.setupStringField = function( dataset, datarow, datafield, required,
                 dataset.publish( message );
 				goog.async.run( function( ){
 
-					dataset.dispatchEvent( new zz.mvc.model.DatarowUpdateEvent( message ) );
+					dataset.dispatchEvent( new zz.events.DatarowUpdate( message ) );
 				} );
             }
         },
