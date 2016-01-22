@@ -16,13 +16,13 @@ goog.addDependency("../../../../../sources/zz/mvc/model/eventtype.js", ['zz.mvc.
 goog.addDependency("../../../../../sources/zz/mvc/model/model.js", ['zz.mvc.model'], ['goog.async.run', 'zz.mvc.model.EventType', 'zz.events.DatarowUpdate', 'zz.mvc.model.Message']);
 goog.addDependency("../../../../../sources/zz/_stylesheet/remap.js", ['zz._stylesheet.remap'], []);
 goog.addDependency("../../../../../sources/zz/events/events.js", ['zz.events'], []);
-goog.addDependency("../../../../../sources/zz/events/event.js", ['zz.events.BaseEvent'], ['goog.events']);
 goog.addDependency("../../../../../sources/zz/events/applicationoffline.js", ['zz.events.ApplicationOffline'], ['zz.events.BaseEvent', 'zz.app.EventType']);
 goog.addDependency("../../../../../sources/zz/events/datarowupdate.js", ['zz.events.DatarowUpdate'], ['zz.events.BaseEvent', 'zz.mvc.model.EventType']);
 goog.addDependency("../../../../../sources/zz/events/datarowdelete.js", ['zz.events.DatarowDelete'], ['zz.events.BaseEvent', 'zz.mvc.model.EventType']);
 goog.addDependency("../../../../../sources/zz/events/datarowcreate.js", ['zz.events.DatarowCreate'], ['zz.events.BaseEvent', 'zz.mvc.model.EventType']);
 goog.addDependency("../../../../../sources/zz/events/applicationrouted.js", ['zz.events.ApplicationRouted'], ['zz.events.BaseEvent', 'zz.app.EventType']);
 goog.addDependency("../../../../../sources/zz/events/applicationonline.js", ['zz.events.ApplicationOnline'], ['zz.events.BaseEvent', 'zz.app.EventType']);
+goog.addDependency("../../../../../sources/zz/events/baseevent.js", ['zz.events.BaseEvent'], ['goog.events']);
 goog.addDependency("../../../../../sources/zz/demos/index.js", ['zz.demos.app'], ['soy', 'goog.events', 'goog.ui.decorate', 'goog.ui.Component', 'zz.ui.mdl.Button', 'zz.ui.mdl.Tooltip', 'zz.ui.mdl.Navigation', 'zz.ui.mdl.Spinner', 'zz.ui.mdl.Progress', 'zz.ui.mdl.Checkbox', 'zz.ui.mdl.Switch', 'zz.ui.mdl.Radio', 'zz.ui.mdl.IconToggle', 'zz.ui.mdl.TextField', 'zz.ui.mdl.Slider', 'zz.ui.mdl.Menu', 'zz.template.ui.button', 'zz.template.ui.spinner', 'zz.template.ui.navigation', 'zz.template.ui.progress', 'zz.template.ui.tooltip', 'zz.template.ui.checkbox', 'zz.template.ui.switch', 'zz.template.ui.radio', 'zz.template.ui.icontoggle', 'zz.template.ui.textfield', 'zz.template.ui.slider', 'zz.template.ui.menu', 'zz.module.user.view.Users']);
 goog.addDependency("../../../../../sources/zz/ui/formatter/default.js", ['zz.ui.formatter.Default'], []);
 goog.addDependency("../../../../../sources/zz/ui/formatter/decimal.js", ['zz.ui.formatter.Decimal'], ['goog.i18n.NumberFormat', 'goog.i18n.NumberFormat.Format']);
