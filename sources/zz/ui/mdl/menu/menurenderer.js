@@ -230,7 +230,7 @@ zz.ui.mdl.MenuRenderer.prototype.open = function( control, opt_element ){
 		this.applyClip_( control, listSize );
 
 		// TODO (buntarb): Maybe we can drop animation frame from here.
-		window.requestAnimationFrame( function( ){
+//		window.requestAnimationFrame( function( ){
 
 			goog.dom.classlist.add( control.getListElement( ), zz.ui.mdl.Menu.CSS.IS_ANIMATING );
 			goog.style.setStyle( control.getListElement( ), {
@@ -239,7 +239,7 @@ zz.ui.mdl.MenuRenderer.prototype.open = function( control, opt_element ){
 			} );
 			goog.dom.classlist.add( control.getContainerElement( ), zz.ui.mdl.Menu.CSS.IS_VISIBLE );
 
-		} );
+//		} );
 	}
 };
 

@@ -35,6 +35,7 @@ goog.require( 'goog.style' );
 goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.events.EventType' );
 goog.require( 'goog.ui.Component' );
+goog.require( 'zz.service.Popup' );
 goog.require( 'zz.ui.mdl.Control' );
 goog.require( 'zz.ui.mdl.MenuRenderer' );
 goog.require( 'zz.ui.mdl.Ripple' );
@@ -53,6 +54,7 @@ goog.require( 'zz.ui.mdl.Ripple' );
 zz.ui.mdl.Menu = function( opt_content, opt_renderer, opt_domHelper ){
 
 	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.MenuRenderer.getInstance( ), opt_domHelper );
+	zz.service.Popup.getInstance( ).addClosable( this );
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
 	this.setSupportedState( goog.ui.Component.State.OPENED, true );
 };
@@ -150,6 +152,7 @@ zz.ui.mdl.Menu.prototype.disposeInternal = function( ){
 
 	goog.base( this, 'disposeInternal' );
 	this.getHandler( ).dispose( );
+	zz.service.Popup.getInstance( ).removeClosable( this );
 };
 
 /**********************************************************************************************************************
@@ -253,8 +256,12 @@ zz.ui.mdl.Menu.prototype.getItemsElements = function( ){
  */
 zz.ui.mdl.Menu.prototype.open = function( opt_element ){
 
-	this.setOpen( true );
 	this.getRenderer( ).open( this, opt_element );
+	goog.async.nextTick( function( ){
+
+		this.setOpen( true );
+
+	}, this )
 };
 
 /**
@@ -263,8 +270,12 @@ zz.ui.mdl.Menu.prototype.open = function( opt_element ){
  */
 zz.ui.mdl.Menu.prototype.close = function( opt_element ){
 
-	this.setOpen( false );
 	this.getRenderer( ).close( this, opt_element );
+	goog.async.nextTick( function( ){
+
+		this.setOpen( false );
+
+	}, this )
 };
 
 /**
