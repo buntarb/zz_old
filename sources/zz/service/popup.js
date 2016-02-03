@@ -83,7 +83,7 @@ zz.service.Popup.prototype.clickListener_ = function( ){
 
 	goog.object.forEach( this.closable_, function( popup ){
 
-		if( popup.isOpen( ) ){
+		if( popup.isVisible( ) ){
 
 			popup.close( );
 		}
@@ -102,6 +102,7 @@ zz.service.Popup.prototype.addClosable = function( popup ){
 
 	// TODO: Add assertion.
 	this.closable_[ goog.getUid( popup ) ] = popup;
+
 };
 
 /**

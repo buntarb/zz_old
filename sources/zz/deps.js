@@ -58,8 +58,8 @@ goog.addDependency("../../../../../sources/zz/ui/mdl/textfield/textfield.js", ['
 goog.addDependency("../../../../../sources/zz/ui/mdl/textfield/textfieldrenderer.js", ['zz.ui.mdl.TextFieldRenderer'], ['goog.dom.classlist', 'zz.ui.mdl.ControlRenderer']);
 goog.addDependency("../../../../../sources/zz/ui/mdl/ripple/ripple.js", ['zz.ui.mdl.Ripple'], ['goog.Timer', 'goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component']);
 goog.addDependency("../../../../../sources/zz/ui/mdl/tooltip/tooltip.js", ['zz.ui.mdl.Tooltip'], ['goog.array', 'goog.style', 'goog.dom', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component']);
-goog.addDependency("../../../../../sources/zz/ui/mdl/menu/menurenderer.js", ['zz.ui.mdl.MenuRenderer'], ['goog.array', 'goog.style', 'goog.dom.classlist', 'zz.ui.mdl.ControlRenderer']);
-goog.addDependency("../../../../../sources/zz/ui/mdl/menu/menu.js", ['zz.ui.mdl.Menu'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'zz.service.Popup', 'zz.ui.mdl.Control', 'zz.ui.mdl.MenuRenderer', 'zz.ui.mdl.Ripple']);
+goog.addDependency("../../../../../sources/zz/ui/mdl/menu/menurenderer.js", ['zz.ui.mdl.MenuRenderer'], ['goog.array', 'goog.style', 'goog.dom.classlist', 'goog.ui.MenuRenderer', 'zz.ui.mdl.ControlRenderer']);
+goog.addDependency("../../../../../sources/zz/ui/mdl/menu/menu.js", ['zz.ui.mdl.Menu'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'goog.ui.Menu', 'zz.service.Popup', 'zz.ui.mdl.Control', 'zz.ui.mdl.MenuRenderer', 'zz.ui.mdl.Ripple']);
 goog.addDependency("../../../../../sources/zz/ui/mdl/switch/switchrenderer.js", ['zz.ui.mdl.SwitchRenderer'], ['goog.dom.classlist', 'zz.ui.mdl.ControlRenderer']);
 goog.addDependency("../../../../../sources/zz/ui/mdl/switch/switch.js", ['zz.ui.mdl.Switch'], ['goog.style', 'goog.dom.classlist', 'goog.events.EventType', 'goog.ui.Component', 'zz.ui.mdl.Control', 'zz.ui.mdl.SwitchRenderer', 'zz.ui.mdl.Ripple']);
 goog.addDependency("../../../../../sources/zz/ui/mdl/checkbox/checkboxrenderer.js", ['zz.ui.mdl.CheckboxRenderer'], ['goog.dom.classlist', 'zz.ui.mdl.ControlRenderer']);

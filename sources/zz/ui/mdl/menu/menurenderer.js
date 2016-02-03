@@ -34,6 +34,7 @@ goog.provide( 'zz.ui.mdl.MenuRenderer' );
 goog.require( 'goog.array' );
 goog.require( 'goog.style' );
 goog.require( 'goog.dom.classlist' );
+goog.require( 'goog.ui.MenuRenderer' );
 goog.require( 'zz.ui.mdl.ControlRenderer' );
 
 /**********************************************************************************************************************
@@ -47,9 +48,9 @@ goog.require( 'zz.ui.mdl.ControlRenderer' );
  */
 zz.ui.mdl.MenuRenderer = function( ){
 
-	zz.ui.mdl.MenuRenderer.base( this, 'constructor' );
+	goog.ui.MenuRenderer.call( this );
 };
-goog.inherits( zz.ui.mdl.MenuRenderer, zz.ui.mdl.ControlRenderer );
+goog.inherits( zz.ui.mdl.MenuRenderer, goog.ui.MenuRenderer );
 goog.addSingletonGetter( zz.ui.mdl.MenuRenderer );
 
 /**********************************************************************************************************************

@@ -35,6 +35,7 @@ goog.require( 'goog.style' );
 goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.events.EventType' );
 goog.require( 'goog.ui.Component' );
+goog.require( 'goog.ui.Menu' );
 goog.require( 'zz.service.Popup' );
 goog.require( 'zz.ui.mdl.Control' );
 goog.require( 'zz.ui.mdl.MenuRenderer' );
@@ -45,20 +46,17 @@ goog.require( 'zz.ui.mdl.Ripple' );
  **********************************************************************************************************************/
 
 /**
- * @param {goog.ui.ControlContent=} opt_content Text caption or DOM structure to display as the content of the control.
  * @param {goog.ui.ControlRenderer=} opt_renderer Renderer used to render or decorate the button.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper, used for document interaction.
  * @extends {zz.ui.mdl.Control}
  * @constructor
  */
-zz.ui.mdl.Menu = function( opt_content, opt_renderer, opt_domHelper ){
+zz.ui.mdl.Menu = function( opt_renderer, opt_domHelper ){
 
-	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.MenuRenderer.getInstance( ), opt_domHelper );
+	goog.ui.Menu.call( this, undefined, opt_renderer || zz.ui.mdl.MenuRenderer.getInstance( ), opt_domHelper );
 	zz.service.Popup.getInstance( ).addClosable( this );
-	this.setAutoStates( goog.ui.Component.State.ALL, false );
-	this.setSupportedState( goog.ui.Component.State.OPENED, true );
 };
-goog.inherits( zz.ui.mdl.Menu, zz.ui.mdl.Control );
+goog.inherits( zz.ui.mdl.Menu, goog.ui.Menu );
 goog.tagUnsealableClass( zz.ui.mdl.Menu );
 
 /**********************************************************************************************************************
@@ -131,6 +129,8 @@ zz.ui.mdl.Menu.CSS = {
 zz.ui.mdl.Menu.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
+
+	this.setVisible( false );
 	this.getHandler( ).listenWithScope(
 
 		this.listElement_,
@@ -251,6 +251,17 @@ zz.ui.mdl.Menu.prototype.getItemsElements = function( ){
  **********************************************************************************************************************/
 
 /**
+ * @override
+ * @param {boolean} show
+ */
+zz.ui.mdl.Menu.prototype.setVisible = function( show ){
+
+	var visibilityChanged = zz.ui.mdl.Menu.superClass_.setVisible.call( this, show, true );
+	goog.style.setElementShown( this.getElement( ), true );
+	return visibilityChanged;
+};
+
+/**
  * Open menu.
  * @param {Element=} opt_element
  */
@@ -259,7 +270,7 @@ zz.ui.mdl.Menu.prototype.open = function( opt_element ){
 	this.getRenderer( ).open( this, opt_element );
 	goog.async.nextTick( function( ){
 
-		this.setOpen( true );
+		this.setVisible( true );
 
 	}, this )
 };
@@ -273,7 +284,7 @@ zz.ui.mdl.Menu.prototype.close = function( opt_element ){
 	this.getRenderer( ).close( this, opt_element );
 	goog.async.nextTick( function( ){
 
-		this.setOpen( false );
+		this.setVisible( false );
 
 	}, this )
 };
@@ -284,7 +295,7 @@ zz.ui.mdl.Menu.prototype.close = function( opt_element ){
  */
 zz.ui.mdl.Menu.prototype.toggle = function( opt_element ){
 
-	if( this.isOpen( ) ){
+	if( this.isVisible( ) ){
 
 		this.close( opt_element );
 
