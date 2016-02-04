@@ -31,6 +31,7 @@ goog.provide( 'zz.ui.mdl.Menu' );
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
+goog.require( 'goog.array' );
 goog.require( 'goog.style' );
 goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.events.EventType' );
@@ -39,7 +40,7 @@ goog.require( 'goog.ui.Menu' );
 goog.require( 'zz.service.Popup' );
 goog.require( 'zz.ui.mdl.Control' );
 goog.require( 'zz.ui.mdl.MenuRenderer' );
-goog.require( 'zz.ui.mdl.Ripple' );
+goog.require( 'zz.ui.mdl.MenuItem' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -53,8 +54,21 @@ goog.require( 'zz.ui.mdl.Ripple' );
  */
 zz.ui.mdl.Menu = function( opt_renderer, opt_domHelper ){
 
-	goog.ui.Menu.call( this, undefined, opt_renderer || zz.ui.mdl.MenuRenderer.getInstance( ), opt_domHelper );
+	goog.ui.Menu.call(
+
+		this,
+		undefined,
+		opt_renderer || zz.ui.mdl.MenuRenderer.getInstance( ),
+		opt_domHelper );
+
 	zz.service.Popup.getInstance( ).addClosable( this );
+
+	/**
+	 * Properties where all Ripples instances are stored.
+	 * @type {Array}
+	 * @private
+	 */
+	this.ripples_ = [ ];
 };
 goog.inherits( zz.ui.mdl.Menu, goog.ui.Menu );
 goog.tagUnsealableClass( zz.ui.mdl.Menu );
@@ -139,6 +153,15 @@ zz.ui.mdl.Menu.prototype.enterDocument = function( ){
 		false,
 		this
 	);
+	goog.array.forEach( this.getItemsElements( ), function( item ){
+
+		if( goog.dom.classlist.contains( item, zz.ui.mdl.MenuItem.CSS.RIPPLE_EFFECT ) ){
+
+			var i = this.ripples_.push( new zz.ui.mdl.Ripple( ) );
+			this.ripples_[ i - 1 ].decorate( item );
+		}
+	}, this );
+
 };
 
 /**
@@ -153,6 +176,10 @@ zz.ui.mdl.Menu.prototype.disposeInternal = function( ){
 	goog.base( this, 'disposeInternal' );
 	this.getHandler( ).dispose( );
 	zz.service.Popup.getInstance( ).removeClosable( this );
+	goog.array.forEach( this.ripples_, function( ripple ){
+
+		ripple.dispose( );
+	} );
 };
 
 /**********************************************************************************************************************
@@ -303,4 +330,31 @@ zz.ui.mdl.Menu.prototype.toggle = function( opt_element ){
 
 		this.open( opt_element );
 	}
+};
+
+/**
+ * Add new menu item.
+ * @param {zz.ui.mdl.MenuItem} child
+ * @param {number} index
+ */
+zz.ui.mdl.Menu.prototype.addMenuItem = function( child, index ){
+
+	this.addChildAt( child, index, true );
+	this.setItemsElements( goog.dom.getElementsByClass( zz.ui.mdl.Menu.CSS.ITEM ) );
+//	if( goog.dom.classlist.contains( this.getListElement( ), zz.ui.mdl.MenuItem.CSS.RIPPLE_EFFECT ) ){
+//
+//		goog.dom.classlist.add( child.getElement( ), zz.ui.mdl.MenuItem.CSS.RIPPLE_EFFECT );
+//		var i = this.ripples_.push( new zz.ui.mdl.Ripple( ) );
+//		this.ripples_[ i - 1 ].decorate( child.getElement( ) );
+//	}
+};
+
+/**
+ * Remove specified item from menu.
+ * @param {zz.ui.mdl.MenuItem} child
+ */
+zz.ui.mdl.Menu.prototype.removeMenuItem = function( child ){
+
+	this.removeChild( child, true );
+	this.setItemsElements( goog.dom.getElementsByClass( zz.ui.mdl.Menu.CSS.ITEM ) );
 };

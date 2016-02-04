@@ -48,6 +48,7 @@ goog.require( 'zz.ui.mdl.IconToggle' );
 goog.require( 'zz.ui.mdl.TextField' );
 goog.require( 'zz.ui.mdl.Slider' );
 goog.require( 'zz.ui.mdl.Menu' );
+goog.require( 'zz.ui.mdl.MenuItem' );
 
 goog.require( 'zz.template.ui.button' );
 goog.require( 'zz.template.ui.spinner' );
@@ -241,10 +242,37 @@ zz.demos.app.run = function( ){
 	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.menu.default );
 	var menu = goog.global.menu = goog.ui.decorate( goog.dom.getElement( '1' ) );
 	var btn = goog.ui.decorate( goog.dom.getElement( 'demo-menu-lower-left' ) );
-	goog.events.listen( btn, goog.ui.Component.EventType.ACTION, function( evt ){
+	var item = new zz.ui.mdl.MenuItem( 'Added menu item' );
+	goog.events.listen( btn, goog.ui.Component.EventType.ACTION, function( ){
 
 		menu.toggle( );
 	} );
+
+	goog.events.listen( menu, goog.ui.Component.EventType.ACTION, function( evt ){
+
+		if( evt.target.getId( ) === 'add' ){
+
+			menu.addMenuItem( item, 4 );
+		}
+		if( evt.target.getId( ) === 'remove' ){
+
+			menu.removeMenuItem( item );
+		}
+	} );
+
+//	goog.events.listen(menu2, 'action', function(e) {
+//		if (e.target.getId() == 'addNewItem') {
+//			var n = prompt('Enter a new item...');
+//			if (n) {
+//				menu2.addItemAt(new goog.ui.MenuItem(n), menu2.getItemCount() - 4);
+//			}
+//		} else if (e.target.getId() == 'enableNewItems') {
+//			menu2.getItemAt(menu2.getItemCount() - 1).setEnabled(
+//				e.target.isChecked());
+//		} else {
+//			alert(e.target.getCaption());
+//		}
+//	});
 
 //	Run user module
 

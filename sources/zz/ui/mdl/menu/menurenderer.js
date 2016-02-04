@@ -113,6 +113,13 @@ zz.ui.mdl.MenuRenderer.prototype.decorate = function( control, element ){
 
 		goog.dom.classlist.add( outline, zz.ui.mdl.Menu.CSS.UNALIGNED )
 	}
+	if( goog.dom.classlist.contains( control.getListElement( ), zz.ui.mdl.MenuItem.CSS.RIPPLE_EFFECT ) ){
+
+		goog.array.forEach( control.getItemsElements( ), function( item ){
+
+			goog.dom.classlist.add( item, zz.ui.mdl.MenuItem.CSS.RIPPLE_EFFECT );
+		} );
+	}
 	goog.dom.classlist.add( container, zz.ui.mdl.Menu.CSS.IS_UPGRADED );
 
 	return goog.base( this, 'decorate', control, element );
