@@ -219,6 +219,7 @@ zz.app.Router.prototype.when = function( route, callback, opt_context ){
 zz.app.Router.prototype.otherwise = function( defaultFragment ){
 
 	this.defaultFragment_ = defaultFragment;
+	return this;
 };
 
 /**

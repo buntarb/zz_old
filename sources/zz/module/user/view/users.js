@@ -68,7 +68,7 @@ zz.module.user.view.Users = function( opt_domHelper ){
 	 * @type {Array}
 	 * @private
 	 */
-	this.userViews_ = [];
+	this.userViews_ = [ ];
 };
 
 /**
@@ -138,6 +138,15 @@ zz.module.user.view.Users.prototype.enterDocument = function( ){
 		this.addUserButton_,
 		goog.ui.Component.EventType.ACTION,
 		this.controller_.addUser,
+		false,
+		this
+	);
+
+	this.getHandler( ).listenWithScope(
+
+		this.remUserButton_,
+		goog.ui.Component.EventType.ACTION,
+		this.controller_.goToUser,
 		false,
 		this
 	);

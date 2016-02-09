@@ -63,7 +63,7 @@ zz.events.ApplicationRouted = function( prev, curr ){
 	 */
 	this.curr_ = curr;
 };
-goog.inherits( zz.app.ApplicationRouted, zz.events.BaseEvent );
+goog.inherits( zz.events.ApplicationRouted, zz.events.BaseEvent );
 
 /**********************************************************************************************************************
  * Public properties                                                                                                  *

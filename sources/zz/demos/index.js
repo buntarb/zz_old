@@ -63,6 +63,8 @@ goog.require( 'zz.template.ui.textfield' );
 goog.require( 'zz.template.ui.slider' );
 goog.require( 'zz.template.ui.menu' );
 
+goog.require( 'zz.app.Router' );
+
 goog.require( 'zz.module.user.view.Users' );
 
 /**********************************************************************************************************************
@@ -74,8 +76,8 @@ zz.demos.app.run = function( ){
 
 //	Model
 
-	var users = goog.global.users = new zz.module.user.model.Users( );
-	var user = goog.global.user = users.createFirst( );
+//	var users = goog.global.users = new zz.module.user.model.Users( );
+//	var user = goog.global.user = users.createFirst( );
 
 //	Navigation
 
@@ -264,8 +266,33 @@ zz.demos.app.run = function( ){
 
 //	Run user module
 
-	var usersView = new zz.module.user.view.Users( );
-	usersView.render( goog.dom.getElement( 'root' ) );
+
+
+	var router = goog.global.router = zz.app.Router.getInstance( );
+	router
+
+		.when( '/user', function( ){
+
+			var usersView = new zz.module.user.view.Users( );
+				usersView.render( goog.dom.getElement( 'root' ) );
+		} )
+		.when( '/user/:id', function( id ){
+
+			var usersView = new zz.module.user.view.Users( );
+				usersView.render( goog.dom.getElement( 'root' ) );
+		} )
+		.when( '/teat/path', function( id ){
+
+			var usersView = new zz.module.user.view.Users( );
+			usersView.render( goog.dom.getElement( 'root' ) );
+		} )
+		.when( '/error', function( id ){
+
+			var usersView = new zz.module.user.view.Users( );
+			usersView.render( goog.dom.getElement( 'root' ) );
+		} )
+		.otherwise( '/error' )
+		.bootstrap( );
 };
 
 /**********************************************************************************************************************
