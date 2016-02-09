@@ -231,18 +231,20 @@ zz.demos.app.run = function( ){
 
 // Slider
 
-	//soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.slider.default );
-	//var sldr1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
-	//var sldr2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
-	//sldr1.setModel( users, user, users.datafield.userId );
-	//sldr1.setEnabled( false );
+//	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.slider.default );
+//	var sldr1 = goog.ui.decorate( goog.dom.getElement( '1' ) );
+//	var sldr2 = goog.ui.decorate( goog.dom.getElement( '2' ) );
+//	sldr1.setModel( users, user, users.datafield.userId );
+//	sldr1.setEnabled( false );
 
 // Menu
 
 //	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.menu.default );
+//
 //	var menu = goog.global.menu = goog.ui.decorate( goog.dom.getElement( '1' ) );
 //	var btn = goog.ui.decorate( goog.dom.getElement( 'demo-menu-lower-left' ) );
 //	var item = new zz.ui.mdl.MenuItem( 'Added menu item' );
+//
 //	goog.events.listen( btn, goog.ui.Component.EventType.ACTION, function( ){
 //
 //		menu.toggle( );

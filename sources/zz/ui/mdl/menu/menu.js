@@ -341,12 +341,6 @@ zz.ui.mdl.Menu.prototype.addMenuItem = function( child, index ){
 
 	this.addChildAt( child, index, true );
 	this.setItemsElements( goog.dom.getElementsByClass( zz.ui.mdl.Menu.CSS.ITEM ) );
-//	if( goog.dom.classlist.contains( this.getListElement( ), zz.ui.mdl.MenuItem.CSS.RIPPLE_EFFECT ) ){
-//
-//		goog.dom.classlist.add( child.getElement( ), zz.ui.mdl.MenuItem.CSS.RIPPLE_EFFECT );
-//		var i = this.ripples_.push( new zz.ui.mdl.Ripple( ) );
-//		this.ripples_[ i - 1 ].decorate( child.getElement( ) );
-//	}
 };
 
 /**
