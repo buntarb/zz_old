@@ -150,7 +150,7 @@ zz.ui.mdl.Slider.prototype.blurSliderListener_ = function( ){
 
 /**
  * Listener for Slider container element mousedown event.
- * @param {goog.events.BrowserEvent} browser event.
+ * @param {goog.events.BrowserEvent} event.
  * @private
  */
 zz.ui.mdl.Slider.prototype.onContainerMouseDown_ = function( event ){
@@ -161,14 +161,49 @@ zz.ui.mdl.Slider.prototype.onContainerMouseDown_ = function( event ){
 	// is on the slider element.
 	event.preventDefault( );
 
-	var newEvent = new MouseEvent( 'mousedown', {
-		target: originalEvent.target,
-		buttons: originalEvent.buttons,
-		clientX: originalEvent.clientX,
-		clientY: this.getInputElement( ).getBoundingClientRect( ).y
-	} );
+	var syntheticEvent;
+	if( goog.isDef( goog.global[ 'MouseEvent' ] ) ){
 
-	this.getInputElement( ).dispatchEvent( newEvent );
+		syntheticEvent = new MouseEvent( goog.events.EventType.MOUSEDOWN, {
+
+			'target': originalEvent[ 'target' ],
+			'screenX': originalEvent[ 'screenX' ],
+			'screenY': originalEvent[ 'screenY' ],
+			'clientX': originalEvent[ 'clientX' ],
+			'clientY': this.getInputElement( ).getBoundingClientRect( ).y,
+			'ctrlKey': originalEvent[ 'ctrlKey' ],
+			'altKey': originalEvent[ 'altKey' ],
+			'shiftKey': originalEvent[ 'shiftKey' ],
+			'metaKey': originalEvent[ 'metaKey' ],
+			'button': originalEvent[ 'button' ],
+			'buttons': originalEvent[ 'buttons' ],
+			'relatedTarget': null,
+			'region': null
+		} );
+
+	}else{
+
+		syntheticEvent = this.getDomHelper( ).getDocument( ).createEvent( 'MouseEvents' );
+		syntheticEvent.initMouseEvent(
+
+			goog.events.EventType.MOUSEDOWN,
+			true,
+			true,
+			goog.global,
+			1,
+			originalEvent[ 'screenX' ],
+			originalEvent[ 'screenY' ],
+			originalEvent[ 'clientX' ],
+			this.getInputElement( ).getBoundingClientRect( ).y,
+			originalEvent[ 'ctrlKey' ],
+			originalEvent[ 'altKey' ],
+			originalEvent[ 'shiftKey' ],
+			originalEvent[ 'metaKey' ],
+			originalEvent[ 'button' ],
+			null
+		);
+	}
+	this.getInputElement( ).dispatchEvent( syntheticEvent );
 };
 
 /**********************************************************************************************************************
@@ -193,27 +228,9 @@ zz.ui.mdl.Slider.prototype.getContainerElement = function( ){
 	return this.containerElement_;
 };
 
-
 /**
- * Setting up browser feature detection for slider.
- * @param {string} isIE
- */
-zz.ui.mdl.Slider.prototype.setisIE = function( ){//TODO: fix this. use class Environtment to differ browser IE
-
-	this.isIE_ = window.navigator.msPointerEnabled;
-};
-
-/**
- * Return browser feature detection for slider.
- * @returns {string}
- */
-zz.ui.mdl.Slider.prototype.getisIE = function( ){
-
-	return this.isIE_;
-};
-/**
- * Return getbackgroundLower property for slider.
- * @returns {string}
+ * Return {@code backgroundLower} element of slider.
+ * @returns {Element}
  */
 zz.ui.mdl.Slider.prototype.getBackgroundLower = function( ){
 
@@ -221,8 +238,8 @@ zz.ui.mdl.Slider.prototype.getBackgroundLower = function( ){
 };
 
 /**
- * Setting up getbackgroundLower property for slider.
- * @param {string}
+ * Setting up {@code backgroundLower} element of slider.
+ * @param {Element} backgroundLower
  */
 zz.ui.mdl.Slider.prototype.setBackgroundLower = function( backgroundLower ){
 
@@ -230,8 +247,8 @@ zz.ui.mdl.Slider.prototype.setBackgroundLower = function( backgroundLower ){
 };
 
 /**
- * Return getbackgroundUpper property for slider.
- * @returns {string}
+ * Return {@code backgroundUpper} element of slider.
+ * @returns {Element}
  */
 zz.ui.mdl.Slider.prototype.getBackgroundUpper = function( ){
 
@@ -239,8 +256,8 @@ zz.ui.mdl.Slider.prototype.getBackgroundUpper = function( ){
 };
 
 /**
- * Setting up getbackgroundUpper property for slider.
- * @param {string}
+ * Setting up {@code backgroundUpper} element of slider.
+ * @param {Element} backgroundUpper
  */
 zz.ui.mdl.Slider.prototype.setBackgroundUpper = function( backgroundUpper ){
 

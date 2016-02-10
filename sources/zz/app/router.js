@@ -43,14 +43,10 @@ goog.require( 'zz.events.ApplicationRouted' );
 
 /**
  * Router class.
- * @param {boolean=} opt_noFragment Set to true to hide fragment when using HTML5 history.
- * @param {string=} opt_blankPage URL to a blank page - needed if HTML5 is not available with hiding fragment.
- * @param {HTMLInputElement=} opt_input The hidden input element to be used to store the history token.
- * @param {HTMLIFrameElement=} opt_iframe The hidden iframe that will be used for pushing history state changes.
  * @constructor
  * @extends {goog.events.EventTarget}
  */
-zz.app.Router = function( opt_noFragment, opt_blankPage, opt_input, opt_iframe ){
+zz.app.Router = function( ){
 
 	goog.base( this );
 
@@ -87,7 +83,7 @@ zz.app.Router = function( opt_noFragment, opt_blankPage, opt_input, opt_iframe )
 	this.history_ = goog.history.Html5History.isSupported( ) ?
 
 		new goog.history.Html5History( ) :
-		new goog.History( !!( opt_blankPage && opt_noFragment ), opt_blankPage, opt_input, opt_iframe );
+		new goog.History( );
 
 	/******************************************************************************************************************
 	 * Setting up history object                                                                                      *
@@ -95,7 +91,7 @@ zz.app.Router = function( opt_noFragment, opt_blankPage, opt_input, opt_iframe )
 
 	if( this.history_.setUseFragment ){
 
-		this.history_.setUseFragment( !opt_noFragment );
+		this.history_.setUseFragment( true );
 	}
 	this.history_.setEnabled( true );
 
@@ -215,6 +211,7 @@ zz.app.Router.prototype.when = function( route, callback, opt_context ){
 /**
  * Fragment for default path.
  * @param {string} defaultFragment
+ * @returns {zz.app.Router}
  */
 zz.app.Router.prototype.otherwise = function( defaultFragment ){
 

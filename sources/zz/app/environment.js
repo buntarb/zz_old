@@ -63,7 +63,7 @@ goog.addSingletonGetter( zz.app.Environment );
 
 zz.app.Environment.prototype.disposeInternal = function( ){
 
-	goog.base( 'disposeInternal', this );
+	goog.base( this, 'disposeInternal' );
 };
 
 /**********************************************************************************************************************

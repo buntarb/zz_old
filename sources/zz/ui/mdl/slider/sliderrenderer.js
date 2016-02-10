@@ -32,6 +32,7 @@ goog.provide( 'zz.ui.mdl.SliderRenderer' );
  **********************************************************************************************************************/
 
 goog.require( 'goog.dom.classlist' );
+goog.require( 'zz.app.Environment' );
 goog.require( 'zz.ui.mdl.ControlRenderer' );
 
 /**********************************************************************************************************************
@@ -71,37 +72,40 @@ zz.ui.mdl.SliderRenderer.CSS_CLASS = goog.getCssName( 'mdl-slider' );
  */
 zz.ui.mdl.SliderRenderer.prototype.decorate = function( control, element ){
 
-		var container = goog.dom.createDom( goog.dom.TagName.DIV, {
+	var container = goog.dom.createDom( goog.dom.TagName.DIV, {
 
-			'class': zz.ui.mdl.Slider.CSS.SLIDER_CONTAINER
-		} );
-		// Container element
-		control.setContainerElement( container );
-		goog.dom.insertSiblingBefore( container, element );
-		goog.dom.appendChild( container, element );
+		'class': zz.app.Environment.getInstance( ).browser.isIE( ) ?
 
-		goog.dom.appendChild( container, goog.dom.createDom( goog.dom.TagName.DIV, {
+			zz.ui.mdl.Slider.CSS.IE_CONTAINER :
+			zz.ui.mdl.Slider.CSS.SLIDER_CONTAINER
+	} );
 
-			'class': zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX
-		} ) );
-		control.setBackgroundLower( goog.dom.createDom( goog.dom.TagName.DIV, {
+	// Container element
+	control.setContainerElement( container );
+	goog.dom.insertSiblingBefore( container, element );
+	goog.dom.appendChild( container, element );
+	goog.dom.appendChild( container, goog.dom.createDom( goog.dom.TagName.DIV, {
 
-			'class': zz.ui.mdl.Slider.CSS.BACKGROUND_LOWER
-		} ) );
-		goog.dom.appendChild( goog.dom.getElementByClass( zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX ),
+		'class': zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX
+	} ) );
+	control.setBackgroundLower( goog.dom.createDom( goog.dom.TagName.DIV, {
 
-			control.getBackgroundLower( ) );
+		'class': zz.ui.mdl.Slider.CSS.BACKGROUND_LOWER
+	} ) );
+	goog.dom.appendChild( goog.dom.getElementByClass( zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX ),
 
-		control.setBackgroundUpper( goog.dom.createDom( goog.dom.TagName.DIV, {
+		control.getBackgroundLower( ) );
 
-			'class': zz.ui.mdl.Slider.CSS.BACKGROUND_UPPER
-		} ) );
-		goog.dom.appendChild( goog.dom.getElementByClass( zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX ),
+	control.setBackgroundUpper( goog.dom.createDom( goog.dom.TagName.DIV, {
 
-			control.getBackgroundUpper( ) );
+		'class': zz.ui.mdl.Slider.CSS.BACKGROUND_UPPER
+	} ) );
+	goog.dom.appendChild( goog.dom.getElementByClass( zz.ui.mdl.Slider.CSS.BACKGROUND_FLEX ),
 
-		goog.dom.classlist.add( element, zz.ui.mdl.Slider.CSS.IS_UPGRADED );
-		return goog.base( this, 'decorate', control, container );
+		control.getBackgroundUpper( ) );
+
+	goog.dom.classlist.add( element, zz.ui.mdl.Slider.CSS.IS_UPGRADED );
+	return goog.base( this, 'decorate', control, container );
 };
 
 
@@ -147,8 +151,8 @@ zz.ui.mdl.SliderRenderer.prototype.getValue = function( control ){
 zz.ui.mdl.SliderRenderer.prototype.updateClasses = function( control ){
 
 	// Calculate and apply percentages to div structure behind slider.
-	var fraction = (
-		control.getInputElement( ).value - control.getInputElement( ).min ) /
+	var fraction = ( control.getInputElement( ).value - control.getInputElement( ).min ) /
+
 		( control.getInputElement( ).max - control.getInputElement( ).min );
 
 	if( fraction === 0 ) {
@@ -160,17 +164,17 @@ zz.ui.mdl.SliderRenderer.prototype.updateClasses = function( control ){
 		goog.dom.classlist.remove( control.getInputElement( ), zz.ui.mdl.Slider.CSS.IS_LOWEST_VALUE );
 
 	}
-	if( !control.getisIE_ ) {
+	if( !zz.app.Environment.getInstance( ).browser.isIE( ) ) {
 
 		goog.style.setStyle( control.getBackgroundLower( ), {
 
 			flex : fraction,
-			webkitFlex : fraction,
+			webkitFlex : fraction
 		} );
 		goog.style.setStyle( control.getBackgroundUpper( ), {
 
 			flex : 1 - fraction,
-			webkitFlex : 1 - fraction,
+			webkitFlex : 1 - fraction
 		} );
 	}
 };

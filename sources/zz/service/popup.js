@@ -66,7 +66,7 @@ goog.addSingletonGetter( zz.service.Popup );
 
 zz.service.Popup.prototype.disposeInternal = function( ){
 
-	goog.base( 'disposeInternal', this );
+	goog.base( this, 'disposeInternal' );
 	goog.events.unlisten( document, goog.events.EventType.CLICK, this.clickListener_, false, this );
 };
 
