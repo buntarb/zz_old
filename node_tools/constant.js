@@ -120,7 +120,7 @@ var TOOLS = {
 
 var TEMPLATE = {
 
-	APP:
+	APP1:
 
 		'<!DOCTYPE html>' +
 		'<html>' +
@@ -129,14 +129,15 @@ var TEMPLATE = {
 				'<meta http-equiv="X-UA-Compatible" content="IE=edge">' +
 				'<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">' +
 				'<title>' +
-					'<%TITLE%>' +
+					'[{(TITLE)}]' +
 				'</title>' +
-				'<style>' +
-					'<%STYLE%>' +
-				'</style>' +
-				'<script>' +
-					'<%SCRIPT%>' +
-				'</script>' +
+				'<style>\n' +
+					'[{(STYLE)}]' +
+				'</style>\n' +
+				'<script>\n',
+
+	APP2:
+				'\n</script>\n' +
 			'</head>' +
 			'<body>' +
 				'<div id="root"></div>' +
@@ -155,10 +156,10 @@ var TEMPLATE = {
 				'<meta http-equiv="X-UA-Compatible" content="IE=edge">' +
 				'<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">' +
 				'<title>' +
-					'<%TITLE%>' +
+					'[{(TITLE)}]' +
 				'</title>' +
 				'<style>' +
-					'<%STYLE%>' +
+					'[{(STYLE)}]' +
 				'</style>' +
 				'<script src="' + PATH.APPLICATION + '/' + FILE.APP_JS + '"></script>' +
 			'</head>' +
@@ -179,13 +180,13 @@ var TEMPLATE = {
 				'<meta http-equiv="X-UA-Compatible" content="IE=edge">' +
 				'<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">' +
 				'<title>' +
-					'<%TITLE%>' +
+					'[{(TITLE)}]' +
 				'</title>' +
 				'<style>' +
-					'<%STYLE_1%>' +
+					'[{(STYLE_1)}]' +
 				'</style>' +
 				'<style>' +
-					'<%STYLE_2%>' +
+					'[{(STYLE_2)}]' +
 				'</style>' +
 				'<script src="' + PATH.GOOG.ROOT + '/closure/goog/base.js"></script>' +
 				'<script>goog.require("goog.soy");</script>' +

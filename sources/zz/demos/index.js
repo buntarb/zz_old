@@ -76,8 +76,8 @@ zz.demos.app.run = function( ){
 
 //	Model
 
-	var users = goog.global.users = new zz.module.user.model.Users( );
-	var user = goog.global.user = users.createFirst( );
+//	var users = goog.global.users = new zz.module.user.model.Users( );
+//	var user = goog.global.user = users.createFirst( );
 
 //	Navigation
 
@@ -240,66 +240,68 @@ zz.demos.app.run = function( ){
 
 // Menu
 
-	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.menu.default );
-
-	var menu = goog.global.menu = goog.ui.decorate( goog.dom.getElement( '1' ) );
-	var btn = goog.ui.decorate( goog.dom.getElement( 'demo-menu-lower-left' ) );
-	var item = new zz.ui.mdl.MenuItem( 'Added menu item' );
-
-	goog.events.listen( btn, goog.ui.Component.EventType.ACTION, function( ){
-
-		menu.toggle( );
-	} );
-
-	goog.events.listen( menu, goog.ui.Component.EventType.ACTION, function( evt ){
-
-		if( evt.target.getId( ) === 'add' ){
-
-			menu.addMenuItem( item, 4 );
-		}
-		if( evt.target.getId( ) === 'remove' ){
-
-			menu.removeMenuItem( item );
-		}
-	} );
+//	soy.renderElement( goog.dom.getElement( 'root' ), zz.template.ui.menu.default );
+//
+//	var menu = goog.global.menu = goog.ui.decorate( goog.dom.getElement( '1' ) );
+//	var btn = goog.ui.decorate( goog.dom.getElement( 'demo-menu-lower-left' ) );
+//	var item = new zz.ui.mdl.MenuItem( 'Added menu item' );
+//
+//	goog.events.listen( btn, goog.ui.Component.EventType.ACTION, function( ){
+//
+//		menu.toggle( );
+//	} );
+//
+//	goog.events.listen( menu, goog.ui.Component.EventType.ACTION, function( evt ){
+//
+//		if( evt.target.getId( ) === 'add' ){
+//
+//			menu.addMenuItem( item, 4 );
+//		}
+//		if( evt.target.getId( ) === 'remove' ){
+//
+//			menu.removeMenuItem( item );
+//		}
+//	} );
 
 //	Run user module
 
-//	var router = goog.global.router = zz.app.Router.getInstance( );
-//	router
-//
-//		.when( '', function( ){
-//
-//			var usersView = new zz.module.user.view.Users( );
-//			usersView.render( goog.dom.getElement( 'root' ) );
-//		} )
-//		.when( '/', function( ){
-//
-//			var usersView = new zz.module.user.view.Users( );
-//			usersView.render( goog.dom.getElement( 'root' ) );
-//		} )
-//		.when( '/user', function( ){
-//
-//			var usersView = new zz.module.user.view.Users( );
-//				usersView.render( goog.dom.getElement( 'root' ) );
-//		} )
-//		.when( '/user/:id', function( ){
-//
-//			var usersView = new zz.module.user.view.Users( );
-//				usersView.render( goog.dom.getElement( 'root' ) );
-//		} )
-//		.when( '/teat/path', function( ){
-//
-//			var usersView = new zz.module.user.view.Users( );
-//			usersView.render( goog.dom.getElement( 'root' ) );
-//		} )
-//		.when( '/error', function( ){
-//
-//			var usersView = new zz.module.user.view.Users( );
-//			usersView.render( goog.dom.getElement( 'root' ) );
-//		} )
-//		.otherwise( '/error' )
-//		.bootstrap( );
+	var usersView;
+	var router = zz.app.Router.getInstance( );
+	console.log( router );
+	router
+
+		.when( '', function( ){
+
+			usersView = new zz.module.user.view.Users( );
+			usersView.render( goog.dom.getElement( 'root' ) );
+		} )
+		.when( '/', function( ){
+
+			usersView = new zz.module.user.view.Users( );
+			usersView.render( goog.dom.getElement( 'root' ) );
+		} )
+		.when( '/user', function( ){
+
+			usersView = new zz.module.user.view.Users( );
+			usersView.render( goog.dom.getElement( 'root' ) );
+		} )
+		.when( '/user/:id', function( ){
+
+			usersView = new zz.module.user.view.Users( );
+			usersView.render( goog.dom.getElement( 'root' ) );
+		} )
+		.when( '/teat/path', function( ){
+
+			usersView = new zz.module.user.view.Users( );
+			usersView.render( goog.dom.getElement( 'root' ) );
+		} )
+		.when( '/error', function( ){
+
+			usersView = new zz.module.user.view.Users( );
+			usersView.render( goog.dom.getElement( 'root' ) );
+		} )
+		.otherwise( '/error' )
+		.bootstrap( );
 };
 
 /**********************************************************************************************************************

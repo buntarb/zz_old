@@ -49,12 +49,12 @@ function getAppServer( ){
 		filetools.getFileNameNoExt( CONST.FILE.ROOT_SCSS ) + '.css' );
 
 	var script = filetools.openFile( filetools.getAbsPath( CONST.PATH.APPLICATION + '/' + CONST.FILE.APP_JS ) );
-	var tpl = CONST.TEMPLATE.APP;
+	var tpl1 = CONST.TEMPLATE.APP1;
 
 	// Template updating.
-	tpl = tpl.replace( '<%TITLE%>', CONST.DEFAULTS.TITLE );
-	tpl = tpl.replace( '<%STYLE%>', '\n' + css + '\n' );
-	tpl = tpl.replace( '<%SCRIPT%>', '\n' + script + '\n' );
+	tpl1 = tpl1.replace( '[{(TITLE)}]', CONST.DEFAULTS.TITLE );
+	tpl1 = tpl1.replace( '[{(STYLE)}]', + '' + css + '\n' );
+	var tpl = tpl1 + script + CONST.TEMPLATE.APP2;
 
 	// routes
 	app.get( '/', function( req, res ){
@@ -79,8 +79,8 @@ function getTstServer( ){
 	var tpl = CONST.TEMPLATE.TST;
 
 	// Template updating.
-	tpl = tpl.replace( '<%TITLE%>', CONST.DEFAULTS.TITLE );
-	tpl = tpl.replace( '<%STYLE%>', '\n' + css + '\n' );
+	tpl = tpl.replace( '[{(TITLE)}]', CONST.DEFAULTS.TITLE );
+	tpl = tpl.replace( '[{(STYLE)}]', '\n' + css + '\n' );
 
 	// routes
 	app.get( '/', function( req, res ){
@@ -110,9 +110,9 @@ function getDevServer( ){
 	var tpl = CONST.TEMPLATE.DEV;
 
 	// Template updating.
-	tpl = tpl.replace( '<%TITLE%>', CONST.DEFAULTS.TITLE );
-	tpl = tpl.replace( '<%STYLE_1%>', '\n' + css1 + '\n' );
-	tpl = tpl.replace( '<%STYLE_2%>', '\n' + css2 + '\n' );
+	tpl = tpl.replace( '[{(TITLE)}]', CONST.DEFAULTS.TITLE );
+	tpl = tpl.replace( '[{(STYLE_1)}]', '\n' + css1 + '\n' );
+	tpl = tpl.replace( '[{(STYLE_2)}]', '\n' + css2 + '\n' );
 
 	// routes
 	app.get( '/', function( req, res ){

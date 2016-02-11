@@ -33,7 +33,6 @@ goog.provide( 'zz.module.user.view.Phone' );
 
 goog.require( 'goog.dom' );
 goog.require( 'zz.mvc.view.BaseView' );
-//goog.require( 'zz.ui.LabelInput' );
 goog.require( 'zz.ui.formatter.Decimal' );
 goog.require( 'zz.module.user.controller.Users' );
 
