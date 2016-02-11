@@ -49,7 +49,7 @@ goog.require( 'zz.ui.mdl.MenuItem' );
 /**
  * @param {goog.ui.ControlRenderer=} opt_renderer Renderer used to render or decorate the button.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper, used for document interaction.
- * @extends {zz.ui.mdl.Control}
+ * @extends {goog.ui.Menu}
  * @constructor
  */
 zz.ui.mdl.Menu = function( opt_renderer, opt_domHelper ){

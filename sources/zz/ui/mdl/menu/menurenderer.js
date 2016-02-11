@@ -35,7 +35,6 @@ goog.require( 'goog.array' );
 goog.require( 'goog.style' );
 goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.ui.MenuRenderer' );
-goog.require( 'zz.ui.mdl.ControlRenderer' );
 
 /**********************************************************************************************************************
  * Renderer definition section                                                                                        *
@@ -44,7 +43,7 @@ goog.require( 'zz.ui.mdl.ControlRenderer' );
 /**
  * Default renderer for {@link zz.ui.mdl.Menu}s. Extends the superclass to support Menues states.
  * @constructor
- * @extends {zz.ui.mdl.ControlRenderer}
+ * @extends {goog.ui.MenuRenderer}
  */
 zz.ui.mdl.MenuRenderer = function( ){
 
