@@ -69,14 +69,9 @@ zz.ui.mdl.MenuItemRenderer.CSS_CLASS = goog.getCssName( 'mdl-menu__item' );
  */
 zz.ui.mdl.MenuItemRenderer.prototype.createDom = function( control ){
 
-	var element= control.getDomHelper( ).createDom(
-
-		goog.dom.TagName.LI, {
-
-			class: zz.ui.mdl.MenuItemRenderer.CSS_CLASS + ' ' + zz.ui.mdl.MenuItem.CSS.RIPPLE_EFFECT
-		},
-		control.getContent( )
-	);
+	var element= control.getDomHelper( ).createDom( goog.dom.TagName.LI, { }, control.getContent( ) );
+	goog.dom.classlist.add( element, zz.ui.mdl.MenuItemRenderer.CSS_CLASS );
+	goog.dom.classlist.add( element, zz.ui.mdl.MenuItem.CSS.RIPPLE_EFFECT );
 	goog.dom.appendChild( element, control.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
 
 		'class': zz.ui.mdl.MenuItem.CSS.RIPPLE_CONTAINER
