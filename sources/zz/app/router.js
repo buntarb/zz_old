@@ -38,7 +38,7 @@ goog.require( 'goog.events.EventTarget');
 goog.require( 'goog.History' );
 goog.require( 'goog.history.Html5History' );
 goog.require( 'goog.history.EventType' );
-//goog.require( 'zz.events.ApplicationRouted' );
+goog.require( 'zz.events.ApplicationRouted' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -52,6 +52,16 @@ goog.require( 'goog.history.EventType' );
 zz.app.Router = function( ){
 
 	goog.base( this );
+
+	/******************************************************************************************************************
+	 * Public properties                                                                                              *
+	 ******************************************************************************************************************/
+
+	/**
+	 * Current route parameters.
+	 * @type {Object}
+	 */
+	this.params = { };
 
 	/******************************************************************************************************************
 	 * Private properties                                                                                             *
@@ -119,7 +129,7 @@ goog.inherits( zz.app.Router, goog.events.EventTarget );
 goog.addSingletonGetter( zz.app.Router );
 
 /**********************************************************************************************************************
- * Prototype methods section                                                                                          *
+ * Prototype private methods section                                                                                  *
  **********************************************************************************************************************/
 
 /**
@@ -131,9 +141,19 @@ goog.addSingletonGetter( zz.app.Router );
  */
 zz.app.Router.prototype.runRouteIfMatches_ = function( route, fragment ){
 
+	this.params = { };
+
 	var args = route.route.exec( fragment );
 	if( args ){
 
+		if( route.params ){
+
+			goog.array.forEach( route.params, function( param, index ){
+
+				this.params[ param ] = args[ index + 1 ];
+
+			}, this );
+		}
 		route.callback.apply( route.context, args );
 		return true;
 	}
@@ -147,9 +167,9 @@ zz.app.Router.prototype.runRouteIfMatches_ = function( route, fragment ){
 zz.app.Router.prototype.onChange_ = function( ){
 
 	var fragment = this.history_.getToken( );
-	if( fragment != this.currentFragment_ ){
+	if( fragment !== this.currentFragment_ ){
 
-//		this.dispatchEvent( new zz.events.ApplicationRouted( this.currentFragment_, fragment ) );
+		this.dispatchEvent( new zz.events.ApplicationRouted( this.currentFragment_, fragment ) );
 		this.currentFragment_ = fragment;
 		var isRouted = goog.array.find( this.routes_, function( route ){
 
@@ -162,6 +182,10 @@ zz.app.Router.prototype.onChange_ = function( ){
 		}
 	}
 };
+
+/**********************************************************************************************************************
+ * Prototype public methods section                                                                                   *
+ **********************************************************************************************************************/
 
 /**
  * Pass through the fragment for the URL.
@@ -190,9 +214,9 @@ zz.app.Router.prototype.getFragment = function( ){
  */
 zz.app.Router.prototype.when = function( route, callback, opt_context ){
 
-	if( goog.isString( route ) )
+	if( goog.isString( route ) ){
 
-		route = new RegExp( '^' + goog.string.regExpEscape( route )
+		var parsed = new RegExp( '^' + goog.string.regExpEscape( route )
 
 			.replace( /\\:\w+/g, '([a-zA-Z0-9._-]+)' )
 			.replace( /\\\*/g, '(.*)' )
@@ -201,12 +225,23 @@ zz.app.Router.prototype.when = function( route, callback, opt_context ){
 			.replace( /\\\{/g, '(?:' )
 			.replace( /\\\}/g, ')?' ) + '$' );
 
+		var paramsNames = route.match(/\:\w+/ig);
+	}
 	var completeRoute = {
 
-		route: route,
-		callback: callback,
-		context: opt_context
+		route: parsed,
+		params: false,
+		context: opt_context,
+		callback: callback
 	};
+	if( paramsNames ){
+
+		completeRoute.params = [ ];
+		goog.array.forEach( paramsNames, function( name ){
+
+			completeRoute.params.push( name.replace( ':', '' ) );
+		} );
+	}
 	this.routes_.push( completeRoute );
 	return this;
 };

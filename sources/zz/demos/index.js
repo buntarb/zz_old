@@ -266,8 +266,7 @@ zz.demos.app.run = function( ){
 //	Run user module
 
 	var usersView;
-	var router = zz.app.Router.getInstance( );
-	console.log( router );
+	var router = goog.global.router = zz.app.Router.getInstance( );
 	router
 
 		.when( '', function( ){
@@ -289,8 +288,16 @@ zz.demos.app.run = function( ){
 
 			usersView = new zz.module.user.view.Users( );
 			usersView.render( goog.dom.getElement( 'root' ) );
+			console.log( router.params.id );
 		} )
-		.when( '/teat/path', function( ){
+		.when( '/user/:id/phone/:phone', function( ){
+
+			usersView = new zz.module.user.view.Users( );
+			usersView.render( goog.dom.getElement( 'root' ) );
+			console.log( router.params.id );
+			console.log( router.params.phone );
+		} )
+		.when( '/test/path', function( ){
 
 			usersView = new zz.module.user.view.Users( );
 			usersView.render( goog.dom.getElement( 'root' ) );
