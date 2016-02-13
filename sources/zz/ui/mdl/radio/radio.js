@@ -64,6 +64,8 @@ zz.ui.mdl.Radio = function( opt_content, opt_renderer, opt_domHelper, opt_format
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
 	this.setSupportedState( goog.ui.Component.State.CHECKED, true );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
+	this.setDispatchTransitionEvents( goog.ui.Component.State.CHECKED, true );
+	this.setDispatchTransitionEvents( goog.ui.Component.State.DISABLED, true );
 };
 goog.inherits( zz.ui.mdl.Radio, zz.ui.mdl.Control );
 goog.tagUnsealableClass( zz.ui.mdl.Radio );

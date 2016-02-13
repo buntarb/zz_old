@@ -3,7 +3,7 @@ goog.addDependency("../../../../../sources/zz/deps.js", [], []);
 goog.addDependency("../../../../../sources/zz/base.js", ['zz'], ['zz._polyfill.animationframe', 'zz._stylesheet.remap', 'zz.demos.app']);
 goog.addDependency("../../../../../sources/zz/app/environment.js", ['zz.app.Environment'], ['goog.events', 'goog.labs.userAgent.browser', 'goog.labs.userAgent.device', 'goog.labs.userAgent.engine', 'goog.labs.userAgent.platform']);
 goog.addDependency("../../../../../sources/zz/app/eventtype.js", ['zz.app.EventType'], ['goog.events']);
-goog.addDependency("../../../../../sources/zz/app/router.js", ['zz.app.Router'], ['goog.string', 'goog.array', 'goog.events', 'goog.events.EventTarget', 'goog.History', 'goog.history.Html5History', 'goog.history.EventType']);
+goog.addDependency("../../../../../sources/zz/app/router.js", ['zz.app.Router'], ['goog.string', 'goog.array', 'goog.events', 'goog.events.EventTarget', 'goog.History', 'goog.history.Html5History', 'goog.history.EventType', 'zz.events.ApplicationRouted']);
 goog.addDependency("../../../../../sources/zz/mvc/view/error.js", ['zz.mvc.view.Error'], []);
 goog.addDependency("../../../../../sources/zz/mvc/view/baseview.js", ['zz.mvc.view.BaseView'], ['goog.dom', 'goog.json', 'goog.ui.Component', 'goog.format.JsonPrettyPrinter', 'goog.format.JsonPrettyPrinter.TextDelimiters', 'zz.mvc.model.Message', 'zz.mvc.model.EventType', 'zz.mvc.controller.BaseController']);
 goog.addDependency("../../../../../sources/zz/mvc/controller/basecontroller.js", ['zz.mvc.controller.BaseController'], []);

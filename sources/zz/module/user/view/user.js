@@ -120,7 +120,7 @@ zz.module.user.view.User.prototype.enterDocument = function( ){
 
 	/**
 	 * Control for user first name.
-	 * @type {zz.ui.LabelInput}
+	 * @type {zz.ui.mdl.TextField}
 	 * @private
 	 */
 	this.firstNameElement_ = goog.ui.decorate(
@@ -135,7 +135,7 @@ zz.module.user.view.User.prototype.enterDocument = function( ){
 
 	/**
 	 * Control for user last name.
-	 * @type {zz.ui.LabelInput}
+	 * @type {zz.ui.mdl.TextField}
 	 * @private
 	 */
 	this.lastNameElement_ = goog.ui.decorate(
@@ -150,7 +150,7 @@ zz.module.user.view.User.prototype.enterDocument = function( ){
 
 	/**
 	 * Control for user login.
-	 * @type {zz.ui.LabelInput}
+	 * @type {zz.ui.mdl.TextField}
 	 * @private
 	 */
 	this.loginElement_ = goog.ui.decorate(
@@ -165,7 +165,7 @@ zz.module.user.view.User.prototype.enterDocument = function( ){
 
 	/**
 	 * Control for user password.
-	 * @type {zz.ui.LabelInput}
+	 * @type {zz.ui.mdl.TextField}
 	 * @private
 	 */
 	this.passwordElement_ = goog.ui.decorate(
@@ -180,7 +180,7 @@ zz.module.user.view.User.prototype.enterDocument = function( ){
 
 	/**
 	 * Control for userVerifiedFlag.
-	 * @type {zz.ui.Checkbox}
+	 * @type {zz.ui.mdl.Checkbox}
 	 * @private
 	 */
 	this.verifiedElement_ = goog.ui.decorate(
@@ -232,16 +232,6 @@ zz.module.user.view.User.prototype.enterDocument = function( ){
 		model.dataset.datafield.userVerifiedFlag
 	);
 
-//	/**
-//	 * Phones view.
-//	 * @type {zz.module.user.view.Phones}
-//	 * @private
-//	 */
-//	this.phonesView_ = new zz.module.user.view.Phones( );
-
-	// Setting up views models.
-//	this.phonesView_.setModel( model.datarow.userPhones );
-
 	// Inserting controls.
 
 	this.addChild( this.userIdElement_ );
@@ -250,6 +240,18 @@ zz.module.user.view.User.prototype.enterDocument = function( ){
 	this.addChild( this.loginElement_ );
 	this.addChild( this.passwordElement_ );
 	this.addChild( this.verifiedElement_ );
+
+	this.getHandler( ).listenWithScope(
+
+		this,
+		goog.ui.Component.EventType.CHECK,
+		function( e ){
+
+			console.log( e );
+		},
+		false,
+		this
+	);
 };
 
 /**

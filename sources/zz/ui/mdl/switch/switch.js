@@ -52,10 +52,17 @@ goog.require( 'zz.ui.mdl.Ripple' );
  */
 zz.ui.mdl.Switch = function( opt_content, opt_renderer, opt_domHelper ){
 
-	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.SwitchRenderer.getInstance( ), opt_domHelper );
+	zz.ui.mdl.Control.call(
+
+		this, opt_content,
+		opt_renderer || zz.ui.mdl.SwitchRenderer.getInstance( ),
+		opt_domHelper );
+
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
 	this.setSupportedState( goog.ui.Component.State.CHECKED, true );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
+	this.setDispatchTransitionEvents( goog.ui.Component.State.CHECKED, true );
+	this.setDispatchTransitionEvents( goog.ui.Component.State.DISABLED, true );
 };
 goog.inherits( zz.ui.mdl.Switch, zz.ui.mdl.Control );
 goog.tagUnsealableClass( zz.ui.mdl.Switch );

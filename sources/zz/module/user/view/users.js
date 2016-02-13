@@ -150,6 +150,15 @@ zz.module.user.view.Users.prototype.enterDocument = function( ){
 		false,
 		this
 	);
+
+	this.getHandler( ).listenWithScope(
+
+		this,
+		goog.ui.Component.EventType.CHANGE,
+		function( ){ console.log( '!' ); },
+		false,
+		this
+	);
 };
 
 /**

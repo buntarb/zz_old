@@ -57,6 +57,8 @@ zz.ui.mdl.IconToggle = function( opt_content, opt_renderer, opt_domHelper ){
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
 	this.setSupportedState( goog.ui.Component.State.CHECKED, true );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
+	this.setDispatchTransitionEvents( goog.ui.Component.State.CHECKED, true );
+	this.setDispatchTransitionEvents( goog.ui.Component.State.DISABLED, true );
 };
 goog.inherits( zz.ui.mdl.IconToggle, zz.ui.mdl.Control );
 goog.tagUnsealableClass( zz.ui.mdl.IconToggle );

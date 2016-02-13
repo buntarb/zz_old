@@ -288,14 +288,11 @@ zz.demos.app.run = function( ){
 
 			usersView = new zz.module.user.view.Users( );
 			usersView.render( goog.dom.getElement( 'root' ) );
-			console.log( router.params.id );
 		} )
 		.when( '/user/:id/phone/:phone', function( ){
 
 			usersView = new zz.module.user.view.Users( );
 			usersView.render( goog.dom.getElement( 'root' ) );
-			console.log( router.params.id );
-			console.log( router.params.phone );
 		} )
 		.when( '/test/path', function( ){
 
