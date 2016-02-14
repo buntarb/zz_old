@@ -245,6 +245,7 @@ zz.module.user.view.User.prototype.enterDocument = function( ){
 
 		this.verifiedElement_,
 		[
+			goog.ui.Component.EventType.CHANGE,
 			goog.ui.Component.EventType.CHECK,
 			goog.ui.Component.EventType.UNCHECK,
 			goog.ui.Component.EventType.FOCUS,

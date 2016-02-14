@@ -124,8 +124,7 @@ zz.ui.mdl.IconToggle.prototype.enterDocument = function( ){
 		goog.events.EventType.FOCUS,
 		this.focusIconToggleListener_,
 		false,
-		this
-	);
+		this );
 
 	this.getHandler( ).listenWithScope(
 
@@ -133,8 +132,7 @@ zz.ui.mdl.IconToggle.prototype.enterDocument = function( ){
 		goog.events.EventType.BLUR,
 		this.blurIconToggleListener_,
 		false,
-		this
-	);
+		this );
 
 	this.getHandler( ).listenWithScope(
 
@@ -142,8 +140,15 @@ zz.ui.mdl.IconToggle.prototype.enterDocument = function( ){
 		goog.events.EventType.MOUSEUP,
 		this.blurListener_,
 		false,
-		this
-	);
+		this );
+
+	this.getHandler( ).listenWithScope(
+
+		this.getInputElement( ),
+		goog.events.EventType.CHANGE,
+		this.changeListener_,
+		false,
+		this );
 
 	// Ripple effect.
 	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.IconToggle.CSS.RIPPLE_EFFECT ) ){
@@ -216,6 +221,15 @@ zz.ui.mdl.IconToggle.prototype.blurIconToggleListener_ = function( ){
 		goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.IconToggle.CSS.IS_FOCUSED );
 
 	this.dispatchEvent( goog.ui.Component.getStateTransitionEvent( goog.ui.Component.State.FOCUSED, true ) );
+};
+
+/**
+ * Listener for element change event.
+ * @private
+ */
+zz.ui.mdl.IconToggle.prototype.changeListener_ = function( ){
+
+	this.dispatchEvent( goog.ui.Component.EventType.CHANGE );
 };
 
 /**********************************************************************************************************************
