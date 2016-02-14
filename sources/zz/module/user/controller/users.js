@@ -74,15 +74,6 @@ zz.module.user.controller.Users.prototype.addUser = function( ){
 };
 
 /**
- * @this {zz.module.user.view.Users}
- */
-zz.module.user.controller.Users.prototype.goToUser = function( ){
-
-	var router = zz.app.Router.getInstance( );
-	router.setFragment( '/user/1' );
-};
-
-/**
  * @this {zz.module.user.view.User}
  */
 zz.module.user.controller.Users.prototype.addPhone = function( ){

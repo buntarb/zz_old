@@ -145,8 +145,17 @@ zz.module.user.view.Users.prototype.enterDocument = function( ){
 	this.getHandler( ).listenWithScope(
 
 		this.remUserButton_,
-		goog.ui.Component.EventType.ACTION,
-		this.controller_.goToUser,
+		[
+			goog.ui.Component.EventType.ACTION,
+			goog.ui.Component.EventType.FOCUS,
+			goog.ui.Component.EventType.BLUR,
+			goog.ui.Component.EventType.DISABLE,
+			goog.ui.Component.EventType.ENABLE
+		],
+		function( evt ){
+
+			console.log( evt );
+		},
 		false,
 		this
 	);

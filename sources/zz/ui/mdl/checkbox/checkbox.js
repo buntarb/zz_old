@@ -52,7 +52,13 @@ goog.require( 'zz.ui.mdl.Ripple' );
  */
 zz.ui.mdl.Checkbox = function( opt_content, opt_renderer, opt_domHelper ){
 
-	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.CheckboxRenderer.getInstance( ), opt_domHelper );
+	zz.ui.mdl.Control.call(
+
+		this,
+		opt_content,
+		opt_renderer || zz.ui.mdl.CheckboxRenderer.getInstance( ),
+		opt_domHelper );
+
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
 	this.setSupportedState( goog.ui.Component.State.FOCUSED, true );
 	this.setSupportedState( goog.ui.Component.State.CHECKED, true );
