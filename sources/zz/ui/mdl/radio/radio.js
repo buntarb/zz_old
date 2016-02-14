@@ -62,8 +62,10 @@ zz.ui.mdl.Radio = function( opt_content, opt_renderer, opt_domHelper, opt_format
 		opt_formatter );
 
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
+	this.setSupportedState( goog.ui.Component.State.FOCUSED, true );
 	this.setSupportedState( goog.ui.Component.State.CHECKED, true );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
+	this.setDispatchTransitionEvents( goog.ui.Component.State.FOCUSED, true );
 	this.setDispatchTransitionEvents( goog.ui.Component.State.CHECKED, true );
 	this.setDispatchTransitionEvents( goog.ui.Component.State.DISABLED, true );
 };
@@ -119,6 +121,24 @@ zz.ui.mdl.Radio.prototype.enterDocument = function( ){
 
 	this.getHandler( ).listenWithScope(
 
+		this.getInputElement( ),
+		goog.events.EventType.FOCUS,
+		this.focusRadioListener_,
+		false,
+		this
+	);
+
+	this.getHandler( ).listenWithScope(
+
+		this.getInputElement( ),
+		goog.events.EventType.BLUR,
+		this.blurRadioListener_,
+		false,
+		this
+	);
+
+	this.getHandler( ).listenWithScope(
+
 		this.getElement( ),
 		goog.events.EventType.MOUSEUP,
 		this.blurListener_,
@@ -138,24 +158,6 @@ zz.ui.mdl.Radio.prototype.enterDocument = function( ){
 				zz.ui.mdl.Radio.CSS.RIPPLE_CONTAINER,
 				this.getElement( ) ) );
 
-	}else{
-
-		this.getHandler( ).listenWithScope(
-
-			this.getInputElement( ),
-			goog.events.EventType.FOCUS,
-			this.focusRadioListener_,
-			false,
-			this
-		);
-		this.getHandler( ).listenWithScope(
-
-			this.getInputElement( ),
-			goog.events.EventType.BLUR,
-			this.blurRadioListener_,
-			false,
-			this
-		);
 	}
 };
 
@@ -174,6 +176,19 @@ zz.ui.mdl.Radio.prototype.disposeInternal = function( ){
  **********************************************************************************************************************/
 
 /**
+ * Listener for Radio element focus event.
+ * @private
+ */
+zz.ui.mdl.Radio.prototype.focusRadioListener_ = function( ){
+
+	if( !goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Radio.CSS.RIPPLE_EFFECT ) )
+
+		goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Radio.CSS.IS_FOCUSED );
+
+	this.dispatchEvent( goog.ui.Component.getStateTransitionEvent( goog.ui.Component.State.FOCUSED, true ) );
+};
+
+/**
  * Listener for element blur event.
  * @this {zz.ui.mdl.Radio}
  * @private
@@ -182,19 +197,9 @@ zz.ui.mdl.Radio.prototype.blurListener_ = function( ){
 
 	goog.Timer.callOnce( /** @this {zz.ui.mdl.Radio} */ function( ){
 
-		//noinspection JSPotentiallyInvalidUsageOfThis
 		this.getInputElement( ).blur( );
 
 	}, zz.ui.mdl.Radio.CONST.TINY_TIMEOUT, this );
-};
-
-/**
- * Listener for Radio element focus event.
- * @private
- */
-zz.ui.mdl.Radio.prototype.focusRadioListener_ = function( ){
-
-	goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Radio.CSS.IS_FOCUSED );
 };
 
 /**
@@ -203,7 +208,11 @@ zz.ui.mdl.Radio.prototype.focusRadioListener_ = function( ){
  */
 zz.ui.mdl.Radio.prototype.blurRadioListener_ = function( ){
 
-	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Radio.CSS.IS_FOCUSED );
+	if( !goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Radio.CSS.RIPPLE_EFFECT ) )
+
+		goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Radio.CSS.IS_FOCUSED );
+
+	this.dispatchEvent( goog.ui.Component.getStateTransitionEvent( goog.ui.Component.State.FOCUSED, false ) );
 };
 
 /**********************************************************************************************************************

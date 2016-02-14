@@ -243,8 +243,15 @@ zz.module.user.view.User.prototype.enterDocument = function( ){
 
 	this.getHandler( ).listenWithScope(
 
-		this,
-		goog.ui.Component.EventType.CHECK,
+		this.verifiedElement_,
+		[
+			goog.ui.Component.EventType.CHECK,
+			goog.ui.Component.EventType.UNCHECK,
+			goog.ui.Component.EventType.FOCUS,
+			goog.ui.Component.EventType.BLUR,
+			goog.ui.Component.EventType.DISABLE,
+			goog.ui.Component.EventType.ENABLE
+		],
 		function( e ){
 
 			console.log( e );

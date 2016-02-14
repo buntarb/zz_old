@@ -55,8 +55,10 @@ zz.ui.mdl.IconToggle = function( opt_content, opt_renderer, opt_domHelper ){
 	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.IconToggleRenderer.getInstance( ), opt_domHelper );
 
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
+	this.setSupportedState( goog.ui.Component.State.FOCUSED, true );
 	this.setSupportedState( goog.ui.Component.State.CHECKED, true );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
+	this.setDispatchTransitionEvents( goog.ui.Component.State.FOCUSED, true );
 	this.setDispatchTransitionEvents( goog.ui.Component.State.CHECKED, true );
 	this.setDispatchTransitionEvents( goog.ui.Component.State.DISABLED, true );
 };
@@ -113,6 +115,24 @@ zz.ui.mdl.IconToggle.prototype.enterDocument = function( ){
 
 	this.getHandler( ).listenWithScope(
 
+		this.getInputElement( ),
+		goog.events.EventType.FOCUS,
+		this.focusIconToggleListener_,
+		false,
+		this
+	);
+
+	this.getHandler( ).listenWithScope(
+
+		this.getInputElement( ),
+		goog.events.EventType.BLUR,
+		this.blurIconToggleListener_,
+		false,
+		this
+	);
+
+	this.getHandler( ).listenWithScope(
+
 		this.getElement( ),
 		goog.events.EventType.MOUSEUP,
 		this.blurListener_,
@@ -132,24 +152,6 @@ zz.ui.mdl.IconToggle.prototype.enterDocument = function( ){
 				zz.ui.mdl.IconToggle.CSS.RIPPLE_CONTAINER,
 				this.getElement( ) ) );
 
-	}else{
-
-		this.getHandler( ).listenWithScope(
-
-			this.getInputElement( ),
-			goog.events.EventType.FOCUS,
-			this.focusIconToggleListener_,
-			false,
-			this
-		);
-		this.getHandler( ).listenWithScope(
-
-			this.getInputElement( ),
-			goog.events.EventType.BLUR,
-			this.blurIconToggleListener_,
-			false,
-			this
-		);
 	}
 };
 
@@ -172,6 +174,19 @@ zz.ui.mdl.IconToggle.prototype.disposeInternal = function( ){
  **********************************************************************************************************************/
 
 /**
+ * Listener for IconToggle element focus event.
+ * @private
+ */
+zz.ui.mdl.IconToggle.prototype.focusIconToggleListener_ = function( ){
+
+	if( !goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.IconToggle.CSS.RIPPLE_EFFECT ) )
+
+		goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.IconToggle.CSS.IS_FOCUSED );
+
+	this.dispatchEvent( goog.ui.Component.getStateTransitionEvent( goog.ui.Component.State.FOCUSED, true ) );
+};
+
+/**
  * Listener for element blur event.
  * @this {zz.ui.mdl.IconToggle}
  * @private
@@ -180,19 +195,9 @@ zz.ui.mdl.IconToggle.prototype.blurListener_ = function( ){
 
 	goog.Timer.callOnce( /** @this {zz.ui.mdl.IconToggle} */ function( ){
 
-		//noinspection JSPotentiallyInvalidUsageOfThis
 		this.getInputElement( ).blur( );
 
 	}, zz.ui.mdl.IconToggle.CONST.TINY_TIMEOUT, this );
-};
-
-/**
- * Listener for IconToggle element focus event.
- * @private
- */
-zz.ui.mdl.IconToggle.prototype.focusIconToggleListener_ = function( ){
-
-	goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.IconToggle.CSS.IS_FOCUSED );
 };
 
 /**
@@ -201,7 +206,11 @@ zz.ui.mdl.IconToggle.prototype.focusIconToggleListener_ = function( ){
  */
 zz.ui.mdl.IconToggle.prototype.blurIconToggleListener_ = function( ){
 
-	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.IconToggle.CSS.IS_FOCUSED );
+	if( !goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.IconToggle.CSS.RIPPLE_EFFECT ) )
+
+		goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.IconToggle.CSS.IS_FOCUSED );
+
+	this.dispatchEvent( goog.ui.Component.getStateTransitionEvent( goog.ui.Component.State.FOCUSED, true ) );
 };
 
 /**********************************************************************************************************************

@@ -54,8 +54,10 @@ zz.ui.mdl.Checkbox = function( opt_content, opt_renderer, opt_domHelper ){
 
 	zz.ui.mdl.Control.call( this, opt_content, opt_renderer || zz.ui.mdl.CheckboxRenderer.getInstance( ), opt_domHelper );
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
+	this.setSupportedState( goog.ui.Component.State.FOCUSED, true );
 	this.setSupportedState( goog.ui.Component.State.CHECKED, true );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
+	this.setDispatchTransitionEvents( goog.ui.Component.State.FOCUSED, true );
 	this.setDispatchTransitionEvents( goog.ui.Component.State.CHECKED, true );
 	this.setDispatchTransitionEvents( goog.ui.Component.State.DISABLED, true );
 };
@@ -113,6 +115,24 @@ zz.ui.mdl.Checkbox.prototype.enterDocument = function( ){
 
 	this.getHandler( ).listenWithScope(
 
+		this.getInputElement( ),
+		goog.events.EventType.FOCUS,
+		this.focusCheckboxListener_,
+		false,
+		this
+	);
+
+	this.getHandler( ).listenWithScope(
+
+		this.getInputElement( ),
+		goog.events.EventType.BLUR,
+		this.blurCheckboxListener_,
+		false,
+		this
+	);
+
+	this.getHandler( ).listenWithScope(
+
 		this.getElement( ),
 		goog.events.EventType.MOUSEUP,
 		this.blurListener_,
@@ -132,24 +152,6 @@ zz.ui.mdl.Checkbox.prototype.enterDocument = function( ){
 				zz.ui.mdl.Checkbox.CSS.RIPPLE_CONTAINER,
 				this.getElement( ) ) );
 
-	}else{
-
-		this.getHandler( ).listenWithScope(
-
-			this.getInputElement( ),
-			goog.events.EventType.FOCUS,
-			this.focusCheckboxListener_,
-			false,
-			this
-		);
-		this.getHandler( ).listenWithScope(
-
-			this.getInputElement( ),
-			goog.events.EventType.BLUR,
-			this.blurCheckboxListener_,
-			false,
-			this
-		);
 	}
 };
 
@@ -172,6 +174,19 @@ zz.ui.mdl.Checkbox.prototype.disposeInternal = function( ){
  **********************************************************************************************************************/
 
 /**
+ * Listener for checkbox element focus event.
+ * @private
+ */
+zz.ui.mdl.Checkbox.prototype.focusCheckboxListener_ = function( ){
+
+	if( !goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Checkbox.CSS.RIPPLE_EFFECT ) )
+
+		goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Checkbox.CSS.IS_FOCUSED );
+
+	this.dispatchEvent( goog.ui.Component.getStateTransitionEvent( goog.ui.Component.State.FOCUSED, true ) );
+};
+
+/**
  * Listener for element blur event.
  * @this {zz.ui.mdl.Checkbox}
  * @private
@@ -180,19 +195,9 @@ zz.ui.mdl.Checkbox.prototype.blurListener_ = function( ){
 
 	goog.Timer.callOnce( /** @this {zz.ui.mdl.Checkbox} */ function( ){
 
-		//noinspection JSPotentiallyInvalidUsageOfThis
 		this.getInputElement( ).blur( );
 
 	}, zz.ui.mdl.Checkbox.CONST.TINY_TIMEOUT, this );
-};
-
-/**
- * Listener for checkbox element focus event.
- * @private
- */
-zz.ui.mdl.Checkbox.prototype.focusCheckboxListener_ = function( ){
-
-	goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Checkbox.CSS.IS_FOCUSED );
 };
 
 /**
@@ -201,7 +206,11 @@ zz.ui.mdl.Checkbox.prototype.focusCheckboxListener_ = function( ){
  */
 zz.ui.mdl.Checkbox.prototype.blurCheckboxListener_ = function( ){
 
-	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Checkbox.CSS.IS_FOCUSED );
+	if( !goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Checkbox.CSS.RIPPLE_EFFECT ) )
+
+		goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Checkbox.CSS.IS_FOCUSED );
+
+	this.dispatchEvent( goog.ui.Component.getStateTransitionEvent( goog.ui.Component.State.FOCUSED, false ) );
 };
 
 /**********************************************************************************************************************

@@ -59,8 +59,10 @@ zz.ui.mdl.Switch = function( opt_content, opt_renderer, opt_domHelper ){
 		opt_domHelper );
 
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
+	this.setSupportedState( goog.ui.Component.State.FOCUSED, true );
 	this.setSupportedState( goog.ui.Component.State.CHECKED, true );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
+	this.setDispatchTransitionEvents( goog.ui.Component.State.FOCUSED, true );
 	this.setDispatchTransitionEvents( goog.ui.Component.State.CHECKED, true );
 	this.setDispatchTransitionEvents( goog.ui.Component.State.DISABLED, true );
 };
@@ -118,6 +120,24 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
 
 	this.getHandler( ).listenWithScope(
 
+		this.getInputElement( ),
+		goog.events.EventType.FOCUS,
+		this.focusSwitchListener_,
+		false,
+		this
+	);
+
+	this.getHandler( ).listenWithScope(
+
+		this.getInputElement( ),
+		goog.events.EventType.BLUR,
+		this.blurSwitchListener_,
+		false,
+		this
+	);
+
+	this.getHandler( ).listenWithScope(
+
 		this.getElement( ),
 		goog.events.EventType.MOUSEUP,
 		this.blurListener_,
@@ -137,24 +157,6 @@ zz.ui.mdl.Switch.prototype.enterDocument = function( ){
 				zz.ui.mdl.Switch.CSS.RIPPLE_CONTAINER,
 				this.getElement( ) ) );
 
-	}else{
-
-		this.getHandler( ).listenWithScope(
-
-			this.getInputElement( ),
-			goog.events.EventType.FOCUS,
-			this.focusSwitchListener_,
-			false,
-			this
-		);
-		this.getHandler( ).listenWithScope(
-
-			this.getInputElement( ),
-			goog.events.EventType.BLUR,
-			this.blurSwitchListener_,
-			false,
-			this
-		);
 	}
 };
 
@@ -177,6 +179,19 @@ zz.ui.mdl.Switch.prototype.disposeInternal = function( ){
  **********************************************************************************************************************/
 
 /**
+ * Listener for Switch element focus event.
+ * @private
+ */
+zz.ui.mdl.Switch.prototype.focusSwitchListener_ = function( ){
+
+	if( !goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT ) )
+
+		goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Switch.CSS.IS_FOCUSED );
+
+	this.dispatchEvent( goog.ui.Component.getStateTransitionEvent( goog.ui.Component.State.FOCUSED, true ) );
+};
+
+/**
  * Listener for element blur event.
  * @this {zz.ui.mdl.Switch}
  * @private
@@ -185,19 +200,9 @@ zz.ui.mdl.Switch.prototype.blurListener_ = function( ){
 
 	goog.Timer.callOnce( /** @this {zz.ui.mdl.Switch} */ function( ){
 
-		//noinspection JSPotentiallyInvalidUsageOfThis
 		this.getInputElement( ).blur( );
 
 	}, zz.ui.mdl.Switch.CONST.TINY_TIMEOUT, this );
-};
-
-/**
- * Listener for Switch element focus event.
- * @private
- */
-zz.ui.mdl.Switch.prototype.focusSwitchListener_ = function( ){
-
-	goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Switch.CSS.IS_FOCUSED );
 };
 
 /**
@@ -206,7 +211,11 @@ zz.ui.mdl.Switch.prototype.focusSwitchListener_ = function( ){
  */
 zz.ui.mdl.Switch.prototype.blurSwitchListener_ = function( ){
 
-	goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Switch.CSS.IS_FOCUSED );
+	if( !goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT ) )
+
+		goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Switch.CSS.IS_FOCUSED );
+
+	this.dispatchEvent( goog.ui.Component.getStateTransitionEvent( goog.ui.Component.State.FOCUSED, false ) );
 };
 
 /**********************************************************************************************************************
