@@ -19,6 +19,7 @@
 /**
  * @fileoverview Provide zz.ui.mdl.Radio and zz.ui.mdl.RadioRegister class.
  * @author popkov.aleksander@gmail.com (Alexander Popkov)
+ * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
 /**********************************************************************************************************************
@@ -62,9 +63,18 @@ zz.ui.mdl.Radio = function( opt_content, opt_renderer, opt_domHelper, opt_format
 		opt_formatter );
 
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
+
+	this.setAutoStates( goog.ui.Component.State.ACTIVE, true );
+	this.setAutoStates( goog.ui.Component.State.FOCUSED, true );
+	this.setAutoStates( goog.ui.Component.State.CHECKED, true );
+	this.setAutoStates( goog.ui.Component.State.DISABLED, true );
+
+	this.setSupportedState( goog.ui.Component.State.ACTIVE, true );
 	this.setSupportedState( goog.ui.Component.State.FOCUSED, true );
 	this.setSupportedState( goog.ui.Component.State.CHECKED, true );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
+
+	this.setDispatchTransitionEvents( goog.ui.Component.State.ACTIVE, true );
 	this.setDispatchTransitionEvents( goog.ui.Component.State.FOCUSED, true );
 	this.setDispatchTransitionEvents( goog.ui.Component.State.CHECKED, true );
 	this.setDispatchTransitionEvents( goog.ui.Component.State.DISABLED, true );
@@ -75,15 +85,6 @@ goog.tagUnsealableClass( zz.ui.mdl.Radio );
 /**********************************************************************************************************************
  * Static properties section                                                                                          *
  **********************************************************************************************************************/
-
-/**
- * Store constants in one place so they can be updated easily.
- * @enum {string | number}
- */
-zz.ui.mdl.Radio.CONST = {
-
-	TINY_TIMEOUT: 10
-};
 
 /**
  * Store strings for class names defined by this component that are used in JavaScript. This allows us to simply change
@@ -118,30 +119,6 @@ zz.ui.mdl.Radio.CSS = {
 zz.ui.mdl.Radio.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
-
-	this.getHandler( ).listenWithScope(
-
-		this.getInputElement( ),
-		goog.events.EventType.FOCUS,
-		this.focusRadioListener_,
-		false,
-		this );
-
-	this.getHandler( ).listenWithScope(
-
-		this.getInputElement( ),
-		goog.events.EventType.BLUR,
-		this.blurRadioListener_,
-		false,
-		this );
-
-	this.getHandler( ).listenWithScope(
-
-		this.getElement( ),
-		goog.events.EventType.MOUSEUP,
-		this.blurListener_,
-		false,
-		this );
 
 	this.getHandler( ).listenWithScope(
 
@@ -181,46 +158,6 @@ zz.ui.mdl.Radio.prototype.disposeInternal = function( ){
  **********************************************************************************************************************/
 
 /**
- * Listener for Radio element focus event.
- * @private
- */
-zz.ui.mdl.Radio.prototype.focusRadioListener_ = function( ){
-
-	if( !goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Radio.CSS.RIPPLE_EFFECT ) )
-
-		goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Radio.CSS.IS_FOCUSED );
-
-	this.dispatchEvent( goog.ui.Component.getStateTransitionEvent( goog.ui.Component.State.FOCUSED, true ) );
-};
-
-/**
- * Listener for element blur event.
- * @this {zz.ui.mdl.Radio}
- * @private
- */
-zz.ui.mdl.Radio.prototype.blurListener_ = function( ){
-
-	goog.Timer.callOnce( /** @this {zz.ui.mdl.Radio} */ function( ){
-
-		this.getInputElement( ).blur( );
-
-	}, zz.ui.mdl.Radio.CONST.TINY_TIMEOUT, this );
-};
-
-/**
- * Listener for Radio element blur event.
- * @private
- */
-zz.ui.mdl.Radio.prototype.blurRadioListener_ = function( ){
-
-	if( !goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Radio.CSS.RIPPLE_EFFECT ) )
-
-		goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Radio.CSS.IS_FOCUSED );
-
-	this.dispatchEvent( goog.ui.Component.getStateTransitionEvent( goog.ui.Component.State.FOCUSED, false ) );
-};
-
-/**
  * Listener for element change event.
  * @private
  */
@@ -232,6 +169,35 @@ zz.ui.mdl.Radio.prototype.changeListener_ = function( ){
 /**********************************************************************************************************************
  * Helpers methods                                                                                                    *
  **********************************************************************************************************************/
+
+/**
+ * @param {goog.events.Event} e
+ * @protected
+ * @override
+ */
+zz.ui.mdl.Radio.prototype.performActionInternal = function( e ){
+
+	var actionEvent = new goog.events.Event( goog.ui.Component.EventType.ACTION, this );
+	if( e ){
+
+		actionEvent.altKey = e.altKey;
+		actionEvent.ctrlKey = e.ctrlKey;
+		actionEvent.metaKey = e.metaKey;
+		actionEvent.shiftKey = e.shiftKey;
+		actionEvent.platformModifierKey = e.platformModifierKey;
+	}
+	return this.dispatchEvent( actionEvent );
+};
+
+/**
+ * Returns the DOM element on which the control is listening for keyboard events (null if none).
+ * @returns {Element}
+ * @override
+ */
+zz.ui.mdl.Radio.prototype.getKeyEventTarget = function( ){
+
+	return this.getInputElement( );
+};
 
 /**
  * Enable/disable radio.

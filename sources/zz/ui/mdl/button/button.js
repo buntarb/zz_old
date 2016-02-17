@@ -60,8 +60,16 @@ zz.ui.mdl.Button = function( opt_content, opt_renderer, opt_domHelper ){
 		opt_domHelper );
 
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
+
+	this.setAutoStates( goog.ui.Component.State.ACTIVE, true );
+	this.setAutoStates( goog.ui.Component.State.FOCUSED, true );
+	this.setAutoStates( goog.ui.Component.State.DISABLED, true );
+
+	this.setSupportedState( goog.ui.Component.State.ACTIVE, true );
 	this.setSupportedState( goog.ui.Component.State.FOCUSED, true );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
+
+	this.setDispatchTransitionEvents( goog.ui.Component.State.ACTIVE, true );
 	this.setDispatchTransitionEvents( goog.ui.Component.State.FOCUSED, true );
 	this.setDispatchTransitionEvents( goog.ui.Component.State.DISABLED, true );
 };
@@ -105,24 +113,6 @@ zz.ui.mdl.Button.prototype.enterDocument = function( ){
 
 	this.getHandler( ).listenWithScope(
 
-		this.getElement( ),
-		goog.events.EventType.FOCUS,
-		this.focusListener_,
-		false,
-		this
-	);
-
-	this.getHandler( ).listenWithScope(
-
-		this.getElement( ),
-		goog.events.EventType.BLUR,
-		this.blurListener_,
-		false,
-		this
-	);
-
-	this.getHandler( ).listenWithScope(
-
 		this.getElement( ), [
 
 			goog.events.EventType.MOUSEUP,
@@ -130,22 +120,18 @@ zz.ui.mdl.Button.prototype.enterDocument = function( ){
 		],
 		this.mouseListener_,
 		false,
-		this
-	);
+		this );
 
 	if( goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Button.CSS.RIPPLE_EFFECT ) ){
 
-		this.getHandler( ).listenWithScope(
-
-			goog.dom.getElementByClass( zz.ui.mdl.Button.CSS.RIPPLE, this.getElement( ) ),
-			goog.events.EventType.MOUSEUP,
-			this.blurListener_,
-			false,
-			this
-		);
 		var  ripple = new zz.ui.mdl.Ripple( );
 		this.addChild( ripple, false );
-		ripple.decorate( goog.dom.getElementByClass( zz.ui.mdl.Button.CSS.RIPPLE_CONTAINER, this.getElement( ) ) );
+		ripple.decorate(
+
+			goog.dom.getElementByClass(
+
+				zz.ui.mdl.Button.CSS.RIPPLE_CONTAINER,
+				this.getElement( ) ) );
 	}
 };
 
@@ -168,15 +154,6 @@ zz.ui.mdl.Button.prototype.disposeInternal = function( ){
  **********************************************************************************************************************/
 
 /**
- * Listener for button element focus event.
- * @private
- */
-zz.ui.mdl.Button.prototype.focusListener_ = function( ){
-
-	this.dispatchEvent( goog.ui.Component.getStateTransitionEvent( goog.ui.Component.State.FOCUSED, true ) );
-};
-
-/**
  * Listener for element blur event.
  * @param {goog.events.BrowserEvent} event
  * @this {zz.ui.mdl.Button}
@@ -190,16 +167,19 @@ zz.ui.mdl.Button.prototype.mouseListener_ = function( event ){
 	}
 };
 
-
 /**
- * Listener for element blur event.
- * @param {goog.events.BrowserEvent} event
- * @this {zz.ui.mdl.Button}
- * @private
+ * Attempts to handle a keyboard event; returns true if the event was handled, false otherwise.  Considered protected;
+ * should only be used within this package and by subclasses.
+ * @param {goog.events.KeyEvent} e Key event to handle.
+ * @return {boolean} Whether the key event was handled.
+ * @protected
+ * @override
  */
-zz.ui.mdl.Button.prototype.blurListener_ = function( event ){
+zz.ui.mdl.Button.prototype.handleKeyEventInternal = function( e ){
 
-	this.dispatchEvent( goog.ui.Component.getStateTransitionEvent( goog.ui.Component.State.FOCUSED, false ) );
+	return ( e.keyCode == goog.events.KeyCodes.ENTER || e.keyCode == goog.events.KeyCodes.SPACE ) &&
+
+		this.performActionInternal(e);
 };
 
 /**********************************************************************************************************************

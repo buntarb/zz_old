@@ -89,6 +89,35 @@ zz.ui.mdl.ControlRenderer.prototype.decorate = function( control, element ){
  **********************************************************************************************************************/
 
 /**
+ * Updates the appearance of the control in response to a state change.
+ * @param {zz.ui.mdl.Control} control Control instance to update.
+ * @param {goog.ui.Component.State} state State to enable or disable.
+ * @param {boolean} enable Whether the control is entering or exiting the state.
+ * @override
+ */
+zz.ui.mdl.ControlRenderer.prototype.setState = function( control, state, enable ){
+
+	var element = control.getElement( );
+	if( element ){
+
+		// TODO (user): Here we can/must add necessary classes for state.
+		this.updateAriaState(element, state, enable);
+	}
+};
+
+/**
+ * Returns the element within the component's DOM that should receive keyboard focus (null if none).  The default
+ * implementation returns the control's root element.
+ * @param {zz.ui.mdl.Control} control Control whose key event target is to be returned.
+ * @return {Element} The key event target.
+ * @override
+ */
+zz.ui.mdl.ControlRenderer.prototype.getKeyEventTarget = function( control ){
+
+	return control.getInputElement( );
+};
+
+/**
  * Set control input element value.
  * @param {zz.ui.mdl.Control} control
  * @param {*} value

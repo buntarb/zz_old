@@ -115,6 +115,18 @@ zz.ui.mdl.ButtonRenderer.prototype.getCssClass = function( ){
 	return zz.ui.mdl.ButtonRenderer.CSS_CLASS;
 };
 
+/**
+ * Returns the element within the component's DOM that should receive keyboard focus (null if none).  The default
+ * implementation returns the control's root element.
+ * @param {zz.ui.mdl.Control} control Control whose key event target is to be returned.
+ * @return {Element} The key event target.
+ * @override
+ */
+zz.ui.mdl.ButtonRenderer.prototype.getKeyEventTarget = function( control ){
+
+	return control.getElement( );
+};
+
 /**********************************************************************************************************************
  * Register a decorator factory function for goog.ui.Buttons.                                                         *
  **********************************************************************************************************************/

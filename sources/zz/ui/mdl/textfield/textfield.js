@@ -19,6 +19,7 @@
 /**
  * @fileoverview Provide zz.ui.mdl.TextField class.
  * @author popkov.aleksander@gmail.com (Alexander Popkov)
+ * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
 /**********************************************************************************************************************
@@ -34,6 +35,7 @@ goog.provide( 'zz.ui.mdl.TextField' );
 goog.require( 'goog.style' );
 goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.events.EventType' );
+goog.require( 'goog.events.KeyCodes' );
 goog.require( 'goog.ui.Component' );
 goog.require( 'zz.ui.mdl.Control' );
 goog.require( 'zz.ui.mdl.TextFieldRenderer' );
@@ -60,8 +62,18 @@ zz.ui.mdl.TextField = function( opt_content, opt_renderer, opt_domHelper ){
 		opt_domHelper );
 
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
+	this.setSupportedState( goog.ui.Component.State.FOCUSED, true );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
+	this.setDispatchTransitionEvents( goog.ui.Component.State.FOCUSED, true );
+	this.setDispatchTransitionEvents( goog.ui.Component.State.DISABLED, true );
 	this.setAllowTextSelection( true );
+
+	/**
+	 * Keyboard event handler.
+	 * @type {goog.events.KeyHandler}
+	 * @private
+	 */
+	this.keyHandler_ = new goog.events.KeyHandler( );
 };
 goog.inherits( zz.ui.mdl.TextField, zz.ui.mdl.Control );
 goog.tagUnsealableClass( zz.ui.mdl.TextField );
@@ -100,6 +112,16 @@ zz.ui.mdl.TextField.CSS = {
 /**********************************************************************************************************************
  * Life cycle methods                                                                                                 *
  **********************************************************************************************************************/
+
+/**
+ * Returns the DOM element on which the control is listening for keyboard events (null if none).
+ * @override
+ * @returns {Element}
+ */
+zz.ui.mdl.TextField.prototype.getKeyEventTarget = function( ){
+
+	return this.getInputElement( );
+};
 
 /**
  * Called when the component's element is known to be in the document. Anything using document.getElementById etc.
@@ -165,7 +187,7 @@ zz.ui.mdl.TextField.prototype.disposeInternal = function( ){
 zz.ui.mdl.TextField.prototype.keyTextFieldListener_ = function( ){
 
 	var currentRowCount = event.target.value.split( '\n' ).length;
-	if( event.keyCode === 13 ){
+	if( event.keyCode === goog.events.KeyCodes.ENTER ){
 
 		if( currentRowCount >= this.maxRow_ ){
 

@@ -124,6 +124,29 @@ zz.ui.mdl.CheckboxRenderer.prototype.getCssClass = function( ){
  **********************************************************************************************************************/
 
 /**
+ * Updates the appearance of the control in response to a state change.
+ * @param {zz.ui.mdl.Control} control Control instance to update.
+ * @param {goog.ui.Component.State} state State to enable or disable.
+ * @param {boolean} enable Whether the control is entering or exiting the state.
+ * @override
+ */
+zz.ui.mdl.CheckboxRenderer.prototype.setState = function( control, state, enable ){
+
+	var element = control.getElement( );
+	if( element ){
+
+		if( state === goog.ui.Component.State.FOCUSED ){
+
+			if( !goog.dom.classlist.contains( element, zz.ui.mdl.Checkbox.CSS.RIPPLE_EFFECT ) ){
+
+				this.enableClassName( control, zz.ui.mdl.Checkbox.CSS.IS_FOCUSED, enable );
+			}
+		}
+		this.updateAriaState(element, state, enable);
+	}
+};
+
+/**
  * Set control input element value.
  * @param {zz.ui.mdl.Checkbox} control
  * @param {*} value

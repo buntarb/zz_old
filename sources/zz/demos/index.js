@@ -76,8 +76,8 @@ zz.demos.app.run = function( ){
 
 //	Model
 
-//	var users = goog.global.users = new zz.module.user.model.Users( );
-//	var user = goog.global.user = users.createFirst( );
+	var users = goog.global.users = new zz.module.user.model.Users( );
+	var user = goog.global.user = users.createFirst( );
 
 //	Navigation
 
@@ -194,6 +194,22 @@ zz.demos.app.run = function( ){
 //
 //	swtch1.setModel( users, user, users.datafield.userVerifiedFlag );
 //	swtch2.setEnabled( false );
+//
+//	goog.events.listen(
+//
+//		swtch1, [
+//
+//			goog.ui.Component.EventType.ACTION,
+//			goog.ui.Component.EventType.CHANGE,
+//			goog.ui.Component.EventType.CHECK,
+//			goog.ui.Component.EventType.UNCHECK,
+//			goog.ui.Component.EventType.FOCUS,
+//			goog.ui.Component.EventType.BLUR,
+//			goog.ui.Component.EventType.DISABLE,
+//			goog.ui.Component.EventType.ENABLE
+//		],
+//		function( e ){ console.log( e ); },
+//		false );
 
 //	Icon Toggle
 

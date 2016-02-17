@@ -19,6 +19,7 @@
 /**
  * @fileoverview Provide zz.ui.mdl.Switch class.
  * @author popkov.aleksander@gmail.com (Alexander Popkov)
+ * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
 /**********************************************************************************************************************
@@ -59,9 +60,18 @@ zz.ui.mdl.Switch = function( opt_content, opt_renderer, opt_domHelper ){
 		opt_domHelper );
 
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
+
+	this.setAutoStates( goog.ui.Component.State.ACTIVE, true );
+	this.setAutoStates( goog.ui.Component.State.FOCUSED, true );
+	this.setAutoStates( goog.ui.Component.State.CHECKED, true );
+	this.setAutoStates( goog.ui.Component.State.DISABLED, true );
+
+	this.setSupportedState( goog.ui.Component.State.ACTIVE, true );
 	this.setSupportedState( goog.ui.Component.State.FOCUSED, true );
 	this.setSupportedState( goog.ui.Component.State.CHECKED, true );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
+
+	this.setDispatchTransitionEvents( goog.ui.Component.State.ACTIVE, true );
 	this.setDispatchTransitionEvents( goog.ui.Component.State.FOCUSED, true );
 	this.setDispatchTransitionEvents( goog.ui.Component.State.CHECKED, true );
 	this.setDispatchTransitionEvents( goog.ui.Component.State.DISABLED, true );
@@ -72,15 +82,6 @@ goog.tagUnsealableClass( zz.ui.mdl.Switch );
 /**********************************************************************************************************************
  * Static properties section                                                                                          *
  **********************************************************************************************************************/
-
-/**
- * Store constants in one place so they can be updated easily.
- * @enum {string | number}
- */
-zz.ui.mdl.Switch.CONST = {
-
-	TINY_TIMEOUT: 10
-};
 
 /**
  * Store strings for class names defined by this component that are used in JavaScript. This allows us to simply change
@@ -110,6 +111,16 @@ zz.ui.mdl.Switch.CSS = {
  **********************************************************************************************************************/
 
 /**
+ * Returns the DOM element on which the control is listening for keyboard events (null if none).
+ * @override
+ * @returns {Element}
+ */
+zz.ui.mdl.Switch.prototype.getKeyEventTarget = function( ){
+
+	return this.getInputElement( );
+};
+
+/**
  * Called when the component's element is known to be in the document. Anything using document.getElementById etc.
  * should be done at this stage. If the component contains child components, this call is propagated to its children.
  * @override
@@ -117,30 +128,6 @@ zz.ui.mdl.Switch.CSS = {
 zz.ui.mdl.Switch.prototype.enterDocument = function( ){
 
 	goog.base( this, 'enterDocument' );
-
-	this.getHandler( ).listenWithScope(
-
-		this.getInputElement( ),
-		goog.events.EventType.FOCUS,
-		this.focusSwitchListener_,
-		false,
-		this );
-
-	this.getHandler( ).listenWithScope(
-
-		this.getInputElement( ),
-		goog.events.EventType.BLUR,
-		this.blurSwitchListener_,
-		false,
-		this );
-
-	this.getHandler( ).listenWithScope(
-
-		this.getElement( ),
-		goog.events.EventType.MOUSEUP,
-		this.blurListener_,
-		false,
-		this );
 
 	this.getHandler( ).listenWithScope(
 
@@ -184,52 +171,31 @@ zz.ui.mdl.Switch.prototype.disposeInternal = function( ){
  **********************************************************************************************************************/
 
 /**
- * Listener for Switch element focus event.
- * @private
- */
-zz.ui.mdl.Switch.prototype.focusSwitchListener_ = function( ){
-
-	if( !goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT ) )
-
-		goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Switch.CSS.IS_FOCUSED );
-
-	this.dispatchEvent( goog.ui.Component.getStateTransitionEvent( goog.ui.Component.State.FOCUSED, true ) );
-};
-
-/**
- * Listener for element blur event.
- * @this {zz.ui.mdl.Switch}
- * @private
- */
-zz.ui.mdl.Switch.prototype.blurListener_ = function( ){
-
-	goog.Timer.callOnce( /** @this {zz.ui.mdl.Switch} */ function( ){
-
-		this.getInputElement( ).blur( );
-
-	}, zz.ui.mdl.Switch.CONST.TINY_TIMEOUT, this );
-};
-
-/**
- * Listener for Switch element blur event.
- * @private
- */
-zz.ui.mdl.Switch.prototype.blurSwitchListener_ = function( ){
-
-	if( !goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Switch.CSS.RIPPLE_EFFECT ) )
-
-		goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Switch.CSS.IS_FOCUSED );
-
-	this.dispatchEvent( goog.ui.Component.getStateTransitionEvent( goog.ui.Component.State.FOCUSED, false ) );
-};
-
-/**
  * Listener for element change event.
  * @private
  */
 zz.ui.mdl.Switch.prototype.changeListener_ = function( ){
 
 	this.dispatchEvent( goog.ui.Component.EventType.CHANGE );
+};
+
+/**
+ * Attempts to handle a keyboard event; returns true if the event was handled, false otherwise.  Considered protected;
+ * should only be used within this package and by subclasses.
+ * @param {goog.events.KeyEvent} e Key event to handle.
+ * @return {boolean} Whether the key event was handled.
+ * @protected
+ * @override
+ */
+zz.ui.mdl.Switch.prototype.handleKeyEventInternal = function( e ){
+
+	if( e.keyCode === goog.events.KeyCodes.ENTER ){
+
+		this.setInputValue( !this.getInputValue( ) );
+		this.changeListener_( );
+		return true;
+	}
+	return false;
 };
 
 /**********************************************************************************************************************

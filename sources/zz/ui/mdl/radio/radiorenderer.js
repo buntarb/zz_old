@@ -127,6 +127,29 @@ zz.ui.mdl.RadioRenderer.prototype.getCssClass = function( ){
  **********************************************************************************************************************/
 
 /**
+ * Updates the appearance of the control in response to a state change.
+ * @param {zz.ui.mdl.Control} control Control instance to update.
+ * @param {goog.ui.Component.State} state State to enable or disable.
+ * @param {boolean} enable Whether the control is entering or exiting the state.
+ * @override
+ */
+zz.ui.mdl.RadioRenderer.prototype.setState = function( control, state, enable ){
+
+	var element = control.getElement( );
+	if( element ){
+
+		if( state === goog.ui.Component.State.FOCUSED ){
+
+			if( !goog.dom.classlist.contains( element, zz.ui.mdl.Checkbox.CSS.RIPPLE_EFFECT ) ){
+
+				this.enableClassName( control, zz.ui.mdl.Checkbox.CSS.IS_FOCUSED, enable );
+			}
+		}
+		this.updateAriaState(element, state, enable);
+	}
+};
+
+/**
  * Set control input element value.
  * @param {zz.ui.mdl.Radio} control
  * @param {*} value
@@ -134,7 +157,6 @@ zz.ui.mdl.RadioRenderer.prototype.getCssClass = function( ){
 zz.ui.mdl.RadioRenderer.prototype.setValue = function( control, value ){
 
 	control.getInputElement( ).checked = value === control.getInputElement( ).value;
-	//noinspection JSUnresolvedFunction
 	control.setChecked( control.getInputElement( ).checked );
 	this.updateClasses( control );
 };
@@ -144,7 +166,6 @@ zz.ui.mdl.RadioRenderer.prototype.setValue = function( control, value ){
  */
 zz.ui.mdl.RadioRenderer.prototype.updateClasses = function( control ){
 
-	//noinspection JSUnresolvedFunction
 	if( control.isEnabled( ) ){
 
 		goog.dom.classlist.remove( control.getElement( ), zz.ui.mdl.Radio.CSS.IS_DISABLED );
@@ -153,7 +174,6 @@ zz.ui.mdl.RadioRenderer.prototype.updateClasses = function( control ){
 
 		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.Radio.CSS.IS_DISABLED );
 	}
-	//noinspection JSUnresolvedFunction
 	if( control.isChecked( ) ){
 
 		goog.dom.classlist.add( control.getElement( ), zz.ui.mdl.Radio.CSS.IS_CHECKED );

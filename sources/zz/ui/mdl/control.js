@@ -68,88 +68,9 @@ zz.ui.mdl.Control = function( opt_content, opt_renderer, opt_domHelper, opt_form
 goog.inherits( zz.ui.mdl.Control, goog.ui.Control );
 goog.tagUnsealableClass( zz.ui.mdl.Control );
 
-/**
- * Downgrade the component.
- * @private
- */
-zz.ui.mdl.Control.prototype.mdlDowngrade = function( ){
-
-	this.dispose( );
-};
-
 /**********************************************************************************************************************
  * Base class methods override                                                                                        *
  **********************************************************************************************************************/
-
-/**
- * @override
- */
-zz.ui.mdl.Control.prototype.performActionInternal = function( e ){
-
-	if( this.isAutoState( goog.ui.Component.State.CHECKED ) ){
-
-		this.setChecked( !this.isChecked( ) );
-	}
-	if( this.isAutoState( goog.ui.Component.State.SELECTED ) ){
-
-		this.setSelected( true );
-	}
-	if( this.isAutoState( goog.ui.Component.State.OPENED ) ){
-
-		this.setOpen( !this.isOpen( ) );
-	}
-	var actionEvent = new goog.events.Event( goog.ui.Component.EventType.ACTION, this );
-	if( e ){
-
-		actionEvent.altKey = e.altKey;
-		actionEvent.ctrlKey = e.ctrlKey;
-		actionEvent.metaKey = e.metaKey;
-		actionEvent.shiftKey = e.shiftKey;
-		actionEvent.platformModifierKey = e.platformModifierKey;
-	}
-	return this.dispatchEvent( actionEvent );
-};
-
-/**
- * @override
- */
-zz.ui.mdl.Control.prototype.handleMouseUp = function( e ){
-
-	if( this.isEnabled( ) ){
-
-		if( this.isAutoState( goog.ui.Component.State.HOVER ) ){
-
-			this.setHighlighted( true );
-		}
-		if( /* this.isActive( ) && */
-			this.performActionInternal( e ) &&
-			this.isAutoState( goog.ui.Component.State.ACTIVE ) ){
-
-			this.setActive( false );
-		}
-	}
-};
-
-/**
- * @override
- */
-zz.ui.mdl.Control.prototype.handleDblClick = function( e ){
-
-	if( this.isEnabled( ) ){
-
-		this.performActionInternal( e );
-	}
-};
-
-/**
- * @override
- */
-zz.ui.mdl.Control.prototype.handleKeyEventInternal = function( e ){
-
-	return ( e.keyCode == goog.events.KeyCodes.ENTER || e.keyCode == goog.events.KeyCodes.SPACE )
-
-		&& this.performActionInternal( e );
-};
 
 /**********************************************************************************************************************
  * Life cycle methods                                                                                                 *
@@ -223,6 +144,15 @@ zz.ui.mdl.Control.prototype.disposeInternal = function( ){
 
 	delete this.model_;
 	delete this.inputElement_;
+};
+
+/**
+ * Downgrade the component.
+ * @private
+ */
+zz.ui.mdl.Control.prototype.mdlDowngrade = function( ){
+
+	this.dispose( );
 };
 
 /**********************************************************************************************************************

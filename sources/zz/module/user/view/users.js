@@ -139,26 +139,26 @@ zz.module.user.view.Users.prototype.enterDocument = function( ){
 		goog.ui.Component.EventType.ACTION,
 		this.controller_.addUser,
 		false,
-		this
-	);
+		this );
 
 	this.getHandler( ).listenWithScope(
 
-		this.remUserButton_,
-		[
+		this.remUserButton_, [
+
 			goog.ui.Component.EventType.ACTION,
 			goog.ui.Component.EventType.FOCUS,
 			goog.ui.Component.EventType.BLUR,
 			goog.ui.Component.EventType.DISABLE,
-			goog.ui.Component.EventType.ENABLE
+			goog.ui.Component.EventType.ENABLE,
+			goog.ui.Component.EventType.ACTIVATE,
+			goog.ui.Component.EventType.DEACTIVATE
 		],
 		function( evt ){
 
 			console.log( evt );
 		},
 		false,
-		this
-	);
+		this );
 
 	this.getHandler( ).listenWithScope(
 
@@ -166,8 +166,7 @@ zz.module.user.view.Users.prototype.enterDocument = function( ){
 		goog.ui.Component.EventType.CHANGE,
 		function( ){ console.log( '!' ); },
 		false,
-		this
-	);
+		this );
 };
 
 /**

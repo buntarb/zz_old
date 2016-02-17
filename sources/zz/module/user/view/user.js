@@ -199,38 +199,37 @@ zz.module.user.view.User.prototype.enterDocument = function( ){
 
 		model.dataset,
 		model.datarow,
-		/** @type {string} */( model.dataset.datafield.userId )
-	);
+		/** @type {string} */( model.dataset.datafield.userId ) );
+
 	this.firstNameElement_.setModel(
 
 		model.dataset,
 		model.datarow,
-		model.dataset.datafield.userFirstName
-	);
+		model.dataset.datafield.userFirstName );
+
 	this.lastNameElement_.setModel(
 
 		model.dataset,
 		model.datarow,
-		model.dataset.datafield.userLastName
-	);
+		model.dataset.datafield.userLastName );
+
 	this.loginElement_.setModel(
 
 		model.dataset,
 		model.datarow,
-		model.dataset.datafield.userLogin
-	);
+		model.dataset.datafield.userLogin );
+
 	this.passwordElement_.setModel(
 
 		model.dataset,
 		model.datarow,
-		model.dataset.datafield.userPassword
-	);
+		model.dataset.datafield.userPassword );
+
 	this.verifiedElement_.setModel(
 
 		model.dataset,
 		model.datarow,
-		model.dataset.datafield.userVerifiedFlag
-	);
+		model.dataset.datafield.userVerifiedFlag );
 
 	// Inserting controls.
 
@@ -243,8 +242,25 @@ zz.module.user.view.User.prototype.enterDocument = function( ){
 
 	this.getHandler( ).listenWithScope(
 
-		this.verifiedElement_,
-		[
+		this.userIdElement_, [
+
+			goog.ui.Component.EventType.CHANGE,
+			goog.ui.Component.EventType.FOCUS,
+			goog.ui.Component.EventType.BLUR,
+			goog.ui.Component.EventType.DISABLE,
+			goog.ui.Component.EventType.ENABLE
+		],
+		function( e ){
+
+			console.log( e );
+		},
+		false,
+		this );
+
+	this.getHandler( ).listenWithScope(
+
+		this.verifiedElement_, [
+
 			goog.ui.Component.EventType.CHANGE,
 			goog.ui.Component.EventType.CHECK,
 			goog.ui.Component.EventType.UNCHECK,
@@ -258,8 +274,9 @@ zz.module.user.view.User.prototype.enterDocument = function( ){
 			console.log( e );
 		},
 		false,
-		this
-	);
+		this );
+
+	goog.global.test = this.verifiedElement_;
 };
 
 /**

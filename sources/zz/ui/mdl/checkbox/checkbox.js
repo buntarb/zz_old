@@ -19,6 +19,7 @@
 /**
  * @fileoverview Provide zz.ui.mdl.Checkbox class.
  * @author popkov.aleksander@gmail.com (Alexander Popkov)
+ * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
 /**********************************************************************************************************************
@@ -60,9 +61,18 @@ zz.ui.mdl.Checkbox = function( opt_content, opt_renderer, opt_domHelper ){
 		opt_domHelper );
 
 	this.setAutoStates( goog.ui.Component.State.ALL, false );
+
+	this.setAutoStates( goog.ui.Component.State.ACTIVE, true );
+	this.setAutoStates( goog.ui.Component.State.FOCUSED, true );
+	this.setAutoStates( goog.ui.Component.State.CHECKED, true );
+	this.setAutoStates( goog.ui.Component.State.DISABLED, true );
+
+	this.setSupportedState( goog.ui.Component.State.ACTIVE, true );
 	this.setSupportedState( goog.ui.Component.State.FOCUSED, true );
 	this.setSupportedState( goog.ui.Component.State.CHECKED, true );
 	this.setSupportedState( goog.ui.Component.State.DISABLED, true );
+
+	this.setDispatchTransitionEvents( goog.ui.Component.State.ACTIVE, true );
 	this.setDispatchTransitionEvents( goog.ui.Component.State.FOCUSED, true );
 	this.setDispatchTransitionEvents( goog.ui.Component.State.CHECKED, true );
 	this.setDispatchTransitionEvents( goog.ui.Component.State.DISABLED, true );
@@ -73,15 +83,6 @@ goog.tagUnsealableClass( zz.ui.mdl.Checkbox );
 /**********************************************************************************************************************
  * Static properties section                                                                                          *
  **********************************************************************************************************************/
-
-/**
- * Store constants in one place so they can be updated easily.
- * @enum {string | number}
- */
-zz.ui.mdl.Checkbox.CONST = {
-
-	TINY_TIMEOUT: 10
-};
 
 /**
  * Store strings for class names defined by this component that are used in JavaScript. This allows us to simply change
@@ -122,30 +123,6 @@ zz.ui.mdl.Checkbox.prototype.enterDocument = function( ){
 	this.getHandler( ).listenWithScope(
 
 		this.getInputElement( ),
-		goog.events.EventType.FOCUS,
-		this.focusCheckboxListener_,
-		false,
-		this );
-
-	this.getHandler( ).listenWithScope(
-
-		this.getInputElement( ),
-		goog.events.EventType.BLUR,
-		this.blurCheckboxListener_,
-		false,
-		this );
-
-	this.getHandler( ).listenWithScope(
-
-		this.getElement( ),
-		goog.events.EventType.MOUSEUP,
-		this.blurListener_,
-		false,
-		this );
-
-	this.getHandler( ).listenWithScope(
-
-		this.getInputElement( ),
 		goog.events.EventType.CHANGE,
 		this.changeListener_,
 		false,
@@ -171,7 +148,7 @@ zz.ui.mdl.Checkbox.prototype.enterDocument = function( ){
  * {@code goog.Disposable} should override this method. Not reentrant. To avoid calling it twice, it must only be
  * called from the subclass' {@code disposeInternal} method. Everywhere else the public {@code dispose} method must
  * be used.
- * @inheritDoc
+ * @override
  **/
 zz.ui.mdl.Checkbox.prototype.disposeInternal = function( ){
 
@@ -185,46 +162,6 @@ zz.ui.mdl.Checkbox.prototype.disposeInternal = function( ){
  **********************************************************************************************************************/
 
 /**
- * Listener for checkbox element focus event.
- * @private
- */
-zz.ui.mdl.Checkbox.prototype.focusCheckboxListener_ = function( ){
-
-	if( !goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Checkbox.CSS.RIPPLE_EFFECT ) )
-
-		goog.dom.classlist.add( this.getElement( ), zz.ui.mdl.Checkbox.CSS.IS_FOCUSED );
-
-	this.dispatchEvent( goog.ui.Component.getStateTransitionEvent( goog.ui.Component.State.FOCUSED, true ) );
-};
-
-/**
- * Listener for element blur event.
- * @this {zz.ui.mdl.Checkbox}
- * @private
- */
-zz.ui.mdl.Checkbox.prototype.blurListener_ = function( ){
-
-	goog.Timer.callOnce( /** @this {zz.ui.mdl.Checkbox} */ function( ){
-
-		this.getInputElement( ).blur( );
-
-	}, zz.ui.mdl.Checkbox.CONST.TINY_TIMEOUT, this );
-};
-
-/**
- * Listener for checkbox element blur event.
- * @private
- */
-zz.ui.mdl.Checkbox.prototype.blurCheckboxListener_ = function( ){
-
-	if( !goog.dom.classlist.contains( this.getElement( ), zz.ui.mdl.Checkbox.CSS.RIPPLE_EFFECT ) )
-
-		goog.dom.classlist.remove( this.getElement( ), zz.ui.mdl.Checkbox.CSS.IS_FOCUSED );
-
-	this.dispatchEvent( goog.ui.Component.getStateTransitionEvent( goog.ui.Component.State.FOCUSED, false ) );
-};
-
-/**
  * Listener for checkbox element change event.
  * @private
  */
@@ -233,9 +170,38 @@ zz.ui.mdl.Checkbox.prototype.changeListener_ = function( ){
 	this.dispatchEvent( goog.ui.Component.EventType.CHANGE );
 };
 
+/**
+ * Attempts to handle a keyboard event; returns true if the event was handled, false otherwise.  Considered protected;
+ * should only be used within this package and by subclasses.
+ * @param {goog.events.KeyEvent} e Key event to handle.
+ * @return {boolean} Whether the key event was handled.
+ * @protected
+ * @override
+ */
+zz.ui.mdl.Checkbox.prototype.handleKeyEventInternal = function( e ){
+
+	if( e.keyCode === goog.events.KeyCodes.ENTER ){
+
+		this.setInputValue( !this.getInputValue( ) );
+		this.changeListener_( );
+		return true;
+	}
+	return false;
+};
+
 /**********************************************************************************************************************
  * Helpers methods                                                                                                    *
  **********************************************************************************************************************/
+
+/**
+ * Returns the DOM element on which the control is listening for keyboard events (null if none).
+ * @override
+ * @returns {Element}
+ */
+zz.ui.mdl.Checkbox.prototype.getKeyEventTarget = function( ){
+
+	return this.getInputElement( );
+};
 
 /**
  * Enable/disable checkbox.
