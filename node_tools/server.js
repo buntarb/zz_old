@@ -53,7 +53,7 @@ function getAppServer( ){
 
 	// Template updating.
 	tpl1 = tpl1.replace( '[{(TITLE)}]', CONST.DEFAULTS.TITLE );
-	tpl1 = tpl1.replace( '[{(STYLE)}]', + '' + css + '\n' );
+	tpl1 = tpl1.replace( '[{(STYLE)}]', css );
 	var tpl = tpl1 + script + CONST.TEMPLATE.APP2;
 
 	// routes
@@ -80,7 +80,7 @@ function getTstServer( ){
 
 	// Template updating.
 	tpl = tpl.replace( '[{(TITLE)}]', CONST.DEFAULTS.TITLE );
-	tpl = tpl.replace( '[{(STYLE)}]', '\n' + css + '\n' );
+	tpl = tpl.replace( '[{(STYLE)}]', css );
 
 	// routes
 	app.get( '/', function( req, res ){
@@ -111,8 +111,8 @@ function getDevServer( ){
 
 	// Template updating.
 	tpl = tpl.replace( '[{(TITLE)}]', CONST.DEFAULTS.TITLE );
-	tpl = tpl.replace( '[{(STYLE_1)}]', '\n' + css1 + '\n' );
-	tpl = tpl.replace( '[{(STYLE_2)}]', '\n' + css2 + '\n' );
+	tpl = tpl.replace( '[{(STYLE_1)}]', css1 );
+	tpl = tpl.replace( '[{(STYLE_2)}]', css2 );
 
 	// routes
 	app.get( '/', function( req, res ){

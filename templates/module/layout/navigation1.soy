@@ -1,0 +1,33 @@
+{namespace zz.template.module.layout}
+
+/**
+ * Users view.
+ */
+{template .default}
+    <div class="{css mdl-layout} {css mdl-js-layout} {css mdl-layout--fixed-header}">
+        <header class="{css mdl-layout__header}">
+            <div class="{css mdl-layout__header-row}">
+                <span class="{css mdl-layout-title}">Fixed header</span>
+                <div class="{css mdl-layout-spacer}"></div>
+                <nav class="{css mdl-navigation} {css mdl-layout--large-screen-only}">
+                    <a class="{css mdl-navigation__link}" href="">Link</a>
+                    <a class="{css mdl-navigation__link}" href="">Link</a>
+                    <a class="{css mdl-navigation__link}" href="">Link</a>
+                    <a class="{css mdl-navigation__link}" href="">Link</a>
+                </nav>
+            </div>
+        </header>
+        <div class="{css mdl-layout__drawer}">
+            <span class="{css mdl-layout-title}">Title</span>
+            <nav class="{css mdl-navigation}">
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+                <a class="{css mdl-navigation__link}" href="">Link</a>
+            </nav>
+        </div>
+        <main class="{css mdl-layout__content}">
+            <div class="{css page-content}" id="view"></div>
+        </main>
+    </div>
+{/template}

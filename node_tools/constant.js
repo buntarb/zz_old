@@ -131,13 +131,13 @@ var TEMPLATE = {
 				'<title>' +
 					'[{(TITLE)}]' +
 				'</title>' +
-				'<style>\n' +
+				'<style>' +
 					'[{(STYLE)}]' +
-				'</style>\n' +
-				'<script>\n',
+				'</style>' +
+				'<script>',
 
 	APP2:
-				'\n</script>\n' +
+				'</script>' +
 			'</head>' +
 			'<body>' +
 				'<div id="root"></div>' +

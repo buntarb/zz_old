@@ -50,6 +50,7 @@ goog.require( 'zz.ui.mdl.Slider' );
 goog.require( 'zz.ui.mdl.Menu' );
 goog.require( 'zz.ui.mdl.MenuItem' );
 
+
 goog.require( 'zz.template.ui.button' );
 goog.require( 'zz.template.ui.spinner' );
 goog.require( 'zz.template.ui.navigation' );
@@ -64,6 +65,8 @@ goog.require( 'zz.template.ui.slider' );
 goog.require( 'zz.template.ui.menu' );
 
 goog.require( 'zz.app.Router' );
+
+goog.require( 'zz.module.layout.view.Navigation' );
 
 goog.require( 'zz.module.user.view.Users' );
 
@@ -285,40 +288,18 @@ zz.demos.app.run = function( ){
 	var router = goog.global.router = zz.app.Router.getInstance( );
 	router
 
-		.when( '', function( ){
+		.when( '', undefined, undefined, function( ){
 
 			usersView = new zz.module.user.view.Users( );
 			usersView.render( goog.dom.getElement( 'root' ) );
 		} )
-		.when( '/', function( ){
+		.when( '/', new zz.module.layout.view.Navigation( ), new zz.module.user.view.Users( ), function( ){
 
-			usersView = new zz.module.user.view.Users( );
-			usersView.render( goog.dom.getElement( 'root' ) );
+			console.log( '/' );
 		} )
-		.when( '/user', function( ){
+		.when( '/:id', new zz.module.layout.view.Navigation( ), new zz.module.user.view.Users( ), function( ){
 
-			usersView = new zz.module.user.view.Users( );
-			usersView.render( goog.dom.getElement( 'root' ) );
-		} )
-		.when( '/user/:id', function( ){
-
-			usersView = new zz.module.user.view.Users( );
-			usersView.render( goog.dom.getElement( 'root' ) );
-		} )
-		.when( '/user/:id/phone/:phone', function( ){
-
-			usersView = new zz.module.user.view.Users( );
-			usersView.render( goog.dom.getElement( 'root' ) );
-		} )
-		.when( '/test/path', function( ){
-
-			usersView = new zz.module.user.view.Users( );
-			usersView.render( goog.dom.getElement( 'root' ) );
-		} )
-		.when( '/error', function( ){
-
-			usersView = new zz.module.user.view.Users( );
-			usersView.render( goog.dom.getElement( 'root' ) );
+			console.log( '/:id' );
 		} )
 		.otherwise( '/error' )
 		.bootstrap( );

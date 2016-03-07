@@ -48,7 +48,7 @@ goog.require( 'zz.ui.mdl.Ripple' );
  * Navigation layout class.
  * @param {string=} opt_title Text caption or DOM structure to display as the title of the layout.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
- * @extends {goog.ui.Control}
+ * @extends {goog.ui.Component}
  * @constructor
  */
 zz.ui.mdl.Navigation = function( opt_title, opt_domHelper ){
@@ -504,105 +504,6 @@ zz.ui.mdl.Navigation.prototype.getTitle = function( ){
 /**********************************************************************************************************************
  * Create DOM-elements methods                                                                                        *
  **********************************************************************************************************************/
-
-///**
-// * Generate navigation list.
-// * @returns {Array}
-// * @private
-// */
-//zz.ui.mdl.Navigation.prototype.createNavigationListDom_ = function( ){
-//
-//	var links = [ ];
-//	goog.array.forEach( this.getList( ), function( link ){
-//
-//		links.push( this.getDomHelper( ).createDom( goog.dom.TagName.A, {
-//
-//			'class': zz.ui.mdl.Navigation.CSS.NAVIGATION_LINK,
-//			'href': link.href
-//
-//		}, link.name ) );
-//
-//	}, this );
-//	return links;
-//};
-///**
-// * Create layout header DOM.
-// * @private
-// */
-//zz.ui.mdl.Navigation.prototype.createHeaderDom_ = function( ){
-//
-//	// Title
-//	var headerTitleElement = this.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
-//
-//		'class': zz.ui.mdl.Navigation.CSS.TITLE
-//
-//	}, this.getTitle( ) );
-//
-//	// Spacer
-//	var headerSpacerElement = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
-//
-//		'class': zz.ui.mdl.Navigation.CSS.SPACER
-//	} );
-//
-//	// Navigation
-//	var headerNavigationElement = this.getDomHelper( ).createDom( goog.dom.TagName.NAV, {
-//
-//		'class': zz.ui.mdl.Navigation.CSS.NAVIGATION
-//
-//	}, this.createNavigationListDom_( ) );
-//
-//	// Header row
-//	var headerRowElement = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
-//
-//		'class': zz.ui.mdl.Navigation.CSS.HEADER_ROW
-//
-//	}, [ headerTitleElement, headerSpacerElement, headerNavigationElement ] );
-//
-//	this.headerElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.HEADER, {
-//
-//		'class': zz.ui.mdl.Navigation.CSS.HEADER
-//
-//	}, headerRowElement );
-//};
-///**
-// * Create layout drawer DOM.
-// * @private
-// */
-//zz.ui.mdl.Navigation.prototype.createDrawerDom_ = function( ){
-//
-//	// Title
-//	var drawerTitleElement = this.getDomHelper( ).createDom( goog.dom.TagName.SPAN, {
-//
-//		'class': zz.ui.mdl.Navigation.CSS.TITLE
-//
-//	}, this.getTitle( ) );
-//
-//	// Navigation
-//	var drawerNavigationElement = this.getDomHelper( ).createDom( goog.dom.TagName.NAV, {
-//
-//		'class': zz.ui.mdl.Navigation.CSS.NAVIGATION
-//
-//	}, this.createNavigationListDom_( ) );
-//
-//	// Setting up drawer.
-//	this.drawerElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
-//
-//		'class': zz.ui.mdl.Navigation.CSS.DRAWER
-//
-//	}, [ drawerTitleElement, drawerNavigationElement ] );
-//};
-///**
-// * Create layout body DOM.
-// * @private
-// */
-//zz.ui.mdl.Navigation.prototype.createBodyDom_ = function( ){
-//
-//	// Setting up body.
-//	this.bodyElement_ = this.getDomHelper( ).createDom( goog.dom.TagName.DIV, {
-//
-//		'class': zz.ui.mdl.Navigation.CSS.CONTENT
-//	} );
-//};
 
 /**
 * Create layout drawer button DOM.

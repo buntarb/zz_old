@@ -31,14 +31,16 @@ goog.provide( 'zz.app.Router' );
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
+goog.require( 'goog.dom' );
 goog.require( 'goog.string' );
 goog.require( 'goog.array' );
+goog.require( 'goog.object' );
 goog.require( 'goog.events');
 goog.require( 'goog.events.EventTarget');
 goog.require( 'goog.History' );
 goog.require( 'goog.history.Html5History' );
 goog.require( 'goog.history.EventType' );
-goog.require( 'zz.events.ApplicationRouted' );
+goog.require( 'zz.events.Routed' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -66,6 +68,20 @@ zz.app.Router = function( ){
 	/******************************************************************************************************************
 	 * Private properties                                                                                             *
 	 ******************************************************************************************************************/
+
+	/**
+	 * Current layout.
+	 * @type {zz.mvc.view.BaseView}
+	 * @private
+	 */
+	this.layout_ = undefined;
+
+	/**
+	 * Current view.
+	 * @type {zz.mvc.view.BaseView}
+	 * @private
+	 */
+	this.view_ = undefined;
 
 	/**
 	 * Routes settings.
@@ -129,6 +145,22 @@ goog.inherits( zz.app.Router, goog.events.EventTarget );
 goog.addSingletonGetter( zz.app.Router );
 
 /**********************************************************************************************************************
+ * Static properties                                                                                                  *
+ **********************************************************************************************************************/
+
+/**
+ * Layout parent element id.
+ * @type {string}
+ */
+zz.app.Router.LAYOUT_ID = 'root';
+
+/**
+ * View parent element id.
+ * @type {string}
+ */
+zz.app.Router.VIEW_ID = 'view';
+
+/**********************************************************************************************************************
  * Prototype private methods section                                                                                  *
  **********************************************************************************************************************/
 
@@ -141,11 +173,13 @@ goog.addSingletonGetter( zz.app.Router );
  */
 zz.app.Router.prototype.runRouteIfMatches_ = function( route, fragment ){
 
+	// Clear params object.
 	this.params = { };
 
 	var args = route.route.exec( fragment );
 	if( args ){
 
+		// If route with params updating parameters object.
 		if( route.params ){
 
 			goog.array.forEach( route.params, function( param, index ){
@@ -153,6 +187,44 @@ zz.app.Router.prototype.runRouteIfMatches_ = function( route, fragment ){
 				this.params[ param ] = args[ index + 1 ];
 
 			}, this );
+		}
+
+		// If layout and view specified.
+		if( route.layout && route.view ){
+
+			// If view undefined or new view differ from current
+			// disposing and deleting existing view.
+			if( !this.view_ ||
+				!goog.object.equals( this.view_, route.view ) ){
+
+				if( this.view_ ){
+
+					this.view_.dispose( );
+					this.view_ = undefined;
+					goog.dom.removeChildren( goog.dom.getElement( zz.app.Router.VIEW_ID ) );
+				}
+
+				// If layout undefined or new layout differ from current
+				// disposing and deleting existing layout.
+				if( !this.layout_ ||
+					!goog.object.equals( this.layout_, route.layout ) ){
+
+					if( this.layout_ ){
+
+						this.layout_.dispose( );
+						this.layout_ = undefined;
+						goog.dom.removeChildren( goog.dom.getElement( zz.app.Router.LAYOUT_ID ) );
+					}
+
+					// Setting up layout.
+					this.layout_ = route.layout;
+					this.layout_.render( goog.dom.getElement( zz.app.Router.LAYOUT_ID ) );
+				}
+
+				// Setting up view.
+				this.view_ = route.view;
+				this.view_.render( goog.dom.getElement( zz.app.Router.VIEW_ID ) );
+			}
 		}
 		route.callback.apply( route.context, args );
 		return true;
@@ -208,11 +280,13 @@ zz.app.Router.prototype.getFragment = function( ){
 /**
  * Define route as string or regex.
  * @param {string|RegExp} route
+ * @param {zz.mvc.view.BaseView} layout
+ * @param {zz.mvc.view.BaseView} view
  * @param {function(string, ...[string])} callback
  * @param {Object=} opt_context
  * @returns {zz.app.Router}
  */
-zz.app.Router.prototype.when = function( route, callback, opt_context ){
+zz.app.Router.prototype.when = function( route, layout, view, callback, opt_context ){
 
 	if( goog.isString( route ) ){
 
@@ -229,10 +303,12 @@ zz.app.Router.prototype.when = function( route, callback, opt_context ){
 	}
 	var completeRoute = {
 
-		route: parsed,
 		params: false,
-		context: opt_context,
-		callback: callback
+		route: parsed,
+		layout: layout,
+		view: view,
+		callback: callback,
+		context: opt_context
 	};
 	if( paramsNames ){
 
