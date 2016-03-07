@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Application offline event.
+ * @fileoverview Application online event.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.events.ApplicationOffline' );
+goog.provide( 'zz.events.Online' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -39,12 +39,12 @@ goog.require( 'zz.app.EventType' );
  **********************************************************************************************************************/
 
 /**
- * Offline event class.
+ * Online event class.
  * @extends {zz.events.BaseEvent}
  * @constructor
  */
-zz.events.ApplicationOffline = function( ){
+zz.events.Online = function( ){
 
-	zz.events.BaseEvent.call( this, zz.app.EventType.APPLICATION_OFFLINE );
+	zz.events.BaseEvent.call( this, zz.app.EventType.ONLINE );
 };
-goog.inherits( zz.events.ApplicationOffline, zz.events.BaseEvent );
+goog.inherits( zz.app.Online, zz.events.BaseEvent );

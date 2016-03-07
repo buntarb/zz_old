@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Application online event.
+ * @fileoverview Application routed event.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.events.ApplicationOnline' );
+goog.provide( 'zz.events.Routed' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -39,12 +39,50 @@ goog.require( 'zz.app.EventType' );
  **********************************************************************************************************************/
 
 /**
- * Online event class.
+ * Routed event class.
+ * @param {String} prev
+ * @param {String} curr
  * @extends {zz.events.BaseEvent}
  * @constructor
  */
-zz.events.ApplicationOnline = function( ){
+zz.events.Routed = function( prev, curr ){
 
-	zz.events.BaseEvent.call( this, zz.app.EventType.APPLICATION_ONLINE );
+	zz.events.BaseEvent.call( this, zz.app.EventType.ROUTED );
+
+	/**
+	 * Previous fragment.
+	 * @type {String}
+	 * @private
+	 */
+	this.prev_ = prev;
+
+	/**
+	 * Current fragment.
+	 * @type {String}
+	 * @private
+	 */
+	this.curr_ = curr;
 };
-goog.inherits( zz.app.ApplicationOnline, zz.events.BaseEvent );
+goog.inherits( zz.events.Routed, zz.events.BaseEvent );
+
+/**********************************************************************************************************************
+ * Public properties                                                                                                  *
+ **********************************************************************************************************************/
+
+/**
+ * Return previous fragment.
+ * @returns {String}
+ */
+zz.events.Routed.prototype.getPrevFragment = function( ){
+
+	return this.prev_;
+};
+
+/**
+ * Return current fragment.
+ * @returns {String}
+ */
+zz.events.Routed.prototype.getCurrFragment = function( ){
+
+	return this.curr_;
+};

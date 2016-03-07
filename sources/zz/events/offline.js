@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Application routed event.
+ * @fileoverview Application offline event.
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,7 +25,7 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.events.ApplicationRouted' );
+goog.provide( 'zz.events.Offline' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
@@ -39,50 +39,12 @@ goog.require( 'zz.app.EventType' );
  **********************************************************************************************************************/
 
 /**
- * Routed event class.
- * @param {String} prev
- * @param {String} curr
+ * Offline event class.
  * @extends {zz.events.BaseEvent}
  * @constructor
  */
-zz.events.ApplicationRouted = function( prev, curr ){
+zz.events.Offline = function( ){
 
-	zz.events.BaseEvent.call( this, zz.app.EventType.APPLICATION_ROUTED );
-
-	/**
-	 * Previous fragment.
-	 * @type {String}
-	 * @private
-	 */
-	this.prev_ = prev;
-
-	/**
-	 * Current fragment.
-	 * @type {String}
-	 * @private
-	 */
-	this.curr_ = curr;
+	zz.events.BaseEvent.call( this, zz.app.EventType.OFFLINE );
 };
-goog.inherits( zz.events.ApplicationRouted, zz.events.BaseEvent );
-
-/**********************************************************************************************************************
- * Public properties                                                                                                  *
- **********************************************************************************************************************/
-
-/**
- * Return previous fragment.
- * @returns {String}
- */
-zz.events.ApplicationRouted.prototype.getPrevFragment = function( ){
-
-	return this.prev_;
-};
-
-/**
- * Return current fragment.
- * @returns {String}
- */
-zz.events.ApplicationRouted.prototype.getCurrFragment = function( ){
-
-	return this.curr_;
-};
+goog.inherits( zz.events.Offline, zz.events.BaseEvent );
