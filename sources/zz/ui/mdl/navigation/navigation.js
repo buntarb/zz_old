@@ -320,7 +320,7 @@ zz.ui.mdl.Navigation.prototype.enterDocument = function( ){
 		this.getHandler( ).listenWithScope(
 
 			this.headerElement_,
-			goog.events.EventType.CLICK,
+			goog.events.EventType.MOUSEUP,
 			this.headerClickListener_,
 			false,
 			this
@@ -347,7 +347,7 @@ zz.ui.mdl.Navigation.prototype.enterDocument = function( ){
 	this.getHandler( ).listenWithScope(
 
 		this.drawerButtonElement_,
-		goog.events.EventType.CLICK,
+		goog.events.EventType.MOUSEUP,
 		this.drawerToggleListener_,
 		false,
 		this
@@ -355,12 +355,11 @@ zz.ui.mdl.Navigation.prototype.enterDocument = function( ){
 	this.getHandler( ).listenWithScope(
 
 		this.obfuscatorElement_,
-		goog.events.EventType.CLICK,
+		goog.events.EventType.MOUSEUP,
 		this.drawerToggleListener_,
 		false,
 		this
 	);
-	// TODO (buntarb): Originally used window.matchMedia and MediaQueryList listener, not implemented in GCL.
 	this.getHandler( ).listenWithScope(
 
 		this.getDomHelper( ).getWindow( ),
@@ -374,7 +373,7 @@ zz.ui.mdl.Navigation.prototype.enterDocument = function( ){
 		this.getHandler( ).listenWithScope(
 
 			this.tabBarLeftButtonElement_,
-			goog.events.EventType.CLICK,
+			goog.events.EventType.MOUSEUP,
 			this.tabBarLeftButtonClickListener_,
 			false,
 			this
@@ -382,7 +381,7 @@ zz.ui.mdl.Navigation.prototype.enterDocument = function( ){
 		this.getHandler( ).listenWithScope(
 
 			this.tabBarRightButtonElement_,
-			goog.events.EventType.CLICK,
+			goog.events.EventType.MOUSEUP,
 			this.tabBarRightButtonClickListener_,
 			false,
 			this
@@ -400,17 +399,25 @@ zz.ui.mdl.Navigation.prototype.enterDocument = function( ){
 			this.getHandler( ).listenWithScope(
 
 				tab,
-				goog.events.EventType.CLICK,
+				goog.events.EventType.MOUSEUP,
 				/** @this {zz.ui.mdl.Navigation} */
 				function( evt ){
 
 					evt.preventDefault( );
 
 					var href = tab.href.split( '#' )[ 1 ];
-					var panel = goog.dom.getElement( href ); //noinspection JSPotentiallyInvalidUsageOfThis
-					this.resetTabState( this.tabsElements_ ); //noinspection JSPotentiallyInvalidUsageOfThis
-					this.resetPanelState( this.panelsElements_ ); //noinspection JSPotentiallyInvalidUsageOfThis
-					this.setTabActive( tab ); //noinspection JSPotentiallyInvalidUsageOfThis
+					var panel = goog.dom.getElement( href );
+
+					//noinspection JSPotentiallyInvalidUsageOfThis
+					this.resetTabState( this.tabsElements_ );
+
+					//noinspection JSPotentiallyInvalidUsageOfThis
+					this.resetPanelState( this.panelsElements_ );
+
+					//noinspection JSPotentiallyInvalidUsageOfThis
+					this.setTabActive( tab );
+
+					//noinspection JSPotentiallyInvalidUsageOfThis
 					this.setPanelActive( panel );
 				},
 				false,
@@ -419,13 +426,16 @@ zz.ui.mdl.Navigation.prototype.enterDocument = function( ){
 		}, this );
 	}
 	this.ripples = [ ];
-	goog.array.forEach( goog.dom.getElementsByClass( zz.ui.mdl.Navigation.CSS.RIPPLE_CONTAINER ), function( ripple ){
+	goog.array.forEach(
 
-		this.ripples.push( new zz.ui.mdl.Ripple( ) );
-		this.addChild( this.ripples[ this.ripples.length - 1 ], false );
-		this.ripples[ this.ripples.length - 1 ].decorate( ripple );
+		goog.dom.getElementsByClass( zz.ui.mdl.Navigation.CSS.RIPPLE_CONTAINER ),
+		function( ripple ){
 
-	}, this );
+			this.ripples.push( new zz.ui.mdl.Ripple( ) );
+			this.addChild( this.ripples[ this.ripples.length - 1 ], false );
+			this.ripples[ this.ripples.length - 1 ].decorate( ripple );
+
+		}, this );
 };
 
 /**

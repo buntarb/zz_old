@@ -136,7 +136,7 @@ zz.ui.mdl.Tooltip.prototype.enterDocument = function( ){
 			this.forElement_, [
 
 				goog.events.EventType.MOUSEENTER,
-				goog.events.EventType.CLICK,
+				goog.events.EventType.MOUSEDOWN,
 				goog.events.EventType.TOUCHSTART
 			],
 			this.handleMouseEnter_,
