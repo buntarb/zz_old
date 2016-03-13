@@ -1,4 +1,4 @@
-// This file was automatically generated from module.user.soy.
+// This file was automatically generated from user.soy.
 // Please don't edit this file by hand.
 
 /**

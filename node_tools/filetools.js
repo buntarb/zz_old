@@ -151,6 +151,19 @@ var getFileNameNoExt = function( fullName ){
 };
 
 /**
+ * Return unique prefix for .soy file based on file path.
+ * @param {string} fullName
+ * @returns {string}
+ */
+var getFileNameNoExtTplPrefix = function( fullName ){
+
+	fullName = fullName.replace( getAbsPath( CONST.PATH.TEMPLATES ) + '/', '' );
+	var tmp = fullName.split( CONST.IS_WINDOWS ? '\\' : '/' );
+	tmp.pop( );
+	return tmp.join( '.' );
+};
+
+/**
  * Recursive find all files in specified path.
  * @param {string} dirName
  */
@@ -188,5 +201,6 @@ module.exports = {
 	removeFile: removeFile,
 	getAbsPath: getAbsPath,
 	getFileNameNoExt: getFileNameNoExt,
+	getFileNameNoExtTplPrefix: getFileNameNoExtTplPrefix,
 	getFilesRecursively: getFilesRecursively
 };

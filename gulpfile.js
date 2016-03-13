@@ -37,6 +37,8 @@ var stylesheet = require( './node_tools/stylesheet.js' );
  * Functions declare section                                                                                          *
  **********************************************************************************************************************/
 
+var locale = CONST.DEFAULTS.LOCALE;
+
 /**
  * Start watchers processes.
  */
@@ -50,7 +52,7 @@ function watchFrontend( ){
 
 	] ).on( 'change', function( evt ){
 
-		template.compileTemplate( evt.path );
+		template.compileTemplate( evt.path, locale );
 	} );
 	gulp.watch(
 

@@ -40,26 +40,30 @@ var filetools = require( './filetools.js' );
  */
 var extractMessages = function( ){
 
-	var results = filetools.getFilesRecursively( filetools.getAbsPath( CONST.PATH.TEMPLATES ) );
-	var cmd =
-
-		'java -jar ' + CONST.TOOLS.MESSAGES + ' ' +
-
-			'--targetLocaleString ' + CONST.DEFAULTS.LOCALE + ' ' +
-			'--outputPathFormat ' +
-
-				filetools.getAbsPath( CONST.PATH.MESSAGES ) + '/' +
-				CONST.DEFAULTS.LOCALE +
-				'/{INPUT_FILE_NAME_NO_EXT}.xlf ' +
-
-			results.join( ' ' );
-
 	notifier.notify( {
 
 		'title': 'Templates',
 		'message': 'Extracting messages'
 	} );
-	filetools.execute( cmd );
+
+	var results = filetools.getFilesRecursively( filetools.getAbsPath( CONST.PATH.TEMPLATES ) );
+	results.forEach( function( file ){
+
+		var cmd =
+
+			'java -jar ' + CONST.TOOLS.MESSAGES + ' ' +
+
+				'--targetLocaleString ' + CONST.DEFAULTS.LOCALE + ' ' +
+				'--outputPathFormat ' +
+
+				filetools.getAbsPath( CONST.PATH.MESSAGES ) + '/' +
+				CONST.DEFAULTS.LOCALE +
+				'/' + filetools.getFileNameNoExtTplPrefix( file ) + '.' +  '{INPUT_FILE_NAME_NO_EXT}.xlf ' +
+
+				file;
+
+		filetools.execute( cmd );
+	} );
 };
 
 /**
@@ -70,8 +74,9 @@ var extractMessages = function( ){
 var compileTemplate = function( fullName, locale ){
 
 	locale = locale && typeof locale === 'string' ? locale : CONST.DEFAULTS.LOCALE;
+
 	var cmd;
-	var file = filetools.getFileNameNoExt( fullName );
+	var file = filetools.getFileNameNoExtTplPrefix( fullName ) + '.' + filetools.getFileNameNoExt( fullName );
 	if( filetools.isFileExist( filetools.getAbsPath( CONST.PATH.MESSAGES ) + '/' + locale + '/' + file + '.xlf' ) ){
 
 		cmd =
@@ -91,8 +96,7 @@ var compileTemplate = function( fullName, locale ){
 
 				'--outputPathFormat ' +
 
-					filetools.getAbsPath( CONST.PATH.SOURCES.ROOT + CONST.PATH.SOURCES.TEMPLATE ) + '/' +
-					locale + '/' +
+					filetools.getAbsPath( CONST.PATH.SOURCES.ROOT + CONST.PATH.SOURCES.TEMPLATE ) + '/js/' +
 					file + '.js ' +
 
 				'--srcs ' + fullName;
@@ -109,8 +113,7 @@ var compileTemplate = function( fullName, locale ){
 				'--shouldGenerateJsdoc ' +
 				'--outputPathFormat ' +
 
-					filetools.getAbsPath( CONST.PATH.SOURCES.ROOT + CONST.PATH.SOURCES.TEMPLATE ) + '/' +
-					locale + '/' +
+					filetools.getAbsPath( CONST.PATH.SOURCES.ROOT + CONST.PATH.SOURCES.TEMPLATE ) + '/js/' +
 					file + '.js ' +
 
 				'--srcs ' + fullName;

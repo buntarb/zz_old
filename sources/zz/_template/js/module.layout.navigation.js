@@ -1,4 +1,4 @@
-// This file was automatically generated from navigation1.soy.
+// This file was automatically generated from navigation.soy.
 // Please don't edit this file by hand.
 
 /**
