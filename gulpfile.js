@@ -32,6 +32,7 @@ var compiler = require( './node_tools/compiler.js' );
 var template = require( './node_tools/template.js' );
 var filetools = require( './node_tools/filetools.js' );
 var stylesheet = require( './node_tools/stylesheet.js' );
+var documentation = require( './node_tools/documentation.js' );
 
 /**********************************************************************************************************************
  * Functions declare section                                                                                          *
@@ -106,6 +107,7 @@ gulp.task( 'compile:gss', stylesheet.scss2gss );
 gulp.task( 'compile:css', stylesheet.gss2css );
 gulp.task( 'compile:dep', compiler.calculateDependencies );
 gulp.task( 'compile:app', compiler.compileApplication );
+gulp.task( 'compile:doc', documentation.generateDocumentation );
 gulp.task( 'start:ws', server.startWebServer );
 gulp.task( 'watch:fe', watchFrontend );
 

@@ -82,7 +82,8 @@ var PATH = {
 		ROOT: '/sources/zz',
 		TEMPLATE: '/_template',
 		STYLESHEET: '/_stylesheet'
-	}
+	},
+	DOCUMENTATION: '/docs'
 };
 
 /**
@@ -111,7 +112,8 @@ var TOOLS = {
 	COMPILER: PATH.ROOT + PATH.TOOLS + '/compiler/compiler.jar',
 	MESSAGES: PATH.ROOT + PATH.TOOLS + '/messages/SoyMsgExtractor.jar',
 	TEMPLATES: PATH.ROOT + PATH.TOOLS + '/templates/SoyToJsSrcCompiler.jar',
-	STYLESHEETS: PATH.ROOT + PATH.TOOLS + '/stylesheets/closure-stylesheets.jar'
+	STYLESHEETS: PATH.ROOT + PATH.TOOLS + '/stylesheets/closure-stylesheets.jar',
+	DOSSIER: PATH.ROOT + PATH.TOOLS + '/js-dossier/gendossier.sh'
 };
 
 /**********************************************************************************************************************
