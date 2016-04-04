@@ -230,7 +230,10 @@ zz.ui.mdl.Control.prototype.modelChanged = function( message ){
  */
 zz.ui.mdl.Control.prototype.modelChangedInternal = function( message ){
 
-	this.setInputValue( this.formatter_.format( message.new_value ) );
+	if( goog.isDefAndNotNull( this.model_.datafield ) ){
+
+		this.setInputValue( this.formatter_.format( message.new_value ) );
+	}
 };
 
 /**********************************************************************************************************************

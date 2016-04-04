@@ -97,22 +97,10 @@ function getTstServer( ){
 function getDevServer( ){
 
 	var app = express( );
-	var css1 = filetools.openFile(
-
-		filetools.getAbsPath( CONST.PATH.STYLESHEETS.ROOT + CONST.PATH.STYLESHEETS.GSS )  + '/' +
-		filetools.getFileNameNoExt( CONST.FILE.ROOT_SCSS ) + '.css' );
-
-	var css2 = filetools.openFile(
-
-		filetools.getAbsPath( CONST.PATH.STYLESHEETS.ROOT + CONST.PATH.STYLESHEETS.CSS ) + '/' +
-		filetools.getFileNameNoExt( CONST.FILE.ROOT_SCSS ) + '.css' );
-
 	var tpl = CONST.TEMPLATE.DEV;
 
 	// Template updating.
 	tpl = tpl.replace( '[{(TITLE)}]', CONST.DEFAULTS.TITLE );
-	tpl = tpl.replace( '[{(STYLE_1)}]', css1 );
-	tpl = tpl.replace( '[{(STYLE_2)}]', css2 );
 
 	// routes
 	app.get( '/', function( req, res ){
@@ -133,7 +121,26 @@ function startWebServer( ){
 		.use( vhost( CONST.DEFAULTS.SERVER_APP + '.' + CONST.DEFAULTS.SERVER_DOMAIN, getAppServer( ) ) )
 		.use( vhost( CONST.DEFAULTS.SERVER_TST + '.' + CONST.DEFAULTS.SERVER_DOMAIN, getTstServer( ) ) )
 		.use( vhost( CONST.DEFAULTS.SERVER_DEV + '.' + CONST.DEFAULTS.SERVER_DOMAIN, getDevServer( ) ) )
-		.use( express.static( CONST.PATH.ROOT ), function( ){} )
+		// redirect for test server js sources
+		.use( CONST.PATH.ROOT, function( req, res, nxt ){
+
+			res.redirect( req.originalUrl.replace( CONST.PATH.ROOT, '' ) );
+		} )
+		// redirect for css resources.
+		.use( CONST.PATH.STYLESHEETS.ROOT + CONST.PATH.STYLESHEETS.CSS + CONST.PATH.RESOURCES,
+
+			function( req, res ){
+
+				res.redirect( req.originalUrl.replace( CONST.PATH.STYLESHEETS.ROOT + CONST.PATH.STYLESHEETS.CSS, '' ) );
+			} )
+		// redirect for gss resources.
+		.use( CONST.PATH.STYLESHEETS.ROOT + CONST.PATH.STYLESHEETS.GSS + CONST.PATH.RESOURCES,
+
+			function( req, res ){
+
+				res.redirect( req.originalUrl.replace( CONST.PATH.STYLESHEETS.ROOT + CONST.PATH.STYLESHEETS.GSS, '' ) );
+			} )
+		.use( express.static( CONST.PATH.ROOT ), function(){} )
 		.listen( CONST.DEFAULTS.SERVER_PORT );
 
 	notifier.notify( {

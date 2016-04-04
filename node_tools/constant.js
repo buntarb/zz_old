@@ -58,7 +58,7 @@ var DEFAULTS = {
  */
 var PATH = {
 
-	ROOT: ( IS_WINDOWS ? process.env.HOMEDRIVE : '' ) + '/var/www/zz',
+	ROOT: ( IS_WINDOWS ? process.env.HOMEDRIVE : '' ) + '/var/www/front-end',
 	TOOLS: '/tools',
 	APPLICATION: '/app',
 	MESSAGES: '/messages',
@@ -94,6 +94,7 @@ var FILE = {
 
 	ROOT_SCSS: 'zz.scss',
 	REMAP_TPL: 'remap.tpl',
+	REMAP1_TPL: 'remap1.tpl',
 	REMAP_DAT: 'remap.dat',
 	REMAP_JS: 'remap.js',
 	DEPS_JS: 'deps.js',
@@ -143,9 +144,7 @@ var TEMPLATE = {
 			'</head>' +
 			'<body>' +
 				'<div id="root"></div>' +
-				'<script>' +
-					'zz.demos.app.run( );' +
-				'</script>' +
+				'<script>bootstrap( );</script>' +
 			'</body>' +
 		'</html>',
 
@@ -167,9 +166,7 @@ var TEMPLATE = {
 			'</head>' +
 			'<body>' +
 				'<div id="root"></div>' +
-				'<script>' +
-					'zz.demos.app.run( );' +
-				'</script>' +
+				'<script>bootstrap( );</script>' +
 			'</body>' +
 		'</html>',
 
@@ -184,12 +181,8 @@ var TEMPLATE = {
 				'<title>' +
 					'[{(TITLE)}]' +
 				'</title>' +
-				'<style>' +
-					'[{(STYLE_1)}]' +
-				'</style>' +
-				'<style>' +
-					'[{(STYLE_2)}]' +
-				'</style>' +
+				'<link rel="stylesheet" href="' + PATH.STYLESHEETS.ROOT + PATH.STYLESHEETS.CSS +'/zz.css"></style>' +
+				'<link rel="stylesheet" href="' + PATH.STYLESHEETS.ROOT + PATH.STYLESHEETS.GSS +'/zz.css"></style>' +
 				'<script src="' + PATH.GOOG.ROOT + '/closure/goog/base.js"></script>' +
 				'<script>goog.require("goog.soy");</script>' +
 				'<script src="' + PATH.SOURCES.ROOT + PATH.SOURCES.TEMPLATE + '/soyutils_usegoog.js"></script>' +
@@ -198,7 +191,7 @@ var TEMPLATE = {
 			'</head>' +
 			'<body>' +
 				'<div id="root"></div>' +
-				'<script>zz.demos.app.run( );</script>' +
+				'<script>bootstrap( );</script>' +
 			'</body>' +
 		'</html>'
 };

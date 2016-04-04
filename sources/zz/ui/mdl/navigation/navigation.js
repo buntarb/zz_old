@@ -37,7 +37,7 @@ goog.require( 'goog.asserts' );
 goog.require( 'goog.dom.TagName' );
 goog.require( 'goog.dom.classlist' );
 goog.require( 'goog.events.EventType' );
-goog.require( 'goog.ui.Component' );
+goog.require( 'zz.mvc.view.BaseView' );
 goog.require( 'zz.ui.mdl.Ripple' );
 
 /**********************************************************************************************************************
@@ -48,12 +48,12 @@ goog.require( 'zz.ui.mdl.Ripple' );
  * Navigation layout class.
  * @param {string=} opt_title Text caption or DOM structure to display as the title of the layout.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
- * @extends {goog.ui.Component}
+ * @extends {zz.mvc.view.BaseView}
  * @constructor
  */
 zz.ui.mdl.Navigation = function( opt_title, opt_domHelper ){
 
-	goog.ui.Component.call( this, opt_domHelper );
+	zz.mvc.view.BaseView.call( this, opt_domHelper );
 
 	/**
 	 * Layout navigation title content.
@@ -62,7 +62,7 @@ zz.ui.mdl.Navigation = function( opt_title, opt_domHelper ){
 	 */
 	this.title_ = opt_title || '';
 };
-goog.inherits( zz.ui.mdl.Navigation, goog.ui.Component );
+goog.inherits( zz.ui.mdl.Navigation, zz.mvc.view.BaseView );
 goog.tagUnsealableClass( zz.ui.mdl.Navigation );
 
 /**********************************************************************************************************************

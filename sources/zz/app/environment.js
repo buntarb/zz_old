@@ -32,10 +32,13 @@ goog.provide( 'zz.app.Environment' );
  **********************************************************************************************************************/
 
 goog.require( 'goog.events');
+goog.require( 'goog.events.EventTarget');
 goog.require( 'goog.labs.userAgent.browser' );
 goog.require( 'goog.labs.userAgent.device' );
 goog.require( 'goog.labs.userAgent.engine' );
 goog.require( 'goog.labs.userAgent.platform' );
+goog.require( 'goog.dom.ViewportSizeMonitor' );
+goog.require( 'zz.events.Resize');
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
@@ -49,6 +52,22 @@ goog.require( 'goog.labs.userAgent.platform' );
 zz.app.Environment = function( ){
 
 	goog.base( this );
+
+	/**
+	 * Viewport size monitor
+	 * @type {!goog.dom.ViewportSizeMonitor}
+	 * @private
+     */
+	this.viewportSizeMonitor_ = goog.dom.ViewportSizeMonitor.getInstanceForWindow( );
+
+	goog.events.listen(
+
+		this.viewportSizeMonitor_,
+		goog.events.EventType.RESIZE,
+		this.viewportSizeListener_,
+		false,
+		this
+	);
 };
 
 /**
@@ -63,6 +82,9 @@ goog.addSingletonGetter( zz.app.Environment );
 
 zz.app.Environment.prototype.disposeInternal = function( ){
 
+	goog.events.unlisten( this.viewportSizeMonitor_ );
+	this.viewportSizeMonitor_.dispose( );
+	this.viewportSizeMonitor_ = null;
 	goog.base( this, 'disposeInternal' );
 };
 
@@ -389,4 +411,13 @@ zz.app.Environment.prototype.browser.isSilk = function( ){
 zz.app.Environment.prototype.browser.getVersion = function( ){
 
 	return goog.labs.userAgent.browser.getVersion( );
+};
+
+/**********************************************************************************************************************
+ * Monitors listeners                                                                                                  *
+ **********************************************************************************************************************/
+
+zz.app.Environment.prototype.viewportSizeListener_ = function( ){
+
+	this.dispatchEvent( new zz.events.Resize( ) );
 };

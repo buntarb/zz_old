@@ -17,34 +17,61 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Viewport resize event.
- * @author buntarb@gmail.com (Artem Lytvynov)
+ * @fileoverview Provide zz.mvc.view.Messages class.
+ * @author popkov.aleksander@gmail.com (Alexander Popkov)
  */
 
 /**********************************************************************************************************************
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.events.Resize' );
+goog.provide( 'zz.mvc.view.Messages' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'zz.events.BaseEvent' );
-goog.require( 'zz.app.EventType' );
+goog.require( 'soy' );
+goog.require( 'goog.dom' );
+goog.require( 'goog.array' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * Resize event class.
- * @extends {zz.events.BaseEvent}
  * @constructor
  */
-zz.events.Resize = function( ){
+zz.mvc.view.Messages = function( tpl ){
 
-	zz.events.BaseEvent.call( this, zz.app.EventType.RESIZE );
+	this.msg_ = {};
+	this.msgElement_ = soy.renderAsElement( tpl );
+	this.extractMessages_( );
 };
-goog.inherits( zz.events.Resize, zz.events.BaseEvent );
+
+/**
+ * @returns {string}
+ * @private
+ */
+zz.mvc.view.Messages.prototype.extractMessages_ = function( ){
+
+	goog.array.forEach(
+
+		goog.dom.getElementsByTagNameAndClass( goog.dom.TagName.SPAN, undefined, this.msgElement_ ),
+		function( span ){
+
+			this.msg_[ span.id ] = goog.dom.getTextContent( span );
+
+		}, this );
+	this.msgElement_ = undefined;
+	delete this.msgElement_;
+};
+
+/**
+ * @param {string} id
+ * @returns {string}
+ */
+zz.mvc.view.Messages.prototype.getMessage = function( id ){
+
+	return this.msg_[ id ];
+};

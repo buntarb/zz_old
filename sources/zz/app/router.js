@@ -190,43 +190,58 @@ zz.app.Router.prototype.runRouteIfMatches_ = function( route, fragment ){
 		}
 
 		// If layout and view specified.
-		if( route.layout && route.view ){
+		if( route.layout ){
 
-			// If view undefined or new view differ from current
-			// disposing and deleting existing view.
-			if( !this.view_ ||
-				!goog.object.equals( this.view_, route.view ) ){
+			if( !this.layout_ || route.layout !== this.layoutConstructor_ ){
 
-				if( this.view_ ){
+
+				if ( this.view_ ) {
 
 					this.view_.dispose( );
 					this.view_ = undefined;
+					this.viewConstructor_ = undefined;
 					goog.dom.removeChildren( goog.dom.getElement( zz.app.Router.VIEW_ID ) );
 				}
 
-				// If layout undefined or new layout differ from current
-				// disposing and deleting existing layout.
-				if( !this.layout_ ||
-					!goog.object.equals( this.layout_, route.layout ) ){
+				if ( this.layout_ ) {
 
-					if( this.layout_ ){
-
-						this.layout_.dispose( );
-						this.layout_ = undefined;
-						goog.dom.removeChildren( goog.dom.getElement( zz.app.Router.LAYOUT_ID ) );
-					}
-
-					// Setting up layout.
-					this.layout_ = route.layout;
-					this.layout_.render( goog.dom.getElement( zz.app.Router.LAYOUT_ID ) );
+					this.layout_.dispose( );
+					this.layout_ = undefined;
+					this.layoutConstructor_ = undefined;
+					goog.dom.removeChildren( goog.dom.getElement( zz.app.Router.LAYOUT_ID ) );
 				}
 
-				// Setting up view.
-				this.view_ = route.view;
+				// Setting up layout.
+				this.layout_ = new route.layout( );
+				this.layoutConstructor_ = route.layout;
+				this.layout_.render( goog.dom.getElement(zz.app.Router.LAYOUT_ID ) );
+
+				this.view_ = new route.view( );
+				this.viewConstructor_ = route.view;
 				this.view_.render( goog.dom.getElement( zz.app.Router.VIEW_ID ) );
+				goog.dom.appendChild( goog.dom.getElement( zz.app.Router.VIEW_ID ), this.view_.getElement( ) );
+
+			}else if( !this.view_ || route.view !== this.viewConstructor_ ){
+
+				if ( this.view_ ) {
+
+					this.view_.dispose( );
+					this.view_ = undefined;
+					this.viewConstructor_ = undefined;
+					goog.dom.removeChildren( goog.dom.getElement( zz.app.Router.VIEW_ID ) );
+
+					this.view_ = new route.view( );
+					this.viewConstructor_ = route.view;
+					this.view_.render( goog.dom.getElement( zz.app.Router.VIEW_ID ) );
+					goog.dom.appendChild( goog.dom.getElement( zz.app.Router.VIEW_ID ), this.view_.getElement( ) );
+				}
+
 			}
 		}
-		route.callback.apply( route.context, args );
+		if( route.callback ){
+
+			route.callback.apply( route.context, args );
+		}
 		return true;
 	}
 	return false;
@@ -280,13 +295,13 @@ zz.app.Router.prototype.getFragment = function( ){
 /**
  * Define route as string or regex.
  * @param {string|RegExp} route
- * @param {zz.mvc.view.BaseView} layout
- * @param {zz.mvc.view.BaseView} view
- * @param {function(string, ...[string])} callback
+ * @param {zz.mvc.view.BaseView=} opt_layout
+ * @param {zz.mvc.view.BaseView=} opt_view
+ * @param {Function=} opt_callback
  * @param {Object=} opt_context
  * @returns {zz.app.Router}
  */
-zz.app.Router.prototype.when = function( route, layout, view, callback, opt_context ){
+zz.app.Router.prototype.when = function( route, opt_layout, opt_view, opt_callback, opt_context ){
 
 	if( goog.isString( route ) ){
 
@@ -305,9 +320,9 @@ zz.app.Router.prototype.when = function( route, layout, view, callback, opt_cont
 
 		params: false,
 		route: parsed,
-		layout: layout,
-		view: view,
-		callback: callback,
+		layout: opt_layout,
+		view: opt_view,
+		callback: opt_callback,
 		context: opt_context
 	};
 	if( paramsNames ){

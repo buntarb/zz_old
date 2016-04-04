@@ -53,8 +53,6 @@ goog.require( 'zz.mvc.controller.BaseController' );
 zz.mvc.view.BaseView = function( opt_domHelper ){
 
 	goog.ui.Component.call( this, opt_domHelper );
-
-	this.setControllerInternal( );
 };
 
 /**
@@ -126,6 +124,8 @@ zz.mvc.view.BaseView.prototype.decorate = function( element ){
 zz.mvc.view.BaseView.prototype.enterDocument = function( ){
 
 	zz.mvc.view.BaseView.superClass_.enterDocument.call( this );
+
+	this.setControllerInternal( );
 	if( this.model_ ){
 
 		this.modelChanged( new zz.mvc.model.Message(

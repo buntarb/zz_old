@@ -407,10 +407,10 @@ zz.mvc.model.Dataset.prototype.deleteAt = function( index ){
 
 	if( this.length > 0 && index >= 0 && index < this.length ){
 
-		var datarow = Array.prototype.splice.call( this, index, 1 );
+		var datarow = Array.prototype.splice.call( this, index, 1 )[ 0 ];
 		var message = new zz.mvc.model.Message(
 
-			zz.mvc.model.EventType.DATAROW_CREATE,
+			zz.mvc.model.EventType.DATAROW_DELETE,
 			this,
 			datarow
 		);

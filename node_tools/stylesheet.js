@@ -105,7 +105,10 @@ function gss2css( ){
 			CONST.FILE.REMAP_TPL + ' ' +
 
 			filetools.getAbsPath( CONST.PATH.SOURCES.ROOT + CONST.PATH.SOURCES.STYLESHEET ) + '/' +
-			CONST.FILE.REMAP_DAT + ' >' +
+			CONST.FILE.REMAP_DAT + ' ' +
+
+			filetools.getAbsPath( CONST.PATH.SOURCES.ROOT + CONST.PATH.SOURCES.STYLESHEET ) + '/' +
+			CONST.FILE.REMAP1_TPL + ' >' +
 
 			filetools.getAbsPath( CONST.PATH.SOURCES.ROOT + CONST.PATH.SOURCES.STYLESHEET ) + '/' +
 			CONST.FILE.REMAP_JS;

@@ -97,6 +97,7 @@ function compileApplication( ){
 			'--output_mode=compiled ' +
 			'--compiler_jar=' + CONST.TOOLS.COMPILER + ' ' +
 
+			'--compiler_flags="--define=\'goog.DEBUG=false\'" ' +
 			'--compiler_flags="--source_map_format=' + CONST.DEFAULTS.SOURCE_MAP + '" ' +
 			'--compiler_flags="--compilation_level=' + CONST.DEFAULTS.COMPILE_LEVEL + '" ' +
 			'--compiler_flags="--language_in=' + CONST.DEFAULTS.INPUT_LANGUAGE + '" ' +

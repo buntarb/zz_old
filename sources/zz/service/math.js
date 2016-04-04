@@ -17,7 +17,7 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Viewport resize event.
+ * @fileoverview Service for math calculation
  * @author buntarb@gmail.com (Artem Lytvynov)
  */
 
@@ -25,26 +25,81 @@
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.events.Resize' );
+goog.provide( 'zz.service.Math' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'zz.events.BaseEvent' );
-goog.require( 'zz.app.EventType' );
+goog.require( 'goog.math' );
+goog.require( 'goog.array' );
+goog.require( 'zz.template.module.post' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
 /**
- * Resize event class.
- * @extends {zz.events.BaseEvent}
+ * Service for GoldenRatio calculation.
  * @constructor
  */
-zz.events.Resize = function( ){
+zz.service.Math = function( ){ };
+goog.addSingletonGetter( zz.service.Math );
 
-	zz.events.BaseEvent.call( this, zz.app.EventType.RESIZE );
+/**********************************************************************************************************************
+ * Public interface                                                                                                   *
+ **********************************************************************************************************************/
+
+/**
+ * @type {number}
+ */
+zz.service.Math.BIG_PART = .62;
+
+/**
+ * @type {number}
+ */
+zz.service.Math.SMALL_PART = .38;
+
+/**
+ * @param {number} length
+ * @param {boolean=} return_smaller
+ * @returns {number}
+ */
+zz.service.Math.prototype.getGoldenInner = function( length, return_smaller ){
+
+	if( return_smaller )
+
+		return parseInt( zz.service.Math.SMALL_PART * length );
+
+	return parseInt( zz.service.Math.BIG_PART * length );
 };
-goog.inherits( zz.events.Resize, zz.events.BaseEvent );
+
+/**
+ * @param {number} length
+ * @param {boolean=} return_smaller
+ * @returns {number}
+ */
+zz.service.Math.prototype.getGoldenOuter = function( length, return_smaller ){
+
+	if( return_smaller )
+
+		return parseInt( zz.service.Math.SMALL_PART / zz.service.Math.BIG_PART * length );
+
+	return parseInt( zz.service.Math.BIG_PART / zz.service.Math.SMALL_PART * length );
+};
+
+/**
+ *
+ * @param width
+ * @param height
+ * @returns {goog.math.Size}
+ */
+zz.service.Math.prototype.getGoldenSize = function( width, height ){
+
+	if( width / height > zz.service.Math.BIG_PART / zz.service.Math.SMALL_PART ){
+
+		width = this.getGoldenOuter( height );
+	}
+	height = this.getGoldenInner( width );
+	return new goog.math.Size( width, height );
+};

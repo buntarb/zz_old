@@ -17,34 +17,42 @@
  **********************************************************************************************************************/
 
 /**
- * @fileoverview Viewport resize event.
- * @author buntarb@gmail.com (Artem Lytvynov)
+ * @fileoverview Provide zz.demos.App class.
+ * @author buntarb@gmail.com (Artem Lytvynov aka buntarb)
  */
 
 /**********************************************************************************************************************
  * Provide section                                                                                                    *
  **********************************************************************************************************************/
 
-goog.provide( 'zz.events.Resize' );
+goog.provide( 'zz.conf' );
 
 /**********************************************************************************************************************
  * Dependencies section                                                                                               *
  **********************************************************************************************************************/
 
-goog.require( 'zz.events.BaseEvent' );
-goog.require( 'zz.app.EventType' );
+goog.require( 'zz.app.Router' );
+goog.require( 'zz.module.layout.view.DefaultNavigation' );
+goog.require( 'zz.module.layout.view.LandingNavigation' );
+goog.require( 'zz.module.post.view.GoldenRatioList' );
+goog.require( 'zz.module.post.view.Post' );
+
+goog.require( 'zz.module.user.view.Users' );
 
 /**********************************************************************************************************************
  * Definition section                                                                                                 *
  **********************************************************************************************************************/
 
-/**
- * Resize event class.
- * @extends {zz.events.BaseEvent}
- * @constructor
- */
-zz.events.Resize = function( ){
+zz.conf = function( ){
 
-	zz.events.BaseEvent.call( this, zz.app.EventType.RESIZE );
+	zz.app.Router.getInstance( )
+
+		.when( '', undefined, undefined, function( ){
+
+			zz.app.Router.getInstance().setFragment( '/' );
+		} )
+		.when( '/', zz.module.layout.view.DefaultNavigation, zz.module.post.view.GoldenRatioList )
+		.when( '/post', zz.module.layout.view.DefaultNavigation, zz.module.post.view.Post )
+		.when( '/landing', zz.module.layout.view.LandingNavigation, zz.module.user.view.Users )
+		.otherwise( '/error' );
 };
-goog.inherits( zz.events.Resize, zz.events.BaseEvent );
